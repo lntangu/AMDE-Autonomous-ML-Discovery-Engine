@@ -9,6 +9,7 @@ numbers.
 from __future__ import annotations
 
 import math
+import os
 import time
 from typing import Any
 
@@ -241,6 +242,16 @@ def child_entry(payload: dict[str, Any], connection: Any) -> None:
     """Spawn target. Classifies failures before sending one JSON-safe result."""
 
     try:
+        # Bounded thread budget per worker to prevent CPU oversubscription
+        try:
+            import torch
+            torch.set_num_threads(1)
+        except Exception:
+            pass
+        os.environ["OMP_NUM_THREADS"] = "1"
+        os.environ["MKL_NUM_THREADS"] = "1"
+        os.environ["OPENBLAS_NUM_THREADS"] = "1"
+
         kind = payload.get("kind")
         if kind == "dev":
             result = dev_worker(payload)

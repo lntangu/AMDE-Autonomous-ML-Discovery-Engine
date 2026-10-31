@@ -212,10 +212,13 @@ def train_vqc(
             for group in optimizer.param_groups:
                 group["lr"] = max(lr_now, config.learning_rate * 0.02)
         permutation = torch.randperm(len(x_train), generator=generator)
-        epoch_losses: list[float] = []
+        if actual_device == "cuda":
+            permutation = permutation.to(actual_device)
+        epoch_loss_acc = torch.zeros(1, dtype=torch.float32, device=actual_device)
+        n_batches = 0
         model.theta.grad = None
         for start in range(0, len(x_train), config.batch_size):
-            indices = permutation[start:start + config.batch_size].to(actual_device)
+            indices = permutation[start:start + config.batch_size]
             batch_x = x_train.index_select(0, indices)
             batch_y = y_train.index_select(0, indices)
             optimizer.zero_grad(set_to_none=True)
@@ -231,8 +234,9 @@ def train_vqc(
                 raise RuntimeError("VQC gradient became non-finite")
             torch.nn.utils.clip_grad_norm_([model.theta], max_norm=5.0)
             optimizer.step()
-            epoch_losses.append(float(loss.detach().item()))
-        loss_history.append(sum(epoch_losses) / max(1, len(epoch_losses)))
+            epoch_loss_acc += loss.detach().reshape(-1)
+            n_batches += 1
+        loss_history.append(float((epoch_loss_acc / max(1, n_batches)).item()))
         val_score = _balanced_accuracy(model.logits(x_val).detach(), y_val)
         if val_score > best_score + 1e-12:
             best_score = val_score

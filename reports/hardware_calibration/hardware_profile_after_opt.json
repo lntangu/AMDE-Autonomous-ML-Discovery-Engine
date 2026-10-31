@@ -1,0 +1,1115 @@
+{
+  "timestamp_utc": "2026-10-31T03:21:29Z",
+  "host_hardware": {
+    "cpu": "Intel Core i7-8850H (6C/12T)",
+    "ram": "32 GB DDR4",
+    "gpu": "NVIDIA Quadro P2000 (GP106GL Pascal CC 6.1)",
+    "cuda_version": "12.6",
+    "pytorch_version": "2.14.0+cu126"
+  },
+  "continuous_120s_profile": {
+    "device": "cuda",
+    "device_name": "Quadro P2000",
+    "total_active_seconds": 30.28952717781067,
+    "samples_collected": 28,
+    "trials_completed": 26,
+    "trials_per_minute": 51.50294987578466,
+    "micro_timing": {
+      "kernel_execution_ms": 22.19395523071289,
+      "host_wall_clock_ms": 22.307210004267592,
+      "dispatch_overhead_ms": 0.1132547735547007,
+      "dispatch_overhead_percent": 0.5077047893171488
+    },
+    "averages": {
+      "gpu_utilization_mean": 7.142857142857143,
+      "gpu_utilization_max": 10.0,
+      "gpu_temperature_mean": 56.785714285714285,
+      "gpu_temperature_max": 57.0,
+      "gpu_memory_used_mb_mean": 229.71428571428572,
+      "gpu_memory_used_mb_max": 245.0,
+      "system_cpu_percent_mean": 32.32142857142857,
+      "process_cpu_percent_mean": 92.01785714285714,
+      "ram_used_gb_mean": 16.41842857142857,
+      "data_loading_seconds_mean": 0.00039260770874814346,
+      "training_seconds_mean": 2.287514384603128
+    },
+    "samples": [
+      {
+        "timestamp": 1793416729.6189423,
+        "system_cpu_percent": 0.0,
+        "process_cpu_percent": 0.0,
+        "per_cpu_percent": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ram_used_gb": 16.085,
+        "ram_available_gb": 15.696,
+        "ram_total_gb": 31.782,
+        "ram_percent": 50.6,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 56.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3833.0,
+          "memory_used_mb": 175.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 0.53,
+          "reserved_mb": 2.0,
+          "max_allocated_mb": 0.53
+        }
+      },
+      {
+        "timestamp": 1793416730.7343752,
+        "system_cpu_percent": 33.3,
+        "process_cpu_percent": 71.4,
+        "per_cpu_percent": [
+          43.2,
+          28.8,
+          37.8,
+          26.8,
+          29.6,
+          22.2,
+          26.4,
+          34.7,
+          23.6,
+          31.9,
+          26.4,
+          68.1
+        ],
+        "ram_used_gb": 16.135,
+        "ram_available_gb": 15.646,
+        "ram_total_gb": 31.782,
+        "ram_percent": 50.8,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 56.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3833.0,
+          "memory_used_mb": 175.0,
+          "utilization_percent": 0.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 0.53,
+          "reserved_mb": 2.0,
+          "max_allocated_mb": 0.53
+        }
+      },
+      {
+        "timestamp": 1793416731.8437967,
+        "system_cpu_percent": 29.1,
+        "process_cpu_percent": 57.7,
+        "per_cpu_percent": [
+          29.3,
+          25.0,
+          51.4,
+          23.3,
+          27.4,
+          18.1,
+          45.8,
+          12.5,
+          27.4,
+          19.4,
+          20.8,
+          48.6
+        ],
+        "ram_used_gb": 16.142,
+        "ram_available_gb": 15.64,
+        "ram_total_gb": 31.782,
+        "ram_percent": 50.8,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3833.0,
+          "memory_used_mb": 175.0,
+          "utilization_percent": 0.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 0.53,
+          "reserved_mb": 2.0,
+          "max_allocated_mb": 0.53
+        }
+      },
+      {
+        "timestamp": 1793416733.0594878,
+        "system_cpu_percent": 34.9,
+        "process_cpu_percent": 88.7,
+        "per_cpu_percent": [
+          49.4,
+          33.8,
+          28.2,
+          45.5,
+          38.5,
+          25.6,
+          32.1,
+          27.8,
+          44.4,
+          25.6,
+          29.1,
+          37.2
+        ],
+        "ram_used_gb": 16.367,
+        "ram_available_gb": 15.415,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.5,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3833.0,
+          "memory_used_mb": 175.0,
+          "utilization_percent": 0.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 0.79,
+          "reserved_mb": 2.0,
+          "max_allocated_mb": 0.81
+        }
+      },
+      {
+        "timestamp": 1793416734.1591098,
+        "system_cpu_percent": 22.1,
+        "process_cpu_percent": 98.1,
+        "per_cpu_percent": [
+          39.0,
+          18.3,
+          38.4,
+          7.0,
+          16.9,
+          8.5,
+          12.7,
+          52.9,
+          28.6,
+          11.4,
+          14.3,
+          15.7
+        ],
+        "ram_used_gb": 16.488,
+        "ram_available_gb": 15.294,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.9,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3833.0,
+          "memory_used_mb": 175.0,
+          "utilization_percent": 7.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 0.73,
+          "reserved_mb": 2.0,
+          "max_allocated_mb": 1.01
+        }
+      },
+      {
+        "timestamp": 1793416735.272473,
+        "system_cpu_percent": 26.6,
+        "process_cpu_percent": 101.0,
+        "per_cpu_percent": [
+          69.9,
+          52.1,
+          34.2,
+          21.1,
+          21.1,
+          12.7,
+          15.5,
+          11.1,
+          23.6,
+          5.6,
+          16.7,
+          22.2
+        ],
+        "ram_used_gb": 16.501,
+        "ram_available_gb": 15.281,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.9,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3833.0,
+          "memory_used_mb": 175.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 0.76,
+          "reserved_mb": 2.0,
+          "max_allocated_mb": 1.01
+        }
+      },
+      {
+        "timestamp": 1793416736.3705382,
+        "system_cpu_percent": 24.3,
+        "process_cpu_percent": 98.1,
+        "per_cpu_percent": [
+          59.3,
+          34.3,
+          36.0,
+          14.3,
+          21.1,
+          10.0,
+          14.3,
+          8.6,
+          15.7,
+          7.1,
+          25.0,
+          34.3
+        ],
+        "ram_used_gb": 16.514,
+        "ram_available_gb": 15.268,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.0,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 56.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3767.0,
+          "memory_used_mb": 241.0,
+          "utilization_percent": 7.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.58,
+          "reserved_mb": 22.0,
+          "max_allocated_mb": 9.63
+        }
+      },
+      {
+        "timestamp": 1793416737.4792569,
+        "system_cpu_percent": 30.5,
+        "process_cpu_percent": 97.3,
+        "per_cpu_percent": [
+          84.0,
+          38.9,
+          47.9,
+          11.3,
+          23.9,
+          11.3,
+          26.4,
+          15.5,
+          19.7,
+          15.5,
+          11.3,
+          33.8
+        ],
+        "ram_used_gb": 16.536,
+        "ram_available_gb": 15.246,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.0,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3765.0,
+          "memory_used_mb": 243.0,
+          "utilization_percent": 9.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 9.23,
+          "reserved_mb": 24.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416738.6141732,
+        "system_cpu_percent": 28.7,
+        "process_cpu_percent": 101.9,
+        "per_cpu_percent": [
+          77.7,
+          32.9,
+          39.2,
+          8.2,
+          27.0,
+          13.7,
+          14.9,
+          23.3,
+          32.9,
+          6.8,
+          16.4,
+          31.5
+        ],
+        "ram_used_gb": 16.526,
+        "ram_available_gb": 15.255,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.0,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3765.0,
+          "memory_used_mb": 243.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.96,
+          "reserved_mb": 24.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416739.737874,
+        "system_cpu_percent": 46.1,
+        "process_cpu_percent": 98.7,
+        "per_cpu_percent": [
+          81.2,
+          43.2,
+          52.1,
+          49.3,
+          53.4,
+          23.3,
+          50.7,
+          31.5,
+          47.2,
+          29.2,
+          27.8,
+          50.0
+        ],
+        "ram_used_gb": 16.527,
+        "ram_available_gb": 15.255,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.0,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 7.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.42,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.52
+        }
+      },
+      {
+        "timestamp": 1793416740.8543317,
+        "system_cpu_percent": 24.0,
+        "process_cpu_percent": 98.0,
+        "per_cpu_percent": [
+          61.7,
+          35.2,
+          37.8,
+          15.5,
+          25.4,
+          11.3,
+          15.5,
+          12.7,
+          18.1,
+          8.5,
+          7.0,
+          26.8
+        ],
+        "ram_used_gb": 16.535,
+        "ram_available_gb": 15.247,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.0,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 9.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.65,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.9
+        }
+      },
+      {
+        "timestamp": 1793416741.9616733,
+        "system_cpu_percent": 28.2,
+        "process_cpu_percent": 98.8,
+        "per_cpu_percent": [
+          75.5,
+          15.5,
+          36.1,
+          16.9,
+          20.8,
+          33.3,
+          14.1,
+          19.7,
+          27.8,
+          7.0,
+          20.8,
+          29.6
+        ],
+        "ram_used_gb": 16.531,
+        "ram_available_gb": 15.251,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.0,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 56.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 10.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 9.06,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 9.63
+        }
+      },
+      {
+        "timestamp": 1793416743.0806456,
+        "system_cpu_percent": 32.0,
+        "process_cpu_percent": 100.5,
+        "per_cpu_percent": [
+          78.3,
+          26.4,
+          45.5,
+          18.1,
+          26.4,
+          12.5,
+          31.5,
+          37.5,
+          31.1,
+          8.3,
+          21.6,
+          25.0
+        ],
+        "ram_used_gb": 16.451,
+        "ram_available_gb": 15.331,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.8,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 9.47,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416744.1945791,
+        "system_cpu_percent": 28.4,
+        "process_cpu_percent": 101.0,
+        "per_cpu_percent": [
+          80.4,
+          36.1,
+          35.2,
+          12.5,
+          21.1,
+          5.6,
+          25.0,
+          18.3,
+          14.1,
+          12.7,
+          28.2,
+          25.4
+        ],
+        "ram_used_gb": 16.432,
+        "ram_available_gb": 15.35,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 56.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.89,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416745.3197424,
+        "system_cpu_percent": 30.8,
+        "process_cpu_percent": 100.0,
+        "per_cpu_percent": [
+          75.0,
+          49.3,
+          47.4,
+          15.3,
+          32.0,
+          12.3,
+          18.1,
+          18.1,
+          23.0,
+          9.6,
+          20.8,
+          30.6
+        ],
+        "ram_used_gb": 16.429,
+        "ram_available_gb": 15.353,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 56.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.44,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.48
+        }
+      },
+      {
+        "timestamp": 1793416746.4748456,
+        "system_cpu_percent": 35.4,
+        "process_cpu_percent": 101.4,
+        "per_cpu_percent": [
+          68.0,
+          32.4,
+          42.1,
+          18.7,
+          54.7,
+          40.0,
+          32.4,
+          29.7,
+          31.1,
+          12.2,
+          24.3,
+          28.4
+        ],
+        "ram_used_gb": 16.431,
+        "ram_available_gb": 15.351,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.51,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.9
+        }
+      },
+      {
+        "timestamp": 1793416747.5898335,
+        "system_cpu_percent": 37.3,
+        "process_cpu_percent": 98.1,
+        "per_cpu_percent": [
+          77.1,
+          38.9,
+          33.8,
+          32.4,
+          29.6,
+          44.4,
+          33.3,
+          41.7,
+          29.6,
+          11.3,
+          29.6,
+          32.4
+        ],
+        "ram_used_gb": 16.425,
+        "ram_available_gb": 15.357,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.47,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.9
+        }
+      },
+      {
+        "timestamp": 1793416748.684523,
+        "system_cpu_percent": 28.2,
+        "process_cpu_percent": 99.9,
+        "per_cpu_percent": [
+          84.8,
+          24.3,
+          31.9,
+          22.9,
+          23.9,
+          1.4,
+          15.7,
+          21.1,
+          25.0,
+          5.7,
+          18.3,
+          35.2
+        ],
+        "ram_used_gb": 16.425,
+        "ram_available_gb": 15.357,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 9.51,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416749.8024397,
+        "system_cpu_percent": 42.4,
+        "process_cpu_percent": 95.0,
+        "per_cpu_percent": [
+          86.5,
+          34.2,
+          57.7,
+          30.6,
+          51.4,
+          20.8,
+          41.7,
+          38.0,
+          35.2,
+          22.2,
+          33.8,
+          35.2
+        ],
+        "ram_used_gb": 16.427,
+        "ram_available_gb": 15.355,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.6,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416750.9135737,
+        "system_cpu_percent": 26.6,
+        "process_cpu_percent": 97.1,
+        "per_cpu_percent": [
+          62.1,
+          54.7,
+          39.0,
+          12.7,
+          43.7,
+          8.5,
+          11.3,
+          4.2,
+          16.7,
+          12.7,
+          20.8,
+          18.6
+        ],
+        "ram_used_gb": 16.423,
+        "ram_available_gb": 15.358,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 7.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.45,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.48
+        }
+      },
+      {
+        "timestamp": 1793416752.0200803,
+        "system_cpu_percent": 24.1,
+        "process_cpu_percent": 96.0,
+        "per_cpu_percent": [
+          80.9,
+          36.6,
+          38.0,
+          4.2,
+          12.7,
+          4.2,
+          15.5,
+          8.5,
+          16.9,
+          5.6,
+          5.6,
+          29.2
+        ],
+        "ram_used_gb": 16.425,
+        "ram_available_gb": 15.357,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.7,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.44,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.9
+        }
+      },
+      {
+        "timestamp": 1793416753.1274147,
+        "system_cpu_percent": 36.1,
+        "process_cpu_percent": 98.8,
+        "per_cpu_percent": [
+          68.5,
+          42.3,
+          53.3,
+          26.4,
+          48.6,
+          21.1,
+          32.4,
+          28.2,
+          29.6,
+          11.3,
+          29.6,
+          31.0
+        ],
+        "ram_used_gb": 16.499,
+        "ram_available_gb": 15.283,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.9,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 9.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.66,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.9
+        }
+      },
+      {
+        "timestamp": 1793416754.2440376,
+        "system_cpu_percent": 42.3,
+        "process_cpu_percent": 95.2,
+        "per_cpu_percent": [
+          80.8,
+          28.4,
+          49.3,
+          35.6,
+          50.0,
+          36.1,
+          43.1,
+          31.9,
+          34.2,
+          27.8,
+          37.5,
+          38.4
+        ],
+        "ram_used_gb": 16.617,
+        "ram_available_gb": 15.165,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.3,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 9.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 9.26,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416755.3569143,
+        "system_cpu_percent": 53.3,
+        "process_cpu_percent": 102.5,
+        "per_cpu_percent": [
+          89.0,
+          38.0,
+          58.1,
+          39.7,
+          59.7,
+          36.6,
+          54.2,
+          50.7,
+          64.4,
+          43.8,
+          48.6,
+          43.1
+        ],
+        "ram_used_gb": 16.525,
+        "ram_available_gb": 15.257,
+        "ram_total_gb": 31.782,
+        "ram_percent": 52.0,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 9.01,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416756.4715185,
+        "system_cpu_percent": 47.9,
+        "process_cpu_percent": 89.7,
+        "per_cpu_percent": [
+          83.0,
+          48.7,
+          55.0,
+          41.1,
+          53.5,
+          37.8,
+          45.8,
+          45.8,
+          37.8,
+          27.4,
+          51.9,
+          32.9
+        ],
+        "ram_used_gb": 16.288,
+        "ram_available_gb": 15.493,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.3,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 7.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 9.16,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 10.66
+        }
+      },
+      {
+        "timestamp": 1793416757.6177442,
+        "system_cpu_percent": 30.9,
+        "process_cpu_percent": 99.5,
+        "per_cpu_percent": [
+          67.7,
+          55.6,
+          41.3,
+          6.8,
+          35.6,
+          13.7,
+          41.9,
+          16.4,
+          17.8,
+          5.5,
+          30.7,
+          26.0
+        ],
+        "ram_used_gb": 16.352,
+        "ram_available_gb": 15.429,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.5,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.52,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.52
+        }
+      },
+      {
+        "timestamp": 1793416758.7605894,
+        "system_cpu_percent": 39.6,
+        "process_cpu_percent": 98.4,
+        "per_cpu_percent": [
+          76.0,
+          30.7,
+          43.4,
+          29.7,
+          43.2,
+          17.6,
+          28.0,
+          50.0,
+          38.2,
+          33.8,
+          27.0,
+          43.2
+        ],
+        "ram_used_gb": 16.388,
+        "ram_available_gb": 15.394,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.6,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 8.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.45,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 8.9
+        }
+      },
+      {
+        "timestamp": 1793416759.860608,
+        "system_cpu_percent": 41.9,
+        "process_cpu_percent": 93.7,
+        "per_cpu_percent": [
+          81.0,
+          31.5,
+          48.6,
+          31.0,
+          50.0,
+          33.3,
+          43.1,
+          28.2,
+          37.5,
+          28.2,
+          35.2,
+          37.5
+        ],
+        "ram_used_gb": 16.292,
+        "ram_available_gb": 15.49,
+        "ram_total_gb": 31.782,
+        "ram_percent": 51.3,
+        "gpu": {
+          "name": "Quadro P2000",
+          "temperature_c": 57.0,
+          "memory_total_mb": 4096.0,
+          "memory_free_mb": 3763.0,
+          "memory_used_mb": 245.0,
+          "utilization_percent": 7.0
+        },
+        "pytorch_cuda": {
+          "allocated_mb": 8.41,
+          "reserved_mb": 26.0,
+          "max_allocated_mb": 9.31
+        }
+      }
+    ]
+  },
+  "profile_benchmarks": {
+    "BASELINE": {
+      "name": "BASELINE",
+      "params": {
+        "n_qubits": 8,
+        "batch_size": 16,
+        "train_size": 64,
+        "val_size": 32,
+        "test_size": 64,
+        "epochs": 6,
+        "n_layers": 2,
+        "n_trials": 10
+      },
+      "elapsed_seconds": 28.80961719993502,
+      "trials_per_minute": 20.82637876914773,
+      "mean_balanced_accuracy": 0.5108214676380157,
+      "variance_balanced_accuracy": 0.004009898858913511,
+      "gpu_utilization_mean": 7.9361702127659575,
+      "gpu_utilization_max": 10.0,
+      "vram_allocated_mb_max": 9.85,
+      "vram_reserved_mb_max": 26.0,
+      "gpu_temp_max": 58.0
+    },
+    "MEDIUM": {
+      "name": "MEDIUM",
+      "params": {
+        "n_qubits": 8,
+        "batch_size": 64,
+        "train_size": 256,
+        "val_size": 64,
+        "test_size": 128,
+        "epochs": 12,
+        "n_layers": 2,
+        "n_trials": 10
+      },
+      "elapsed_seconds": 44.938350199954584,
+      "trials_per_minute": 13.351625000256604,
+      "mean_balanced_accuracy": 0.5238046199083328,
+      "variance_balanced_accuracy": 0.002808839310865125,
+      "gpu_utilization_mean": 8.657534246575343,
+      "gpu_utilization_max": 10.0,
+      "vram_allocated_mb_max": 12.51,
+      "vram_reserved_mb_max": 30.0,
+      "gpu_temp_max": 58.0
+    },
+    "HIGH": {
+      "name": "HIGH",
+      "params": {
+        "n_qubits": 10,
+        "batch_size": 128,
+        "train_size": 512,
+        "val_size": 128,
+        "test_size": 256,
+        "epochs": 16,
+        "n_layers": 2,
+        "n_trials": 10
+      },
+      "elapsed_seconds": 53.78448999999091,
+      "trials_per_minute": 11.155632413733056,
+      "mean_balanced_accuracy": 0.5327764421701431,
+      "variance_balanced_accuracy": 0.0033894997149370868,
+      "gpu_utilization_mean": 21.522727272727273,
+      "gpu_utilization_max": 28.0,
+      "vram_allocated_mb_max": 49.39,
+      "vram_reserved_mb_max": 146.0,
+      "gpu_temp_max": 59.0
+    }
+  }
+}

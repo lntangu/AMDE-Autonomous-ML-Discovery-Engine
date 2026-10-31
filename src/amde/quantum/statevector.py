@@ -125,23 +125,35 @@ def apply_rz(state: Any, n_qubits: int, target: int, angle: Any) -> Any:
     return torch.stack((phase0 * a, phase1 * b), dim=2).reshape(batch, -1)
 
 
+_CNOT_CACHE: dict[tuple[int, int, int, str], Any] = {}
+_SIGNS_CACHE: dict[tuple[int, int, str], Any] = {}
+
+
 def apply_cnot(state: Any, n_qubits: int, control: int, target: int) -> Any:
     torch = load_torch()
     _check_qubit(n_qubits, control)
     _check_qubit(n_qubits, target)
     if control == target:
         raise ValueError("CNOT control and target must differ")
-    indices = torch.arange(1 << n_qubits, device=state.device, dtype=torch.long)
-    flip = ((indices >> control) & 1) << target
-    permutation = indices ^ flip
+    key = (n_qubits, control, target, str(state.device))
+    permutation = _CNOT_CACHE.get(key)
+    if permutation is None:
+        indices = torch.arange(1 << n_qubits, device=state.device, dtype=torch.long)
+        flip = ((indices >> control) & 1) << target
+        permutation = indices ^ flip
+        _CNOT_CACHE[key] = permutation
     return state.index_select(1, permutation)
 
 
 def expectation_z(state: Any, n_qubits: int, target: int = 0) -> Any:
     torch = load_torch()
     _check_qubit(n_qubits, target)
-    indices = torch.arange(1 << n_qubits, device=state.device, dtype=torch.long)
-    signs = torch.where(((indices >> target) & 1) == 0, 1.0, -1.0).to(torch.float32)
+    key = (n_qubits, target, str(state.device))
+    signs = _SIGNS_CACHE.get(key)
+    if signs is None:
+        indices = torch.arange(1 << n_qubits, device=state.device, dtype=torch.long)
+        signs = torch.where(((indices >> target) & 1) == 0, 1.0, -1.0).to(torch.float32)
+        _SIGNS_CACHE[key] = signs
     probabilities = state.real.square() + state.imag.square()
     return (probabilities * signs.unsqueeze(0)).sum(dim=1)
 

@@ -680,6 +680,10 @@ class _RunSession:
         assert self.evaluator is not None
         assert self.artifacts is not None
         genome = make_baseline_genome(name)
+        # Grant proportional timeout for multi-seed baseline evaluation in production
+        baseline_timeout = self.confirm_timeout
+        if self.mode != "smoke" and self.confirm_timeout >= 60.0:
+            baseline_timeout = max(self.confirm_timeout, float(len(self.confirm_seeds)) * 60.0, 300.0)
         request = self.evaluator.build_request(
             genome=genome,
             baseline=None if genome is not None else "majority_mean",
@@ -687,7 +691,7 @@ class _RunSession:
             task_specs=self.dev_specs,
             seeds=self.confirm_seeds,
             epochs_scale=1.0,
-            timeout_seconds=self.confirm_timeout,
+            timeout_seconds=baseline_timeout,
             manifest_hash=self.manifest_hash,
         )
         result = self._evaluate_with_retries(request)
