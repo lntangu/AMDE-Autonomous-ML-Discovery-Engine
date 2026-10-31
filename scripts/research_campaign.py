@@ -382,16 +382,26 @@ def run_campaign(args: argparse.Namespace) -> int:
 
             round_index = int(state["next_round"])
             run_id = sanitize_id(f"{campaign_id}_r{round_index:05d}")
-            remaining_gb = max(0.01, args.max_campaign_gb - used / (1024**3))
-            round_cfg = build_round_config(
-                base,
-                campaign_id=campaign_id,
-                round_index=round_index,
-                base_seed=base_seed,
-                device=args.device,
-                candidate_archive=state.get("candidate_archive", []),
-                remaining_campaign_gb=remaining_gb,
-            )
+            manifest_path = Path(args.root) / "runs" / run_id / "run_manifest.json"
+            round_cfg = None
+            if manifest_path.is_file():
+                try:
+                    manifest_data = json.loads(manifest_path.read_text(encoding="utf-8"))
+                    if isinstance(manifest_data.get("config"), dict):
+                        round_cfg = Config(manifest_data["config"], base.project_root)
+                except Exception:
+                    round_cfg = None
+            if round_cfg is None:
+                remaining_gb = max(0.01, args.max_campaign_gb - used / (1024**3))
+                round_cfg = build_round_config(
+                    base,
+                    campaign_id=campaign_id,
+                    round_index=round_index,
+                    base_seed=base_seed,
+                    device=args.device,
+                    candidate_archive=state.get("candidate_archive", []),
+                    remaining_campaign_gb=remaining_gb,
+                )
             record = next((r for r in state["rounds"] if int(r.get("round_index", -1)) == round_index), None)
             if record and record.get("status") in TERMINAL_ROUND_STATUSES:
                 state["next_round"] = round_index + 1
