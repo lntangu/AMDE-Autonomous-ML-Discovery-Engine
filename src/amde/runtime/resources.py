@@ -385,41 +385,89 @@ def plan_text(plan: ResourcePlan) -> str:
     )
 
 
-def sample_process_tree(pid: int | None) -> dict[str, Any]:
+_PROCESS_CACHE: dict[int, Any] = {}
+
+
+def sample_process_tree(pid: int | None, *, interval: float | None = None) -> dict[str, Any]:
     """Sample CPU and memory metrics for a process and all its spawned subprocesses.
 
     Returns structured metrics including total process-level CPU percent, normalized
-    system-wide CPU percent (divided by logical core count), total RSS memory in MB,
-    and child process count. Handles process exits and permission errors cleanly.
+    system-wide CPU percent (divided by logical core count), total working set (RSS) memory,
+    unique private memory (preventing shared DLL double-counting), child process count,
+    and a flag indicating whether sampling was complete or interrupted by process termination.
+    Reuses cached Process handles so non-blocking interval=None calls report true inter-sample CPU.
     """
     if not pid:
-        return {"alive": False, "cpu_percent": 0.0, "rss_mb": 0.0, "num_children": 0}
+        return {
+            "alive": False,
+            "pid": None,
+            "cpu_percent": 0.0,
+            "rss_mb": 0.0,
+            "working_set_mb": 0.0,
+            "private_memory_mb": 0.0,
+            "num_children": 0,
+            "sampling_complete": True,
+        }
     try:
         import psutil  # type: ignore
-        proc = psutil.Process(int(pid))
+        proc = _PROCESS_CACHE.get(int(pid))
+        if proc is None:
+            proc = psutil.Process(int(pid))
+            _PROCESS_CACHE[int(pid)] = proc
         if not proc.is_running() or proc.status() == psutil.STATUS_ZOMBIE:
-            return {"alive": False, "cpu_percent": 0.0, "rss_mb": 0.0, "num_children": 0}
+            _PROCESS_CACHE.pop(int(pid), None)
+            return {
+                "alive": False,
+                "pid": int(pid),
+                "cpu_percent": 0.0,
+                "rss_mb": 0.0,
+                "working_set_mb": 0.0,
+                "private_memory_mb": 0.0,
+                "num_children": 0,
+                "sampling_complete": True,
+            }
 
-        parent_cpu = proc.cpu_percent(interval=None)
-        parent_rss = proc.memory_info().rss
+        seen_pids: set[int] = {int(pid)}
+        sampling_complete = True
+
+        parent_cpu = proc.cpu_percent(interval=interval)
+        mem_info = proc.memory_info()
+        parent_ws = getattr(mem_info, "rss", 0)
+        parent_priv = getattr(mem_info, "private", getattr(mem_info, "rss", 0))
 
         children_cpu = 0.0
-        children_rss = 0
+        children_ws = 0
+        children_priv = 0
         children_count = 0
+
         try:
-            for child in proc.children(recursive=True):
-                try:
-                    if child.is_running() and child.status() != psutil.STATUS_ZOMBIE:
-                        children_cpu += child.cpu_percent(interval=None)
-                        children_rss += child.memory_info().rss
-                        children_count += 1
-                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                    pass
+            children = proc.children(recursive=True)
         except (psutil.NoSuchProcess, psutil.AccessDenied):
-            pass
+            children = []
+            sampling_complete = False
+
+        for child in children:
+            if child.pid in seen_pids:
+                continue
+            seen_pids.add(child.pid)
+            cproc = _PROCESS_CACHE.get(child.pid)
+            if cproc is None:
+                cproc = child
+                _PROCESS_CACHE[child.pid] = cproc
+            try:
+                if cproc.is_running() and cproc.status() != psutil.STATUS_ZOMBIE:
+                    children_cpu += cproc.cpu_percent(interval=None)
+                    cmem = cproc.memory_info()
+                    children_ws += getattr(cmem, "rss", 0)
+                    children_priv += getattr(cmem, "private", getattr(cmem, "rss", 0))
+                    children_count += 1
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                _PROCESS_CACHE.pop(child.pid, None)
+                sampling_complete = False
 
         total_cpu = parent_cpu + children_cpu
-        total_rss_mb = (parent_rss + children_rss) / (1024**2)
+        total_ws_mb = (parent_ws + children_ws) / (1024**2)
+        total_priv_mb = (parent_priv + children_priv) / (1024**2)
         logical_cores = os.cpu_count() or 1
         normalized_system_cpu = round(total_cpu / logical_cores, 2)
 
@@ -430,9 +478,23 @@ def sample_process_tree(pid: int | None) -> dict[str, Any]:
             "children_cpu_percent": round(children_cpu, 1),
             "total_cpu_percent": round(total_cpu, 1),
             "normalized_system_cpu_percent": normalized_system_cpu,
-            "rss_mb": round(total_rss_mb, 1),
+            "working_set_mb": round(total_ws_mb, 1),
+            "private_memory_mb": round(total_priv_mb, 1),
+            "rss_mb": round(total_ws_mb, 1),  # backward compatibility alias
             "num_children": children_count,
+            "sampling_complete": sampling_complete,
+            "observed_pids": sorted(list(seen_pids)),
         }
     except Exception:
-        return {"alive": False, "cpu_percent": 0.0, "rss_mb": 0.0, "num_children": 0}
+        _PROCESS_CACHE.pop(int(pid), None)
+        return {
+            "alive": False,
+            "pid": int(pid) if pid else None,
+            "cpu_percent": 0.0,
+            "rss_mb": 0.0,
+            "working_set_mb": 0.0,
+            "private_memory_mb": 0.0,
+            "num_children": 0,
+            "sampling_complete": False,
+        }
 

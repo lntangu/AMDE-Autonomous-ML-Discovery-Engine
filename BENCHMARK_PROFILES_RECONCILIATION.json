@@ -1,0 +1,137 @@
+{
+  "device": "Quadro P2000",
+  "cuda_version": "12.6",
+  "step_level_cuda_events": {
+    "BASELINE": {
+      "n_qubits": 8,
+      "n_layers": 2,
+      "batch_size": 16,
+      "forward_cuda_ms": {
+        "mean": 32.964,
+        "std": 12.1
+      },
+      "backward_cuda_ms": {
+        "mean": 69.151,
+        "std": 10.801
+      },
+      "optimizer_cuda_ms": {
+        "mean": 0.927,
+        "std": 0.413
+      },
+      "total_cuda_kernel_ms": 103.042,
+      "cpu_dispatch_ms": 0.096,
+      "end_to_end_step_ms": {
+        "mean": 103.138,
+        "std": 15.116
+      },
+      "measured_gpu_duty_cycle_percent": 99.91,
+      "peak_vram_allocated_mb": 1.23,
+      "peak_vram_reserved_mb": 2.0,
+      "temperature_before_c": 60.0,
+      "temperature_after_c": 60.0
+    },
+    "MEDIUM": {
+      "n_qubits": 8,
+      "n_layers": 2,
+      "batch_size": 64,
+      "forward_cuda_ms": {
+        "mean": 41.655,
+        "std": 9.132
+      },
+      "backward_cuda_ms": {
+        "mean": 87.37,
+        "std": 9.882
+      },
+      "optimizer_cuda_ms": {
+        "mean": 1.114,
+        "std": 0.271
+      },
+      "total_cuda_kernel_ms": 130.139,
+      "cpu_dispatch_ms": 0.11,
+      "end_to_end_step_ms": {
+        "mean": 130.249,
+        "std": 15.558
+      },
+      "measured_gpu_duty_cycle_percent": 99.92,
+      "peak_vram_allocated_mb": 4.61,
+      "peak_vram_reserved_mb": 6.0,
+      "temperature_before_c": 61.0,
+      "temperature_after_c": 61.0
+    },
+    "HIGH": {
+      "n_qubits": 10,
+      "n_layers": 2,
+      "batch_size": 128,
+      "forward_cuda_ms": {
+        "mean": 46.941,
+        "std": 8.724
+      },
+      "backward_cuda_ms": {
+        "mean": 101.569,
+        "std": 15.933
+      },
+      "optimizer_cuda_ms": {
+        "mean": 0.981,
+        "std": 0.32
+      },
+      "total_cuda_kernel_ms": 149.491,
+      "cpu_dispatch_ms": 0.099,
+      "end_to_end_step_ms": {
+        "mean": 149.59,
+        "std": 22.672
+      },
+      "measured_gpu_duty_cycle_percent": 99.93,
+      "peak_vram_allocated_mb": 44.21,
+      "peak_vram_reserved_mb": 46.0,
+      "temperature_before_c": 61.0,
+      "temperature_after_c": 62.0
+    }
+  },
+  "end_to_end_trials": {
+    "BASELINE": {
+      "profile": "BASELINE",
+      "protocol_id": "amde-quantum-baseline-v1",
+      "n_qubits": 8,
+      "batch_size": 16,
+      "epochs": 6,
+      "train_size": 64,
+      "elapsed_seconds": 3.013,
+      "val_balanced_accuracy": 0.5079,
+      "test_balanced_accuracy": 0.489,
+      "peak_vram_mb": 4.51,
+      "measured_trials_per_hour": 1194.9,
+      "temperature_start_c": 62.0,
+      "temperature_end_c": 62.0
+    },
+    "MEDIUM": {
+      "profile": "MEDIUM",
+      "protocol_id": "amde-quantum-medium-v1",
+      "n_qubits": 8,
+      "batch_size": 64,
+      "epochs": 12,
+      "train_size": 256,
+      "elapsed_seconds": 4.266,
+      "val_balanced_accuracy": 0.4844,
+      "test_balanced_accuracy": 0.5555,
+      "peak_vram_mb": 8.84,
+      "measured_trials_per_hour": 844.0,
+      "temperature_start_c": 62.0,
+      "temperature_end_c": 61.0
+    },
+    "HIGH": {
+      "profile": "HIGH",
+      "protocol_id": "amde-quantum-high-v1",
+      "n_qubits": 10,
+      "batch_size": 128,
+      "epochs": 16,
+      "train_size": 512,
+      "elapsed_seconds": 4.467,
+      "val_balanced_accuracy": 0.4863,
+      "test_balanced_accuracy": 0.543,
+      "peak_vram_mb": 85.27,
+      "measured_trials_per_hour": 806.0,
+      "temperature_start_c": 61.0,
+      "temperature_end_c": 61.0
+    }
+  }
+}

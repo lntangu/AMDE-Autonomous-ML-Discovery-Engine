@@ -490,7 +490,11 @@ class AMDE2RuntimeTests(unittest.TestCase):
         self.assertTrue(current["alive"])
         self.assertEqual(current["pid"], os.getpid())
         self.assertGreaterEqual(current["rss_mb"], 0.0)
+        self.assertGreaterEqual(current["working_set_mb"], 0.0)
+        self.assertGreaterEqual(current["private_memory_mb"], 0.0)
         self.assertGreaterEqual(current["total_cpu_percent"], 0.0)
+        self.assertTrue(current["sampling_complete"])
+        self.assertIn(os.getpid(), current["observed_pids"])
 
         # Test non-existent process
         dead = sample_process_tree(99999999)
