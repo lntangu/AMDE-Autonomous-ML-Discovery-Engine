@@ -383,3 +383,56 @@ def plan_text(plan: ResourcePlan) -> str:
         f"gpu_slots={plan.gpu_slots} reserve_ram={plan.reserve_ram_mb}MB "
         f"reason={plan.reason}"
     )
+
+
+def sample_process_tree(pid: int | None) -> dict[str, Any]:
+    """Sample CPU and memory metrics for a process and all its spawned subprocesses.
+
+    Returns structured metrics including total process-level CPU percent, normalized
+    system-wide CPU percent (divided by logical core count), total RSS memory in MB,
+    and child process count. Handles process exits and permission errors cleanly.
+    """
+    if not pid:
+        return {"alive": False, "cpu_percent": 0.0, "rss_mb": 0.0, "num_children": 0}
+    try:
+        import psutil  # type: ignore
+        proc = psutil.Process(int(pid))
+        if not proc.is_running() or proc.status() == psutil.STATUS_ZOMBIE:
+            return {"alive": False, "cpu_percent": 0.0, "rss_mb": 0.0, "num_children": 0}
+
+        parent_cpu = proc.cpu_percent(interval=None)
+        parent_rss = proc.memory_info().rss
+
+        children_cpu = 0.0
+        children_rss = 0
+        children_count = 0
+        try:
+            for child in proc.children(recursive=True):
+                try:
+                    if child.is_running() and child.status() != psutil.STATUS_ZOMBIE:
+                        children_cpu += child.cpu_percent(interval=None)
+                        children_rss += child.memory_info().rss
+                        children_count += 1
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                    pass
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+
+        total_cpu = parent_cpu + children_cpu
+        total_rss_mb = (parent_rss + children_rss) / (1024**2)
+        logical_cores = os.cpu_count() or 1
+        normalized_system_cpu = round(total_cpu / logical_cores, 2)
+
+        return {
+            "alive": True,
+            "pid": int(pid),
+            "parent_cpu_percent": round(parent_cpu, 1),
+            "children_cpu_percent": round(children_cpu, 1),
+            "total_cpu_percent": round(total_cpu, 1),
+            "normalized_system_cpu_percent": normalized_system_cpu,
+            "rss_mb": round(total_rss_mb, 1),
+            "num_children": children_count,
+        }
+    except Exception:
+        return {"alive": False, "cpu_percent": 0.0, "rss_mb": 0.0, "num_children": 0}
+

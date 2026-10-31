@@ -45,6 +45,7 @@ from amde.errors import (  # noqa: E402
 )
 from amde.quantum.maze import run_maze_grover_demo  # noqa: E402
 from amde.quantum.kernel import train_quantum_kernel, train_rbf_kernel_baseline  # noqa: E402
+from amde.quantum.profiles import AdaptiveComputeGovernor, PROFILE_CATALOG  # noqa: E402
 from amde.quantum.statevector import QuantumBackendError, load_torch, resolve_device  # noqa: E402
 from amde.quantum.vqc import VQCConfig, train_mlp_baseline, train_vqc  # noqa: E402
 from amde.runtime.lock import SingleInstanceLock  # noqa: E402
@@ -465,6 +466,29 @@ def run_campaign(args: argparse.Namespace) -> int:
     if args.device not in {"cpu", "cuda", "auto"}:
         raise ConfigError("device must be cpu, cuda, or auto")
 
+    profile = getattr(args, "profile", None)
+    governor = None
+    if profile:
+        profile_name = str(profile).upper()
+        if profile_name == "ADAPTIVE":
+            governor = AdaptiveComputeGovernor()
+        elif profile_name in PROFILE_CATALOG:
+            prof = PROFILE_CATALOG[profile_name]
+            if args.epochs == 12:
+                args.epochs = prof.epochs
+            if args.batch_size == 32:
+                args.batch_size = prof.batch_size
+            if args.train_size == 96:
+                args.train_size = prof.train_size
+            if args.val_size == 48:
+                args.val_size = prof.val_size
+            if args.test_size == 96:
+                args.test_size = prof.test_size
+            if args.max_configs == 5:
+                args.max_configs = prof.max_configs
+            if args.max_qubits == 10:
+                args.max_qubits = prof.n_qubits
+
     plan = {
         "protocol": QUANTUM_CAMPAIGN_PROTOCOL,
         "campaign_id": campaign_id,
@@ -484,6 +508,8 @@ def run_campaign(args: argparse.Namespace) -> int:
         "tasks": list(TASKS),
         "base_vqc_configs": list(BASE_VQC_CONFIGS),
     }
+    if profile:
+        plan["profile"] = str(profile).lower()
     plan_hash = hash_json(plan)
     campaign_root = root / "reports" / "quantum_campaigns" / campaign_id
     _mkdir(campaign_root)
@@ -535,7 +561,34 @@ def run_campaign(args: argparse.Namespace) -> int:
 
             round_index = int(state["next_round"])
             round_seed = seed_from(args.seed, campaign_id, round_index, "quantum-round") % (2**31 - 1)
-            configs = _mutated_configs(state.get("config_archive", []), seed=round_seed, max_configs=args.max_configs)
+
+            current_epochs = args.epochs
+            current_batch_size = args.batch_size
+            current_train_size = args.train_size
+            current_val_size = args.val_size
+            current_test_size = args.test_size
+            current_max_configs = args.max_configs
+            if governor is not None and actual_device == "cuda":
+                snap = _gpu_snapshot(torch)
+                mem_avail = None
+                try:
+                    import psutil
+                    mem_avail = psutil.virtual_memory().available / (1024**3)
+                except Exception:
+                    pass
+                active_prof = governor.select_adaptive_profile(
+                    gpu_temp_c=snap.get("temperature_c"),
+                    free_vram_mb=snap.get("free_vram_mb"),
+                    ram_available_gb=mem_avail,
+                )
+                current_epochs = active_prof.epochs
+                current_batch_size = active_prof.batch_size
+                current_train_size = active_prof.train_size
+                current_val_size = active_prof.val_size
+                current_test_size = active_prof.test_size
+                current_max_configs = active_prof.max_configs
+
+            configs = _mutated_configs(state.get("config_archive", []), seed=round_seed, max_configs=current_max_configs)
             con.execute(
                 "INSERT INTO rounds(round_index,seed,status,started_at) VALUES(?,?,?,?) "
                 "ON CONFLICT(round_index) DO UPDATE SET status='running',started_at=excluded.started_at,ended_at=NULL",
@@ -556,9 +609,9 @@ def run_campaign(args: argparse.Namespace) -> int:
                     state["status"] = "stop_requested"
                     break
                 data = _normalise_splits(task, base_seed=args.seed, campaign_id=campaign_id, round_index=round_index,
-                                         train_size=args.train_size, val_size=args.val_size, test_size=args.test_size)
+                                         train_size=current_train_size, val_size=current_val_size, test_size=current_test_size)
                 (train_x, train_y), (val_x, val_y), (test_x, test_y) = data["train"], data["val"], data["test"]
-                mlp_cfg = {"hidden": 12, "epochs": args.epochs, "optimizer": "adam"}
+                mlp_cfg = {"hidden": 12, "epochs": current_epochs, "optimizer": "adam"}
                 mlp_seed = seed_from(round_seed, task["task_id"], "mlp") % (2**31 - 1)
                 mlp_key = _trial_key(plan_hash, round_index, task["task_id"], "mlp_cpu_baseline", mlp_cfg, mlp_seed)
                 round_model_keys.append(mlp_key)
@@ -566,8 +619,8 @@ def run_campaign(args: argparse.Namespace) -> int:
                     try:
                         _record_model_trial(con, key=mlp_key, round_index=round_index, task=task, method="mlp_cpu_baseline",
                                             config_data=mlp_cfg, seed=mlp_seed,
-                                            runner=lambda tx=train_x, ty=train_y, vx=val_x, vy=val_y, dx=test_x, dy=test_y, ss=mlp_seed:
-                                                train_mlp_baseline(tx, ty, vx, vy, dx, dy, epochs=args.epochs, seed=ss),
+                                            runner=lambda tx=train_x, ty=train_y, vx=val_x, vy=val_y, dx=test_x, dy=test_y, ss=mlp_seed, ep=current_epochs:
+                                                train_mlp_baseline(tx, ty, vx, vy, dx, dy, epochs=ep, seed=ss),
                                             metadata={"test_distribution": data["test_distribution"], "data_manifest_hash": hash_json(data)})
                     except Exception as exc:
                         failures.append(f"{task['task_id']}/mlp: {type(exc).__name__}: {exc}")
@@ -617,7 +670,8 @@ def run_campaign(args: argparse.Namespace) -> int:
                         state["status"] = "stop_requested"
                         break
                     cfg = _config_dict(raw_cfg, args)
-                    cfg.setdefault("epochs", args.epochs)
+                    cfg["epochs"] = current_epochs
+                    cfg["batch_size"] = current_batch_size
                     VQCConfig(**cfg).validate()
                     qseed = seed_from(round_seed, task["task_id"], hash_json(raw_cfg), "vqc") % (2**31 - 1)
                     key = _trial_key(plan_hash, round_index, task["task_id"], "vqc_statevector", raw_cfg, qseed)
@@ -763,6 +817,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--rounds", type=int, default=2, help="Number of independently seeded rounds; 0 continues until stopped")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cuda")
+    parser.add_argument("--profile", choices=("baseline", "medium", "high", "adaptive"), default=None, help="Benchmark compute profile (baseline, medium, high, adaptive)")
     parser.add_argument("--epochs", type=int, default=12)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--train-size", type=int, default=96)

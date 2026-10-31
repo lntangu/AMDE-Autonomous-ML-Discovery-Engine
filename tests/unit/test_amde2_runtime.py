@@ -482,6 +482,36 @@ class AMDE2RuntimeTests(unittest.TestCase):
             self.assertGreater(cw.next_start_at, time.monotonic() + 15.0)
             self.assertLessEqual(cw.next_start_at, time.monotonic() + 25.0)
 
+    def test_sample_process_tree_telemetry(self) -> None:
+        import os
+        from amde.runtime.resources import sample_process_tree
+        # Test current process
+        current = sample_process_tree(os.getpid())
+        self.assertTrue(current["alive"])
+        self.assertEqual(current["pid"], os.getpid())
+        self.assertGreaterEqual(current["rss_mb"], 0.0)
+        self.assertGreaterEqual(current["total_cpu_percent"], 0.0)
+
+        # Test non-existent process
+        dead = sample_process_tree(99999999)
+        self.assertFalse(dead["alive"])
+        self.assertEqual(dead["cpu_percent"], 0.0)
+
+        # Test None PID
+        none_sample = sample_process_tree(None)
+        self.assertFalse(none_sample["alive"])
+
+    def test_plan_with_quantum_profile(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            args = self._plan_args(root, "prof_test")
+            args.quantum_profile = "medium"
+            plan = amde2._make_plan(args, root)
+            self.assertEqual(plan["quantum_profile"], "medium")
+            self.assertEqual(plan["quantum_batch_size"], 64)
+            self.assertEqual(plan["quantum_epochs"], 12)
+            self.assertEqual(plan["quantum_train_size"], 256)
+
 
 if __name__ == "__main__":
     unittest.main()

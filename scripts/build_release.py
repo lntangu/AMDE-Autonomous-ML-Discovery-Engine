@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build, verify, and package AMDE 2.0.1 clean distribution release."""
+"""Build, verify, and package AMDE 2.0.2 clean distribution release."""
 from __future__ import annotations
 
 import hashlib
@@ -68,7 +68,7 @@ def collect_release_files(root: Path) -> list[Path]:
 
 
 def main() -> int:
-    print(f"Building AMDE 2.0.1 Release from: {ROOT}")
+    print(f"Building AMDE 2.0.2 Release from: {ROOT}")
     files = collect_release_files(ROOT)
     print(f"Collected {len(files)} clean distribution files.")
 
@@ -90,10 +90,10 @@ def main() -> int:
         return 1
     print(f"PASS: {proc.stdout.strip()}")
 
-    # Package dist/AMDE_2.0.1_Release.zip
+    # Package dist/AMDE_2.0.2_Release.zip
     dist_dir = ROOT / "dist"
     dist_dir.mkdir(parents=True, exist_ok=True)
-    zip_path = dist_dir / "AMDE_2.0.1_Release.zip"
+    zip_path = dist_dir / "AMDE_2.0.2_Release.zip"
 
     all_zip_files = files + [manifest_path]
     print(f"Writing release zip archive: {zip_path}")
@@ -114,7 +114,7 @@ def main() -> int:
     print(f"Created {zip_path.name}: {zip_size_mb:.2f} MiB | SHA-256: {zip_digest}")
 
     # Write dist checksum
-    (dist_dir / "AMDE_2.0.1_Release.zip.sha256").write_text(
+    (dist_dir / "AMDE_2.0.2_Release.zip.sha256").write_text(
         f"{zip_digest}  {zip_path.name}\n", encoding="utf-8"
     )
 
@@ -144,7 +144,7 @@ def main() -> int:
             return 1
         print(f"PASS: Extracted release unit tests: {test_proc.stdout.strip()}")
 
-    print("\nSUCCESS: AMDE 2.0.1 Release Packaging Completed and Verified!")
+    print("\nSUCCESS: AMDE 2.0.2 Release Packaging Completed and Verified!")
     return 0
 
 

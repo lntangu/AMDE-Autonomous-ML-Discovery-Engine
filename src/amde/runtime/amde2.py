@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .lock import SingleInstanceLock, default_pid_alive
+from .resources import sample_process_tree
 from ..errors import (
     ConfigError,
     DataIntegrityError,
@@ -224,6 +225,27 @@ def _make_plan(args: argparse.Namespace, root: Path) -> dict[str, Any]:
         deadline_dt = datetime.now(timezone.utc) + timedelta(hours=duration_hours)
         deadline_utc = deadline_dt.isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
+    qprofile = getattr(args, "quantum_profile", None)
+    q_epochs = int(args.quantum_epochs)
+    q_batch_size = int(args.quantum_batch_size)
+    q_train_size = int(args.quantum_train_size)
+    q_val_size = int(args.quantum_val_size)
+    q_test_size = int(args.quantum_test_size)
+    q_max_configs = int(args.quantum_max_configs)
+    q_max_qubits = int(args.quantum_max_qubits)
+    if qprofile:
+        from ..quantum.profiles import PROFILE_CATALOG
+        prof_key = str(qprofile).upper()
+        if prof_key in PROFILE_CATALOG and prof_key != "BASELINE":
+            prof = PROFILE_CATALOG[prof_key]
+            q_epochs = prof.epochs
+            q_batch_size = prof.batch_size
+            q_train_size = prof.train_size
+            q_val_size = prof.val_size
+            q_test_size = prof.test_size
+            q_max_configs = prof.max_configs
+            q_max_qubits = prof.n_qubits
+
     values = {
         "schema": PLAN_SCHEMA,
         "campaign_id": _validate_id(args.campaign_id),
@@ -239,15 +261,16 @@ def _make_plan(args: argparse.Namespace, root: Path) -> dict[str, Any]:
         "quantum_max_gb": float(args.quantum_max_gb),
         "min_free_gb": float(args.min_free_gb),
         "quantum_device": str(args.quantum_device),
+        "quantum_profile": str(qprofile).lower() if qprofile else "baseline",
         "classical_threads": int(args.classical_threads),
         "quantum_cpu_threads": int(args.quantum_cpu_threads),
-        "quantum_epochs": int(args.quantum_epochs),
-        "quantum_batch_size": int(args.quantum_batch_size),
-        "quantum_train_size": int(args.quantum_train_size),
-        "quantum_val_size": int(args.quantum_val_size),
-        "quantum_test_size": int(args.quantum_test_size),
-        "quantum_max_configs": int(args.quantum_max_configs),
-        "quantum_max_qubits": int(args.quantum_max_qubits),
+        "quantum_epochs": q_epochs,
+        "quantum_batch_size": q_batch_size,
+        "quantum_train_size": q_train_size,
+        "quantum_val_size": q_val_size,
+        "quantum_test_size": q_test_size,
+        "quantum_max_configs": q_max_configs,
+        "quantum_max_qubits": q_max_qubits,
         "quantum_statevector_mb": int(args.quantum_statevector_mb),
         "memory_reserve_gb": float(args.memory_reserve_gb),
         "stale_heartbeat_seconds": int(args.stale_heartbeat_seconds),
@@ -389,6 +412,8 @@ class AMDE2Manager:
             "--max-campaign-gb", str(self.plan["quantum_max_gb"]), "--min-free-gb", str(self.plan["min_free_gb"]),
             "--campaign-stop-file", str(self.paths["quantum_stop"]), "--isolated-stop",
         ]
+        if self.plan.get("quantum_profile"):
+            quantum_command.extend(["--profile", str(self.plan["quantum_profile"])])
         cp = _worker_paths(self.root, self.campaign_id, "classical")
         qp = _worker_paths(self.root, self.campaign_id, "quantum")
         log_dir = self.paths["base"] / "logs"
@@ -482,9 +507,11 @@ class AMDE2Manager:
         alive = worker.process is not None and worker.process.poll() is None
         lock_data = _read_json(worker.lock_path, {})
         actual_worker_pid = lock_data.get("pid") if _pid_alive(lock_data.get("pid")) else None
+        target_pid = actual_worker_pid if actual_worker_pid is not None else (worker.process.pid if alive and worker.process else None)
+        telemetry = sample_process_tree(target_pid) if target_pid else None
         return {
             "campaign_id": worker.campaign_id,
-            "pid": actual_worker_pid if actual_worker_pid is not None else (worker.process.pid if alive and worker.process else None),
+            "pid": target_pid,
             "relay_pid": worker.process.pid if alive and worker.process else None,
             "alive": bool(alive),
             "status": worker.status,
@@ -498,6 +525,7 @@ class AMDE2Manager:
             "last_exit_code": worker.last_exit_code,
             "last_error": worker.last_error,
             "failure_times_epoch": list(worker.failure_times or []),
+            "telemetry": telemetry,
             "state_path": str(worker.state_path),
             "log_path": str(worker.log_path),
         }
@@ -1973,6 +2001,7 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("--quantum-device", choices=("cuda", "cpu", "auto"), default="cuda")
     start.add_argument("--classical-threads", type=int, default=4)
     start.add_argument("--quantum-cpu-threads", type=int, default=2)
+    start.add_argument("--quantum-profile", choices=("baseline", "medium", "high", "adaptive"), default=None, help="Hardware compute profile for quantum simulation (default: baseline)")
     start.add_argument("--quantum-epochs", type=int, default=6)
     start.add_argument("--quantum-batch-size", type=int, default=16)
     start.add_argument("--quantum-train-size", type=int, default=64)
