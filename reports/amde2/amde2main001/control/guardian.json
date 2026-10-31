@@ -1,0 +1,13 @@
+{
+  "campaign_id": "amde2main001",
+  "heartbeat_at": "2026-10-31T00:51:35.453Z",
+  "manager_exit_code": 2,
+  "manager_pid": null,
+  "manager_restart_count": 0,
+  "manager_restart_times_epoch": [],
+  "manager_started_at": "2026-10-31T00:50:13.935Z",
+  "pid": 2760,
+  "schema_version": "amde2-guardian-v1",
+  "status": "needs_attention",
+  "updated_at": "2026-10-31T00:51:35.453Z"
+}

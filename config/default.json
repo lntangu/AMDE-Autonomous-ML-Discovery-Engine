@@ -1,0 +1,317 @@
+{
+  "schema_version": "1.0.0",
+  "engine_version": "1.3.0",
+  "seed": 42,
+  "run_id": "default",
+  "paths": {
+    "runs_dir": "runs",
+    "artifacts_dir": "artifacts",
+    "reports_dir": "reports",
+    "data_dir": "data",
+    "storage_dir": "storage",
+    "stop_file_name": "STOP"
+  },
+  "benchmarks": {
+    "dataset_version": "generated-v3-research-task-zoo",
+    "split": {
+      "train": 64,
+      "val": 32,
+      "dev": 64,
+      "challenge": 96,
+      "duplicate_rounding": 8
+    },
+    "task_specs": [
+      {
+        "task_id": "tab_linear",
+        "suite": "classical",
+        "family": "linear",
+        "kind": "regression",
+        "generator": "linear_regression",
+        "n_features": 3,
+        "seed": 101
+      },
+      {
+        "task_id": "tab_quadratic",
+        "suite": "classical",
+        "family": "quadratic",
+        "kind": "regression",
+        "generator": "quadratic_regression",
+        "n_features": 3,
+        "seed": 102
+      },
+      {
+        "task_id": "tab_xor",
+        "suite": "classical",
+        "family": "xor",
+        "kind": "classification",
+        "generator": "xor_classification",
+        "n_features": 2,
+        "seed": 103
+      },
+      {
+        "task_id": "tab_blobs",
+        "suite": "classical",
+        "family": "blobs",
+        "kind": "classification",
+        "generator": "blobs_classification",
+        "n_features": 3,
+        "seed": 104
+      },
+      {
+        "task_id": "tab_noisy_linear",
+        "suite": "classical",
+        "family": "noisy_linear",
+        "kind": "classification",
+        "generator": "noisy_linear_classification",
+        "n_features": 3,
+        "seed": 105
+      },
+      {
+        "task_id": "tab_circles",
+        "suite": "ood_holdout",
+        "family": "circles",
+        "kind": "classification",
+        "generator": "circles_classification",
+        "n_features": 2,
+        "seed": 106,
+        "holdout_only": true
+      },
+      {
+        "task_id": "tab_imbalanced",
+        "suite": "robustness_holdout",
+        "family": "imbalanced",
+        "kind": "classification",
+        "generator": "imbalanced_classification",
+        "n_features": 8,
+        "seed": 107,
+        "holdout_only": true
+      },
+      {
+        "task_id": "comp_regime",
+        "suite": "compositional",
+        "family": "regime_switch",
+        "kind": "regression",
+        "generator": "regime_switch_regression",
+        "n_features": 3,
+        "seed": 108
+      },
+      {
+        "task_id": "comp_shifted_xor",
+        "suite": "compositional",
+        "family": "shifted_xor",
+        "kind": "classification",
+        "generator": "shifted_xor_classification",
+        "n_features": 3,
+        "seed": 109
+      },
+      {
+        "task_id": "tab_sine",
+        "suite": "nonlinear",
+        "family": "sine",
+        "kind": "regression",
+        "generator": "sine_regression",
+        "n_features": 4,
+        "seed": 110
+      },
+      {
+        "task_id": "tab_friedman",
+        "suite": "nonlinear",
+        "family": "friedman",
+        "kind": "regression",
+        "generator": "friedman_regression",
+        "n_features": 8,
+        "seed": 111
+      },
+      {
+        "task_id": "tab_sparse_linear",
+        "suite": "high_dimensional",
+        "family": "sparse_linear",
+        "kind": "regression",
+        "generator": "sparse_linear_regression",
+        "n_features": 16,
+        "seed": 112
+      },
+      {
+        "task_id": "tab_heteroscedastic",
+        "suite": "robustness",
+        "family": "heteroscedastic",
+        "kind": "regression",
+        "generator": "heteroscedastic_regression",
+        "n_features": 5,
+        "seed": 113
+      },
+      {
+        "task_id": "tab_moons",
+        "suite": "nonlinear",
+        "family": "moons",
+        "kind": "classification",
+        "generator": "moons_classification",
+        "n_features": 4,
+        "seed": 114
+      },
+      {
+        "task_id": "tab_parity",
+        "suite": "compositional",
+        "family": "parity",
+        "kind": "classification",
+        "generator": "parity_classification",
+        "n_features": 8,
+        "seed": 115
+      },
+      {
+        "task_id": "ood_spiral",
+        "suite": "ood_holdout",
+        "family": "spiral",
+        "kind": "classification",
+        "generator": "spiral_classification",
+        "n_features": 4,
+        "seed": 116,
+        "holdout_only": true
+      },
+      {
+        "task_id": "ood_checkerboard",
+        "suite": "ood_holdout",
+        "family": "checkerboard",
+        "kind": "classification",
+        "generator": "checkerboard_classification",
+        "n_features": 3,
+        "seed": 117,
+        "holdout_only": true
+      },
+      {
+        "task_id": "ood_sparse_parity",
+        "suite": "high_dimensional_holdout",
+        "family": "sparse_parity",
+        "kind": "classification",
+        "generator": "sparse_parity_classification",
+        "n_features": 16,
+        "seed": 118,
+        "holdout_only": true
+      }
+    ],
+    "quick_task_ids": [
+      "tab_linear",
+      "tab_xor",
+      "tab_sine",
+      "tab_moons"
+    ],
+    "arc": {
+      "enabled": false,
+      "mode": "baseline_only",
+      "path": "data/arc"
+    }
+  },
+  "evaluation": {
+    "metric_version": "metric-v2-family-balanced",
+    "seeds": [
+      1,
+      2,
+      3,
+      5,
+      8,
+      13,
+      21
+    ],
+    "max_steps": 2500,
+    "parameter_limit": 60000,
+    "quick": {
+      "seed_count": 1,
+      "epochs_scale": 0.3,
+      "timeout_seconds": 30,
+      "max_workers": 4
+    },
+    "confirm": {
+      "seed_count": 5,
+      "timeout_seconds": 120,
+      "max_workers": 4
+    },
+    "promotion": {
+      "min_effect": 0.01,
+      "min_seeds": 5,
+      "min_families_won": 4,
+      "max_worst_family_drop": 0.02,
+      "require_non_regression": true,
+      "ci_level": 0.9
+    }
+  },
+  "search": {
+    "levels": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "open_level_after_generation": {
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 2
+    },
+    "strategies": [
+      "random",
+      "evolutionary",
+      "crossover",
+      "novelty",
+      "local",
+      "open_ended"
+    ],
+    "proposals_per_generation": 8,
+    "confirm_per_generation": 2,
+    "islands": 3,
+    "population_size": 24,
+    "elite_size": 3,
+    "exploration_floor": 0.25,
+    "meta_policy_enabled": false,
+    "stagnation_patience_generations": 12,
+    "global_archive_seed_count": 4,
+    "global_archive_max_candidates": 100000,
+    "global_archive_max_sightings": 1000000
+  },
+  "challenge": {
+    "enabled": true,
+    "max_openings_per_run": 1,
+    "min_generations_between_openings": 5,
+    "seeds": [
+      101,
+      103,
+      107,
+      109,
+      113,
+      127,
+      131
+    ],
+    "auto_open_during_search": false
+  },
+  "budgets": {
+    "default_generations": 20,
+    "smoke_max_generations": 1,
+    "smoke_max_seconds": 120,
+    "max_trials": 0,
+    "max_disk_gb": 12.0,
+    "max_artifact_bytes": 4194304
+  },
+  "runtime": {
+    "device": "auto",
+    "heartbeat_seconds": 5,
+    "lock_stale_seconds": 300,
+    "max_transient_retries": 2,
+    "retry_backoff_seconds": 1.0
+  },
+  "logging": {
+    "level": "INFO",
+    "max_bytes": 5242880,
+    "backup_count": 5
+  },
+  "safety": {
+    "max_dsl_nodes": 256,
+    "max_dsl_depth": 24,
+    "max_genome_bytes": 131072,
+    "max_hidden_layers": 4,
+    "max_hidden_width": 64
+  },
+  "storage": {
+    "max_checkpoint_backups": 8,
+    "pause_at_fraction": 0.8,
+    "size_check_interval_seconds": 15.0
+  }
+}

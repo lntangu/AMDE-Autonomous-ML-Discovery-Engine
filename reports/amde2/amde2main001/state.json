@@ -1,0 +1,70 @@
+{
+  "campaign_id": "amde2main001",
+  "created_at": "2026-10-31T00:50:13.278Z",
+  "ended_at": "2026-10-31T00:51:34.910Z",
+  "guardian_pid": 2760,
+  "health": {
+    "at": "2026-10-31T00:51:16.209Z",
+    "cpu_percent": 55.1,
+    "disk_free_gb": 41.036,
+    "disk_total_gb": 475.724,
+    "gpu": {
+      "memory_free_mb": 3741.0,
+      "memory_total_mb": 4096.0,
+      "name": "Quadro P2000",
+      "temperature_c": 60.0,
+      "utilization_percent": 8.0
+    },
+    "memory_available_gb": 14.428,
+    "memory_total_gb": 31.782
+  },
+  "heartbeat_at": "2026-10-31T00:51:34.919Z",
+  "manager_pid": 27076,
+  "manager_recoveries": 0,
+  "note": "worker returned configuration/backend error (exit code 2; state=running)",
+  "plan_hash": "daf8391af399d7406dfd641394773e5c7449ad72baa8f8dded8b526bbb3cc2d0",
+  "schema_version": "amde-2-runtime-v1",
+  "started_at": "2026-10-31T00:50:14.204Z",
+  "status": "needs_attention",
+  "updated_at": "2026-10-31T00:51:34.919Z",
+  "workers": {
+    "classical": {
+      "alive": false,
+      "campaign_id": "amde2main001_classical",
+      "campaign_status": "stopped",
+      "consecutive_failures": 0,
+      "current_round": 0,
+      "failure_times_epoch": [],
+      "heartbeat_at": "2026-10-31T00:51:33.220Z",
+      "last_error": null,
+      "last_exit_code": 0,
+      "last_round_status": null,
+      "log_path": "C:\\Users\\Admin\\Downloads\\AMDE_Autonomous_ML_Discovery_Engine\\reports\\amde2\\amde2main001\\logs\\classical.log",
+      "next_round": 0,
+      "pid": null,
+      "relay_pid": null,
+      "restarts": 0,
+      "state_path": "C:\\Users\\Admin\\Downloads\\AMDE_Autonomous_ML_Discovery_Engine\\reports\\campaigns\\amde2main001_classical\\state.json",
+      "status": "stopped"
+    },
+    "quantum": {
+      "alive": false,
+      "campaign_id": "amde2main001_quantum",
+      "campaign_status": "running",
+      "consecutive_failures": 0,
+      "current_round": 2,
+      "failure_times_epoch": [],
+      "heartbeat_at": "2026-10-31T00:51:30.648Z",
+      "last_error": "worker returned configuration/backend error (exit code 2; state=running)",
+      "last_exit_code": 2,
+      "last_round_status": "completed",
+      "log_path": "C:\\Users\\Admin\\Downloads\\AMDE_Autonomous_ML_Discovery_Engine\\reports\\amde2\\amde2main001\\logs\\quantum.log",
+      "next_round": 2,
+      "pid": null,
+      "relay_pid": null,
+      "restarts": 0,
+      "state_path": "C:\\Users\\Admin\\Downloads\\AMDE_Autonomous_ML_Discovery_Engine\\reports\\quantum_campaigns\\amde2main001_quantum\\state.json",
+      "status": "needs_attention"
+    }
+  }
+}
