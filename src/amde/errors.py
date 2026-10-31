@@ -56,7 +56,11 @@ class LockError(AMDEBaseError):
     """Single-instance lock could not be acquired or verified."""
 
 
-class CheckpointError(AMDEBaseError):
+class DataIntegrityError(AMDEBaseError, ValueError):
+    """Critical data, ledger, checkpoint or manifest corruption detected."""
+
+
+class CheckpointError(DataIntegrityError):
     """Checkpoint is corrupt, incompatible, or cannot be loaded."""
 
 
@@ -66,3 +70,18 @@ class ResourcePressure(AMDEBaseError):
 
 class StopRequested(AMDEBaseError):
     """A graceful stop was requested."""
+
+
+# Standardized process exit codes:
+EXIT_SUCCESS = 0
+EXIT_RUNTIME_ERROR = 1          # Transient runtime error (restartable)
+EXIT_CONFIG_ERROR = 2           # Fatal configuration error (needs_attention, no restart)
+EXIT_RESOURCE_EXHAUSTION = 3    # Resource reserve violated / OOM (paused)
+EXIT_DATA_INTEGRITY = 4         # Critical data/ledger/checkpoint corruption (needs_attention, NEVER restart)
+
+# Structured failure categories for worker state:
+FAILURE_CATEGORY_CONFIG = "configuration_error"
+FAILURE_CATEGORY_DATA_INTEGRITY = "data_integrity"
+FAILURE_CATEGORY_RESOURCE = "resource_exhaustion"
+FAILURE_CATEGORY_RUNTIME = "runtime_error"
+FAILURE_CATEGORY_UNKNOWN = "unknown"

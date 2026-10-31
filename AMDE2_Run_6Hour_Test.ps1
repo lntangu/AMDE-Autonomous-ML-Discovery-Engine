@@ -6,7 +6,7 @@ param(
     [string]$ProjectRoot = (Get-Location).Path,
 
     [ValidatePattern('^[A-Za-z0-9][A-Za-z0-9_-]{0,31}$')]
-    [string]$CampaignId = 'amde2six001',
+    [string]$CampaignId = 'amde2six002',
 
     [ValidateRange(1, 168)]
     [int]$DurationHours = 6

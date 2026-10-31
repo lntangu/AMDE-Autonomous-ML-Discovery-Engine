@@ -27,7 +27,22 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from amde.benchmarks.generators import CHALLENGE_GENERATORS, GENERATORS  # noqa: E402
-from amde.errors import AMDEBaseError, ConfigError, LockError  # noqa: E402
+from amde.errors import (  # noqa: E402
+    AMDEBaseError,
+    CheckpointError,
+    ConfigError,
+    DataIntegrityError,
+    FAILURE_CATEGORY_CONFIG,
+    FAILURE_CATEGORY_DATA_INTEGRITY,
+    FAILURE_CATEGORY_RESOURCE,
+    FAILURE_CATEGORY_RUNTIME,
+    LockError,
+    ResourcePressure,
+    EXIT_CONFIG_ERROR,
+    EXIT_DATA_INTEGRITY,
+    EXIT_RESOURCE_EXHAUSTION,
+    EXIT_RUNTIME_ERROR,
+)
 from amde.quantum.maze import run_maze_grover_demo  # noqa: E402
 from amde.quantum.kernel import train_quantum_kernel, train_rbf_kernel_baseline  # noqa: E402
 from amde.quantum.statevector import QuantumBackendError, load_torch, resolve_device  # noqa: E402
@@ -773,10 +788,16 @@ def main(argv: list[str] | None = None) -> int:
         return 130
     except ConfigError as exc:
         print(f"quantum campaign configuration error: {exc}", file=sys.stderr)
-        return 2
+        return EXIT_CONFIG_ERROR
+    except (DataIntegrityError, CheckpointError) as exc:
+        print(f"quantum campaign data integrity failure: {exc}", file=sys.stderr)
+        return EXIT_DATA_INTEGRITY
+    except ResourcePressure as exc:
+        print(f"quantum campaign resource exhaustion: {exc}", file=sys.stderr)
+        return EXIT_RESOURCE_EXHAUSTION
     except (AMDEBaseError, OSError, ValueError, QuantumBackendError) as exc:
         print(f"quantum campaign runtime error: {type(exc).__name__}: {exc}", file=sys.stderr)
-        return 1
+        return EXIT_RUNTIME_ERROR
 
 
 if __name__ == "__main__":

@@ -188,34 +188,59 @@ def atomic_write_json(path: Path, value: Any) -> None:
     atomic_write_text(path, canonical_json(value) + "\n")
 
 
-def read_json_safe(path: Path, default: Any = None, *, max_attempts: int = 5) -> Any:
-    """Read a JSON file, retrying transient sharing violations on Windows before falling back to default."""
+from .errors import DataIntegrityError
+
+
+class CorruptJSONError(DataIntegrityError, ValueError):
+    """Raised when critical JSON content is invalid, malformed, or corrupted on disk."""
+
+
+def read_json_safe(path: Path, default: Any = None, *, max_attempts: int = 5, optional: bool = True) -> Any:
+    """Read a JSON file, retrying transient sharing violations on Windows.
+
+    If optional=True (default for telemetry/status queries): returns default if file is missing,
+    or if sharing violations persist.
+    If the file exists but contains invalid/corrupt JSON: raises CorruptJSONError.
+    If optional=False: raises FileNotFoundError if missing, OSError on persistent lock,
+    or CorruptJSONError on invalid JSON syntax.
+    """
     path = Path(path)
+    if not path.exists():
+        if optional or default is not None:
+            return default
+        raise FileNotFoundError(f"Required JSON file not found: {path}")
+
+    last_error: Exception | None = None
     for attempt in range(max_attempts):
         try:
             with path.open("r", encoding="utf-8") as handle:
                 return json.load(handle)
-        except (PermissionError, OSError):
-            if attempt == max_attempts - 1 or not path.exists():
-                return default
-            time.sleep(0.01 * (attempt + 1))
-        except (ValueError, json.JSONDecodeError):
-            return default
-    return default
+        except (PermissionError, OSError) as exc:
+            last_error = exc
+            if attempt < max_attempts - 1 and path.exists():
+                time.sleep(0.02 * (attempt + 1))
+        except (ValueError, json.JSONDecodeError) as exc:
+            raise CorruptJSONError(f"Corrupt or invalid JSON in {path}: {exc}") from exc
+
+    if optional:
+        return default
+    raise OSError(f"Could not read JSON from {path} after {max_attempts} attempts: {last_error}")
+
+
+def read_json_critical(path: Path, expected_type: type = dict) -> Any:
+    """Strictly read a required critical JSON file; fails closed on missing, lock or corrupt data."""
+    path = Path(path)
+    if not path.is_file():
+        raise FileNotFoundError(f"Critical required file missing: {path}")
+    data = read_json_safe(path, optional=False)
+    if not isinstance(data, expected_type):
+        raise CorruptJSONError(f"Critical file {path} contained unexpected type {type(data).__name__}, expected {expected_type.__name__}")
+    return data
 
 
 def read_json(path: Path) -> Any:
-    """Read a JSON file with retry on transient Windows file sharing locks."""
-    path = Path(path)
-    for attempt in range(5):
-        try:
-            with path.open("r", encoding="utf-8") as handle:
-                return json.load(handle)
-        except (PermissionError, OSError) as exc:
-            if attempt == 4 or not path.exists():
-                raise
-            time.sleep(0.01 * (attempt + 1))
-    return None
+    """Read a JSON file with retry on transient Windows file sharing locks; fails closed on corrupt JSON."""
+    return read_json_safe(path, default=None, optional=False)
 
 
 def append_jsonl(path: Path, value: Any) -> None:

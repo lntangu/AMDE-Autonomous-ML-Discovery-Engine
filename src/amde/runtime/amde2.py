@@ -26,7 +26,27 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .lock import SingleInstanceLock, default_pid_alive
-from ..util import hash_json, read_json_safe, robust_replace
+from ..errors import (
+    ConfigError,
+    DataIntegrityError,
+    EXIT_CONFIG_ERROR,
+    EXIT_DATA_INTEGRITY,
+    EXIT_RESOURCE_EXHAUSTION,
+    EXIT_RUNTIME_ERROR,
+    EXIT_SUCCESS,
+    FAILURE_CATEGORY_CONFIG,
+    FAILURE_CATEGORY_DATA_INTEGRITY,
+    FAILURE_CATEGORY_RESOURCE,
+    FAILURE_CATEGORY_RUNTIME,
+    FAILURE_CATEGORY_UNKNOWN,
+)
+from ..util import (
+    CorruptJSONError,
+    hash_json,
+    read_json_critical,
+    read_json_safe,
+    robust_replace,
+)
 
 SCHEMA = "amde-2-runtime-v1"
 PLAN_SCHEMA = "amde-2-plan-v1"
@@ -264,13 +284,16 @@ def _make_plan(args: argparse.Namespace, root: Path) -> dict[str, Any]:
 
 
 def _read_plan(paths: dict[str, Path]) -> dict[str, Any]:
-    plan = _read_json(paths["plan"])
-    if not isinstance(plan, dict) or plan.get("schema") != PLAN_SCHEMA:
-        raise ValueError(f"campaign plan is missing or invalid: {paths['plan']}")
+    try:
+        plan = read_json_critical(paths["plan"], expected_type=dict)
+    except Exception as exc:
+        raise ConfigError(f"campaign plan is missing or invalid: {paths['plan']} ({exc})") from exc
+    if plan.get("schema") != PLAN_SCHEMA:
+        raise ConfigError(f"campaign plan has invalid schema: {paths['plan']}")
     expected = plan.get("plan_hash")
     payload = {k: v for k, v in plan.items() if k != "plan_hash"}
     if expected != _json_hash(payload):
-        raise ValueError("campaign plan checksum mismatch; preserve files and inspect before resuming")
+        raise DataIntegrityError(f"campaign plan checksum mismatch in {paths['plan']}; preserve files and inspect before resuming")
     return plan
 
 
@@ -726,29 +749,43 @@ class AMDE2Manager:
         if stale_recovery:
             self._schedule_restart(worker, int(code), f"stale_heartbeat_recovery:{campaign_status}")
             return
-        if campaign_status in RESOURCE_STATES:
+
+        failure_category = str(state.get("failure_category", "")).lower()
+
+        # 1. Critical Data Integrity Failure: Fatal. NEVER restart silently.
+        if failure_category == FAILURE_CATEGORY_DATA_INTEGRITY or code == EXIT_DATA_INTEGRITY:
+            detail = state.get("error") or "corrupted ledger, checkpoint, or schema violation"
+            worker.last_error = f"FATAL data integrity failure in {worker.name} worker (exit code {code}): {detail}"
+            self._log(worker.last_error, level="ERROR", worker=worker.name)
+            self._begin_shutdown("needs_attention", worker.last_error)
+            worker.status = "needs_attention"
+            return
+
+        # 2. Configuration Error: Fatal. Do NOT retry bad configuration.
+        if failure_category == FAILURE_CATEGORY_CONFIG or code == EXIT_CONFIG_ERROR:
+            worker.last_error = f"{worker.name} worker reported configuration error (exit code {code}; state={campaign_status})"
+            self._log(worker.last_error, level="ERROR", worker=worker.name)
+            self._begin_shutdown("needs_attention", worker.last_error)
+            worker.status = "needs_attention"
+            return
+
+        # 3. Resource Exhaustion / Resource Pause:
+        if (
+            failure_category == FAILURE_CATEGORY_RESOURCE
+            or code == EXIT_RESOURCE_EXHAUSTION
+            or campaign_status in RESOURCE_STATES
+        ):
             target = "paused_storage" if campaign_status in {"storage_cap_reached", "low_disk_space"} else "paused_resource"
-            self._begin_shutdown(target, f"{worker.name} worker reported {campaign_status}")
+            self._begin_shutdown(target, f"{worker.name} worker reported {campaign_status or 'resource_exhaustion'}")
             worker.status = "resource_paused"
             return
-        if code == 2:
-            # Fatal only if worker died immediately on startup (<10s) with 0 restarts and 0 completed rounds.
-            # In-flight failures must follow the restart budget and backoff policy.
-            next_round_val = int(state.get("next_round", 0) or 0)
-            if duration < 10.0 and worker.restarts == 0 and next_round_val == 0:
-                worker.last_error = f"worker returned configuration error on startup (exit code 2; state={campaign_status})"
-                self._begin_shutdown("needs_attention", worker.last_error)
-                worker.status = "needs_attention"
-                return
-            else:
-                self._log("worker exited with code 2 in-flight; scheduling restart under budget", level="WARNING", worker=worker.name)
-                self._schedule_restart(worker, int(code), campaign_status)
-                return
-        if code == 0 and campaign_status in WORKER_STOP_STATES:
-            # A worker stopped without a manager stop marker. Treat as an unexpected clean exit
-            # in an infinite campaign and restart from its own checkpoint/ledger.
+
+        # 4. Clean exit without a stop marker in an infinite campaign:
+        if code == EXIT_SUCCESS and campaign_status in WORKER_STOP_STATES:
             self._schedule_restart(worker, code, campaign_status)
             return
+
+        # 5. Standard transient runtime error or unexpected signal (exit code 1 or other):
         self._schedule_restart(worker, int(code), campaign_status)
 
     def run(self) -> int:
@@ -757,7 +794,17 @@ class AMDE2Manager:
         self.paths["manager_log"].parent.mkdir(parents=True, exist_ok=True)
         _archive_reused_pid_lock(self.paths["manager_lock"], self.root, self.campaign_id, "amde2.py")
         self.lock.acquire()
-        old_state = _read_json(self.paths["state"], {})
+
+        # Fail closed if state.json is physically present on disk but corrupted
+        if self.paths["state"].is_file():
+            try:
+                old_state = read_json_critical(self.paths["state"])
+            except Exception as exc:
+                self.lock.release()
+                raise DataIntegrityError(f"CRITICAL: state.json is corrupted on disk for campaign {self.campaign_id}: {exc}") from exc
+        else:
+            old_state = {}
+
         if isinstance(old_state, dict) and old_state.get("plan_hash") not in (None, self.plan["plan_hash"]):
             self.lock.release()
             raise ValueError("existing AMDE 2.0 state has a different immutable plan")
@@ -771,15 +818,32 @@ class AMDE2Manager:
             self.state["manager_recoveries"] += 1
         self.workers = self._build_workers()
         saved_workers = old_state.get("workers", {}) if isinstance(old_state, dict) else {}
+        now_epoch = time.time()
         for worker in self.workers:
             saved = saved_workers.get(worker.name, {}) if isinstance(saved_workers, dict) else {}
             if isinstance(saved, dict):
                 worker.restarts = int(saved.get("restarts", 0) or 0)
                 worker.consecutive_failures = int(saved.get("consecutive_failures", 0) or 0)
-                now_epoch = time.time()
                 persisted = saved.get("failure_times_epoch", [])
                 worker.failure_times = [float(value) for value in persisted
                                          if isinstance(value, (int, float)) and 0 <= now_epoch - float(value) <= 3600.0]
+                # Check if worker was in backoff cooldown or exceeded hourly restart budget across restart/reboot
+                if worker.consecutive_failures > 0 and worker.failure_times:
+                    last_failure = worker.failure_times[-1]
+                    failures_last_hour = len(worker.failure_times)
+                    if failures_last_hour >= int(self.plan["max_worker_restarts_per_hour"]):
+                        delay = int(self.plan["degraded_retry_seconds"])
+                    else:
+                        delay = min(900, 10 * (2 ** min(worker.consecutive_failures - 1, 6)))
+                    elapsed_since_failure = max(0.0, now_epoch - last_failure)
+                    remaining_delay = max(0.0, delay - elapsed_since_failure)
+                    if remaining_delay > 0:
+                        worker.next_start_at = time.monotonic() + remaining_delay
+                        worker.status = (
+                            f"degraded_retry_{int(remaining_delay)}s"
+                            if failures_last_hour >= int(self.plan["max_worker_restarts_per_hour"])
+                            else f"backoff_{int(remaining_delay)}s"
+                        )
         self._log("AMDE 2.0 manager starting", campaign_id=self.campaign_id, plan_hash=self.plan["plan_hash"])
         try:
             if self.paths["stop"].exists():
@@ -793,7 +857,15 @@ class AMDE2Manager:
             self.state["started_at"] = utc_now()
             self._write_state("starting", "workers are being launched")
             for worker in self.workers:
-                self._start_worker(worker)
+                if worker.next_start_at > time.monotonic():
+                    self._log(
+                        "worker starting in backoff cooldown",
+                        worker=worker.name,
+                        status=worker.status,
+                        remaining_seconds=round(worker.next_start_at - time.monotonic(), 1),
+                    )
+                else:
+                    self._start_worker(worker)
             self._write_state("running", f"workers launched ({len(self.workers)})")
             while True:
                 self.lock.heartbeat()

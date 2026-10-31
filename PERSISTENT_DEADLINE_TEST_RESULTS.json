@@ -1,0 +1,40 @@
+{
+  "campaign_id": "deadline_int_01",
+  "steps": [
+    {
+      "step": "start_campaign",
+      "exit_code": 0
+    },
+    {
+      "step": "workers_online",
+      "manager_pid": 4978,
+      "deadline_utc": "2026-10-31T02:42:47.317Z"
+    },
+    {
+      "step": "kill_manager",
+      "killed_pid": 4978
+    },
+    {
+      "step": "manager_recovered",
+      "new_manager_pid": 4986,
+      "deadline_utc_preserved": true
+    },
+    {
+      "step": "kill_guardian",
+      "killed_pid": 4977
+    },
+    {
+      "step": "restart_guardian",
+      "new_guardian_pid": 4989
+    },
+    {
+      "step": "verify_campaign",
+      "exit_code": 0
+    }
+  ],
+  "verified_deadline_persistence": true,
+  "manager_recovered": true,
+  "guardian_restarted": true,
+  "cooperative_shutdown_confirmed": true,
+  "all_workers_cleanly_exited": true
+}

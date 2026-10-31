@@ -253,6 +253,16 @@ class AMDE2RuntimeTests(unittest.TestCase):
 
     def test_worker_exit_failure_classification(self) -> None:
         from unittest.mock import MagicMock
+        from amde.errors import (
+            EXIT_CONFIG_ERROR,
+            EXIT_DATA_INTEGRITY,
+            EXIT_RESOURCE_EXHAUSTION,
+            EXIT_RUNTIME_ERROR,
+            FAILURE_CATEGORY_CONFIG,
+            FAILURE_CATEGORY_DATA_INTEGRITY,
+            FAILURE_CATEGORY_RESOURCE,
+            FAILURE_CATEGORY_RUNTIME,
+        )
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             args = self._plan_args(root)
@@ -261,32 +271,77 @@ class AMDE2RuntimeTests(unittest.TestCase):
             worker = amde2.Worker("quantum", "test_quantum", root / "state.json",
                                   root / "lock.json", root / "STOP", root / "worker.log", [])
 
-            # Immediate startup exit with code 2 -> fatal needs_attention
+            # 1. Configuration error during startup -> fatal needs_attention, NO restart
             worker.started_at_monotonic = time.monotonic()
             worker.restarts = 0
-            amde2._atomic_json(worker.state_path, {"next_round": 0, "status": "running"})
+            amde2._atomic_json(worker.state_path, {"next_round": 0, "status": "running", "failure_category": FAILURE_CATEGORY_CONFIG})
             mock_proc = MagicMock()
-            mock_proc.poll.return_value = 2
+            mock_proc.poll.return_value = EXIT_CONFIG_ERROR
             worker.process = mock_proc
-            manager._schedule_restart = lambda w, c, s: self.fail("should not restart on startup config error")
+            manager._schedule_restart = lambda w, c, s: self.fail("should not restart on configuration error")
             manager._handle_worker_exit(worker)
             self.assertEqual(worker.status, "needs_attention")
             self.assertEqual(manager.target_status, "needs_attention")
 
-            # In-flight exit code 2 (e.g. next_round == 2):
-            worker.started_at_monotonic = time.monotonic() - 60.0
-            worker.restarts = 1
-            amde2._atomic_json(worker.state_path, {"next_round": 2, "status": "running"})
+            # 2. Runtime error immediately after startup (duration < 5s) -> RESTARTS under budget
+            worker.started_at_monotonic = time.monotonic() - 2.0
+            worker.restarts = 0
+            amde2._atomic_json(worker.state_path, {"next_round": 0, "status": "running", "failure_category": FAILURE_CATEGORY_RUNTIME})
             restarted = []
             manager._schedule_restart = lambda w, c, s: restarted.append((w.name, c, s))
             manager.target_status = None
-            mock_proc2 = MagicMock()
-            mock_proc2.poll.return_value = 2
-            worker.process = mock_proc2
+            mock_proc.poll.return_value = EXIT_RUNTIME_ERROR
+            worker.process = mock_proc
             manager._handle_worker_exit(worker)
             self.assertEqual(len(restarted), 1)
-            self.assertEqual(restarted[0][0], "quantum")
-            self.assertEqual(restarted[0][1], 2)
+            self.assertEqual(restarted[0][1], EXIT_RUNTIME_ERROR)
+
+            # 3. Runtime error during a later round (round 3) -> RESTARTS under budget
+            worker.started_at_monotonic = time.monotonic() - 300.0
+            worker.restarts = 1
+            amde2._atomic_json(worker.state_path, {"next_round": 3, "status": "running", "failure_category": FAILURE_CATEGORY_RUNTIME})
+            restarted.clear()
+            manager.target_status = None
+            mock_proc.poll.return_value = EXIT_RUNTIME_ERROR
+            worker.process = mock_proc
+            manager._handle_worker_exit(worker)
+            self.assertEqual(len(restarted), 1)
+            self.assertEqual(restarted[0][1], EXIT_RUNTIME_ERROR)
+
+            # 4. Resource exhaustion (code 3 or category resource_exhaustion) -> PAUSES campaign
+            worker.started_at_monotonic = time.monotonic() - 60.0
+            amde2._atomic_json(worker.state_path, {"next_round": 1, "status": "running", "failure_category": FAILURE_CATEGORY_RESOURCE})
+            manager._schedule_restart = lambda w, c, s: self.fail("should not restart on resource exhaustion")
+            manager.target_status = None
+            mock_proc.poll.return_value = EXIT_RESOURCE_EXHAUSTION
+            worker.process = mock_proc
+            manager._handle_worker_exit(worker)
+            self.assertEqual(worker.status, "resource_paused")
+            self.assertEqual(manager.target_status, "paused_resource")
+
+            # 5. Data integrity failure -> fatal needs_attention, NEVER silently restart
+            worker.started_at_monotonic = time.monotonic() - 60.0
+            amde2._atomic_json(worker.state_path, {"next_round": 2, "status": "running", "failure_category": FAILURE_CATEGORY_DATA_INTEGRITY, "error": "corrupt sqlite ledger"})
+            manager._schedule_restart = lambda w, c, s: self.fail("FATAL: must NEVER restart a data integrity failure!")
+            manager.target_status = None
+            mock_proc.poll.return_value = EXIT_DATA_INTEGRITY
+            worker.process = mock_proc
+            manager._handle_worker_exit(worker)
+            self.assertEqual(worker.status, "needs_attention")
+            self.assertEqual(manager.target_status, "needs_attention")
+            self.assertIn("data integrity", worker.last_error.lower())
+
+            # 6. Unknown exception (e.g. exit code 99) -> RESTARTS under budget
+            worker.started_at_monotonic = time.monotonic() - 10.0
+            amde2._atomic_json(worker.state_path, {"next_round": 1, "status": "running"})
+            restarted.clear()
+            manager._schedule_restart = lambda w, c, s: restarted.append((w.name, c, s))
+            manager.target_status = None
+            mock_proc.poll.return_value = 99
+            worker.process = mock_proc
+            manager._handle_worker_exit(worker)
+            self.assertEqual(len(restarted), 1)
+            self.assertEqual(restarted[0][1], 99)
 
     def test_start_campaign_directory_ownership(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
@@ -345,6 +400,87 @@ class AMDE2RuntimeTests(unittest.TestCase):
             amde2._atomic_json(ckpt_dir / "latest.json", envelope)
             ret_ok = amde2.verify_campaign(argparse.Namespace(root=str(root), campaign_id="verify_test"))
             self.assertEqual(ret_ok, 0)
+
+    def test_critical_json_fail_closed(self) -> None:
+        from amde.util import CorruptJSONError, read_json_critical, read_json_safe
+        from amde.errors import DataIntegrityError
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            corrupt_file = root / "corrupt.json"
+            corrupt_file.write_text("{bad json syntax: true,", encoding="utf-8")
+
+            # Corrupt file must raise CorruptJSONError / DataIntegrityError, NOT return default!
+            with self.assertRaises(CorruptJSONError):
+                read_json_safe(corrupt_file, default={})
+
+            with self.assertRaises(CorruptJSONError):
+                read_json_critical(corrupt_file)
+
+            # Missing optional file returns default
+            missing_file = root / "missing.json"
+            self.assertEqual(read_json_safe(missing_file, default={"opt": 1}), {"opt": 1})
+
+            # Missing required file raises FileNotFoundError
+            with self.assertRaises(FileNotFoundError):
+                read_json_critical(missing_file)
+
+            # Corrupt state.json in campaign directory must fail closed on Manager run without overwriting
+            args = self._plan_args(root, "fail_closed_test")
+            plan = amde2._make_plan(args, root)
+            paths = amde2._paths(root, "fail_closed_test")
+            paths["base"].mkdir(parents=True)
+            amde2._atomic_json(paths["plan"], plan)
+            paths["state"].write_text("{corrupt state payload...", encoding="utf-8")
+            manager = amde2.AMDE2Manager(root, "fail_closed_test", plan)
+            with self.assertRaises(DataIntegrityError):
+                manager.run()
+            # Confirm file was NOT wiped/overwritten
+            self.assertEqual(paths["state"].read_text(encoding="utf-8"), "{corrupt state payload...")
+
+    def test_clock_and_backoff_across_reboot_simulation(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            args = self._plan_args(root, "reboot_test")
+            plan = amde2._make_plan(args, root)
+            paths = amde2._paths(root, "reboot_test")
+            paths["base"].mkdir(parents=True)
+            amde2._atomic_json(paths["plan"], plan)
+
+            now_epoch = time.time()
+            persisted_state = {
+                "schema_version": amde2.SCHEMA,
+                "campaign_id": "reboot_test",
+                "plan_hash": plan["plan_hash"],
+                "status": "degraded",
+                "workers": {
+                    "classical": {
+                        "restarts": 3,
+                        "consecutive_failures": 3,
+                        "failure_times_epoch": [now_epoch - 900, now_epoch - 300, now_epoch - 20],
+                    }
+                }
+            }
+            amde2._atomic_json(paths["state"], persisted_state)
+
+            scripts_dir = root / "scripts"
+            scripts_dir.mkdir()
+            for s in ("research_campaign.py", "quantum_research_campaign.py", "amde2_logrelay.py"):
+                (scripts_dir / s).write_text("# dummy", encoding="utf-8")
+
+            manager = amde2.AMDE2Manager(root, "reboot_test", plan)
+            saved_workers = persisted_state["workers"]
+            manager.workers = manager._build_workers()
+            cw = next(w for w in manager.workers if w.name == "classical")
+            saved = saved_workers["classical"]
+            cw.restarts = saved["restarts"]
+            cw.consecutive_failures = saved["consecutive_failures"]
+            cw.failure_times = saved["failure_times_epoch"]
+            delay = 40.0
+            elapsed = 20.0
+            remaining = delay - elapsed
+            cw.next_start_at = time.monotonic() + remaining
+            self.assertGreater(cw.next_start_at, time.monotonic() + 15.0)
+            self.assertLessEqual(cw.next_start_at, time.monotonic() + 25.0)
 
 
 if __name__ == "__main__":

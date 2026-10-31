@@ -192,6 +192,154 @@ class AMDE2LifecycleIntegrationTests(unittest.TestCase):
                     if cleanup.returncode != 0:
                         self._call(root, "force-stop", *common, timeout=15)
 
+    def test_persistent_deadline_and_recovery_lifecycle(self) -> None:
+        import psutil
+        with tempfile.TemporaryDirectory(prefix="amde2-deadline-") as temp:
+            root = Path(temp)
+            scripts = root / "scripts"
+            scripts.mkdir()
+            shutil.copy2(ROOT / "scripts" / "amde2.py", scripts / "amde2.py")
+            shutil.copy2(ROOT / "scripts" / "amde2_logrelay.py", scripts / "amde2_logrelay.py")
+            (scripts / "research_campaign.py").write_text(FAKE_WORKER, encoding="utf-8")
+            (scripts / "quantum_research_campaign.py").write_text(FAKE_WORKER, encoding="utf-8")
+            cid = "deadline_int_01"
+            common = ("--campaign-id", cid)
+            plan_path = root / "reports" / "amde2" / cid / "plan.json"
+            state_path = root / "reports" / "amde2" / cid / "state.json"
+            guardian_path = root / "reports" / "amde2" / cid / "control" / "guardian.json"
+
+            result_log = {
+                "campaign_id": cid,
+                "steps": [],
+                "verified_deadline_persistence": False,
+                "manager_recovered": False,
+                "guardian_restarted": False,
+                "cooperative_shutdown_confirmed": False,
+                "all_workers_cleanly_exited": False,
+            }
+
+            try:
+                # 1. Start campaign with a 25-second persistent deadline (25 / 3600 hours)
+                duration_hours = 25.0 / 3600.0
+                start_t = time.time()
+                started = self._call(
+                    root, "start", *common,
+                    "--duration-hours", f"{duration_hours:.6f}",
+                    "--quantum-device", "cpu", "--min-free-gb", "1",
+                    "--classical-max-gb", "1", "--quantum-max-gb", "1", "--memory-reserve-gb", "0.5",
+                    "--health-interval-seconds", "2", "--manager-stale-seconds", "60",
+                    "--stale-heartbeat-seconds", "120", "--shutdown-grace-seconds", "30",
+                )
+                self.assertEqual(started.returncode, 0, started.stdout + started.stderr)
+                result_log["steps"].append({"step": "start_campaign", "exit_code": started.returncode})
+
+                # 2. Verify deadline persistence in plan.json and state.json
+                self.assertTrue(plan_path.exists())
+                plan_data = json.loads(plan_path.read_text(encoding="utf-8"))
+                initial_deadline = plan_data.get("deadline_utc")
+                self.assertIsNotNone(initial_deadline)
+                self.assertEqual(plan_data.get("campaign_type"), "timed")
+
+                # Wait for workers to be healthy
+                deadline = time.monotonic() + 15
+                first_mgr_pid = None
+                while time.monotonic() < deadline:
+                    if state_path.exists():
+                        try:
+                            st = json.loads(state_path.read_text(encoding="utf-8"))
+                            workers = st.get("workers", {})
+                            first_mgr_pid = st.get("manager_pid")
+                            if first_mgr_pid and len(workers) == 2 and all(v.get("alive") for v in workers.values()):
+                                break
+                        except Exception:
+                            pass
+                    time.sleep(0.2)
+                self.assertIsNotNone(first_mgr_pid, "Manager or workers failed to reach running state")
+                result_log["steps"].append({"step": "workers_online", "manager_pid": first_mgr_pid, "deadline_utc": initial_deadline})
+
+                # 3. Simulate Manager crash & restart
+                psutil.Process(int(first_mgr_pid)).kill()
+                result_log["steps"].append({"step": "kill_manager", "killed_pid": first_mgr_pid})
+                mgr_recovered = False
+                deadline = time.monotonic() + 25
+                second_mgr_pid = None
+                while time.monotonic() < deadline:
+                    if state_path.exists():
+                        try:
+                            st = json.loads(state_path.read_text(encoding="utf-8"))
+                            new_pid = st.get("manager_pid")
+                            if new_pid and new_pid != first_mgr_pid and st.get("status") == "running":
+                                second_mgr_pid = new_pid
+                                mgr_recovered = True
+                                break
+                        except Exception:
+                            pass
+                    time.sleep(0.2)
+                self.assertTrue(mgr_recovered, "Manager did not recover after crash")
+                result_log["manager_recovered"] = True
+                result_log["steps"].append({"step": "manager_recovered", "new_manager_pid": second_mgr_pid, "deadline_utc_preserved": True})
+
+                # 4. Simulate Guardian crash & restart
+                guardian_data = json.loads(guardian_path.read_text(encoding="utf-8"))
+                first_guardian_pid = guardian_data.get("pid")
+                if first_guardian_pid and psutil.pid_exists(int(first_guardian_pid)):
+                    psutil.Process(int(first_guardian_pid)).kill()
+                    result_log["steps"].append({"step": "kill_guardian", "killed_pid": first_guardian_pid})
+
+                # Launch replacement Guardian
+                env = os.environ.copy()
+                env["PYTHONPATH"] = str(SRC) + (os.pathsep + env.get("PYTHONPATH", ""))
+                env["OMP_NUM_THREADS"] = "1"
+                guardian_proc = subprocess.Popen(
+                    [sys.executable, str(root / "scripts" / "amde2.py"), "guardian", *common, "--root", str(root)],
+                    cwd=ROOT, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                )
+                result_log["steps"].append({"step": "restart_guardian", "new_guardian_pid": guardian_proc.pid})
+                result_log["guardian_restarted"] = True
+
+                # Confirm deadline remains unchanged across both manager and guardian restarts
+                plan_after = json.loads(plan_path.read_text(encoding="utf-8"))
+                self.assertEqual(plan_after.get("deadline_utc"), initial_deadline)
+                self.assertAlmostEqual(plan_after.get("duration_hours"), duration_hours, places=5)
+
+                # 5. Wait for persistent deadline expiration and confirm cooperative shutdown
+                shutdown_deadline = time.monotonic() + 35
+                clean_shutdown = False
+                final_state = {}
+                while time.monotonic() < shutdown_deadline:
+                    if state_path.exists():
+                        try:
+                            st = json.loads(state_path.read_text(encoding="utf-8"))
+                            if st.get("status") == "stopped":
+                                clean_shutdown = True
+                                final_state = st
+                                break
+                        except Exception:
+                            pass
+                    time.sleep(0.3)
+                self.assertTrue(clean_shutdown, f"Campaign did not stop at persistent deadline: {final_state}")
+                result_log["cooperative_shutdown_confirmed"] = True
+                result_log["verified_deadline_persistence"] = True
+
+                # 6. Confirm all worker processes are cleanly exited (no orphans)
+                workers = final_state.get("workers", {})
+                all_exited = all(not v.get("alive") for v in workers.values())
+                self.assertTrue(all_exited, f"Not all workers exited cleanly: {workers}")
+                result_log["all_workers_cleanly_exited"] = True
+
+                # 7. Verification check
+                verified = self._call(root, "verify", *common)
+                self.assertEqual(verified.returncode, 0, verified.stdout + verified.stderr)
+                result_log["steps"].append({"step": "verify_campaign", "exit_code": verified.returncode})
+
+            finally:
+                # Cleanup if anything still running
+                if state_path.exists():
+                    self._call(root, "stop", *common, "--wait-seconds", "5", timeout=10)
+                # Save test results to root PERSISTENT_DEADLINE_TEST_RESULTS.json
+                out_path = ROOT / "PERSISTENT_DEADLINE_TEST_RESULTS.json"
+                out_path.write_text(json.dumps(result_log, indent=2), encoding="utf-8")
+
 
 if __name__ == "__main__":
     unittest.main()

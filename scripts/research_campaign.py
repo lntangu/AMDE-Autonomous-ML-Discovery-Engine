@@ -23,7 +23,22 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from amde.config import Config, load_config  # noqa: E402
-from amde.errors import AMDEBaseError, ConfigError, LockError  # noqa: E402
+from amde.errors import (  # noqa: E402
+    AMDEBaseError,
+    CheckpointError,
+    ConfigError,
+    DataIntegrityError,
+    FAILURE_CATEGORY_CONFIG,
+    FAILURE_CATEGORY_DATA_INTEGRITY,
+    FAILURE_CATEGORY_RESOURCE,
+    FAILURE_CATEGORY_RUNTIME,
+    LockError,
+    ResourcePressure,
+    EXIT_CONFIG_ERROR,
+    EXIT_DATA_INTEGRITY,
+    EXIT_RESOURCE_EXHAUSTION,
+    EXIT_RUNTIME_ERROR,
+)
 from amde.orchestrator import Engine, run_status  # noqa: E402
 from amde.runtime.lock import SingleInstanceLock  # noqa: E402
 from amde.storage.checkpoint import CheckpointManager  # noqa: E402
@@ -515,10 +530,16 @@ def main(argv: list[str] | None = None) -> int:
         return 130
     except ConfigError as exc:
         print(f"campaign configuration error: {exc}", file=sys.stderr)
-        return 2
+        return EXIT_CONFIG_ERROR
+    except (DataIntegrityError, CheckpointError) as exc:
+        print(f"campaign data integrity failure: {exc}", file=sys.stderr)
+        return EXIT_DATA_INTEGRITY
+    except ResourcePressure as exc:
+        print(f"campaign resource exhaustion: {exc}", file=sys.stderr)
+        return EXIT_RESOURCE_EXHAUSTION
     except (AMDEBaseError, OSError, ValueError) as exc:
         print(f"campaign runtime error: {type(exc).__name__}: {exc}", file=sys.stderr)
-        return 1
+        return EXIT_RUNTIME_ERROR
 
 
 if __name__ == "__main__":
