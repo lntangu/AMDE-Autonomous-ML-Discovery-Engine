@@ -1,0 +1,67 @@
+{
+  "campaign_id": "hd_sla_10_559356",
+  "created_at": "2026-10-31T14:56:00.212Z",
+  "ended_at": "2026-10-31T14:56:04.639Z",
+  "guardian_pid": 12844,
+  "health": {
+    "at": "2026-10-31T14:56:02.447Z",
+    "cpu_percent": 21.2,
+    "disk_free_gb": 39.898,
+    "disk_total_gb": 475.724,
+    "gpu": {
+      "memory_free_mb": 4007.0,
+      "memory_total_mb": 4096.0,
+      "name": "Quadro P2000",
+      "temperature_c": 56.0,
+      "utilization_percent": 0.0
+    },
+    "memory_available_gb": 15.717,
+    "memory_total_gb": 31.782
+  },
+  "heartbeat_at": "2026-10-31T14:56:04.296Z",
+  "manager_pid": 20708,
+  "manager_recoveries": 0,
+  "note": "hard campaign deadline reached (0.001388888888888889h); process tree terminated (job_object)",
+  "plan_hash": "eb10c09380f155124a87530953fbea01f6ed3629ec433bdd109e7c86b82606f1",
+  "schema_version": "amde-2-runtime-v1",
+  "started_at": "2026-10-31T14:56:00.212Z",
+  "status": "stopped",
+  "updated_at": "2026-10-31T14:56:04.296Z",
+  "workers": {
+    "quantum": {
+      "alive": true,
+      "campaign_id": "hd_sla_10_559356_quantum",
+      "campaign_status": "initialized",
+      "consecutive_failures": 0,
+      "current_round": 0,
+      "failure_times_epoch": [],
+      "heartbeat_at": "2026-10-31T14:56:00.828Z",
+      "last_error": null,
+      "last_exit_code": null,
+      "last_round_status": null,
+      "log_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpvd3espdw\\reports\\amde2\\hd_sla_10_559356\\logs\\quantum.log",
+      "next_round": 0,
+      "pid": 8844,
+      "relay_pid": 624,
+      "restarts": 0,
+      "state_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpvd3espdw\\reports\\quantum_campaigns\\hd_sla_10_559356_quantum\\state.json",
+      "status": "running",
+      "telemetry": {
+        "alive": true,
+        "children_cpu_percent": 0.0,
+        "normalized_system_cpu_percent": 5.47,
+        "num_children": 0,
+        "observed_pids": [
+          8844
+        ],
+        "parent_cpu_percent": 65.6,
+        "pid": 8844,
+        "private_memory_mb": 762.6,
+        "rss_mb": 484.7,
+        "sampling_complete": true,
+        "total_cpu_percent": 65.6,
+        "working_set_mb": 484.7
+      }
+    }
+  }
+}

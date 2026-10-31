@@ -1,0 +1,61 @@
+{
+  "campaign_id": "hd_sla_8_550544",
+  "created_at": "2026-10-31T14:55:51.447Z",
+  "ended_at": "2026-10-31T14:55:54.841Z",
+  "guardian_pid": 26004,
+  "health": {
+    "at": "2026-10-31T14:55:53.589Z",
+    "cpu_percent": 25.8,
+    "disk_free_gb": 39.93,
+    "disk_total_gb": 475.724,
+    "gpu": null,
+    "memory_available_gb": 15.689,
+    "memory_total_gb": 31.782
+  },
+  "heartbeat_at": "2026-10-31T14:55:54.615Z",
+  "manager_pid": 16876,
+  "manager_recoveries": 0,
+  "note": "hard campaign deadline reached (0.0011111111111111111h); process tree terminated (job_object)",
+  "plan_hash": "23797861e677ebb8137c6bd7d925f580372b3b58e1a65cbf9ff82eddc4334cf2",
+  "schema_version": "amde-2-runtime-v1",
+  "started_at": "2026-10-31T14:55:51.447Z",
+  "status": "stopped",
+  "updated_at": "2026-10-31T14:55:54.615Z",
+  "workers": {
+    "quantum": {
+      "alive": true,
+      "campaign_id": "hd_sla_8_550544_quantum",
+      "campaign_status": "initialized",
+      "consecutive_failures": 0,
+      "current_round": 0,
+      "failure_times_epoch": [],
+      "heartbeat_at": "2026-10-31T14:55:52.073Z",
+      "last_error": null,
+      "last_exit_code": null,
+      "last_round_status": null,
+      "log_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpkb2c5yww\\reports\\amde2\\hd_sla_8_550544\\logs\\quantum.log",
+      "next_round": 0,
+      "pid": 10196,
+      "relay_pid": 9400,
+      "restarts": 0,
+      "state_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpkb2c5yww\\reports\\quantum_campaigns\\hd_sla_8_550544_quantum\\state.json",
+      "status": "running",
+      "telemetry": {
+        "alive": true,
+        "children_cpu_percent": 0.0,
+        "normalized_system_cpu_percent": 5.34,
+        "num_children": 0,
+        "observed_pids": [
+          10196
+        ],
+        "parent_cpu_percent": 64.1,
+        "pid": 10196,
+        "private_memory_mb": 751.9,
+        "rss_mb": 473.9,
+        "sampling_complete": true,
+        "total_cpu_percent": 64.1,
+        "working_set_mb": 473.9
+      }
+    }
+  }
+}

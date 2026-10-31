@@ -1,0 +1,13 @@
+{
+  "campaign_id": "hd_sla_10_559356",
+  "heartbeat_at": "2026-10-31T14:56:04.624Z",
+  "manager_pid": null,
+  "manager_restart_count": 0,
+  "manager_restart_times_epoch": [],
+  "manager_started_at": "2026-10-31T14:55:59.898Z",
+  "note": "hard campaign deadline reached (0.001388888888888889h); process tree terminated (job_object)",
+  "pid": 12844,
+  "schema_version": "amde2-guardian-v1",
+  "status": "stopped",
+  "updated_at": "2026-10-31T14:56:04.624Z"
+}

@@ -1,0 +1,11 @@
+{"at": "2026-10-31T14:55:37.793Z", "campaign_id": "hd_sla_5_537247", "deadline_utc": "2026-10-31T14:55:41.438Z", "event": "hard_deadline_watchdog_started", "policy": "hard"}
+{"at": "2026-10-31T14:55:38.151Z", "campaign_id": "hd_sla_5_537247", "event": "AMDE 2.0 manager starting", "level": "INFO", "plan_hash": "9c2eb291f50a4b88bda6adeebd76c6c8a745be6961f09d3e6dcad8bba867367f"}
+{"at": "2026-10-31T14:55:38.188Z", "campaign_id": "hd_sla_5_537247_quantum", "event": "worker started: quantum", "level": "INFO", "pid": 10576}
+{"at": "2026-10-31T14:55:41.452Z", "campaign_id": "hd_sla_5_537247", "deadline_utc": "2026-10-31T14:55:41.438Z", "event": "hard_deadline_reached", "policy": "hard"}
+{"at": "2026-10-31T14:55:41.456Z", "event": "Manager detected persistent hard deadline reached (0.0011111111111111111h); terminating worker tree", "level": "CRITICAL"}
+{"at": "2026-10-31T14:55:41.459Z", "campaign_id": "hd_sla_5_537247", "deadline_utc": "2026-10-31T14:55:41.438Z", "event": "hard_termination_requested"}
+{"at": "2026-10-31T14:55:41.465Z", "event": "worker did not exit after its cooperative stop window; executing verified forced termination", "level": "WARNING", "pid": 10576, "worker": "quantum"}
+{"at": "2026-10-31T14:55:41.474Z", "event": "forced_shutdown_timeout_reached", "grace_seconds": 1.0, "pid": 10576, "worker": "quantum"}
+{"at": "2026-10-31T14:55:41.479Z", "event": "forced_termination_requested", "pid": 10576, "worker": "quantum"}
+{"at": "2026-10-31T14:55:41.512Z", "campaign_id": "hd_sla_5_537247", "descendants_identified": [25068], "elapsed_seconds": 0.011354600079357624, "errors": [], "event": "hard_termination_completed", "job_terminated": true, "mechanism": "job_object", "pids_terminated": [25068], "success": true, "target_pid": 25068}
+{"at": "2026-10-31T14:55:41.519Z", "campaign_id": "hd_sla_5_537247", "event": "process_tree_verified_exited", "pids_terminated": [25068], "verified": true}

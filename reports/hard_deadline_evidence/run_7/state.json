@@ -1,0 +1,61 @@
+{
+  "campaign_id": "hd_sla_7_546111",
+  "created_at": "2026-10-31T14:55:46.972Z",
+  "ended_at": "2026-10-31T14:55:50.393Z",
+  "guardian_pid": 868,
+  "health": {
+    "at": "2026-10-31T14:55:49.107Z",
+    "cpu_percent": 16.9,
+    "disk_free_gb": 39.93,
+    "disk_total_gb": 475.724,
+    "gpu": null,
+    "memory_available_gb": 15.674,
+    "memory_total_gb": 31.782
+  },
+  "heartbeat_at": "2026-10-31T14:55:50.123Z",
+  "manager_pid": 19536,
+  "manager_recoveries": 0,
+  "note": "hard campaign deadline reached (0.0011111111111111111h); process tree terminated (job_object)",
+  "plan_hash": "4b316036e81fc826add92a18a267f4bc983f51b7aa4021685ddc2813a866bef6",
+  "schema_version": "amde-2-runtime-v1",
+  "started_at": "2026-10-31T14:55:46.972Z",
+  "status": "stopped",
+  "updated_at": "2026-10-31T14:55:50.123Z",
+  "workers": {
+    "quantum": {
+      "alive": true,
+      "campaign_id": "hd_sla_7_546111_quantum",
+      "campaign_status": "initialized",
+      "consecutive_failures": 0,
+      "current_round": 0,
+      "failure_times_epoch": [],
+      "heartbeat_at": "2026-10-31T14:55:47.577Z",
+      "last_error": null,
+      "last_exit_code": null,
+      "last_round_status": null,
+      "log_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmps9e5kt1p\\reports\\amde2\\hd_sla_7_546111\\logs\\quantum.log",
+      "next_round": 0,
+      "pid": 29336,
+      "relay_pid": 26952,
+      "restarts": 0,
+      "state_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmps9e5kt1p\\reports\\quantum_campaigns\\hd_sla_7_546111_quantum\\state.json",
+      "status": "running",
+      "telemetry": {
+        "alive": true,
+        "children_cpu_percent": 0.0,
+        "normalized_system_cpu_percent": 7.09,
+        "num_children": 0,
+        "observed_pids": [
+          29336
+        ],
+        "parent_cpu_percent": 85.1,
+        "pid": 29336,
+        "private_memory_mb": 751.7,
+        "rss_mb": 474.0,
+        "sampling_complete": true,
+        "total_cpu_percent": 85.1,
+        "working_set_mb": 474.0
+      }
+    }
+  }
+}

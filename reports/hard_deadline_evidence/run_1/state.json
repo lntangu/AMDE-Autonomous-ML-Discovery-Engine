@@ -1,0 +1,61 @@
+{
+  "campaign_id": "hd_sla_1_519563",
+  "created_at": "2026-10-31T14:55:20.456Z",
+  "ended_at": "2026-10-31T14:55:23.850Z",
+  "guardian_pid": 516,
+  "health": {
+    "at": "2026-10-31T14:55:22.599Z",
+    "cpu_percent": 21.6,
+    "disk_free_gb": 39.931,
+    "disk_total_gb": 475.724,
+    "gpu": null,
+    "memory_available_gb": 15.719,
+    "memory_total_gb": 31.782
+  },
+  "heartbeat_at": "2026-10-31T14:55:23.606Z",
+  "manager_pid": 18612,
+  "manager_recoveries": 0,
+  "note": "hard campaign deadline reached (0.0011111111111111111h); process tree terminated (job_object)",
+  "plan_hash": "2fd67dc761cef919648ffa3d80c399b51ac6e1ea307b40501d8893a54ff85763",
+  "schema_version": "amde-2-runtime-v1",
+  "started_at": "2026-10-31T14:55:20.456Z",
+  "status": "stopped",
+  "updated_at": "2026-10-31T14:55:23.606Z",
+  "workers": {
+    "quantum": {
+      "alive": true,
+      "campaign_id": "hd_sla_1_519563_quantum",
+      "campaign_status": "initialized",
+      "consecutive_failures": 0,
+      "current_round": 0,
+      "failure_times_epoch": [],
+      "heartbeat_at": "2026-10-31T14:55:21.082Z",
+      "last_error": null,
+      "last_exit_code": null,
+      "last_round_status": null,
+      "log_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpavokev99\\reports\\amde2\\hd_sla_1_519563\\logs\\quantum.log",
+      "next_round": 0,
+      "pid": 6340,
+      "relay_pid": 1680,
+      "restarts": 0,
+      "state_path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpavokev99\\reports\\quantum_campaigns\\hd_sla_1_519563_quantum\\state.json",
+      "status": "running",
+      "telemetry": {
+        "alive": true,
+        "children_cpu_percent": 0.0,
+        "normalized_system_cpu_percent": 3.81,
+        "num_children": 0,
+        "observed_pids": [
+          6340
+        ],
+        "parent_cpu_percent": 45.7,
+        "pid": 6340,
+        "private_memory_mb": 746.5,
+        "rss_mb": 468.2,
+        "sampling_complete": true,
+        "total_cpu_percent": 45.7,
+        "working_set_mb": 468.2
+      }
+    }
+  }
+}

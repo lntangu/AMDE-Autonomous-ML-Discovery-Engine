@@ -1,0 +1,11 @@
+{"at": "2026-10-31T14:55:59.865Z", "campaign_id": "hd_sla_10_559356", "deadline_utc": "2026-10-31T14:56:04.533Z", "event": "hard_deadline_watchdog_started", "policy": "hard"}
+{"at": "2026-10-31T14:56:00.203Z", "campaign_id": "hd_sla_10_559356", "event": "AMDE 2.0 manager starting", "level": "INFO", "plan_hash": "eb10c09380f155124a87530953fbea01f6ed3629ec433bdd109e7c86b82606f1"}
+{"at": "2026-10-31T14:56:00.239Z", "campaign_id": "hd_sla_10_559356_quantum", "event": "worker started: quantum", "level": "INFO", "pid": 624}
+{"at": "2026-10-31T14:56:04.538Z", "event": "Manager detected persistent hard deadline reached (0.001388888888888889h); terminating worker tree", "level": "CRITICAL"}
+{"at": "2026-10-31T14:56:04.548Z", "event": "worker did not exit after its cooperative stop window; executing verified forced termination", "level": "WARNING", "pid": 624, "worker": "quantum"}
+{"at": "2026-10-31T14:56:04.550Z", "campaign_id": "hd_sla_10_559356", "deadline_utc": "2026-10-31T14:56:04.533Z", "event": "hard_deadline_reached", "policy": "hard"}
+{"at": "2026-10-31T14:56:04.552Z", "event": "forced_shutdown_timeout_reached", "grace_seconds": 1.0, "pid": 624, "worker": "quantum"}
+{"at": "2026-10-31T14:56:04.556Z", "campaign_id": "hd_sla_10_559356", "deadline_utc": "2026-10-31T14:56:04.533Z", "event": "hard_termination_requested"}
+{"at": "2026-10-31T14:56:04.561Z", "event": "forced_termination_requested", "pid": 624, "worker": "quantum"}
+{"at": "2026-10-31T14:56:04.601Z", "campaign_id": "hd_sla_10_559356", "descendants_identified": [], "elapsed_seconds": 0.0004029999254271388, "errors": [], "event": "hard_termination_completed", "job_terminated": true, "mechanism": "job_object", "pids_terminated": [], "success": true, "target_pid": null}
+{"at": "2026-10-31T14:56:04.607Z", "campaign_id": "hd_sla_10_559356", "event": "process_tree_verified_exited", "pids_terminated": [], "verified": true}
