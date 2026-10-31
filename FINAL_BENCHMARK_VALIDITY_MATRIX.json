@@ -344,6 +344,34 @@
     "process_tree_deduplication": "PASS",
     "memory_working_set_private_disambiguation": "PASS",
     "sampling_completeness_tracking": "PASS",
-    "active_campaign_protection": "PASS"
+    "active_campaign_protection": "PASS",
+    "throughput_taxonomy_reconciled": "PASS"
+  },
+  "throughput_taxonomy": {
+    "quantum_campaign_amde2six003": {
+      "definition_configuration": "Unique architectural hyperparameter set (entanglement, feature map, layers, qubits, lr, schedule)",
+      "definition_model": "Instantiated architecture instance (VQC, Quantum Kernel, RBF SVM, Classical MLP)",
+      "definition_training_run": "Optimization loop executing gradient descent epochs on training split",
+      "definition_evaluation": "Validation and test set inference measuring Balanced Accuracy and loss",
+      "definition_trial": "Unit of execution: 1 model instantiated, trained, and evaluated on 1 task with 1 seed",
+      "definition_completed_experiment": "Full round executing 24 model trials across 4 tasks (12 VQC + 4 Q-Kernel + 4 RBF + 4 MLP)",
+      "total_successful_trials": 10132,
+      "total_failed_trials": 1,
+      "completed_experiments_rounds": 422,
+      "unique_tasks": 4,
+      "unique_methods": 4,
+      "unique_configurations": 6,
+      "start_timestamp_iso": "2026-10-31T04:04:54.026Z",
+      "latest_timestamp_iso": "2026-10-31T07:15:18.065Z",
+      "elapsed_hours": 3.173,
+      "successful_model_trials_per_hour": 3192.9,
+      "completed_experiments_per_hour": 133.0
+    },
+    "classical_campaign_amde2six003": {
+      "completed_experiments_rounds": 18,
+      "total_trials_evaluated": 1798,
+      "elapsed_hours": 3.144,
+      "trials_per_hour": 571.9
+    }
   }
 }
