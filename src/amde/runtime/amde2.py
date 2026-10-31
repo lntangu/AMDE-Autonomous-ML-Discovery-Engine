@@ -21,12 +21,12 @@ import tempfile
 import time
 import zipfile
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
 from .lock import SingleInstanceLock, default_pid_alive
-from ..util import hash_json
+from ..util import hash_json, read_json_safe, robust_replace
 
 SCHEMA = "amde-2-runtime-v1"
 PLAN_SCHEMA = "amde-2-plan-v1"
@@ -55,17 +55,13 @@ def _atomic_json(path: Path, value: Any) -> None:
             handle.write(data)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(tmp, path)
+        robust_replace(tmp, path)
     finally:
         tmp.unlink(missing_ok=True)
 
 
 def _read_json(path: Path, default: Any = None) -> Any:
-    try:
-        with Path(path).open("r", encoding="utf-8") as handle:
-            return json.load(handle)
-    except (OSError, ValueError, json.JSONDecodeError):
-        return default
+    return read_json_safe(path, default)
 
 
 def _pid_alive(pid: Any) -> bool:
@@ -125,7 +121,7 @@ def _archive_reused_pid_lock(lock_path: Path, root: Path, campaign_token: str, r
     pid = data.get("pid") if isinstance(data, dict) else None
     if _pid_alive(pid) and not _pid_matches(pid, root, campaign_token, required_script):
         archived = lock_path.with_name(f"{lock_path.name}.pid-reused.{int(time.time())}")
-        os.replace(lock_path, archived)
+        robust_replace(lock_path, archived)
 
 
 def _path_age_seconds(path: Path, field: str = "heartbeat_at") -> float | None:
@@ -153,8 +149,8 @@ def _rotate(path: Path, max_bytes: int = 20 * 1024 * 1024, backups: int = 5) -> 
             if index == backups:
                 source.unlink(missing_ok=True)
             else:
-                os.replace(source, target)
-    os.replace(path, path.with_name(path.name + ".1"))
+                robust_replace(source, target)
+    robust_replace(path, path.with_name(path.name + ".1"))
 
 
 def _append_event(path: Path, event: str, **fields: Any) -> None:
@@ -197,10 +193,25 @@ def _validate_id(value: str) -> str:
 
 
 def _make_plan(args: argparse.Namespace, root: Path) -> dict[str, Any]:
+    mode = str(getattr(args, "mode", "hybrid") or "hybrid").lower()
+    if mode not in {"hybrid", "classical", "quantum"}:
+        raise ValueError("mode must be hybrid, classical or quantum")
+    dur_arg = getattr(args, "duration_hours", None)
+    duration_hours = float(dur_arg) if dur_arg is not None and float(dur_arg) > 0 else None
+    campaign_type = "timed" if duration_hours is not None else "infinite"
+    deadline_utc = None
+    if duration_hours is not None:
+        deadline_dt = datetime.now(timezone.utc) + timedelta(hours=duration_hours)
+        deadline_utc = deadline_dt.isoformat(timespec="milliseconds").replace("+00:00", "Z")
+
     values = {
         "schema": PLAN_SCHEMA,
         "campaign_id": _validate_id(args.campaign_id),
         "root": str(root.resolve()),
+        "mode": mode,
+        "campaign_type": campaign_type,
+        "duration_hours": duration_hours,
+        "deadline_utc": deadline_utc,
         "seed": int(args.seed),
         "hours_per_round": float(args.hours_per_round),
         "max_trials_per_round": int(args.max_trials_per_round),
@@ -358,10 +369,15 @@ class AMDE2Manager:
         cp = _worker_paths(self.root, self.campaign_id, "classical")
         qp = _worker_paths(self.root, self.campaign_id, "quantum")
         log_dir = self.paths["base"] / "logs"
-        return [
-            Worker("classical", classical_id, cp["state"], cp["lock"], self.paths["classical_stop"], log_dir / "classical.log", classical_command),
-            Worker("quantum", quantum_id, qp["state"], qp["lock"], self.paths["quantum_stop"], log_dir / "quantum.log", quantum_command),
-        ]
+        mode = str(self.plan.get("mode", "hybrid") or "hybrid").lower()
+        workers: list[Worker] = []
+        if mode in {"hybrid", "classical"}:
+            workers.append(Worker("classical", classical_id, cp["state"], cp["lock"], self.paths["classical_stop"], log_dir / "classical.log", classical_command))
+        if mode in {"hybrid", "quantum"}:
+            workers.append(Worker("quantum", quantum_id, qp["state"], qp["lock"], self.paths["quantum_stop"], log_dir / "quantum.log", quantum_command))
+        if not workers:
+            raise ValueError(f"no workers configured for mode: {mode}")
+        return workers
 
     def _check_existing_worker(self, worker: Worker) -> None:
         lock_data = _read_json(worker.lock_path, {})
@@ -374,7 +390,7 @@ class AMDE2Manager:
         if _pid_alive(pid):
             # PID was reused by an unrelated process. Archive only this stale AMDE lock.
             archived = worker.lock_path.with_name(f"{worker.lock_path.name}.pid-reused.{int(time.time())}")
-            os.replace(worker.lock_path, archived)
+            robust_replace(worker.lock_path, archived)
 
     def _start_worker(self, worker: Worker) -> None:
         self._check_existing_worker(worker)
@@ -595,7 +611,7 @@ class AMDE2Manager:
             delay = min(900, 10 * (2 ** min(worker.consecutive_failures - 1, 6)))
             worker.status = f"backoff_{delay}s"
             self._log("worker restart scheduled", level="WARNING", worker=worker.name, failures_last_hour=failures_last_hour, retry_in_seconds=delay, exit_code=code, campaign_status=state_status)
-        worker.next_start_at = now + delay
+        worker.next_start_at = time.monotonic() + delay
 
     def _terminate_unresponsive_worker(self, worker: Worker) -> None:
         process = worker.process
@@ -659,7 +675,18 @@ class AMDE2Manager:
             state = self._worker_state(worker)
             heartbeat = self._worker_heartbeat(worker, state)
             if not isinstance(heartbeat, str):
-                continue  # Worker is still initializing; do not guess it is hung.
+                startup_limit = min(float(stale_limit), 180.0)
+                if now - worker.started_at_monotonic > startup_limit:
+                    worker.stale_stop_requested_at = now
+                    worker.status = "startup_timeout_stopping"
+                    _atomic_json(worker.stop_path, {
+                        "requested_at": utc_now(),
+                        "reason": f"worker exceeded startup deadline of {startup_limit:.0f}s without first heartbeat",
+                        "campaign_id": self.campaign_id,
+                    })
+                    self._log("worker exceeded startup deadline without first heartbeat; requested cooperative stop",
+                              level="WARNING", worker=worker.name, pid=worker.process.pid)
+                continue  # Worker is still initializing within deadline.
             try:
                 stamp = datetime.fromisoformat(heartbeat.replace("Z", "+00:00"))
                 age = max(0.0, (datetime.now(timezone.utc) - stamp).total_seconds())
@@ -705,10 +732,18 @@ class AMDE2Manager:
             worker.status = "resource_paused"
             return
         if code == 2:
-            worker.last_error = f"worker returned configuration/backend error (exit code 2; state={campaign_status})"
-            self._begin_shutdown("needs_attention", worker.last_error)
-            worker.status = "needs_attention"
-            return
+            # Fatal only if worker died immediately on startup (<10s) with 0 restarts and 0 completed rounds.
+            # In-flight failures must follow the restart budget and backoff policy.
+            next_round_val = int(state.get("next_round", 0) or 0)
+            if duration < 10.0 and worker.restarts == 0 and next_round_val == 0:
+                worker.last_error = f"worker returned configuration error on startup (exit code 2; state={campaign_status})"
+                self._begin_shutdown("needs_attention", worker.last_error)
+                worker.status = "needs_attention"
+                return
+            else:
+                self._log("worker exited with code 2 in-flight; scheduling restart under budget", level="WARNING", worker=worker.name)
+                self._schedule_restart(worker, int(code), campaign_status)
+                return
         if code == 0 and campaign_status in WORKER_STOP_STATES:
             # A worker stopped without a manager stop marker. Treat as an unexpected clean exit
             # in an infinite campaign and restart from its own checkpoint/ledger.
@@ -759,13 +794,20 @@ class AMDE2Manager:
             self._write_state("starting", "workers are being launched")
             for worker in self.workers:
                 self._start_worker(worker)
-            self._write_state("running", "both workers launched")
+            self._write_state("running", f"workers launched ({len(self.workers)})")
             while True:
                 self.lock.heartbeat()
                 if self.paths["stop"].exists() and self.target_status is None:
                     self._begin_shutdown("stopped", "user requested cooperative stop")
                 if self._interrupted and self.target_status is None:
                     self._begin_shutdown("stopped", "manager received termination signal")
+                if self.target_status is None and self.plan.get("deadline_utc"):
+                    try:
+                        deadline_dt = datetime.fromisoformat(str(self.plan["deadline_utc"]).replace("Z", "+00:00"))
+                        if datetime.now(timezone.utc) >= deadline_dt:
+                            self._begin_shutdown("stopped", f"persistent campaign deadline reached ({self.plan.get('duration_hours')}h)")
+                    except Exception:
+                        pass
                 if self.target_status is None:
                     self._resource_check()
                 self._monitor_worker_heartbeats()
@@ -1059,6 +1101,19 @@ class Guardian:
                 return 0
             while True:
                 self.lock.heartbeat()
+                if plan.get("deadline_utc") and not self.paths["stop"].exists():
+                    try:
+                        deadline_dt = datetime.fromisoformat(str(plan["deadline_utc"]).replace("Z", "+00:00"))
+                        if datetime.now(timezone.utc) >= deadline_dt:
+                            self._log(f"Guardian detected persistent deadline reached ({plan.get('duration_hours')}h); requesting cooperative stop")
+                            self.paths["stop"].parent.mkdir(parents=True, exist_ok=True)
+                            _atomic_json(self.paths["stop"], {
+                                "requested_at": utc_now(),
+                                "reason": f"persistent campaign deadline reached ({plan.get('duration_hours')}h)",
+                                "campaign_id": self.campaign_id,
+                            })
+                    except Exception as deadline_exc:
+                        self._log(f"Error checking persistent deadline: {deadline_exc}", level="WARNING")
                 if self.paths["stop"].exists():
                     adopted_manager_alive = self.child is None and self.adopted_manager_pid is not None and _pid_alive(self.adopted_manager_pid)
                     child_exited = self.child is None or self.child.poll() is not None
@@ -1185,12 +1240,16 @@ def start_campaign(args: argparse.Namespace) -> int:
                 raise RuntimeError(f"only {free / 1024**2:.0f} MiB VRAM is free; AMDE requires a 1536 MiB reserve")
         except ImportError as exc:
             raise RuntimeError("CUDA was requested but PyTorch is not installed in this Python environment") from exc
-    paths["base"].mkdir(parents=True, exist_ok=False)
+    paths["base"].mkdir(parents=True, exist_ok=True)
     paths["control"].mkdir(parents=True, exist_ok=True)
     paths["manager_log"].parent.mkdir(parents=True, exist_ok=True)
     _atomic_json(paths["plan"], plan)
-    _atomic_json(paths["state"], {"schema_version": SCHEMA, "campaign_id": campaign_id, "plan_hash": plan["plan_hash"],
-                                   "status": "created", "created_at": utc_now(), "workers": {}, "note": "plan created; guardian starting"})
+    _atomic_json(paths["state"], {
+        "schema_version": SCHEMA, "campaign_id": campaign_id, "plan_hash": plan["plan_hash"],
+        "status": "created", "created_at": utc_now(), "workers": {}, "note": "plan created; guardian starting",
+        "mode": plan.get("mode", "hybrid"), "campaign_type": plan.get("campaign_type", "infinite"),
+        "duration_hours": plan.get("duration_hours"), "deadline_utc": plan.get("deadline_utc"),
+    })
     _append_event(paths["events"], "campaign_created", plan_hash=plan["plan_hash"], plan=plan)
     return launch_guardian(root, campaign_id)
 
@@ -1414,9 +1473,15 @@ def doctor(args: argparse.Namespace) -> int:
     else:
         checks.append(("cuda", True, "not requested; CPU-only check"))
     if os.name == "nt":
-        checks.append(("windows_sleep_guard", True, "guardian will use SetThreadExecutionState while active"))
+        try:
+            guard_on = _set_windows_system_awake(True)
+            guard_off = _set_windows_system_awake(False)
+            checks.append(("windows_sleep_guard", bool(guard_on and guard_off),
+                           "SetThreadExecutionState API return verified and execution state reset clean"))
+        except Exception as exc:
+            checks.append(("windows_sleep_guard", False, f"SetThreadExecutionState check failed: {exc}"))
     else:
-        checks.append(("windows_sleep_guard", True, "not applicable on this platform"))
+        checks.append(("windows_sleep_guard", True, "not applicable on this platform (POSIX)"))
     failed = [name for name, ok, _ in checks if not ok]
     print(f"AMDE 2.0 doctor | Python {sys.version.split()[0]} | platform={sys.platform}")
     for name, ok, detail in checks:
@@ -1440,6 +1505,17 @@ def status_campaign(args: argparse.Namespace) -> int:
     guardian_pid = guardian.get("pid") if isinstance(guardian, dict) else None
     manager_pid = state.get("manager_pid")
     print(f"AMDE 2.0 campaign: {campaign_id}")
+    plan = _read_plan(paths)
+    if plan:
+        print(f"Mode: {plan.get('mode', 'hybrid')} | Campaign type: {plan.get('campaign_type', 'infinite')}")
+        if plan.get("deadline_utc"):
+            try:
+                deadline_dt = datetime.fromisoformat(str(plan["deadline_utc"]).replace("Z", "+00:00"))
+                rem = (deadline_dt - datetime.now(timezone.utc)).total_seconds()
+                rem_str = f"{rem/3600:.2f}h remaining" if rem > 0 else "deadline elapsed"
+                print(f"Deadline: {plan['deadline_utc']} (duration={plan.get('duration_hours')}h, {rem_str})")
+            except Exception:
+                print(f"Deadline: {plan.get('deadline_utc')}")
     print(f"Campaign state: {state.get('status')}")
     print(f"Guardian state: {guardian.get('status') if isinstance(guardian, dict) else 'unknown'}")
     print(f"Guardian: PID={guardian_pid} alive={_pid_alive(guardian_pid)} heartbeat={guardian.get('heartbeat_at') if isinstance(guardian, dict) else '-'}")
@@ -1582,7 +1658,7 @@ def backup_campaign(args: argparse.Namespace) -> int:
             bad = check.testzip()
             if bad:
                 raise RuntimeError(f"backup ZIP CRC failed for {bad}")
-        os.replace(partial_output, output)
+        robust_replace(partial_output, output)
     except BaseException:
         partial_output.unlink(missing_ok=True)
         raise
@@ -1712,7 +1788,7 @@ def restore_campaign(args: argparse.Namespace) -> int:
             for member, target in targets:
                 staged = temp_root / Path(member.replace("/", os.sep))
                 target.parent.mkdir(parents=True, exist_ok=True)
-                os.replace(staged, target)
+                robust_replace(staged, target)
         print(f"Restored campaign {campaign_id}: {len(targets)} verified files into {root}")
         print(f"Campaign root rebased; new plan hash={restored_plan['plan_hash']}")
         print("Transient locks and stop markers were not restored. No worker was started. Run doctor, verify, then resume explicitly.")
@@ -1728,15 +1804,27 @@ def verify_campaign(args: argparse.Namespace) -> int:
     checked_json = 0
     checked_sqlite = 0
     checkpoints = 0
-    for path in [paths["state"], paths["guardian"]]:
-        if path.exists():
-            try:
-                decoded = json.loads(path.read_text(encoding="utf-8"))
-                if not isinstance(decoded, dict):
-                    raise ValueError("expected a JSON object")
-                checked_json += 1
-            except Exception as exc:
-                problems.append(f"JSON {path}: {exc}")
+
+    if not plan:
+        problems.append(f"plan.json is missing or corrupted for campaign {cid}")
+    else:
+        checked_json += 1
+        expected_hash = _json_hash({k: v for k, v in plan.items() if k != "plan_hash"})
+        if plan.get("plan_hash") != expected_hash:
+            problems.append(f"plan.json plan_hash mismatch: recorded={plan.get('plan_hash')} expected={expected_hash}")
+
+    state = _read_json(paths["state"])
+    if not isinstance(state, dict):
+        problems.append(f"state.json is missing or corrupted for campaign {cid}")
+    else:
+        checked_json += 1
+        if plan and state.get("plan_hash") != plan.get("plan_hash"):
+            problems.append(f"state.json plan_hash does not match plan.json")
+
+    guardian = _read_json(paths["guardian"])
+    if isinstance(guardian, dict):
+        checked_json += 1
+
     run_dirs = list((root / "runs").glob(f"{cid}_classical_r*"))
     for run_dir in run_dirs:
         latest = run_dir / "checkpoints" / "latest.json"
@@ -1753,10 +1841,22 @@ def verify_campaign(args: argparse.Namespace) -> int:
                     break
             except Exception:
                 continue
-        if latest.exists() and not valid:
-            problems.append(f"no valid checkpoint found for {run_dir.name}")
+        ledger_path = run_dir / "ledger.sqlite3"
+        has_trials = False
+        if ledger_path.is_file():
+            try:
+                c = sqlite3.connect(ledger_path.resolve().as_uri() + "?mode=ro", uri=True, timeout=10)
+                row = c.execute("SELECT COUNT(*) FROM trials WHERE status='ok'").fetchone()
+                c.close()
+                if row and row[0] > 0:
+                    has_trials = True
+            except Exception:
+                pass
+        if not valid and (latest.exists() or has_trials):
+            problems.append(f"missing or invalid required checkpoint for run directory: {run_dir.name}")
+
     db_paths = [root / "reports" / "quantum_campaigns" / f"{cid}_quantum" / "quantum_ledger.sqlite3"]
-    db_paths.extend(p for p in run_dirs if (p / "ledger.sqlite3").is_file())
+    db_paths.extend(p / "ledger.sqlite3" for p in run_dirs if (p / "ledger.sqlite3").is_file())
     for db in db_paths:
         if not db.is_file():
             continue
@@ -1790,6 +1890,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     start = sub.add_parser("start", help="Create and start a new immutable hybrid campaign")
     _add_common(start)
+    start.add_argument("--mode", choices=("hybrid", "classical", "quantum"), default="hybrid", help="Research execution mode (default: hybrid)")
+    start.add_argument("--duration-hours", type=float, default=None, help="Campaign duration in hours; cooperatively stops at persistent deadline")
     start.add_argument("--seed", type=int, default=2026)
     start.add_argument("--hours-per-round", type=float, default=0.25)
     start.add_argument("--max-trials-per-round", type=int, default=100)

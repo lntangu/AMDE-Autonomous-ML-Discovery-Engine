@@ -59,9 +59,8 @@ if (-not (Test-Path -LiteralPath $CliPath -PathType Leaf)) {
     throw "AMDE 2.0 runtime CLI not found: $CliPath. Extract the complete 2.0.0 ZIP first."
 }
 
-New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
-
 if ($Mode -eq 'StopAfter') {
+    New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
     Write-RunLog -Path $TimerLog -Message "6-hour stop timer online; campaign=$CampaignId; duration_hours=$DurationHours; root=$Root"
     Write-RunLog -Path $TimerLog -Message "Timer process PID=$PID; waiting $($DurationHours * 3600) seconds."
     Start-Sleep -Seconds ($DurationHours * 3600)
@@ -112,8 +111,8 @@ $versionOutput = & $PythonPath $VersionScript --version 2>&1
 $versionCode = $LASTEXITCODE
 $versionText = ($versionOutput | Out-String).Trim()
 $versionText
-if ($versionCode -ne 0 -or $versionText -notmatch 'amde\s+2\.0\.0') {
-    throw "Expected AMDE 2.0.0; received '$versionText'. Do not start the test."
+if ($versionCode -ne 0 -or $versionText -notmatch 'amde\s+2\.0\.[0-9]+') {
+    throw "Expected AMDE 2.0.x; received '$versionText'. Do not start the test."
 }
 
 & $PythonPath $CliPath doctor --root $Root --device cuda --min-free-gb 5 --min-free-vram-mb 1536
@@ -140,6 +139,7 @@ if ($Collisions.Count -gt 0) {
 Write-Host "Preflight PASS. Starting campaign '$CampaignId' for a six-hour measured run."
 $startArgs = @(
     'start', '--root', $Root, '--campaign-id', $CampaignId,
+    '--duration-hours', $DurationHours.ToString(),
     '--seed', '20261031',
     '--hours-per-round', '0.25',
     '--max-trials-per-round', '100',
@@ -171,6 +171,8 @@ $startArgs = @(
 if ($LASTEXITCODE -ne 0) {
     throw 'AMDE 2.0 campaign did not start cleanly. Do not launch the timer.'
 }
+
+New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
 
 # Start a separate hidden PowerShell timer so closing this console does not cancel the 6-hour stop request.
 $WindowsPowerShell = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'

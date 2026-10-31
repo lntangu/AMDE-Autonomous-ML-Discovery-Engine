@@ -26,7 +26,7 @@ if str(SRC) not in sys.path:
 
 from amde.errors import AMDEBaseError, ConfigError, LockError  # noqa: E402
 from amde.runtime.lock import SingleInstanceLock, default_pid_alive  # noqa: E402
-from amde.util import atomic_write_json, atomic_write_text, hash_json, read_json, sanitize_id, utc_now  # noqa: E402
+from amde.util import atomic_write_json, atomic_write_text, hash_json, read_json, robust_replace, sanitize_id, utc_now  # noqa: E402
 
 
 @dataclass
@@ -54,8 +54,8 @@ def _rotate_log(path: Path, max_bytes: int = 20 * 1024 * 1024, backups: int = 3)
             if index == backups:
                 src.unlink(missing_ok=True)
             else:
-                os.replace(src, dst)
-    os.replace(path, path.with_suffix(path.suffix + ".1"))
+                robust_replace(src, dst)
+    robust_replace(path, path.with_suffix(path.suffix + ".1"))
 
 
 def _worker_state_path(root: Path, worker: Worker) -> Path:

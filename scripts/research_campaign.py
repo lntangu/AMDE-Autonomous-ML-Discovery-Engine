@@ -510,12 +510,15 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     try:
         return run_campaign(args)
-    except (AMDEBaseError, OSError, ValueError) as exc:
-        print(f"campaign error: {type(exc).__name__}: {exc}", file=sys.stderr)
-        return 2
     except KeyboardInterrupt:
         print("campaign interrupted; committed state is available for restart", file=sys.stderr)
         return 130
+    except ConfigError as exc:
+        print(f"campaign configuration error: {exc}", file=sys.stderr)
+        return 2
+    except (AMDEBaseError, OSError, ValueError) as exc:
+        print(f"campaign runtime error: {type(exc).__name__}: {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

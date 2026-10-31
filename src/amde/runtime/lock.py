@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from ..errors import LockError
-from ..util import atomic_write_json, ensure_dir, read_json, safe_fsync, utc_now
+from ..util import atomic_write_json, ensure_dir, read_json, robust_replace, safe_fsync, utc_now
 
 
 def default_pid_alive(pid: int) -> bool:
@@ -169,7 +169,7 @@ class SingleInstanceLock:
                         f"{self.path.name}.stale.{int(time.time())}.{os.getpid()}"
                     )
                     try:
-                        os.replace(self.path, archived)
+                        robust_replace(self.path, archived)
                     except FileNotFoundError:
                         pass
                     except OSError as exc:

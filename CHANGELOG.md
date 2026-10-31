@@ -1,3 +1,17 @@
+## 2.0.1 — 2026-10-31
+
+### Reliability & Fault Tolerance Overhaul
+- Hardened all file operations against Windows NTFS transient lock collisions (`WinError 5` / `WinError 32`) via `robust_replace` with exponential backoff and randomized jitter across locks, heartbeats, states, checkpoints, and log rotations.
+- Integrated persistent cooperative deadline governor (`--duration-hours`, `deadline_utc`) into `plan.json` and `state.json`, eliminating fragile reliance on external detached shell sleep commands.
+- Introduced configurable execution modes (`--mode {hybrid, classical, quantum}`).
+- Added worker startup deadline guard (180s timeout) to detect and recover from hangs occurring before initial heartbeat emission.
+- Fixed worker restart scheduling clock mismatch: converted `next_start_at` to use `time.monotonic()` instead of wall-clock `time.time()`.
+- Separated startup failure classification from in-flight worker transient failures: exit code 2 in-flight follows the restart budget with backoff rather than causing an immediate campaign shutdown.
+- Hardened `verify_campaign` to strictly enforce checkpoint presence for completed rounds.
+- Replaced stubbed Windows sleep guard check in `doctor` with active Win32 API invocation (`SetThreadExecutionState`).
+- Protected worker heartbeat writers with retry handling to avoid aborting model training during concurrent manager reads.
+- Refactored 6-hour test harnesses (`AMDE2_Run_6Hour_Test.ps1`, `AMDE2_Attach_6Hour_Timer.ps1`) for robust directory initialization and cooperative shutdown.
+
 ## 2.0.0 — 2026-10-30
 
 ### Major runtime redesign

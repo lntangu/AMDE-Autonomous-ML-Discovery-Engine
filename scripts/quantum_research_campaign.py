@@ -125,7 +125,10 @@ def _write_heartbeat(state_path: Path, state: dict[str, Any], *, round_index: in
     state["current_method"] = method
     state["active_device"] = device
     state["updated_at"] = utc_now()
-    atomic_write_json(state_path, state)
+    try:
+        atomic_write_json(state_path, state)
+    except Exception as exc:
+        print(f"[warning] failed to flush quantum heartbeat to {state_path.name}: {exc}", file=sys.stderr, flush=True)
 
 
 def _tree_bytes(path: Path) -> int:
@@ -768,9 +771,12 @@ def main(argv: list[str] | None = None) -> int:
     except KeyboardInterrupt:
         print("quantum campaign interrupted; completed trials remain committed", file=sys.stderr)
         return 130
-    except (AMDEBaseError, OSError, ValueError, QuantumBackendError) as exc:
-        print(f"quantum campaign error: {type(exc).__name__}: {exc}", file=sys.stderr)
+    except ConfigError as exc:
+        print(f"quantum campaign configuration error: {exc}", file=sys.stderr)
         return 2
+    except (AMDEBaseError, OSError, ValueError, QuantumBackendError) as exc:
+        print(f"quantum campaign runtime error: {type(exc).__name__}: {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

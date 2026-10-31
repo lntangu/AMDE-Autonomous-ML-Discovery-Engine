@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 import os
+import random
 import re
 import tempfile
 import time
@@ -138,8 +139,30 @@ def ensure_dir(path: Path) -> Path:
     return path
 
 
+def robust_replace(src: Path, dst: Path, *, max_attempts: int = 25, initial_delay: float = 0.01) -> None:
+    """Atomically replace a file with bounded retry on Windows lock collisions.
+
+    On Windows (especially NTFS), os.replace requires delete access on the destination.
+    If another process (e.g. status reader, antivirus, backup) has the destination
+    momentarily open, os.replace raises PermissionError (WinError 5) or OSError (WinError 32).
+    A bounded retry loop with exponential backoff and jitter makes the replace reliable
+    under concurrent read/write patterns.
+    """
+    src = Path(src)
+    dst = Path(dst)
+    for attempt in range(max_attempts):
+        try:
+            os.replace(src, dst)
+            return
+        except (PermissionError, OSError):
+            if attempt == max_attempts - 1:
+                raise
+            delay = initial_delay * (1.2 ** attempt) + random.uniform(0.002, 0.015)
+            time.sleep(delay)
+
+
 def atomic_write_bytes(path: Path, data: bytes) -> None:
-    """Write bytes atomically using a same-directory temp file then rename."""
+    """Write bytes atomically using a same-directory temp file then robust rename."""
 
     ensure_dir(path.parent)
     tmp = path.parent / f".{path.name}.{uuid.uuid4().hex}.tmp"
@@ -148,7 +171,7 @@ def atomic_write_bytes(path: Path, data: bytes) -> None:
             handle.write(data)
             handle.flush()
             safe_fsync(handle.fileno())
-        os.replace(tmp, path)
+        robust_replace(tmp, path)
     finally:
         try:
             if tmp.exists():
@@ -165,9 +188,34 @@ def atomic_write_json(path: Path, value: Any) -> None:
     atomic_write_text(path, canonical_json(value) + "\n")
 
 
+def read_json_safe(path: Path, default: Any = None, *, max_attempts: int = 5) -> Any:
+    """Read a JSON file, retrying transient sharing violations on Windows before falling back to default."""
+    path = Path(path)
+    for attempt in range(max_attempts):
+        try:
+            with path.open("r", encoding="utf-8") as handle:
+                return json.load(handle)
+        except (PermissionError, OSError):
+            if attempt == max_attempts - 1 or not path.exists():
+                return default
+            time.sleep(0.01 * (attempt + 1))
+        except (ValueError, json.JSONDecodeError):
+            return default
+    return default
+
+
 def read_json(path: Path) -> Any:
-    with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+    """Read a JSON file with retry on transient Windows file sharing locks."""
+    path = Path(path)
+    for attempt in range(5):
+        try:
+            with path.open("r", encoding="utf-8") as handle:
+                return json.load(handle)
+        except (PermissionError, OSError) as exc:
+            if attempt == 4 or not path.exists():
+                raise
+            time.sleep(0.01 * (attempt + 1))
+    return None
 
 
 def append_jsonl(path: Path, value: Any) -> None:

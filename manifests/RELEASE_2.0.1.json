@@ -1,0 +1,35 @@
+{
+  "release": "AMDE 2.0.1",
+  "release_date": "2026-10-31",
+  "base_release": "AMDE 2.0.0 Long-Running Autonomous Research Platform",
+  "release_scope": "Engineering reliability, synchronization, and fault-tolerance hardening release. Resolves Windows NTFS sharing collisions, monotonic timing discrepancies, in-flight failure handling, persistent duration governor, and process lifecycle edge cases.",
+  "implemented": [
+    "Hardened file operations via robust_replace with exponential backoff & jitter surviving Windows NTFS sharing violations",
+    "Persistent cooperative duration deadline governor embedded in plan.json and state.json (--duration-hours)",
+    "Configurable execution modes (--mode {hybrid, classical, quantum})",
+    "In-flight vs startup failure classification: in-flight exit code 2 restarts under hourly budget; startup code 2 halts with needs_attention",
+    "Worker startup deadline guard (180s) terminating and rescheduling unobserved hung subprocesses",
+    "Worker restart monotonic clock alignment (next_start_at = time.monotonic() + delay)",
+    "Strict checkpoint verification requiring extant checksummed checkpoints for completed rounds",
+    "Active Windows sleep guard verification in doctor",
+    "Worker heartbeat retry wrapper preventing premature model aborts",
+    "Resilient directory initialization in start_campaign and PowerShell harnesses"
+  ],
+  "validation": {
+    "development_platform": "Linux 6.18, Python 3.14.4",
+    "compileall": "PASS: python3 -m compileall -q src scripts tests",
+    "version_cli": "PASS: amde 2.0.1",
+    "doctor_cpu": "PASS",
+    "full_unit_suite": "219/219 PASS across tests/unit/ (0 failed, 0 skipped; 37.16 seconds)",
+    "amde2_runtime_unit": "12/12 PASS across tests/unit/test_amde2_runtime.py",
+    "amde2_lifecycle_integration": "2/2 PASS across tests/integration/test_amde2_runtime.py",
+    "total_tests": "233/233 PASS across full test suite",
+    "source_manifest": "PASS: SHA256SUMS.txt verified clean"
+  },
+  "not_yet_qualified": [
+    "Native Windows 11 / Python 3.14.7 long-duration 24-hour and 72-hour continuous soak test on target machine",
+    "NVIDIA Quadro P2000 multi-hour thermal hysteresis behavior under extreme continuous load",
+    "Task Scheduler logon autostart on target Windows user session"
+  ],
+  "operational_note": "AMDE 2.0.1 provides a robust, crash-resilient runtime. Hardware qualification on the physical target Windows host should follow the staged protocols in BENCHMARK_PROTOCOL.md and FULL_OPERATIONS_GUIDE.md."
+}

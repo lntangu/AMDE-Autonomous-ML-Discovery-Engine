@@ -4,6 +4,7 @@ import argparse
 import json
 import sqlite3
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from amde.runtime.heartbeat import StopController
 class AMDE2RuntimeTests(unittest.TestCase):
     def _plan_args(self, root: Path, campaign_id: str = "test_campaign") -> argparse.Namespace:
         return argparse.Namespace(
+            root=str(root),
             campaign_id=campaign_id,
             seed=130,
             hours_per_round=0.05,
@@ -191,6 +193,158 @@ class AMDE2RuntimeTests(unittest.TestCase):
             self.assertTrue((restored_root / "config" / "default.json").is_file())
             with self.assertRaises(FileExistsError):
                 amde2.restore_campaign(restore_args)
+
+    def test_plan_mode_and_persistent_deadline(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "scripts").mkdir()
+            (root / "scripts" / "research_campaign.py").touch()
+            (root / "scripts" / "quantum_research_campaign.py").touch()
+            (root / "scripts" / "amde2_logrelay.py").touch()
+
+            # 1. Timed run with persistent deadline
+            args_timed = self._plan_args(root, "timed_test")
+            args_timed.duration_hours = 6.0
+            args_timed.mode = "hybrid"
+            plan_timed = amde2._make_plan(args_timed, root)
+            self.assertEqual(plan_timed["campaign_type"], "timed")
+            self.assertEqual(plan_timed["duration_hours"], 6.0)
+            self.assertIsNotNone(plan_timed["deadline_utc"])
+            self.assertTrue(plan_timed["deadline_utc"].endswith("Z"))
+
+            # 2. Infinite run
+            args_inf = self._plan_args(root, "inf_test")
+            args_inf.duration_hours = None
+            args_inf.mode = "classical"
+            plan_inf = amde2._make_plan(args_inf, root)
+            self.assertEqual(plan_inf["campaign_type"], "infinite")
+            self.assertIsNone(plan_inf["deadline_utc"])
+            self.assertEqual(plan_inf["mode"], "classical")
+
+            # 3. Worker filtering by mode
+            mgr_classical = amde2.AMDE2Manager(root, "inf_test", plan_inf)
+            workers_c = mgr_classical._build_workers()
+            self.assertEqual(len(workers_c), 1)
+            self.assertEqual(workers_c[0].name, "classical")
+
+            args_q = self._plan_args(root, "q_test")
+            args_q.mode = "quantum"
+            plan_q = amde2._make_plan(args_q, root)
+            mgr_q = amde2.AMDE2Manager(root, "q_test", plan_q)
+            workers_q = mgr_q._build_workers()
+            self.assertEqual(len(workers_q), 1)
+            self.assertEqual(workers_q[0].name, "quantum")
+
+    def test_schedule_restart_uses_monotonic_time(self) -> None:
+        import time
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            args = self._plan_args(root)
+            plan = amde2._make_plan(args, root)
+            manager = amde2.AMDE2Manager(root, args.campaign_id, plan)
+            worker = amde2.Worker("classical", "test_classical", root / "state.json",
+                                  root / "lock.json", root / "STOP", root / "worker.log", [])
+            mono_before = time.monotonic()
+            manager._schedule_restart(worker, 1, "failed")
+            mono_after = time.monotonic()
+            # next_start_at should be near monotonic time + delay (10s), NOT wall clock (1.7e9)
+            self.assertGreaterEqual(worker.next_start_at, mono_before + 9.0)
+            self.assertLessEqual(worker.next_start_at, mono_after + 15.0)
+
+    def test_worker_exit_failure_classification(self) -> None:
+        from unittest.mock import MagicMock
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            args = self._plan_args(root)
+            plan = amde2._make_plan(args, root)
+            manager = amde2.AMDE2Manager(root, args.campaign_id, plan)
+            worker = amde2.Worker("quantum", "test_quantum", root / "state.json",
+                                  root / "lock.json", root / "STOP", root / "worker.log", [])
+
+            # Immediate startup exit with code 2 -> fatal needs_attention
+            worker.started_at_monotonic = time.monotonic()
+            worker.restarts = 0
+            amde2._atomic_json(worker.state_path, {"next_round": 0, "status": "running"})
+            mock_proc = MagicMock()
+            mock_proc.poll.return_value = 2
+            worker.process = mock_proc
+            manager._schedule_restart = lambda w, c, s: self.fail("should not restart on startup config error")
+            manager._handle_worker_exit(worker)
+            self.assertEqual(worker.status, "needs_attention")
+            self.assertEqual(manager.target_status, "needs_attention")
+
+            # In-flight exit code 2 (e.g. next_round == 2):
+            worker.started_at_monotonic = time.monotonic() - 60.0
+            worker.restarts = 1
+            amde2._atomic_json(worker.state_path, {"next_round": 2, "status": "running"})
+            restarted = []
+            manager._schedule_restart = lambda w, c, s: restarted.append((w.name, c, s))
+            manager.target_status = None
+            mock_proc2 = MagicMock()
+            mock_proc2.poll.return_value = 2
+            worker.process = mock_proc2
+            manager._handle_worker_exit(worker)
+            self.assertEqual(len(restarted), 1)
+            self.assertEqual(restarted[0][0], "quantum")
+            self.assertEqual(restarted[0][1], 2)
+
+    def test_start_campaign_directory_ownership(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            args = self._plan_args(root, "dir_test")
+            # Pre-create directory (as a test harness or log directory might do)
+            camp_dir = root / "reports" / "amde2" / "dir_test"
+            (camp_dir / "logs").mkdir(parents=True)
+            # Starting campaign should succeed because plan.json does not exist yet
+            plan = amde2._make_plan(args, root)
+            paths = amde2._paths(root, "dir_test")
+            self.assertFalse(paths["plan"].exists())
+            paths["base"].mkdir(parents=True, exist_ok=True)
+            amde2._atomic_json(paths["plan"], plan)
+            self.assertTrue(paths["plan"].exists())
+            # Attempting to start again with existing plan must raise FileExistsError
+            with self.assertRaises(FileExistsError):
+                amde2.start_campaign(args)
+
+    def test_verify_campaign_detects_missing_or_corrupt_checkpoints(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            args = self._plan_args(root, "verify_test")
+            plan = amde2._make_plan(args, root)
+            paths = amde2._paths(root, "verify_test")
+            paths["base"].mkdir(parents=True)
+            paths["control"].mkdir(parents=True)
+            amde2._atomic_json(paths["plan"], plan)
+            amde2._atomic_json(paths["state"], {"campaign_id": "verify_test", "plan_hash": plan["plan_hash"], "status": "running"})
+
+            # Create a run directory that has completed trials but NO checkpoint
+            run_dir = root / "runs" / "verify_test_classical_r00000"
+            run_dir.mkdir(parents=True)
+            db = run_dir / "ledger.sqlite3"
+            con = sqlite3.connect(db)
+            try:
+                con.execute("CREATE TABLE trials(trial_id TEXT PRIMARY KEY, status TEXT)")
+                con.execute("INSERT INTO trials(trial_id, status) VALUES('t1', 'ok')")
+                con.commit()
+            finally:
+                con.close()
+
+            # verify must FAIL because checkpoint is missing for run directory with trials
+            ret = amde2.verify_campaign(argparse.Namespace(root=str(root), campaign_id="verify_test"))
+            self.assertEqual(ret, 1)
+
+            # Now add a valid checkpoint envelope
+            ckpt_dir = run_dir / "checkpoints"
+            ckpt_dir.mkdir()
+            state = {"round": 0, "status": "completed"}
+            envelope = {
+                "schema_version": "1.0.0",
+                "checksum": amde2._json_hash(state),
+                "state": state,
+            }
+            amde2._atomic_json(ckpt_dir / "latest.json", envelope)
+            ret_ok = amde2.verify_campaign(argparse.Namespace(root=str(root), campaign_id="verify_test"))
+            self.assertEqual(ret_ok, 0)
 
 
 if __name__ == "__main__":
