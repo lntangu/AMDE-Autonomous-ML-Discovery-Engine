@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "amde"
-version = "2.0.2"
+version = "2.0.3"
 description = "Open-ended, reproducible ML method discovery with preregistered research and hybrid quantum simulation."
 readme = "README.md"
 requires-python = ">=3.10"

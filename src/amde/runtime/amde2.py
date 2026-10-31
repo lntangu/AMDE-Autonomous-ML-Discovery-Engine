@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .lock import SingleInstanceLock, default_pid_alive
+from .job import WindowsJobObject, terminate_process_tree, validate_process_identity
 from .resources import sample_process_tree
 from ..errors import (
     ConfigError,
@@ -225,6 +226,11 @@ def _make_plan(args: argparse.Namespace, root: Path) -> dict[str, Any]:
         deadline_dt = datetime.now(timezone.utc) + timedelta(hours=duration_hours)
         deadline_utc = deadline_dt.isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
+    d_policy_arg = getattr(args, "deadline_policy", "cooperative")
+    deadline_policy = str(d_policy_arg or "cooperative").lower()
+    if deadline_policy not in {"cooperative", "hard"}:
+        raise ValueError(f"deadline_policy must be 'cooperative' or 'hard', got '{deadline_policy}'")
+
     qprofile = getattr(args, "quantum_profile", None)
     q_epochs = int(args.quantum_epochs)
     q_batch_size = int(args.quantum_batch_size)
@@ -254,6 +260,7 @@ def _make_plan(args: argparse.Namespace, root: Path) -> dict[str, Any]:
         "campaign_type": campaign_type,
         "duration_hours": duration_hours,
         "deadline_utc": deadline_utc,
+        "deadline_policy": deadline_policy,
         "seed": int(args.seed),
         "hours_per_round": float(args.hours_per_round),
         "max_trials_per_round": int(args.max_trials_per_round),
@@ -296,8 +303,8 @@ def _make_plan(args: argparse.Namespace, root: Path) -> dict[str, Any]:
         raise ValueError("quantum epochs and split sizes are invalid")
     if values["memory_reserve_gb"] < 0.5 or values["health_interval_seconds"] < 2:
         raise ValueError("memory reserve must be >=0.5GB and health interval >=2s")
-    if values["stale_heartbeat_seconds"] < 60 or values["manager_stale_seconds"] < 60 or values["shutdown_grace_seconds"] < 30:
-        raise ValueError("heartbeat thresholds must be >=60s and shutdown grace >=30s")
+    if values["stale_heartbeat_seconds"] < 10 or values["manager_stale_seconds"] < 10 or values["shutdown_grace_seconds"] < 1.0:
+        raise ValueError("heartbeat thresholds must be >=10s and shutdown grace >=1.0s")
     if not 60.0 <= values["max_gpu_temperature_c"] <= 100.0:
         raise ValueError("max GPU temperature must be between 60 and 100 Celsius")
     if values["max_worker_restarts_per_hour"] < 1 or values["degraded_retry_seconds"] < 60:
@@ -365,6 +372,8 @@ class AMDE2Manager:
         self.paths = _paths(self.root, self.campaign_id)
         self.workers: list[Worker] = []
         self.lock = SingleInstanceLock(self.paths["manager_lock"], run_id=self.campaign_id, stale_seconds=120)
+        self.job = WindowsJobObject(name=f"Local\\AMDE_{self.campaign_id}")
+        self.job.create(kill_on_close=False)
         self.state: dict[str, Any] = {}
         self.target_status: str | None = None
         self.target_note = ""
@@ -472,6 +481,8 @@ class AMDE2Manager:
             self._close_worker_log(worker)
             raise
         worker.status = "running"
+        if self.job and self.job.is_active() and worker.process:
+            self.job.assign_process(worker.process.pid)
         worker.started_at_monotonic = time.monotonic()
         worker.next_start_at = 0.0
         self._log(f"worker started: {worker.name}", pid=worker.process.pid, campaign_id=worker.campaign_id)
@@ -669,53 +680,54 @@ class AMDE2Manager:
         if process is None or process.poll() is not None:
             return
         pid = process.pid
-        self._log("worker did not exit after its cooperative stop window; terminating it so the checkpointed campaign can recover",
-                  level="WARNING", worker=worker.name, pid=pid)
-        if os.name == "nt":
-            # /T includes multiprocessing children; this path is only used after
-            # a stale heartbeat and a full cooperative grace period.
-            subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"], capture_output=True, check=False,
-                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-        else:
-            try:
-                import psutil  # type: ignore
-                proc = psutil.Process(pid)
-                children = proc.children(recursive=True)
-                for child in reversed(children):
-                    try:
-                        child.terminate()
-                    except psutil.Error:
-                        pass
-                try:
-                    proc.terminate()
-                except psutil.Error:
-                    pass
-                _, alive = psutil.wait_procs(children + [proc], timeout=8)
-                for child in alive:
-                    try:
-                        child.kill()
-                    except psutil.Error:
-                        pass
-            except Exception:
-                try:
-                    process.terminate()
-                except OSError:
-                    pass
-        try:
-            process.wait(timeout=10)
-        except subprocess.TimeoutExpired:
-            try:
-                process.kill()
-                process.wait(timeout=5)
-            except Exception:
-                pass
-        worker.last_error = "stale heartbeat; process terminated after cooperative stop timeout; in-flight unit may be retried"
+        grace_val = float(self.plan.get("shutdown_grace_seconds", 900))
+        self._log(
+            "worker did not exit after its cooperative stop window; executing verified forced termination",
+            level="WARNING",
+            worker=worker.name,
+            pid=pid,
+        )
+        _append_event(
+            self.paths["events"],
+            "forced_shutdown_timeout_reached",
+            worker=worker.name,
+            pid=pid,
+            grace_seconds=grace_val,
+        )
+        _append_event(
+            self.paths["events"],
+            "forced_termination_requested",
+            worker=worker.name,
+            pid=pid,
+        )
+        term_res = terminate_process_tree(
+            pid,
+            exit_code=137,
+            job=self.job,
+            expected_tokens=["python", worker.name, "research_campaign"],
+            timeout=5.0,
+        )
+        _append_event(
+            self.paths["events"],
+            "forced_termination_completed",
+            worker=worker.name,
+            pid=pid,
+            **term_res,
+        )
+        _append_event(
+            self.paths["events"],
+            "process_tree_verified_exited",
+            worker=worker.name,
+            verified=term_res.get("success", False),
+            pids_terminated=term_res.get("pids_terminated", []),
+        )
+        worker.last_error = f"unresponsive worker terminated after forced shutdown timeout ({term_res.get('mechanism')})"
         worker.stop_path.unlink(missing_ok=True)
 
     def _monitor_worker_heartbeats(self) -> None:
         now = time.monotonic()
-        stale_limit = int(self.plan["stale_heartbeat_seconds"])
-        grace = int(self.plan["shutdown_grace_seconds"])
+        stale_limit = float(self.plan.get("stale_heartbeat_seconds", 900))
+        grace = float(self.plan.get("shutdown_grace_seconds", 900))
         for worker in self.workers:
             if worker.process is None or worker.process.poll() is not None:
                 continue
@@ -822,6 +834,8 @@ class AMDE2Manager:
         self.paths["manager_log"].parent.mkdir(parents=True, exist_ok=True)
         _archive_reused_pid_lock(self.paths["manager_lock"], self.root, self.campaign_id, "amde2.py")
         self.lock.acquire()
+        if self.job and self.job.is_active():
+            self.job.assign_process(os.getpid())
 
         # Fail closed if state.json is physically present on disk but corrupted
         if self.paths["state"].is_file():
@@ -905,7 +919,24 @@ class AMDE2Manager:
                     try:
                         deadline_dt = datetime.fromisoformat(str(self.plan["deadline_utc"]).replace("Z", "+00:00"))
                         if datetime.now(timezone.utc) >= deadline_dt:
-                            self._begin_shutdown("stopped", f"persistent campaign deadline reached ({self.plan.get('duration_hours')}h)")
+                            policy = str(self.plan.get("deadline_policy", "cooperative")).lower()
+                            if policy == "hard":
+                                self._log(
+                                    f"Manager detected persistent hard deadline reached ({self.plan.get('duration_hours')}h); terminating worker tree",
+                                    level="CRITICAL",
+                                )
+                                for worker in self.workers:
+                                    if worker.process is not None and worker.process.poll() is None:
+                                        self._terminate_unresponsive_worker(worker)
+                                self._begin_shutdown(
+                                    "stopped",
+                                    f"persistent hard deadline reached ({self.plan.get('duration_hours')}h)",
+                                )
+                            else:
+                                self._begin_shutdown(
+                                    "stopped",
+                                    f"persistent campaign deadline reached ({self.plan.get('duration_hours')}h)",
+                                )
                     except Exception:
                         pass
                 if self.target_status is None:
@@ -930,7 +961,16 @@ class AMDE2Manager:
                     return 0 if final in {"stopped", "paused_storage", "paused_resource"} else 2
                 current_status = "degraded" if any(w.status.startswith("degraded_retry") for w in self.workers) else "running"
                 self._write_state(current_status, "; ".join(f"{w.name}={w.status}" for w in self.workers))
-                time.sleep(2.0)
+                sleep_dur = 2.0
+                if self.plan.get("deadline_utc"):
+                    try:
+                        d_dt = datetime.fromisoformat(str(self.plan["deadline_utc"]).replace("Z", "+00:00"))
+                        rem = (d_dt - datetime.now(timezone.utc)).total_seconds()
+                        if rem > 0 and rem < 2.5:
+                            sleep_dur = max(0.05, min(0.2, rem))
+                    except Exception:
+                        pass
+                time.sleep(sleep_dur)
         except KeyboardInterrupt:
             self._begin_shutdown("stopped", "manager interrupted from console")
             while any(w.process is not None for w in self.workers):
@@ -992,6 +1032,8 @@ class Guardian:
         self.campaign_id = _validate_id(campaign_id)
         self.paths = _paths(self.root, self.campaign_id)
         self.lock = SingleInstanceLock(self.paths["guardian_lock"], run_id=self.campaign_id, stale_seconds=120)
+        self.job = WindowsJobObject(name=f"Local\\AMDE_{self.campaign_id}")
+        self.job.create(kill_on_close=False)
         self.child: subprocess.Popen[Any] | None = None
         self.log_handle: Any = None
         self.restart_times: list[float] = []
@@ -1030,6 +1072,8 @@ class Guardian:
             cmd, cwd=self.root, stdin=subprocess.DEVNULL, stdout=self.log_handle, stderr=subprocess.STDOUT,
             creationflags=flags, start_new_session=(os.name != "nt"), close_fds=(os.name != "nt"),
         )
+        if self.job and self.job.is_active() and self.child:
+            self.job.assign_process(self.child.pid)
         self._write("monitoring", manager_started_at=utc_now(), manager_restart_count=len(self.restart_times))
         self._log(f"Guardian started manager PID={self.child.pid}")
 
@@ -1140,7 +1184,7 @@ class Guardian:
         if live:
             self._log("Guardian found orphan workers/relays; requested campaign-scoped shutdown before recovery",
                       orphan_pids=[pid for _, pid, _, _, _ in live])
-            deadline = time.monotonic() + max(30, int(grace_seconds))
+            deadline = time.monotonic() + max(1, int(grace_seconds))
             while time.monotonic() < deadline:
                 remaining = [(name, pid, child_id, script, marker)
                              for name, pid, child_id, script, marker in live
@@ -1148,15 +1192,22 @@ class Guardian:
                 if not remaining:
                     break
                 self._write("orphan_recovery_wait", orphan_pids=[pid for _, pid, _, _, _ in remaining])
-                time.sleep(2.0)
+                time.sleep(1.0)
             remaining = [(name, pid, child_id, script, marker)
                          for name, pid, child_id, script, marker in live
                          if _pid_matches(pid, self.root, child_id, script)]
             if remaining:
-                self._write("needs_attention", note="orphan workers did not honor cooperative stop; inspect locks before force-stop",
-                            orphan_pids=[pid for _, pid, _, _, _ in remaining])
-                self._log(f"Orphan worker processes remain alive after {grace_seconds}s; refusing duplicate launch: {remaining}")
-                return False
+                self._log(f"Orphan worker processes remain alive after {grace_seconds}s grace timeout; executing verified forced termination", level="WARNING")
+                for name, pid, child_id, script, marker in remaining:
+                    _append_event(self.paths["events"], "forced_shutdown_timeout_reached", pid=pid, target="orphan_worker", worker=name, grace_seconds=grace_seconds)
+                    _append_event(self.paths["events"], "forced_termination_requested", pid=pid, target="orphan_worker", worker=name)
+                    t_res = terminate_process_tree(pid, exit_code=137, expected_tokens=[script, "python"], timeout=3.0)
+                    _append_event(self.paths["events"], "forced_termination_completed", pid=pid, target="orphan_worker", worker=name, **t_res)
+                    _append_event(self.paths["events"], "process_tree_verified_exited", pid=pid, target="orphan_worker", worker=name, verified=t_res.get("success", False))
+                still_alive = [pid for _, pid, child_id, script, _ in remaining if _pid_matches(pid, self.root, child_id, script)]
+                if still_alive:
+                    self._write("needs_attention", note="orphan workers failed to terminate", orphan_pids=still_alive)
+                    return False
 
         # A manager crash may leave scoped stop markers behind. They are removed
         # only after every identified process belonging to this campaign is dead.
@@ -1199,19 +1250,87 @@ class Guardian:
                 self._write(terminal_status, note="safety terminal state requires an explicit operator resume")
                 self._log(f"Campaign remains in safety terminal state={terminal_status}; explicit resume required")
                 return 0
+            if plan.get("deadline_policy") == "hard":
+                self._log(f"Hard deadline watchdog active: policy=hard, deadline={plan.get('deadline_utc')}")
+                _append_event(
+                    self.paths["events"],
+                    "hard_deadline_watchdog_started",
+                    campaign_id=self.campaign_id,
+                    deadline_utc=plan.get("deadline_utc"),
+                    policy="hard",
+                )
             while True:
                 self.lock.heartbeat()
                 if plan.get("deadline_utc") and not self.paths["stop"].exists():
                     try:
                         deadline_dt = datetime.fromisoformat(str(plan["deadline_utc"]).replace("Z", "+00:00"))
-                        if datetime.now(timezone.utc) >= deadline_dt:
-                            self._log(f"Guardian detected persistent deadline reached ({plan.get('duration_hours')}h); requesting cooperative stop")
-                            self.paths["stop"].parent.mkdir(parents=True, exist_ok=True)
-                            _atomic_json(self.paths["stop"], {
-                                "requested_at": utc_now(),
-                                "reason": f"persistent campaign deadline reached ({plan.get('duration_hours')}h)",
-                                "campaign_id": self.campaign_id,
-                            })
+                        now_utc = datetime.now(timezone.utc)
+                        if now_utc >= deadline_dt:
+                            policy = str(plan.get("deadline_policy", "cooperative")).lower()
+                            if policy == "hard":
+                                self._log(
+                                    f"Guardian detected persistent hard deadline reached ({plan.get('duration_hours')}h); executing operating-system process-tree termination",
+                                    level="CRITICAL",
+                                )
+                                _append_event(
+                                    self.paths["events"],
+                                    "hard_deadline_reached",
+                                    campaign_id=self.campaign_id,
+                                    deadline_utc=plan.get("deadline_utc"),
+                                    policy="hard",
+                                )
+                                _append_event(
+                                    self.paths["events"],
+                                    "hard_termination_requested",
+                                    campaign_id=self.campaign_id,
+                                    deadline_utc=plan.get("deadline_utc"),
+                                )
+                                state_data = _read_json(self.paths["state"], {})
+                                mgr_pid = int(state_data.get("manager_pid")) if (isinstance(state_data, dict) and state_data.get("manager_pid")) else None
+                                if mgr_pid is None or not default_pid_alive(mgr_pid):
+                                    mgr_pid = self.child.pid if (self.child and self.child.poll() is None) else self.adopted_manager_pid
+                                term_metrics = terminate_process_tree(
+                                    mgr_pid,
+                                    exit_code=137,
+                                    job=self.job,
+                                    expected_tokens=["amde2", "python"],
+                                    timeout=3.0,
+                                )
+                                _append_event(
+                                    self.paths["events"],
+                                    "hard_termination_completed",
+                                    campaign_id=self.campaign_id,
+                                    **term_metrics,
+                                )
+                                _append_event(
+                                    self.paths["events"],
+                                    "process_tree_verified_exited",
+                                    campaign_id=self.campaign_id,
+                                    verified=term_metrics.get("success", False),
+                                    pids_terminated=term_metrics.get("pids_terminated", []),
+                                )
+                                final_note = f"hard campaign deadline reached ({plan.get('duration_hours')}h); process tree terminated ({term_metrics.get('mechanism')})"
+                                self._write(
+                                    "stopped",
+                                    note=final_note,
+                                )
+                                state_dict = _read_json(self.paths["state"], {})
+                                if isinstance(state_dict, dict):
+                                    state_dict["status"] = "stopped"
+                                    state_dict["ended_at"] = utc_now()
+                                    state_dict["note"] = final_note
+                                    _atomic_json(self.paths["state"], state_dict)
+                                if self.job:
+                                    self.job.close()
+                                return 0
+                            else:
+                                self._log(f"Guardian detected persistent deadline reached ({plan.get('duration_hours')}h); requesting cooperative stop")
+                                self.paths["stop"].parent.mkdir(parents=True, exist_ok=True)
+                                _atomic_json(self.paths["stop"], {
+                                    "requested_at": utc_now(),
+                                    "reason": f"persistent campaign deadline reached ({plan.get('duration_hours')}h)",
+                                    "campaign_id": self.campaign_id,
+                                })
                     except Exception as deadline_exc:
                         self._log(f"Error checking persistent deadline: {deadline_exc}", level="WARNING")
                 if self.paths["stop"].exists():
@@ -1229,7 +1348,16 @@ class Guardian:
                             self._write("needs_attention", note="manager heartbeat stale and safe termination failed")
                             return 2
                         self._write("monitoring", manager_pid=self.adopted_manager_pid, adopted_manager=True)
-                        time.sleep(2.0)
+                        sleep_dur = 2.0
+                        if plan.get("deadline_utc"):
+                            try:
+                                d_dt = datetime.fromisoformat(str(plan["deadline_utc"]).replace("Z", "+00:00"))
+                                rem = (d_dt - datetime.now(timezone.utc)).total_seconds()
+                                if rem > 0 and rem < 2.5:
+                                    sleep_dur = max(0.05, min(0.2, rem))
+                            except Exception:
+                                pass
+                        time.sleep(sleep_dur)
                         continue
                     self._log(f"Adopted manager PID={self.adopted_manager_pid} exited")
                     self.adopted_manager_pid = None
@@ -1244,7 +1372,16 @@ class Guardian:
                 code = self.child.poll()
                 if code is None:
                     self._write("monitoring")
-                    time.sleep(2.0)
+                    sleep_dur = 2.0
+                    if plan.get("deadline_utc"):
+                        try:
+                            d_dt = datetime.fromisoformat(str(plan["deadline_utc"]).replace("Z", "+00:00"))
+                            rem = (d_dt - datetime.now(timezone.utc)).total_seconds()
+                            if rem > 0 and rem < 2.5:
+                                sleep_dur = max(0.05, min(0.2, rem))
+                        except Exception:
+                            pass
+                    time.sleep(sleep_dur)
                     continue
                 self._close_log()
                 state = _read_json(self.paths["state"], {})
@@ -1349,8 +1486,16 @@ def start_campaign(args: argparse.Namespace) -> int:
         "status": "created", "created_at": utc_now(), "workers": {}, "note": "plan created; guardian starting",
         "mode": plan.get("mode", "hybrid"), "campaign_type": plan.get("campaign_type", "infinite"),
         "duration_hours": plan.get("duration_hours"), "deadline_utc": plan.get("deadline_utc"),
+        "deadline_policy": plan.get("deadline_policy", "cooperative"),
     })
     _append_event(paths["events"], "campaign_created", plan_hash=plan["plan_hash"], plan=plan)
+    _append_event(
+        paths["events"],
+        "deadline_policy_selected",
+        campaign_id=campaign_id,
+        deadline_policy=plan.get("deadline_policy", "cooperative"),
+        deadline_utc=plan.get("deadline_utc"),
+    )
     return launch_guardian(root, campaign_id)
 
 
@@ -1607,15 +1752,16 @@ def status_campaign(args: argparse.Namespace) -> int:
     print(f"AMDE 2.0 campaign: {campaign_id}")
     plan = _read_plan(paths)
     if plan:
-        print(f"Mode: {plan.get('mode', 'hybrid')} | Campaign type: {plan.get('campaign_type', 'infinite')}")
+        d_policy = plan.get("deadline_policy", "cooperative")
+        print(f"Mode: {plan.get('mode', 'hybrid')} | Campaign type: {plan.get('campaign_type', 'infinite')} | Deadline policy: {d_policy}")
         if plan.get("deadline_utc"):
             try:
                 deadline_dt = datetime.fromisoformat(str(plan["deadline_utc"]).replace("Z", "+00:00"))
                 rem = (deadline_dt - datetime.now(timezone.utc)).total_seconds()
                 rem_str = f"{rem/3600:.2f}h remaining" if rem > 0 else "deadline elapsed"
-                print(f"Deadline: {plan['deadline_utc']} (duration={plan.get('duration_hours')}h, {rem_str})")
+                print(f"Deadline: {plan['deadline_utc']} (policy={d_policy}, duration={plan.get('duration_hours')}h, {rem_str})")
             except Exception:
-                print(f"Deadline: {plan.get('deadline_utc')}")
+                print(f"Deadline: {plan.get('deadline_utc')} (policy={d_policy})")
     print(f"Campaign state: {state.get('status')}")
     print(f"Guardian state: {guardian.get('status') if isinstance(guardian, dict) else 'unknown'}")
     print(f"Guardian: PID={guardian_pid} alive={_pid_alive(guardian_pid)} heartbeat={guardian.get('heartbeat_at') if isinstance(guardian, dict) else '-'}")
@@ -2016,7 +2162,8 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("--stable-after-seconds", type=int, default=600)
     start.add_argument("--max-worker-restarts-per-hour", type=int, default=8)
     start.add_argument("--degraded-retry-seconds", type=int, default=1800)
-    start.add_argument("--shutdown-grace-seconds", type=int, default=900)
+    start.add_argument("--shutdown-grace-seconds", type=float, default=900.0, help="Cooperative shutdown grace period in seconds before forced termination fallback (default: 900.0)")
+    start.add_argument("--deadline-policy", choices=("cooperative", "hard"), default="cooperative", help="Deadline enforcement policy: cooperative (default) or hard (enforces strict process-tree termination at deadline)")
     start.add_argument("--health-interval-seconds", type=int, default=30)
     start.add_argument("--max-gpu-temperature-c", type=float, default=80.0)
 

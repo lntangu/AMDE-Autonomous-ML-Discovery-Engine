@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build, verify, and package AMDE 2.0.2 clean distribution release."""
+"""Build, verify, and package AMDE 2.0.3 clean distribution release."""
 from __future__ import annotations
 
 import hashlib
@@ -30,6 +30,7 @@ EXCLUDE_DIRS = {
 EXCLUDE_EXTS = {".pyc", ".pyo", ".pyd", ".zip"}
 
 EXCLUDE_FILES = {
+    ".git",
     "SHA256SUMS.txt",
     ".DS_Store",
     "Thumbs.db",
@@ -68,7 +69,7 @@ def collect_release_files(root: Path) -> list[Path]:
 
 
 def main() -> int:
-    print(f"Building AMDE 2.0.2 Release from: {ROOT}")
+    print(f"Building AMDE 2.0.3 Release from: {ROOT}")
     files = collect_release_files(ROOT)
     print(f"Collected {len(files)} clean distribution files.")
 
@@ -90,10 +91,10 @@ def main() -> int:
         return 1
     print(f"PASS: {proc.stdout.strip()}")
 
-    # Package dist/AMDE_2.0.2_Release.zip
+    # Package dist/AMDE_2.0.3_Release.zip
     dist_dir = ROOT / "dist"
     dist_dir.mkdir(parents=True, exist_ok=True)
-    zip_path = dist_dir / "AMDE_2.0.2_Release.zip"
+    zip_path = dist_dir / "AMDE_2.0.3_Release.zip"
 
     all_zip_files = files + [manifest_path]
     print(f"Writing release zip archive: {zip_path}")
@@ -105,7 +106,7 @@ def main() -> int:
             zinfo.external_attr = 0o644 << 16  # standard read/write permissions
             if f.suffix in {".ps1", ".bat", ".sh"} or (f.parent.name == "scripts" and f.suffix == ".py"):
                 zinfo.external_attr = 0o755 << 16  # executable
-            zinfo.date_time = (2026, 10, 31, 8, 0, 0)
+            zinfo.date_time = (2026, 10, 31, 14, 0, 0)
             with f.open("rb") as src_handle:
                 zf.writestr(zinfo, src_handle.read())
 
@@ -114,7 +115,7 @@ def main() -> int:
     print(f"Created {zip_path.name}: {zip_size_mb:.2f} MiB | SHA-256: {zip_digest}")
 
     # Write dist checksum
-    (dist_dir / "AMDE_2.0.2_Release.zip.sha256").write_text(
+    (dist_dir / "AMDE_2.0.3_Release.zip.sha256").write_text(
         f"{zip_digest}  {zip_path.name}\n", encoding="utf-8"
     )
 
@@ -136,15 +137,22 @@ def main() -> int:
             return 1
         print(f"PASS: Extracted release verified: {verify_clean.stdout.strip()}")
 
-        # Run smoke unit test in extracted directory
-        test_cmd = [sys.executable, "-m", "pytest", "-q", "tests/unit/test_amde2_runtime.py"]
-        test_proc = subprocess.run(test_cmd, cwd=temp_root, capture_output=True, text=True)
-        if test_proc.returncode != 0:
-            print(f"FAIL: Unit tests in extracted release failed:\n{test_proc.stderr}\n{test_proc.stdout}")
-            return 1
-        print(f"PASS: Extracted release unit tests: {test_proc.stdout.strip()}")
+        # Run unit tests in extracted directory
+        test_files = [
+            "tests/unit/test_amde2_runtime.py",
+            "tests/unit/test_amde2_job.py",
+            "tests/unit/test_backward_compatibility.py",
+            "tests/unit/test_amde2_forced_termination.py",
+        ]
+        for tf in test_files:
+            test_cmd = [sys.executable, tf]
+            test_proc = subprocess.run(test_cmd, cwd=temp_root, capture_output=True, text=True)
+            if test_proc.returncode != 0:
+                print(f"FAIL: Unit test {tf} in extracted release failed:\n{test_proc.stderr}\n{test_proc.stdout}")
+                return 1
+            print(f"PASS: Extracted release unit test: {tf}")
 
-    print("\nSUCCESS: AMDE 2.0.2 Release Packaging Completed and Verified!")
+    print("\nSUCCESS: AMDE 2.0.3 Release Packaging Completed and Verified!")
     return 0
 
 

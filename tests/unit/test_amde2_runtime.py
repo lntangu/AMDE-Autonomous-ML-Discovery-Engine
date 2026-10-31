@@ -2,11 +2,16 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sqlite3
+import sys
 import tempfile
 import time
 import unittest
 from pathlib import Path
+
+# Ensure worktree src takes precedence over installed packages
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
 from amde.runtime import amde2
 from amde.runtime.heartbeat import StopController
