@@ -1,6 +1,6 @@
 {
   "timestamp": 1793430323.8589046,
-  "device": "Quadro P2000",
+  "device": "Quadro P2000 Mobile",
   "cuda_version": "12.6",
   "cuda_kernel_activity_profiling": {
     "BASELINE": {
@@ -15,7 +15,6 @@
       "kernel_launch_gaps_ms": 100.174,
       "cpu_dispatch_ms": 0.101,
       "wall_step_ms": 120.231,
-      "actual_hardware_utilization_percent": 16.6,
       "top_cuda_kernels": [
         {
           "name": "aten::mul",
@@ -65,7 +64,8 @@
           "cpu_time_us": 26663.6,
           "count": 160
         }
-      ]
+      ],
+      "kernel_active_time_ratio_percent": 16.6
     },
     "MEDIUM": {
       "n_qubits": 8,
@@ -79,7 +79,6 @@
       "kernel_launch_gaps_ms": 101.936,
       "cpu_dispatch_ms": 0.108,
       "wall_step_ms": 124.959,
-      "actual_hardware_utilization_percent": 18.34,
       "top_cuda_kernels": [
         {
           "name": "aten::mul",
@@ -129,7 +128,8 @@
           "cpu_time_us": 21407.0,
           "count": 160
         }
-      ]
+      ],
+      "kernel_active_time_ratio_percent": 18.34
     },
     "HIGH": {
       "n_qubits": 10,
@@ -143,7 +143,6 @@
       "kernel_launch_gaps_ms": 49.585,
       "cpu_dispatch_ms": 0.089,
       "wall_step_ms": 143.265,
-      "actual_hardware_utilization_percent": 65.33,
       "top_cuda_kernels": [
         {
           "name": "aten::mul",
@@ -193,7 +192,8 @@
           "cpu_time_us": 0.0,
           "count": 138
         }
-      ]
+      ],
+      "kernel_active_time_ratio_percent": 65.33
     }
   },
   "training_step_consistency": {
@@ -305,31 +305,41 @@
       "MEDIUM_vs_BASELINE": {
         "mean_paired_difference": -0.0158,
         "std_difference": 0.0217,
-        "t_statistic": -2.299,
-        "p_value_raw": 0.0215,
-        "cohens_d": -0.229,
+        "se_difference": 0.0069,
+        "df": 9,
+        "t_statistic": -2.3012,
+        "p_value_two_sided_exact": 0.0469,
+        "cohens_dz": -0.7277,
+        "cohens_dav": -0.2287,
         "holm_bonferroni_threshold": 0.0167,
         "significant_after_correction": false
       },
       "HIGH_vs_BASELINE": {
         "mean_paired_difference": -0.0286,
         "std_difference": 0.1166,
-        "t_statistic": -0.775,
-        "p_value_raw": 0.4382,
-        "cohens_d": -0.414,
+        "se_difference": 0.0369,
+        "df": 9,
+        "t_statistic": -0.7752,
+        "p_value_two_sided_exact": 0.4581,
+        "cohens_dz": -0.2451,
+        "cohens_dav": -0.3692,
         "holm_bonferroni_threshold": 0.025,
         "significant_after_correction": false
       },
       "HIGH_vs_MEDIUM": {
         "mean_paired_difference": -0.0128,
         "std_difference": 0.1186,
-        "t_statistic": -0.341,
-        "p_value_raw": 0.7328,
-        "cohens_d": -0.185,
+        "se_difference": 0.0375,
+        "df": 9,
+        "t_statistic": -0.3413,
+        "p_value_two_sided_exact": 0.7407,
+        "cohens_dz": -0.1079,
+        "cohens_dav": -0.1618,
         "holm_bonferroni_threshold": 0.05,
         "significant_after_correction": false
       }
-    }
+    },
+    "degrees_of_freedom": 9
   },
   "status_matrix": {
     "cuda_stream_disambiguation": "PASS",
@@ -345,7 +355,12 @@
     "memory_working_set_private_disambiguation": "PASS",
     "sampling_completeness_tracking": "PASS",
     "active_campaign_protection": "PASS",
-    "throughput_taxonomy_reconciled": "PASS"
+    "throughput_taxonomy_reconciled": "PASS",
+    "quadro_p2000_mobile_identity_verified": "PASS",
+    "kernel_active_time_ratio_terminology_corrected": "PASS",
+    "paired_student_t_exact_df9_recomputed": "PASS",
+    "dual_effect_sizes_dz_dav_reported": "PASS",
+    "trial_count_10128_vs_10132_reconciled": "PASS"
   },
   "throughput_taxonomy": {
     "quantum_campaign_amde2six003": {
@@ -365,7 +380,51 @@
       "latest_timestamp_iso": "2026-10-31T07:15:18.065Z",
       "elapsed_hours": 3.173,
       "successful_model_trials_per_hour": 3192.9,
-      "completed_experiments_per_hour": 133.0
+      "completed_experiments_per_hour": 133.0,
+      "trial_count_reconciliation": {
+        "completed_rounds_count": 422,
+        "trials_per_completed_round": 24,
+        "expected_completed_round_trials": 10128,
+        "in_progress_round_index": 422,
+        "in_progress_round_completed_trials": 4,
+        "total_recorded_ok_trials_at_snapshot": 10132,
+        "snapshot_timestamp_iso": "2026-10-31T07:15:18.065Z",
+        "reconciliation_formula": "422 completed rounds * 24 + 4 in-progress trials = 10,132 trials",
+        "in_progress_trials_detail": [
+          {
+            "trial_key": "f94deb0c966514533aa2af0a5558650a058fb63366f7b34a427f7f1a8f3bbdc4",
+            "round_index": 422,
+            "task_id": "q_xor",
+            "method": "mlp_cpu_baseline",
+            "status": "ok",
+            "ended_at": "2026-10-31T07:15:16.864Z"
+          },
+          {
+            "trial_key": "a0e101c5724fbdd1dad92a2f93420e9eaabd2b167630c2ece94fa16fb2c527f2",
+            "round_index": 422,
+            "task_id": "q_xor",
+            "method": "rbf_kernel_ridge_cpu_baseline",
+            "status": "ok",
+            "ended_at": "2026-10-31T07:15:16.880Z"
+          },
+          {
+            "trial_key": "ae0da622037e6fb1cffb8d999733c46a7aa921b3dd3a74feca6352c6cf9f7b68",
+            "round_index": 422,
+            "task_id": "q_xor",
+            "method": "quantum_fidelity_kernel_ridge",
+            "status": "ok",
+            "ended_at": "2026-10-31T07:15:17.083Z"
+          },
+          {
+            "trial_key": "fc564763cc477edbedb92282f71c532eb10584188e28608c6f658cb601bcdef2",
+            "round_index": 422,
+            "task_id": "q_xor",
+            "method": "vqc_statevector",
+            "status": "ok",
+            "ended_at": "2026-10-31T07:15:18.065Z"
+          }
+        ]
+      }
     },
     "classical_campaign_amde2six003": {
       "completed_experiments_rounds": 18,
@@ -373,5 +432,21 @@
       "elapsed_hours": 3.144,
       "trials_per_hour": 571.9
     }
+  },
+  "gpu_hardware_identity": {
+    "product_name": "Quadro P2000 Mobile",
+    "chip": "GP107GL-M (GP107-A1)",
+    "pci_device_id": "0x1CBA10DE",
+    "pci_subsystem_id": "0x087D1028 (Dell Precision Mobile Workstation)",
+    "sm_count": 6,
+    "cuda_cores": 768,
+    "compute_capability": "6.1",
+    "total_vram_mb": 4096,
+    "memory_bus_width_bits": 128,
+    "memory_clock_mhz": 3004,
+    "memory_bandwidth_gb_s": 96.13,
+    "max_sm_clock_mhz": 1544,
+    "theoretical_peak_fp32_tflops": 2.372,
+    "tdp_envelope_watts": "50-60W"
   }
 }
