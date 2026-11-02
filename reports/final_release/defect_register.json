@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-11-02T22:05:00Z",
+  "base_commit": "b895c0f4c4ba4041191c5fe8aa252641a3a4b79c",
+  "target_version": "4.0.1",
+  "defects": [
+    {
+      "id": "DEF-11",
+      "severity": "Critical",
+      "component": "amde.core.identity",
+      "symbols": ["canonical_json"],
+      "files": ["src/amde/core/identity.py"],
+      "root_cause": "canonical_json silently maps NaN and Inf floats to 'null' instead of raising ValidationError, fails to normalize -0.0 to 0.0, lacks unicode NFC normalization, and stringifies numpy scalar types.",
+      "status": "IDENTIFIED",
+      "fix_target": "src/amde/core/identity.py"
+    },
+    {
+      "id": "DEF-12",
+      "severity": "Critical",
+      "component": "amde.core.contracts, amde.core.identity",
+      "symbols": ["EvaluationCacheKey.to_string", "compute_data_split_hash"],
+      "files": ["src/amde/core/contracts.py", "src/amde/core/identity.py"],
+      "root_cause": "EvaluationCacheKey truncates candidate_hash to 16 chars and split_hash to 8 chars risking birthday paradox collisions. compute_data_split_hash only inspects the first 10 rows.",
+      "status": "IDENTIFIED",
+      "fix_target": "src/amde/core/contracts.py, src/amde/core/identity.py"
+    },
+    {
+      "id": "DEF-13",
+      "severity": "High",
+      "component": "amde.controller.egada",
+      "symbols": ["EGADAController.update_feedback", "EGADAController.select_strategy"],
+      "files": ["src/amde/controller/egada.py"],
+      "root_cause": "EGADA awards 0.05 * val_score even when improvement is 0.0, rewarding stagnation. Bandit arm posterior variance is never updated online from sample feedback.",
+      "status": "IDENTIFIED",
+      "fix_target": "src/amde/controller/egada.py"
+    },
+    {
+      "id": "DEF-14",
+      "severity": "High",
+      "component": "amde.archive.pareto",
+      "symbols": ["ParetoArchive.calculate_3d_hypervolume"],
+      "files": ["src/amde/archive/pareto.py"],
+      "root_cause": "Missing 3D hypervolume computation across (loss, latency, memory) despite 3-objective domination; out-of-bounds boundary point accounting omitted.",
+      "status": "IDENTIFIED",
+      "fix_target": "src/amde/archive/pareto.py"
+    },
+    {
+      "id": "DEF-15",
+      "severity": "Medium",
+      "component": "amde.ledger.event_ledger",
+      "symbols": ["EventLedger._init_db", "EventLedger.append_event", "EventLedger.get_events"],
+      "files": ["src/amde/ledger/event_ledger.py"],
+      "root_cause": "Using 'with sqlite3.connect(...) as conn' leaves connection open until GC emitting ResourceWarning. Missing PRAGMA busy_timeout.",
+      "status": "IDENTIFIED",
+      "fix_target": "src/amde/ledger/event_ledger.py"
+    },
+    {
+      "id": "DEF-16",
+      "severity": "Medium",
+      "component": "packaging",
+      "symbols": ["pyproject.toml", "amde.__version__"],
+      "files": ["pyproject.toml", "src/amde/__init__.py"],
+      "root_cause": "Stale version 2.0.3 and missing dependencies in pyproject.toml; amde.__version__ set to 4.0.0 instead of release version 4.0.1.",
+      "status": "IDENTIFIED",
+      "fix_target": "pyproject.toml, src/amde/__init__.py"
+    }
+  ]
+}

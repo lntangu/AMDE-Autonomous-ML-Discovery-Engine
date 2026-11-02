@@ -1,0 +1,18 @@
+{
+  "worktree_path": "/mnt/c/Users/Admin/Downloads/AMDE_Worktree_v400",
+  "branch": "release-amde-final",
+  "base_commit": "b895c0f4c4ba4041191c5fe8aa252641a3a4b79c",
+  "base_tag": "v4.0.0-research-release",
+  "remote_url": "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git",
+  "timestamp": "2026-11-02T22:00:30Z",
+  "historical_and_benchmark_hashes": {
+    "SHA256SUMS_v400.txt": "20cb0a972d218f13170d4eb56265283c99c0a1cf768cfcc73ea36a9243a03c7e",
+    "results/amde4_benchmarks/AMDE_4.0_Comparative_Benchmark.json": "ff3a387989b510480552f0a96308ec2ff63feb87acdef51f1dd558e3a063350a",
+    "results/amde4_benchmarks/AMDE_4.0_Comparative_Benchmark.csv": "d807d58d0a1dff00048f459671dfffdb322b0c9b2d5d3437ac75514db5ac50a1",
+    "results/amde4_benchmarks/AMDE_4.0_Pareto_Frontiers.json": "7a72104df46ecf86f778447f1ebdaa83ace0f56f4b8868e1439b7d51b0b42a70",
+    "results/amde4_benchmarks/AMDE_4.0_Statistical_Significance.json": "a6b783af0390fd2ff4a9b69b11736c9d4ce6876a80c8ce39eab2c2ca050dae3c",
+    "AMDE_3.0_Ablation_Results.json": "712788326e5e83e7db8e9c11ff6e1c66cd566b263d906c89a640d000d337dcf3",
+    "AMDE_3.0_Benchmark_Results.json": "dd7c6a71edc22f53b78b05a4856b2d133cc864e29a1459851c199f774cea41a4",
+    "AMDE_3.0_Deep_Diagnostics.json": "6a8c5678d09e11036787dc4e92b33d4cd1acf6b3dc9fd2ac2a0edfc4d6cf300a"
+  }
+}

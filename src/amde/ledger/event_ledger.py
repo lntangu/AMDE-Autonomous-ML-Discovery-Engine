@@ -9,11 +9,12 @@ Guarantees:
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 import hashlib
 import json
 import sqlite3
 from pathlib import Path
-from typing import Any, List, Mapping, Optional
+from typing import Any, Iterator, List, Mapping, Optional
 
 from amde.core.contracts import ExperimentEvent, utc_now_iso
 from amde.core.identity import canonical_json
@@ -27,9 +28,19 @@ class EventLedger:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
 
+    @contextmanager
+    def _connection(self) -> Iterator[sqlite3.Connection]:
+        """Managed SQLite connection ensuring PRAGMA busy_timeout and deterministic closure."""
+        conn = sqlite3.connect(self.db_path)
+        conn.execute("PRAGMA busy_timeout = 5000;")
+        try:
+            yield conn
+        finally:
+            conn.close()
+
     def _init_db(self) -> None:
         """Initializes SQLite database with WAL mode and schema."""
-        with sqlite3.connect(self.db_path) as conn:
+        with self._connection() as conn:
             conn.execute("PRAGMA journal_mode=WAL;")
             conn.execute("PRAGMA synchronous=NORMAL;")
             conn.execute("""
@@ -57,7 +68,7 @@ class EventLedger:
         payload_str = canonical_json(dict(payload))
         ts = utc_now_iso()
 
-        with sqlite3.connect(self.db_path) as conn:
+        with self._connection() as conn:
             cursor = conn.cursor()
             # Fetch latest event hash for chaining
             cursor.execute("SELECT event_hash, seq FROM experiment_events ORDER BY seq DESC LIMIT 1;")
@@ -92,7 +103,7 @@ class EventLedger:
     def get_events(self, experiment_id: str) -> List[ExperimentEvent]:
         """Retrieves ordered event stream for an experiment."""
         events = []
-        with sqlite3.connect(self.db_path) as conn:
+        with self._connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -119,7 +130,7 @@ class EventLedger:
     def compute_ledger_sha256(self) -> str:
         """Computes a cryptographic fingerprint over the entire event history."""
         hasher = hashlib.sha256()
-        with sqlite3.connect(self.db_path) as conn:
+        with self._connection() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT event_hash FROM experiment_events ORDER BY seq ASC;")
             for row in cursor.fetchall():
@@ -128,7 +139,7 @@ class EventLedger:
 
     def export_jsonl(self, jsonl_path: Path) -> None:
         """Exports the event stream to standard JSON Lines."""
-        with sqlite3.connect(self.db_path) as conn, open(jsonl_path, "w", encoding="utf-8") as f:
+        with self._connection() as conn, open(jsonl_path, "w", encoding="utf-8") as f:
             cursor = conn.cursor()
             cursor.execute(
                 """

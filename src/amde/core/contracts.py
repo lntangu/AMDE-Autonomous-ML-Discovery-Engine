@@ -74,12 +74,12 @@ class EvaluationCacheKey:
     seed: int
     fidelity_rung: int
     metric_id: str
-    evaluator_version: str = "4.0.0"
+    evaluator_version: str = "4.0.1"
 
     def to_string(self) -> str:
         return (
-            f"eval_{self.candidate_hash[:16]}_{self.dataset_id}_"
-            f"{self.split_hash[:8]}_s{self.seed}_r{self.fidelity_rung}_"
+            f"eval_{self.candidate_hash}_{self.dataset_id}_"
+            f"{self.split_hash}_s{self.seed}_r{self.fidelity_rung}_"
             f"{self.metric_id}_v{self.evaluator_version}"
         )
 

@@ -35,8 +35,9 @@ class EGADAController(MetaController):
         self.stats: dict[str, dict[str, float]] = {
             name: {
                 "discounted_n": 1.0,
-                "discounted_sum": prior_mean,
-                "variance": self.prior_var,
+                "discounted_sum": float(prior_mean),
+                "discounted_sum_sq": float(prior_mean**2 + self.prior_var),
+                "variance": float(self.prior_var),
             }
             for name in self.strategy_names
         }
@@ -133,9 +134,13 @@ class EGADAController(MetaController):
                 if float(val_score) > self.incumbent_score:
                     self.incumbent_score = float(val_score)
 
-            # Cost-normalized improvement with soft baseline quality bonus
-            time_norm = math.sqrt(max(0.01, train_duration))
-            reward = (improvement / time_norm) + (0.05 * max(0.0, float(val_score)))
+            if improvement > 0.0:
+                # Cost-normalized improvement
+                time_norm = math.sqrt(max(0.01, train_duration))
+                reward = improvement / time_norm
+            else:
+                # Non-improving candidate receives zero improvement reward
+                reward = 0.0
 
         # Clamp reward to [-1.0, 5.0] to mathematically eliminate infinity/NaN
         reward = max(-1.0, min(5.0, reward))
@@ -144,10 +149,19 @@ class EGADAController(MetaController):
         for name in self.strategy_names:
             self.stats[name]["discounted_n"] *= self.gamma
             self.stats[name]["discounted_sum"] *= self.gamma
+            self.stats[name]["discounted_sum_sq"] *= self.gamma
 
         # 3. Incorporate new observation for the pulled strategy
         st = self.stats[strategy_name]
         st["discounted_n"] += 1.0
         st["discounted_sum"] += reward
+        st["discounted_sum_sq"] += reward**2
+
+        # 4. Update empirical posterior variance
+        eff_n = max(1.0, st["discounted_n"])
+        mean_val = st["discounted_sum"] / eff_n
+        mean_sq = st["discounted_sum_sq"] / eff_n
+        emp_var = max(0.01, mean_sq - (mean_val**2))
+        st["variance"] = float(emp_var)
 
         return reward

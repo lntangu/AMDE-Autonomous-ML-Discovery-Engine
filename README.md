@@ -1,8 +1,8 @@
 # AMDE 4.0 — Autonomous Machine Learning Discovery Engine
 
-[![Architecture Version](https://img.shields.io/badge/architecture-4.0.0-blue.svg)](docs/architecture/AMDE_4.0_System_Architecture.md)
-[![Release Status](https://img.shields.io/badge/status-QUALIFIED__FOR__RESEARCH__RELEASE-brightgreen.svg)](docs/architecture/AMDE_4.0_Final_Release_Assessment.md)
-[![Tests](https://img.shields.io/badge/tests-16%2F16%20passing-success.svg)](docs/architecture/AMDE_4.0_Test_Qualification.md)
+[![Architecture Version](https://img.shields.io/badge/architecture-4.0.1-blue.svg)](docs/architecture/AMDE_4.0_System_Architecture.md)
+[![Release Status](https://img.shields.io/badge/status-QUALIFIED__FOR__RESEARCH__RELEASE-brightgreen.svg)](docs/PROJECT_CLOSURE.md)
+[![Tests](https://img.shields.io/badge/tests-28%2F28%20passing-success.svg)](reports/final_release/FINAL_TEST_REPORT.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 **AMDE 4.0** is a complete, principled architectural reconstruction of the Autonomous Machine Learning Discovery Engine. Designed from the ground up for scientific defensibility, evidence provenance, and multi-objective optimization, AMDE 4.0 transforms autonomous model discovery from an ad-hoc heuristic exploration into an empirically grounded research instrument.
@@ -102,10 +102,14 @@ Detailed mathematical specifications, defect registers, and operational guides a
 
 ## 4. Test Suite Execution
 
-Execute the full architecture verification suite (16 test methods, 100% pass rate in $< 4$ seconds):
+Execute the full architecture and hardening regression suites (28 tests, 100% pass rate in $< 5$ seconds):
 
 ```bash
+# Architecture specification tests
 PYTHONPATH=src python3 -m unittest tests/unit/test_amde4_architecture.py
+
+# Forensic hardening regression tests (DEF-11 through DEF-16)
+PYTHONPATH=src python3 -m unittest tests/unit/test_amde4_hardening_regressions.py
 ```
 
 ---

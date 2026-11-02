@@ -299,6 +299,7 @@ class AMDE4Engine:
             "strategy_shares": self.controller.get_allocation_shares(),
             "pareto_size": len(self.pareto_archive.frontier),
             "hypervolume_2d": self.pareto_archive.calculate_2d_hypervolume(),
+            "hypervolume_3d": self.pareto_archive.calculate_3d_hypervolume(),
             "ledger_sha256": self.ledger.compute_ledger_sha256(),
             "total_duration_seconds": round(time.perf_counter() - start_t, 2),
         }
