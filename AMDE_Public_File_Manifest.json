@@ -1,6 +1,6 @@
 {
   "release": "AMDE 2.0.3",
-  "total_files": 194,
+  "total_files": 195,
   "files": {
     ".gitattributes": {
       "size_bytes": 358,
@@ -61,6 +61,10 @@
     "docs/AMDE2_ARCHITECTURE.md": {
       "size_bytes": 4973,
       "sha256": "18af435f1b7d37999c5ca8eff7135627b41a7dc7f28e3aa1c1d2f5cea938cca0"
+    },
+    "docs/AMDE_Final_Release_Closure.md": {
+      "size_bytes": 7292,
+      "sha256": "0b832e3d15f12ea72a12764fc4bd1822b77635873d880b2982667d713475588e"
     },
     "docs/ARCHITECTURE.md": {
       "size_bytes": 3389,
