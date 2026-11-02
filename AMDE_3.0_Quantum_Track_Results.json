@@ -1,0 +1,44 @@
+{
+  "dim_2": {
+    "classical_rbf": {
+      "mean_acc": 0.9667,
+      "mean_time_ms": 25.83
+    },
+    "classical_mlp": {
+      "mean_acc": 0.8417,
+      "mean_time_ms": 67.23
+    },
+    "quantum_fidelity_kernel": {
+      "mean_acc": 0.9389,
+      "mean_time_ms": 415.53
+    }
+  },
+  "dim_4": {
+    "classical_rbf": {
+      "mean_acc": 0.9194,
+      "mean_time_ms": 19.45
+    },
+    "classical_mlp": {
+      "mean_acc": 0.6278,
+      "mean_time_ms": 92.71
+    },
+    "quantum_fidelity_kernel": {
+      "mean_acc": 0.9139,
+      "mean_time_ms": 345.77
+    }
+  },
+  "dim_8": {
+    "classical_rbf": {
+      "mean_acc": 0.7778,
+      "mean_time_ms": 48.78
+    },
+    "classical_mlp": {
+      "mean_acc": 0.6,
+      "mean_time_ms": 65.37
+    },
+    "quantum_fidelity_kernel": {
+      "mean_acc": 0.6694,
+      "mean_time_ms": 237.74
+    }
+  }
+}

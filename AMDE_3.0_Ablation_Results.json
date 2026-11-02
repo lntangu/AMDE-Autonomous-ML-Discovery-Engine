@@ -1,0 +1,106 @@
+{
+  "q_xor": {
+    "full_amde_30": {
+      "mean_test_acc": 0.97,
+      "mean_duration": 3.12
+    },
+    "wo_controller": {
+      "mean_test_acc": 0.9767,
+      "mean_duration": 4.43
+    },
+    "wo_multi_fidelity": {
+      "mean_test_acc": 0.9767,
+      "mean_duration": 3.58
+    },
+    "wo_surrogate": {
+      "mean_test_acc": 0.9867,
+      "mean_duration": 3.2
+    },
+    "wo_negative_memory": {
+      "mean_test_acc": 0.97,
+      "mean_duration": 2.59
+    },
+    "amde_203_baseline": {
+      "mean_test_acc": 0.9867,
+      "mean_duration": 1.93
+    }
+  },
+  "breast_cancer": {
+    "full_amde_30": {
+      "mean_test_acc": 0.9536,
+      "mean_duration": 3.49
+    },
+    "wo_controller": {
+      "mean_test_acc": 0.9594,
+      "mean_duration": 6.67
+    },
+    "wo_multi_fidelity": {
+      "mean_test_acc": 0.9478,
+      "mean_duration": 6.78
+    },
+    "wo_surrogate": {
+      "mean_test_acc": 0.9739,
+      "mean_duration": 3.76
+    },
+    "wo_negative_memory": {
+      "mean_test_acc": 0.9536,
+      "mean_duration": 3.66
+    },
+    "amde_203_baseline": {
+      "mean_test_acc": 0.9623,
+      "mean_duration": 4.5
+    }
+  },
+  "digits": {
+    "full_amde_30": {
+      "mean_test_acc": 0.9611,
+      "mean_duration": 15.49
+    },
+    "wo_controller": {
+      "mean_test_acc": 0.962,
+      "mean_duration": 27.04
+    },
+    "wo_multi_fidelity": {
+      "mean_test_acc": 0.9667,
+      "mean_duration": 48.12
+    },
+    "wo_surrogate": {
+      "mean_test_acc": 0.9713,
+      "mean_duration": 15.04
+    },
+    "wo_negative_memory": {
+      "mean_test_acc": 0.9611,
+      "mean_duration": 13.01
+    },
+    "amde_203_baseline": {
+      "mean_test_acc": 0.9639,
+      "mean_duration": 27.69
+    }
+  },
+  "highdim_sparse": {
+    "full_amde_30": {
+      "mean_test_acc": 0.8028,
+      "mean_duration": 7.29
+    },
+    "wo_controller": {
+      "mean_test_acc": 0.8055,
+      "mean_duration": 10.03
+    },
+    "wo_multi_fidelity": {
+      "mean_test_acc": 0.8028,
+      "mean_duration": 11.98
+    },
+    "wo_surrogate": {
+      "mean_test_acc": 0.7972,
+      "mean_duration": 5.79
+    },
+    "wo_negative_memory": {
+      "mean_test_acc": 0.8028,
+      "mean_duration": 8.01
+    },
+    "amde_203_baseline": {
+      "mean_test_acc": 0.7917,
+      "mean_duration": 4.25
+    }
+  }
+}

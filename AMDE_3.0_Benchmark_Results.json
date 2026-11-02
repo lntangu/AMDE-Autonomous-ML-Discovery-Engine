@@ -1,0 +1,2130 @@
+{
+  "metadata": {
+    "version": "AMDE 3.0",
+    "date": "2026-11-02",
+    "tasks": [
+      "q_xor",
+      "q_moons",
+      "q_shifted_xor",
+      "q_parity",
+      "breast_cancer",
+      "wine",
+      "digits",
+      "diabetes",
+      "highdim_sparse",
+      "imbalanced_moons"
+    ],
+    "seeds": [
+      42,
+      123,
+      456,
+      789,
+      2026
+    ],
+    "budget": 50
+  },
+  "raw_runs": [
+    {
+      "task": "q_xor",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 5.38,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 3.5,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 3.58,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 2.84,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 5.54,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 4.77,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 5.73,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 7.27,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 4.37,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 6.27,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.99,
+      "val_acc": 0.98,
+      "duration": 1.76,
+      "duplicate_rate": 0.58
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 3.55,
+      "duplicate_rate": 0.38
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 2.81,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 1.34,
+      "duplicate_rate": 0.84
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.95,
+      "val_acc": 0.99,
+      "duration": 3.62,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 2.94,
+      "duplicate_rate": 0.0909
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 2.36,
+      "duplicate_rate": 0.0196
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 2.16,
+      "duplicate_rate": 0.0741
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 1.82,
+      "duplicate_rate": 0.1071
+    },
+    {
+      "task": "q_xor",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 2.9,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "q_moons",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 0.94,
+      "val_acc": 1.0,
+      "duration": 4.05,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.99,
+      "val_acc": 0.99,
+      "duration": 4.03,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 8.38,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.96,
+      "val_acc": 1.0,
+      "duration": 2.8,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 7.85,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 0.94,
+      "val_acc": 1.0,
+      "duration": 4.72,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.99,
+      "val_acc": 0.99,
+      "duration": 6.03,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 5.51,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.96,
+      "val_acc": 1.0,
+      "duration": 3.7,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 7.3,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.84,
+      "val_acc": 0.9,
+      "duration": 1.8,
+      "duplicate_rate": 0.58
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 1.0,
+      "val_acc": 0.99,
+      "duration": 3.61,
+      "duplicate_rate": 0.38
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 3.3,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.98,
+      "val_acc": 0.99,
+      "duration": 1.42,
+      "duplicate_rate": 0.84
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.99,
+      "val_acc": 0.99,
+      "duration": 5.53,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.94,
+      "val_acc": 1.0,
+      "duration": 4.97,
+      "duplicate_rate": 0.0909
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.99,
+      "val_acc": 0.99,
+      "duration": 2.67,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.94,
+      "val_acc": 1.0,
+      "duration": 2.05,
+      "duplicate_rate": 0.1379
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.95,
+      "val_acc": 1.0,
+      "duration": 1.53,
+      "duplicate_rate": 0.1071
+    },
+    {
+      "task": "q_moons",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 0.99,
+      "val_acc": 0.99,
+      "duration": 3.52,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 3.55,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 3.97,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 4.11,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 2.62,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 4.44,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 4.6,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 5.09,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 5.38,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 3.98,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 0.99,
+      "duration": 3.92,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.97,
+      "val_acc": 0.98,
+      "duration": 1.76,
+      "duplicate_rate": 0.58
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 3.62,
+      "duplicate_rate": 0.38
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 2.98,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 1.16,
+      "duplicate_rate": 0.84
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.96,
+      "val_acc": 0.98,
+      "duration": 4.05,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 2.91,
+      "duplicate_rate": 0.0909
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 2.31,
+      "duplicate_rate": 0.0196
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 2.12,
+      "duplicate_rate": 0.0741
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 2.13,
+      "duplicate_rate": 0.1071
+    },
+    {
+      "task": "q_shifted_xor",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 0.99,
+      "duration": 2.53,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "q_parity",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 3.22,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 3.51,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 3.46,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 2.68,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 4.28,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 4.71,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 5.33,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 3.23,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 6.34,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 8.7,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 1.75,
+      "duplicate_rate": 0.58
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 3.09,
+      "duplicate_rate": 0.38
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 2.95,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.99,
+      "val_acc": 0.99,
+      "duration": 1.34,
+      "duplicate_rate": 0.84
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 3.5,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 3.63,
+      "duplicate_rate": 0.0909
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 2.08,
+      "duplicate_rate": 0.0196
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 2.1,
+      "duplicate_rate": 0.1803
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.99,
+      "val_acc": 1.0,
+      "duration": 1.87,
+      "duplicate_rate": 0.2754
+    },
+    {
+      "task": "q_parity",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 1.0,
+      "val_acc": 1.0,
+      "duration": 2.83,
+      "duplicate_rate": 0.0909
+    },
+    {
+      "task": "breast_cancer",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 0.9478,
+      "val_acc": 0.9911,
+      "duration": 4.89,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.9652,
+      "val_acc": 0.9735,
+      "duration": 4.66,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.9652,
+      "val_acc": 0.9646,
+      "duration": 4.55,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.9478,
+      "val_acc": 0.9911,
+      "duration": 4.77,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 0.9304,
+      "val_acc": 0.9911,
+      "duration": 9.76,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 0.9478,
+      "val_acc": 0.9911,
+      "duration": 7.96,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.9652,
+      "val_acc": 0.9735,
+      "duration": 6.64,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.9652,
+      "val_acc": 0.9646,
+      "duration": 7.37,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.9478,
+      "val_acc": 0.9911,
+      "duration": 6.28,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 0.9304,
+      "val_acc": 0.9911,
+      "duration": 7.04,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.9478,
+      "val_acc": 0.9911,
+      "duration": 2.01,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.9565,
+      "val_acc": 0.9823,
+      "duration": 2.86,
+      "duplicate_rate": 0.68
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.9739,
+      "val_acc": 0.9469,
+      "duration": 5.82,
+      "duplicate_rate": 0.64
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.9478,
+      "val_acc": 0.9911,
+      "duration": 2.62,
+      "duplicate_rate": 0.82
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.9304,
+      "val_acc": 0.9911,
+      "duration": 23.41,
+      "duplicate_rate": 0.66
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.9478,
+      "val_acc": 0.9823,
+      "duration": 3.11,
+      "duplicate_rate": 0.1071
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.9304,
+      "val_acc": 0.9646,
+      "duration": 3.27,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.9826,
+      "val_acc": 0.9557,
+      "duration": 2.25,
+      "duplicate_rate": 0.0909
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.9565,
+      "val_acc": 0.9911,
+      "duration": 3.62,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "breast_cancer",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 0.9304,
+      "val_acc": 0.9911,
+      "duration": 4.33,
+      "duplicate_rate": 0.0196
+    },
+    {
+      "task": "wine",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 4.01,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.9189,
+      "val_acc": 1.0,
+      "duration": 4.56,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.973,
+      "val_acc": 1.0,
+      "duration": 3.6,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 3.72,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 0.973,
+      "val_acc": 1.0,
+      "duration": 5.48,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 5.16,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.9189,
+      "val_acc": 1.0,
+      "duration": 6.22,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.9189,
+      "val_acc": 0.9714,
+      "duration": 5.4,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 5.25,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 0.973,
+      "val_acc": 1.0,
+      "duration": 4.48,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "wine",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 1.18,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "wine",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.9189,
+      "val_acc": 1.0,
+      "duration": 2.3,
+      "duplicate_rate": 0.68
+    },
+    {
+      "task": "wine",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.9459,
+      "val_acc": 0.9714,
+      "duration": 5.86,
+      "duplicate_rate": 0.64
+    },
+    {
+      "task": "wine",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 2.91,
+      "duplicate_rate": 0.82
+    },
+    {
+      "task": "wine",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.973,
+      "val_acc": 1.0,
+      "duration": 5.81,
+      "duplicate_rate": 0.66
+    },
+    {
+      "task": "wine",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 2.5,
+      "duplicate_rate": 0.2188
+    },
+    {
+      "task": "wine",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.9459,
+      "val_acc": 1.0,
+      "duration": 2.75,
+      "duplicate_rate": 0.1935
+    },
+    {
+      "task": "wine",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.9459,
+      "val_acc": 0.9714,
+      "duration": 2.07,
+      "duplicate_rate": 0.0909
+    },
+    {
+      "task": "wine",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 1.0,
+      "val_acc": 0.9714,
+      "duration": 3.07,
+      "duplicate_rate": 0.1525
+    },
+    {
+      "task": "wine",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 0.973,
+      "val_acc": 1.0,
+      "duration": 3.79,
+      "duplicate_rate": 0.0196
+    },
+    {
+      "task": "digits",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 0.9639,
+      "val_acc": 0.9861,
+      "duration": 40.34,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.975,
+      "val_acc": 0.9777,
+      "duration": 36.99,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.9806,
+      "val_acc": 0.9749,
+      "duration": 32.72,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.9611,
+      "val_acc": 0.9805,
+      "duration": 25.84,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 0.9778,
+      "val_acc": 0.9833,
+      "duration": 41.95,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 0.9611,
+      "val_acc": 0.9833,
+      "duration": 42.93,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.9722,
+      "val_acc": 0.9805,
+      "duration": 35.28,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.975,
+      "val_acc": 0.9721,
+      "duration": 61.02,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.9611,
+      "val_acc": 0.9805,
+      "duration": 43.33,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 0.9722,
+      "val_acc": 0.9889,
+      "duration": 55.03,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "digits",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.9528,
+      "val_acc": 0.9721,
+      "duration": 8.09,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "digits",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.9556,
+      "val_acc": 0.9749,
+      "duration": 7.77,
+      "duplicate_rate": 0.68
+    },
+    {
+      "task": "digits",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.9806,
+      "val_acc": 0.9666,
+      "duration": 45.62,
+      "duplicate_rate": 0.64
+    },
+    {
+      "task": "digits",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.9694,
+      "val_acc": 0.9749,
+      "duration": 19.4,
+      "duplicate_rate": 0.82
+    },
+    {
+      "task": "digits",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.9806,
+      "val_acc": 0.9861,
+      "duration": 59.62,
+      "duplicate_rate": 0.66
+    },
+    {
+      "task": "digits",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.9528,
+      "val_acc": 0.9833,
+      "duration": 11.17,
+      "duplicate_rate": 0.1515
+    },
+    {
+      "task": "digits",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.9583,
+      "val_acc": 0.9666,
+      "duration": 13.67,
+      "duplicate_rate": 0.2963
+    },
+    {
+      "task": "digits",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.9722,
+      "val_acc": 0.9694,
+      "duration": 8.95,
+      "duplicate_rate": 0.0727
+    },
+    {
+      "task": "digits",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.9639,
+      "val_acc": 0.9777,
+      "duration": 17.91,
+      "duplicate_rate": 0.0678
+    },
+    {
+      "task": "digits",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 0.9694,
+      "val_acc": 0.9777,
+      "duration": 12.26,
+      "duplicate_rate": 0.2464
+    },
+    {
+      "task": "diabetes",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 0.7416,
+      "val_acc": 0.7614,
+      "duration": 3.11,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.6854,
+      "val_acc": 0.8068,
+      "duration": 3.13,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.764,
+      "val_acc": 0.8182,
+      "duration": 3.38,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.764,
+      "val_acc": 0.8409,
+      "duration": 3.3,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 0.7528,
+      "val_acc": 0.7841,
+      "duration": 3.59,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 0.7303,
+      "val_acc": 0.7614,
+      "duration": 4.42,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.6742,
+      "val_acc": 0.8068,
+      "duration": 4.75,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.7753,
+      "val_acc": 0.8068,
+      "duration": 7.71,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.764,
+      "val_acc": 0.8296,
+      "duration": 5.36,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 0.6966,
+      "val_acc": 0.75,
+      "duration": 5.19,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.6742,
+      "val_acc": 0.7614,
+      "duration": 1.69,
+      "duplicate_rate": 0.74
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.6854,
+      "val_acc": 0.7841,
+      "duration": 1.45,
+      "duplicate_rate": 0.68
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.7753,
+      "val_acc": 0.7954,
+      "duration": 1.6,
+      "duplicate_rate": 0.7
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.7416,
+      "val_acc": 0.7954,
+      "duration": 1.65,
+      "duplicate_rate": 0.8
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.7079,
+      "val_acc": 0.7614,
+      "duration": 19.41,
+      "duplicate_rate": 0.56
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.6966,
+      "val_acc": 0.7614,
+      "duration": 2.72,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.6966,
+      "val_acc": 0.7841,
+      "duration": 2.84,
+      "duplicate_rate": 0.0566
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.7303,
+      "val_acc": 0.7954,
+      "duration": 2.47,
+      "duplicate_rate": 0.0566
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.7191,
+      "val_acc": 0.8182,
+      "duration": 2.44,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "diabetes",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 0.7416,
+      "val_acc": 0.7614,
+      "duration": 10.07,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 0.7833,
+      "val_acc": 0.825,
+      "duration": 7.61,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.75,
+      "val_acc": 0.8417,
+      "duration": 5.55,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.7833,
+      "val_acc": 0.8333,
+      "duration": 5.25,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.8,
+      "val_acc": 0.8583,
+      "duration": 4.74,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 0.75,
+      "val_acc": 0.7917,
+      "duration": 5.51,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 0.775,
+      "val_acc": 0.825,
+      "duration": 10.2,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.7667,
+      "val_acc": 0.8333,
+      "duration": 12.93,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.7833,
+      "val_acc": 0.8333,
+      "duration": 11.96,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.825,
+      "val_acc": 0.875,
+      "duration": 11.02,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 0.75,
+      "val_acc": 0.7917,
+      "duration": 5.21,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.7,
+      "val_acc": 0.7333,
+      "duration": 2.26,
+      "duplicate_rate": 0.74
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.775,
+      "val_acc": 0.8083,
+      "duration": 1.95,
+      "duplicate_rate": 0.68
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.7833,
+      "val_acc": 0.8333,
+      "duration": 3.74,
+      "duplicate_rate": 0.64
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.7667,
+      "val_acc": 0.8667,
+      "duration": 5.04,
+      "duplicate_rate": 0.76
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.7083,
+      "val_acc": 0.8,
+      "duration": 15.62,
+      "duplicate_rate": 0.64
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.7917,
+      "val_acc": 0.8167,
+      "duration": 7.44,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.75,
+      "val_acc": 0.8417,
+      "duration": 5.67,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.7833,
+      "val_acc": 0.8333,
+      "duration": 3.98,
+      "duplicate_rate": 0.3151
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.8,
+      "val_acc": 0.8583,
+      "duration": 6.09,
+      "duplicate_rate": 0.0385
+    },
+    {
+      "task": "highdim_sparse",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 0.75,
+      "val_acc": 0.7917,
+      "duration": 3.88,
+      "duplicate_rate": 0.0196
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "random_search",
+      "seed": 42,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 4.1,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "random_search",
+      "seed": 123,
+      "test_acc": 0.96,
+      "val_acc": 0.99,
+      "duration": 3.66,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "random_search",
+      "seed": 456,
+      "test_acc": 0.98,
+      "val_acc": 0.98,
+      "duration": 4.04,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "random_search",
+      "seed": 789,
+      "test_acc": 0.97,
+      "val_acc": 0.98,
+      "duration": 2.79,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "random_search",
+      "seed": 2026,
+      "test_acc": 0.95,
+      "val_acc": 0.98,
+      "duration": 4.39,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 4.95,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "bayesian_tpe",
+      "seed": 123,
+      "test_acc": 0.96,
+      "val_acc": 0.99,
+      "duration": 6.34,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "bayesian_tpe",
+      "seed": 456,
+      "test_acc": 0.98,
+      "val_acc": 0.99,
+      "duration": 5.54,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "bayesian_tpe",
+      "seed": 789,
+      "test_acc": 0.96,
+      "val_acc": 0.97,
+      "duration": 4.66,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "bayesian_tpe",
+      "seed": 2026,
+      "test_acc": 0.95,
+      "val_acc": 0.98,
+      "duration": 5.27,
+      "duplicate_rate": 0.0
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_203_baseline",
+      "seed": 42,
+      "test_acc": 0.93,
+      "val_acc": 0.98,
+      "duration": 1.69,
+      "duplicate_rate": 0.58
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_203_baseline",
+      "seed": 123,
+      "test_acc": 0.96,
+      "val_acc": 0.99,
+      "duration": 3.59,
+      "duplicate_rate": 0.38
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_203_baseline",
+      "seed": 456,
+      "test_acc": 0.98,
+      "val_acc": 1.0,
+      "duration": 3.09,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_203_baseline",
+      "seed": 789,
+      "test_acc": 0.92,
+      "val_acc": 0.94,
+      "duration": 1.29,
+      "duplicate_rate": 0.84
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_203_baseline",
+      "seed": 2026,
+      "test_acc": 0.9,
+      "val_acc": 0.95,
+      "duration": 2.66,
+      "duplicate_rate": 0.6
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_30_egada",
+      "seed": 42,
+      "test_acc": 0.97,
+      "val_acc": 1.0,
+      "duration": 3.43,
+      "duplicate_rate": 0.0667
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_30_egada",
+      "seed": 123,
+      "test_acc": 0.96,
+      "val_acc": 0.99,
+      "duration": 1.92,
+      "duplicate_rate": 0.0833
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_30_egada",
+      "seed": 456,
+      "test_acc": 0.99,
+      "val_acc": 0.97,
+      "duration": 1.48,
+      "duplicate_rate": 0.0741
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_30_egada",
+      "seed": 789,
+      "test_acc": 0.94,
+      "val_acc": 0.96,
+      "duration": 1.72,
+      "duplicate_rate": 0.0364
+    },
+    {
+      "task": "imbalanced_moons",
+      "method": "amde_30_egada",
+      "seed": 2026,
+      "test_acc": 0.95,
+      "val_acc": 0.96,
+      "duration": 2.24,
+      "duplicate_rate": 0.0702
+    }
+  ],
+  "task_summary": {
+    "q_xor": {
+      "random_search": {
+        "mean_test_acc": 0.986,
+        "std_test_acc": 0.0136,
+        "mean_val_acc": 1.0,
+        "mean_duration": 4.17,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.986,
+        "std_test_acc": 0.0136,
+        "mean_val_acc": 1.0,
+        "mean_duration": 5.68,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.974,
+        "std_test_acc": 0.015,
+        "mean_val_acc": 0.994,
+        "mean_duration": 2.62,
+        "mean_duplicate_rate": 0.6
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.984,
+        "std_test_acc": 0.012,
+        "mean_val_acc": 1.0,
+        "mean_duration": 2.44,
+        "mean_duplicate_rate": 0.066
+      }
+    },
+    "q_moons": {
+      "random_search": {
+        "mean_test_acc": 0.972,
+        "std_test_acc": 0.0194,
+        "mean_val_acc": 0.998,
+        "mean_duration": 5.42,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.972,
+        "std_test_acc": 0.0194,
+        "mean_val_acc": 0.998,
+        "mean_duration": 5.45,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.96,
+        "std_test_acc": 0.0603,
+        "mean_val_acc": 0.974,
+        "mean_duration": 3.13,
+        "mean_duplicate_rate": 0.6
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.962,
+        "std_test_acc": 0.0232,
+        "mean_val_acc": 0.996,
+        "mean_duration": 2.95,
+        "mean_duplicate_rate": 0.0749
+      }
+    },
+    "q_shifted_xor": {
+      "random_search": {
+        "mean_test_acc": 0.986,
+        "std_test_acc": 0.012,
+        "mean_val_acc": 1.0,
+        "mean_duration": 3.74,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.984,
+        "std_test_acc": 0.0102,
+        "mean_val_acc": 0.998,
+        "mean_duration": 4.59,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.972,
+        "std_test_acc": 0.0075,
+        "mean_val_acc": 0.992,
+        "mean_duration": 2.71,
+        "mean_duplicate_rate": 0.6
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.984,
+        "std_test_acc": 0.0102,
+        "mean_val_acc": 0.998,
+        "mean_duration": 2.4,
+        "mean_duplicate_rate": 0.066
+      }
+    },
+    "q_parity": {
+      "random_search": {
+        "mean_test_acc": 1.0,
+        "std_test_acc": 0.0,
+        "mean_val_acc": 1.0,
+        "mean_duration": 3.43,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 1.0,
+        "std_test_acc": 0.0,
+        "mean_val_acc": 1.0,
+        "mean_duration": 5.66,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.998,
+        "std_test_acc": 0.004,
+        "mean_val_acc": 0.998,
+        "mean_duration": 2.53,
+        "mean_duplicate_rate": 0.6
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.994,
+        "std_test_acc": 0.008,
+        "mean_val_acc": 1.0,
+        "mean_duration": 2.5,
+        "mean_duplicate_rate": 0.1314
+      }
+    },
+    "breast_cancer": {
+      "random_search": {
+        "mean_test_acc": 0.9513,
+        "std_test_acc": 0.013,
+        "mean_val_acc": 0.9823,
+        "mean_duration": 5.73,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.9513,
+        "std_test_acc": 0.013,
+        "mean_val_acc": 0.9823,
+        "mean_duration": 7.06,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.9513,
+        "std_test_acc": 0.0141,
+        "mean_val_acc": 0.9805,
+        "mean_duration": 7.34,
+        "mean_duplicate_rate": 0.68
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.9495,
+        "std_test_acc": 0.0194,
+        "mean_val_acc": 0.977,
+        "mean_duration": 3.32,
+        "mean_duplicate_rate": 0.0512
+      }
+    },
+    "wine": {
+      "random_search": {
+        "mean_test_acc": 0.973,
+        "std_test_acc": 0.0296,
+        "mean_val_acc": 0.9886,
+        "mean_duration": 4.27,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.9622,
+        "std_test_acc": 0.0367,
+        "mean_val_acc": 0.9828,
+        "mean_duration": 5.3,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.9676,
+        "std_test_acc": 0.0315,
+        "mean_val_acc": 0.9828,
+        "mean_duration": 3.61,
+        "mean_duplicate_rate": 0.68
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.973,
+        "std_test_acc": 0.0242,
+        "mean_val_acc": 0.9828,
+        "mean_duration": 2.84,
+        "mean_duplicate_rate": 0.1351
+      }
+    },
+    "digits": {
+      "random_search": {
+        "mean_test_acc": 0.9717,
+        "std_test_acc": 0.0078,
+        "mean_val_acc": 0.9805,
+        "mean_duration": 35.57,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.9683,
+        "std_test_acc": 0.006,
+        "mean_val_acc": 0.9811,
+        "mean_duration": 47.52,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.9678,
+        "std_test_acc": 0.0119,
+        "mean_val_acc": 0.9749,
+        "mean_duration": 28.1,
+        "mean_duplicate_rate": 0.68
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.9633,
+        "std_test_acc": 0.0071,
+        "mean_val_acc": 0.9749,
+        "mean_duration": 12.79,
+        "mean_duplicate_rate": 0.1669
+      }
+    },
+    "diabetes": {
+      "random_search": {
+        "mean_test_acc": 0.7416,
+        "std_test_acc": 0.0293,
+        "mean_val_acc": 0.8023,
+        "mean_duration": 3.3,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.7281,
+        "std_test_acc": 0.0385,
+        "mean_val_acc": 0.7909,
+        "mean_duration": 5.49,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.7169,
+        "std_test_acc": 0.0372,
+        "mean_val_acc": 0.7795,
+        "mean_duration": 5.16,
+        "mean_duplicate_rate": 0.696
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.7168,
+        "std_test_acc": 0.018,
+        "mean_val_acc": 0.7841,
+        "mean_duration": 4.11,
+        "mean_duplicate_rate": 0.038
+      }
+    },
+    "highdim_sparse": {
+      "random_search": {
+        "mean_test_acc": 0.7733,
+        "std_test_acc": 0.02,
+        "mean_val_acc": 0.83,
+        "mean_duration": 5.73,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.78,
+        "std_test_acc": 0.0251,
+        "mean_val_acc": 0.8317,
+        "mean_duration": 10.26,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.7467,
+        "std_test_acc": 0.0352,
+        "mean_val_acc": 0.8083,
+        "mean_duration": 5.72,
+        "mean_duplicate_rate": 0.692
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.775,
+        "std_test_acc": 0.0211,
+        "mean_val_acc": 0.8283,
+        "mean_duration": 5.41,
+        "mean_duplicate_rate": 0.09
+      }
+    },
+    "imbalanced_moons": {
+      "random_search": {
+        "mean_test_acc": 0.968,
+        "std_test_acc": 0.0117,
+        "mean_val_acc": 0.986,
+        "mean_duration": 3.8,
+        "mean_duplicate_rate": 0.0
+      },
+      "bayesian_tpe": {
+        "mean_test_acc": 0.966,
+        "std_test_acc": 0.012,
+        "mean_val_acc": 0.986,
+        "mean_duration": 5.35,
+        "mean_duplicate_rate": 0.0
+      },
+      "amde_203_baseline": {
+        "mean_test_acc": 0.938,
+        "std_test_acc": 0.0286,
+        "mean_val_acc": 0.972,
+        "mean_duration": 2.46,
+        "mean_duplicate_rate": 0.6
+      },
+      "amde_30_egada": {
+        "mean_test_acc": 0.962,
+        "std_test_acc": 0.0172,
+        "mean_val_acc": 0.976,
+        "mean_duration": 2.16,
+        "mean_duplicate_rate": 0.0661
+      }
+    }
+  }
+}
