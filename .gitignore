@@ -11,6 +11,10 @@ data/arc/**/*.json
 *.sqlite3
 *.sqlite3-wal
 *.sqlite3-shm
+*.db
+*.db-wal
+*.db-shm
+.amde4_ledger_*
 
 reports/test_runs/
 build/

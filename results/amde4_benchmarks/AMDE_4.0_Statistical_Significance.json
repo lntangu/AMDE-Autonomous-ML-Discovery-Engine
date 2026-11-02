@@ -1,0 +1,59 @@
+{
+  "target_method": "amde_40",
+  "n_comparisons": 4,
+  "comparisons": {
+    "amde_30_lite": {
+      "comparison": "amde_40_vs_amde_30_lite",
+      "baseline": "amde_30_lite",
+      "n_pairs": 50,
+      "mean_target": 0.9359134,
+      "mean_baseline": 0.9400373999999999,
+      "mean_difference": -0.004123999999999999,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 123.5,
+      "raw_p_value": 0.2935926625892985,
+      "holm_bonferroni_p_value": 1.0,
+      "statistically_significant_005": false
+    },
+    "amde_203_baseline": {
+      "comparison": "amde_40_vs_amde_203_baseline",
+      "baseline": "amde_203_baseline",
+      "n_pairs": 50,
+      "mean_target": 0.9359134,
+      "mean_baseline": 0.9385370000000001,
+      "mean_difference": -0.002623599999999995,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 150.0,
+      "raw_p_value": 0.5161956909922374,
+      "holm_bonferroni_p_value": 1.0,
+      "statistically_significant_005": false
+    },
+    "bayesian_tpe": {
+      "comparison": "amde_40_vs_bayesian_tpe",
+      "baseline": "bayesian_tpe",
+      "n_pairs": 50,
+      "mean_target": 0.9359134,
+      "mean_baseline": 0.9375856,
+      "mean_difference": -0.0016721999999999904,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 154.0,
+      "raw_p_value": 0.8187645849976192,
+      "holm_bonferroni_p_value": 1.0,
+      "statistically_significant_005": false
+    },
+    "random_search": {
+      "comparison": "amde_40_vs_random_search",
+      "baseline": "random_search",
+      "n_pairs": 50,
+      "mean_target": 0.9359134,
+      "mean_baseline": 0.9375856,
+      "mean_difference": -0.0016721999999999904,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 154.0,
+      "raw_p_value": 0.8187645849976192,
+      "holm_bonferroni_p_value": 0.8187645849976192,
+      "statistically_significant_005": false
+    }
+  },
+  "overall_conclusion": "No statistically significant superiority was detected under the tested conditions."
+}

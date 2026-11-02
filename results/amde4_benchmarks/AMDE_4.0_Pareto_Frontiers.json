@@ -1,0 +1,6584 @@
+[
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_xor",
+    "seed": 42,
+    "pareto_size": 11,
+    "hypervolume_2d": 49.0191,
+    "frontier": [
+      {
+        "candidate_hash": "080c4f0f237c67d6de58d5d7bacca6234fa275d4717f93a0184901ed7a8f9af3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "569d4a6a66f8c13bd5f333c88606329da039d0a4badc5aacfccafacf19def870",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9c82def629241c977cbd9a8699cbf9803b2e7e4047e2a4a11e3b6bce2766318b",
+        "loss": -0.56,
+        "latency": 0.408,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "00ef1f756c9bd10e479bac333c2474799627db531cfa269b47d6a781b8786375",
+        "loss": -0.97,
+        "latency": 0.901,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "9a0ed613192768b35ec7a9afb967f880f2f7b330b9b85866fc1073c9dc12167d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c183f8329c36ba90b2d2cc84d5bcfd237e2b9e9d028bf3225f5c9cbf3b3bbb1e",
+        "loss": -0.96,
+        "latency": 0.514,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "56d372eb615472d5f2f619afd1df625aac1a1142213b48c1ad29879848efb492",
+        "loss": -0.99,
+        "latency": 4.573,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "1e4e6de94f2cc078fb3844a9f6ff305235b8297570fd372d65b51abaa6ae09a1",
+        "loss": -0.51,
+        "latency": 0.315,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "3bc51f6d417dc38f0e8d40085f54d07bfd3296324856f396b7daaecd97bc88b2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2f16ba7def1620e794461dcfebc8f8e35cfc33bdc15f0b47f322ed3bf919d2e5",
+        "loss": -0.97,
+        "latency": 0.635,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "155609dce124cf0d7ca44b66dbb138f44b24ab5db590af0af7859cc3df6878a7",
+        "loss": -0.65,
+        "latency": 0.475,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_xor",
+    "seed": 42,
+    "pareto_size": 12,
+    "hypervolume_2d": 49.0796,
+    "frontier": [
+      {
+        "candidate_hash": "9a0ed613192768b35ec7a9afb967f880f2f7b330b9b85866fc1073c9dc12167d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4c5bc75c1e563f6b526d8dbc90c9614b2ccca6c7e1e0102c8f9dc886043bb829",
+        "loss": -0.98,
+        "latency": 0.559,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9347822fb113b09c8573e4d8b2ae01276e058d7dd9fce321702f788ba9e4ee7d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "366dc320c71e2b76c33a27ab9500bc562292699f6e4fbb5312e3a4417e29d7a9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d393fc3c1387b13a280c0de6c296a9a077c88119b3944b3097eb388bbcc04cb6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d92577b3d81e7d0191dd26af3dbf18713dade8d17c37fe0e816f79fba855008f",
+        "loss": -0.51,
+        "latency": 0.389,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "f5abe03eba3edd4159cb16c2a3bba499c7fb418bcf23c21b30811470a9e81e8a",
+        "loss": -0.56,
+        "latency": 0.553,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "cb053fdadb203956d1f1d91d7c3d927c2487b5f24fd5c158c889249d285b8753",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "152d69014f407e29582332e44623b5ac34c5f19ec11a2b36c76d06223a5d7291",
+        "loss": -0.95,
+        "latency": 0.446,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "00546ae1fe22f18d7f697c83251e5104c5fca1087261e4f309ce6701f0c424fd",
+        "loss": -0.99,
+        "latency": 4.778,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "e2dcd6b75c077ef959cfc5871b26ae9a7c3abcecb246ede8d8a23db883faa22f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "370c34676b8fc323546c606c05a78f48a87b7e4b56316922e1960e308b7f27fc",
+        "loss": -0.99,
+        "latency": 0.895,
+        "memory": 12.02
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_xor",
+    "seed": 123,
+    "pareto_size": 7,
+    "hypervolume_2d": 49.1072,
+    "frontier": [
+      {
+        "candidate_hash": "49952da62c12fdcc44d36078b7592df0e5415e8d209204525926c78963ee4bba",
+        "loss": -0.5,
+        "latency": 0.346,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e363c7c08d4ce8045d44bc7dcca5a922651b34a063edcb74652e278ab8715c9b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ff02677b3048498b4f3f78a8e992ed0eece347dffa26eb92949a03e3b0ef2eca",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "32eb653108db5c8aeb4e8f901099993b91517f9fefe687993c9c12d45b64fe47",
+        "loss": -0.97,
+        "latency": 0.443,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "76d51695c72065fb65895df7a3145c6cf4eed42fb2eaf18cbdcb9d44881fe6ba",
+        "loss": -0.98,
+        "latency": 0.478,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "bbad22719191c613290a8d616f8ec315132c6e17d3c0f99a58b1fbf3d9b55dcb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "deae4304b2675f2a2a2eeb91a90731699397780f55e1c5754ba6b51555bda1de",
+        "loss": -0.99,
+        "latency": 0.676,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_xor",
+    "seed": 123,
+    "pareto_size": 11,
+    "hypervolume_2d": 49.0859,
+    "frontier": [
+      {
+        "candidate_hash": "e7f4b66c8ff83073bb31497f0221bf406af5165ad0eb6ed3be64c9c609b15713",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fe53af2b5b6332d9af76a0c668a00f6b8c651d17c752d455c46ec2b4d5e43ae6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c089445240e4ffcc0df6788b10d947958053ab920c8696a2102eae43634d7b22",
+        "loss": -0.99,
+        "latency": 0.49,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "bbad22719191c613290a8d616f8ec315132c6e17d3c0f99a58b1fbf3d9b55dcb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "72a61348f3e90314651abd1dc6b9ee4b62dfeb3ebedb7f79e30e87af5b554d38",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "517725f5af3e304493b73815d1ded522a48681e438c38a107cc88464f6c0edf4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a73103049a31a05c860d04c8aa14380f3ae402648b2dc7c7258bc2f91b1bb257",
+        "loss": -0.5,
+        "latency": 0.348,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9d4a74df568113a55c8fcecc4e0819f29539e4e1e8e2c3f64e1fea61aeeacb3c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "78124d676a284efe32c207466800567fbbb2193b233689d6026c32a25f8afb17",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "7b0d168eb5524175ca153864b58c91059781056de390cc0e6a3450dd74f3af89",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6abe146a8bea0a72603bd1726da254819e5e6cbbd730551119378fdf2a7162f7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_xor",
+    "seed": 456,
+    "pareto_size": 11,
+    "hypervolume_2d": 49.6182,
+    "frontier": [
+      {
+        "candidate_hash": "02ea96ec0ad21b7dca05144064b47095d94825608a8a02a9bb6a91f3a8b4d0d6",
+        "loss": -0.53,
+        "latency": 0.413,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "7f0d5fd3a965c5aff6d83dcb2c889bf5c048ec253aefa6552660c23de5ecd510",
+        "loss": -0.57,
+        "latency": 0.51,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "6ceea12e81f30dc20424c77090351aa8a70cbcb5c9a590763f57c0a1d36c5883",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c1bce83867524f5b9101124a8e9475c0aaa3ce527f4cd09dda3a128bfecb8959",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "627bbb4ef71834ab1c3af54b6e6b55b81d481ce3a4fa4172b74121ce28222b3f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "63f3fb019073e419e5fe1a1be05e99e3af543442fb1d214a0ba79b5bd02e215b",
+        "loss": -1.0,
+        "latency": 0.722,
+        "memory": 12.1
+      },
+      {
+        "candidate_hash": "272c3f9112c1e49c6c62e33bd46bad3c813b13515ea067a20d7f6fef987773ee",
+        "loss": -0.97,
+        "latency": 0.54,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "162a0f45fdf2fc602b61f3b56d8f96d6936b4b2cd49a8f27b5300ea351e84bb1",
+        "loss": -0.46,
+        "latency": 0.311,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "ba31cd2d633a9d18cba22f169aa91aac514b5fbeade743c698190880c331f247",
+        "loss": -0.99,
+        "latency": 0.639,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "cd0e92c9aaaa9d031c5f3b044d98d07e53ec64c92a8dba787da6fa7397778452",
+        "loss": -1.0,
+        "latency": 0.942,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "3209a01c0d013fb427c0925817034c32edf1003bf7cea185b27f82239b3020dd",
+        "loss": -0.98,
+        "latency": 0.436,
+        "memory": 12.02
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_xor",
+    "seed": 789,
+    "pareto_size": 13,
+    "hypervolume_2d": 49.0611,
+    "frontier": [
+      {
+        "candidate_hash": "e7bc80852ef959fc1e89d94e6b30f3569d9e6cbdaa72a46476ba6f67c50adac8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c31c712c9edbf451808255a41731a18cb177d1281b7422c36c94a18a4a4b76ae",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b11119c6fe3693f826c3893d496327ef408536a5cf664c80b3a794f40e94951f",
+        "loss": -0.71,
+        "latency": 0.507,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "f2a77d5a098219692244f24c05ac239e7ffc04ba5fce9c983d0c226fc7de6639",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e7461ff35af25d53849232a60b66a73da532fff8daf77fa7fc73d766a5565956",
+        "loss": -0.99,
+        "latency": 4.692,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4c8ce27394171b5e832935a1d65ee21998192d6e4a7b367c193ff53e7d0f0d6e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a7fc6079778c217b06892eb99fb622c798eb5757d4b451c2a3ed216bb4c40b24",
+        "loss": -0.46,
+        "latency": 0.464,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "661d895235b68107668751df352cdcbfc315b84b6c166fba87de8da5b251f546",
+        "loss": -0.99,
+        "latency": 0.593,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "913b8e3609d9d68ef0509536ec8048a996e2f70af91d78c134a0887c4e727a0a",
+        "loss": -0.97,
+        "latency": 1.413,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "ca6080bdd37d6e28b096048463c711b4a9335faa6dfdfac5fb2729bc699799f4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "98beb391139e1e1f7c00daca2e9f90b407bf1328d08733411ad5578563863d80",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "60f80f6b9ab6ff89f50640ecfce2ec9dd9aac4431f3a89c4c371c33232b9e034",
+        "loss": -0.95,
+        "latency": 0.437,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "32b70df7970a0e439aca72e922748542971d40efc30a185f1f8480a15b363358",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_xor",
+    "seed": 456,
+    "pareto_size": 6,
+    "hypervolume_2d": 49.5614,
+    "frontier": [
+      {
+        "candidate_hash": "1aea856d17c9b40eebb4529e77c97de9436f981b24632adaa02dab8168067a54",
+        "loss": -0.45,
+        "latency": 0.392,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "7a654397e045449563f97e7c8a5a0e1a006239077fad5bec186ae1c02e9684c1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0523c7bbef72a01a05ff27d6caa004af1717bfdbb1cbd46a9534f8ab31b360fa",
+        "loss": -0.46,
+        "latency": 0.444,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "297d52dabc17ada69e988e3009bfe23df8224598318330f3860e4b0bb1e5e7ee",
+        "loss": -0.95,
+        "latency": 0.477,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "4919ef4bff19e8abc6baf1292efaf741c3fe47fbd6b237482e5796fa1828fb8f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5d37cf63754a72e94dd5383ca0925deef51c3fad7821c65da535de9483d2a5f3",
+        "loss": -1.0,
+        "latency": 0.48,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_xor",
+    "seed": 789,
+    "pareto_size": 15,
+    "hypervolume_2d": 49.1181,
+    "frontier": [
+      {
+        "candidate_hash": "c03df7caa608e7520ea70d08c7d8dd502e0a79e5e94f42d21fcdd0ea996361f4",
+        "loss": -0.99,
+        "latency": 9.071,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "7e5687fae09281fd74a86853af0e8e7c082f9924f90f8b5209c80ff080e9ed01",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1ea306db6337923f582458033281e50b46e49696adf6704ac0759a7dd7d63431",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "353519b080b2d84dd95457432202051be7683093af352f4df939f4ba987f178f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "311a3df25deeea7d2aa355850852d713514da735ef3dabdaccc45e273bb98736",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "26cfb774bb708d7cbd64fc3128c463c72ec54b74fcf622c0ea1e5bc72a0b9777",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1ef876efd5e162bf20170990df6c1ddef818b68636c368afbafcca1052476850",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ba60c601176e8c53babb6f4cebe5532914eb2747182a47f99001fe60e596e2f0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9901031e6957461049c63218b33b2af34c66bc925a62c880f190ef8f47cd1e04",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ca371f38528592b443db1bab4ba2023a9c4dd2a973313b5004ebc0ec355e039b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "de68782d3fa29a2aea12f6afc36044f8a882c0ba3c8c1272b4687cced91b48ce",
+        "loss": -0.78,
+        "latency": 0.522,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9e1455f66ee362250bfec0856b49cdbd179e38df29fa7ad55b17b3d64c363608",
+        "loss": -0.98,
+        "latency": 0.845,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "80a68eb7af070f613d158d9355052d248353a3bff13ecdc55088492afb6d3b4c",
+        "loss": -0.99,
+        "latency": 0.449,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "3648318afa8183e3451fe573eb9d55109165416e4d4fa9d3f8d0c0596a4d2201",
+        "loss": -0.46,
+        "latency": 0.313,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "5e14c4bf33baf8e67a277c730d9ee53dd54b0888cf86866cb9695b0ca1508a0a",
+        "loss": -0.93,
+        "latency": 0.533,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_xor",
+    "seed": 2026,
+    "pareto_size": 8,
+    "hypervolume_2d": 49.5378,
+    "frontier": [
+      {
+        "candidate_hash": "b78bf6c3db8c2ae42041293340d8faf30b994ab4979eea76e851ff277c1b6642",
+        "loss": -0.64,
+        "latency": 0.435,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9b201fde186e1be8d60b00dc4118e7ab17d90f20f3684caec78124142e98bf58",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "229f58e3bdb718b9ec7cb79efd375d53d84c24496a7615d057b5951f755e364d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "77deb4fc8aa65931221499aeb537030ad48b1427dbbc9376148e88d2368b532d",
+        "loss": -1.0,
+        "latency": 0.622,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "6be0b5a0881ece23b17f23387ecdfeaf296f8566259f4468010f41118164cf1e",
+        "loss": -0.65,
+        "latency": 0.509,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "2ccdfc3cabe76a8a2a063ecdd876dec905676d61699b4ed2595f653d2567ad55",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "583874aff25ef63ef0c51f4d95ec29908b591fa9ca8a82779185d97ee7ada51c",
+        "loss": -0.85,
+        "latency": 2.214,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "32c6ed84de44a7c8a33c03d68b9aceaaba56053224aaac2743a2cd11c7fb087a",
+        "loss": -0.52,
+        "latency": 0.36,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_xor",
+    "seed": 2026,
+    "pareto_size": 9,
+    "hypervolume_2d": 49.6284,
+    "frontier": [
+      {
+        "candidate_hash": "532bcab6a1fe3f39bbcfff42f2e0e75e00c5983acc46885a3db270b1d331e65b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "004f6c2f5ee24330cd299995c188065b15f81d5d6513f2620a07f007a3d8e77e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "749872ec38abf107462b4e6bc17c0856bd6d7ad896f4858e9b3f19d4ea3650e3",
+        "loss": -0.64,
+        "latency": 0.325,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4ff322d5d7dcfe0f4353a9e6c0f69cbd332387e42f8217d85c9d5e4730969d0e",
+        "loss": -1.0,
+        "latency": 0.458,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e8a0428d5e2e3fcc5cca3fe4cccbf8ab08a35af86a7495f3b65947484600e94f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e077666702b84106f7db600cca8e1993ceedc7501520254df75d7a4689cf657d",
+        "loss": -0.65,
+        "latency": 0.329,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "d49ca62666fa80f1188cc27da9eeafeb4f088a33ed468f08bd696ebce0a5e6d8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c58ef231e0af4fdfdefcafc3585d068b1b9ec2ff18f233aec02c897e7827773e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4d7a3f7e22eb76e1871c86ac5b07da90762ae1fa0b115f86f359fa1a37dd128f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_moons",
+    "seed": 42,
+    "pareto_size": 4,
+    "hypervolume_2d": 49.1263,
+    "frontier": [
+      {
+        "candidate_hash": "9a0ed613192768b35ec7a9afb967f880f2f7b330b9b85866fc1073c9dc12167d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4c5bc75c1e563f6b526d8dbc90c9614b2ccca6c7e1e0102c8f9dc886043bb829",
+        "loss": -0.99,
+        "latency": 0.525,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "06223bfffed191296758ba676a409644be7fe1296ce745b8a327465d4fc6b1e7",
+        "loss": -0.98,
+        "latency": 0.376,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "0f2a03afe1fa812c6e61b19b4fdc91c3e0d715a371ad532c7c9cd5c357c7d5e8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_moons",
+    "seed": 42,
+    "pareto_size": 6,
+    "hypervolume_2d": 49.0416,
+    "frontier": [
+      {
+        "candidate_hash": "080c4f0f237c67d6de58d5d7bacca6234fa275d4717f93a0184901ed7a8f9af3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "569d4a6a66f8c13bd5f333c88606329da039d0a4badc5aacfccafacf19def870",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9347822fb113b09c8573e4d8b2ae01276e058d7dd9fce321702f788ba9e4ee7d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b66284f7c9dbb9fe579c3a77c1e60c781cbda7e4c00c17f08db5b1fdb8e463dc",
+        "loss": -0.98,
+        "latency": 0.361,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "3bc51f6d417dc38f0e8d40085f54d07bfd3296324856f396b7daaecd97bc88b2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ed4a8e74f7eb41168875c4367597014bbe14b6adb9fcbb0a42603fd9c072af2b",
+        "loss": -0.99,
+        "latency": 10.466,
+        "memory": 12.14
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_moons",
+    "seed": 123,
+    "pareto_size": 14,
+    "hypervolume_2d": 49.0598,
+    "frontier": [
+      {
+        "candidate_hash": "e7f4b66c8ff83073bb31497f0221bf406af5165ad0eb6ed3be64c9c609b15713",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fe53af2b5b6332d9af76a0c668a00f6b8c651d17c752d455c46ec2b4d5e43ae6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "79e83d0cc4155d43980451538980f8de8c1ea2273a4d3a11f2908e83e79adc21",
+        "loss": -0.92,
+        "latency": 0.449,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "bbad22719191c613290a8d616f8ec315132c6e17d3c0f99a58b1fbf3d9b55dcb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "72a61348f3e90314651abd1dc6b9ee4b62dfeb3ebedb7f79e30e87af5b554d38",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "517725f5af3e304493b73815d1ded522a48681e438c38a107cc88464f6c0edf4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "00657fa64a51dcf210244cb18d56f2e70fe98bf13c8addafe89e389f7ad51621",
+        "loss": -0.99,
+        "latency": 0.557,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "a73103049a31a05c860d04c8aa14380f3ae402648b2dc7c7258bc2f91b1bb257",
+        "loss": -0.91,
+        "latency": 0.441,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9d4a74df568113a55c8fcecc4e0819f29539e4e1e8e2c3f64e1fea61aeeacb3c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "78124d676a284efe32c207466800567fbbb2193b233689d6026c32a25f8afb17",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "7b0d168eb5524175ca153864b58c91059781056de390cc0e6a3450dd74f3af89",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "34d1d420f0db0b7bb613e0c04b2464d0185756ee0fbe5a98611000b943b6b0e3",
+        "loss": -0.97,
+        "latency": 0.466,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "6abe146a8bea0a72603bd1726da254819e5e6cbbd730551119378fdf2a7162f7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0341b2029d404a1b111d4bbe3e2ee3a80ce7477c7c27b75e6147ec8b8597ea75",
+        "loss": -0.99,
+        "latency": 0.557,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_moons",
+    "seed": 456,
+    "pareto_size": 7,
+    "hypervolume_2d": 49.0296,
+    "frontier": [
+      {
+        "candidate_hash": "9987342522982825c355497be26403d5b901df5f0aaef597e661f5a3a075f02e",
+        "loss": -0.9,
+        "latency": 0.456,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "1c935edbb29abcd388d392e622ad7b659bb0565369b07a8410cacb2ffad30beb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "45b6dbc4c5ef32ce82201ae1942f59408ffee43138c998cbb577e7f05c3ed506",
+        "loss": -0.85,
+        "latency": 0.455,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "24df4a055aead56ba86b2c1eb4b1a3838ae541e5dde05a1ce4d16a9c6f88656d",
+        "loss": -0.97,
+        "latency": 0.588,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "dca8706bc849d35d9e2dfdb05f3d8a64465b955c5576ea966e3fc1e944e1da5d",
+        "loss": -0.99,
+        "latency": 0.986,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "1e8bdfdfd068f39032a06b7ee8f858936fa9738a89b51d50d397c135a3251af0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "227ae4cce3369f0147a321a1b8a152a40b9303e80810f87ce1fa4b9a56de8de9",
+        "loss": -0.94,
+        "latency": 0.954,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_moons",
+    "seed": 123,
+    "pareto_size": 7,
+    "hypervolume_2d": 49.592,
+    "frontier": [
+      {
+        "candidate_hash": "e363c7c08d4ce8045d44bc7dcca5a922651b34a063edcb74652e278ab8715c9b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ff02677b3048498b4f3f78a8e992ed0eece347dffa26eb92949a03e3b0ef2eca",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4eb66faa0fae6410464ff5aec2db9395580cadff97099bd1313bbd41a4601a48",
+        "loss": -0.92,
+        "latency": 0.436,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "fda23cfb7b15247ed98dbbd26a18abb62a54cc396d54527c17dcf4c86b05b6e5",
+        "loss": -1.0,
+        "latency": 1.167,
+        "memory": 12.13
+      },
+      {
+        "candidate_hash": "76d51695c72065fb65895df7a3145c6cf4eed42fb2eaf18cbdcb9d44881fe6ba",
+        "loss": -0.99,
+        "latency": 0.657,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "167d3f87ea5be8c2c723f48561c69d2b9f0308583f75fffd3f94f3e27dc49aa6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "359aa76b955e8298c9e0c67e5cd36228200455e019d38869692af885e15470e2",
+        "loss": -0.86,
+        "latency": 0.377,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_moons",
+    "seed": 456,
+    "pareto_size": 9,
+    "hypervolume_2d": 49.057,
+    "frontier": [
+      {
+        "candidate_hash": "e20580b268389d3a187352796a22b9e07062dac455cdb387603cf05bd26743cb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "dd7c9f397b03c013eafc6da060e978f5d689555b4ff4585bef33029c46f7270d",
+        "loss": -0.97,
+        "latency": 0.603,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "6dac13d10776bb8acbf5eab384570a851ada75abdb77a200919acbc12e34939c",
+        "loss": -0.95,
+        "latency": 0.516,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "410b8f1f7b48bc1151896569f3d1e2f801f6e3173a013b6ad7c1e47656b67590",
+        "loss": -0.85,
+        "latency": 0.432,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "95042c997741022499fb37dbe15da7a0fdca6ed61e5453a7b478eecefeaf0af4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fde0be35e92fec227914e98aad7762b03afae57f66350610fde4a541fe508ff6",
+        "loss": -0.98,
+        "latency": 0.739,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "2564465f8a2dc0fc67d4de78241f2cb745b15e2d515489f34ece5658f94ed53b",
+        "loss": -0.99,
+        "latency": 0.744,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "d48c31e5f66ca1460cd467341dcda057aebd4cf26f5ecd9db09075346927b376",
+        "loss": -0.99,
+        "latency": 0.605,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "28941f99bd345365fa1e7d124ed687bd37e189f8be765431c7dc10d9ea88d89e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_moons",
+    "seed": 789,
+    "pareto_size": 12,
+    "hypervolume_2d": 49.494,
+    "frontier": [
+      {
+        "candidate_hash": "e7bc80852ef959fc1e89d94e6b30f3569d9e6cbdaa72a46476ba6f67c50adac8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c31c712c9edbf451808255a41731a18cb177d1281b7422c36c94a18a4a4b76ae",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0d4e31fc4d500bbd8c830983575b3aa7b687b2e5bc073237991c085f09d98d9f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e7461ff35af25d53849232a60b66a73da532fff8daf77fa7fc73d766a5565956",
+        "loss": -0.99,
+        "latency": 0.605,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "8f9711ab4e534aa79da763da4b692949b1706c53378cb2d5d1c6232ce545d002",
+        "loss": -1.0,
+        "latency": 0.694,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "a52998ed52737689c04234f3fd5b9e3295c6d375f0045094b0ba5063210b214d",
+        "loss": -1.0,
+        "latency": 1.202,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "d0952b2f3f8aae4f435ae83ebb05b7c82c1e8d63b987fd0541b3061916f5a6ab",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "36d83228a538171022fa2b442bb2f3f671c8a6f6930c18d737ef9e3dda211e42",
+        "loss": -0.84,
+        "latency": 0.491,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "c3d8cf354458533585cf2dc3bb6970822b77a64f0a70c2214e9bdff0619da2b3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ad4d7678184a7de31570c3cec8ebf8321be2f4e93abe93f2c524e7aab86ba9ee",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "422d6f1c6d7dba84581fc8ddd10fb0ef12e0d52aabc3d8725ea11823ea8701ee",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "81e6b345b328516308ba18b30783ed52346a09ec87ef4e2e3cefe6ac073b0aa3",
+        "loss": -0.83,
+        "latency": 0.486,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_moons",
+    "seed": 789,
+    "pareto_size": 13,
+    "hypervolume_2d": 49.5966,
+    "frontier": [
+      {
+        "candidate_hash": "48106ab0a887588126fafe3eafcbad32b34a3189b30de7f9654a85838fa94a35",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8f45c76e9c57c00f132df5f31845292686e3e3781fc0b5768dc5522f838f1ab4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8eb7445b6009949f7257a5aaa590d25437755f828ee0e4ab3f3cacf93b2a6db6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6778c535e5237675376f63b00ecba617c87d66146768e7edb0cc03d2e8ccc79f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "26cfb774bb708d7cbd64fc3128c463c72ec54b74fcf622c0ea1e5bc72a0b9777",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b7ae04f25aeb16aa7dbd6caa9fc320aef70bf69c46bc702ff62030881bf8ab63",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b8ffbc51ef13bcd71aab25d3da64d94ff53f67a2f0c3e93eda836e30f2b23898",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ba60c601176e8c53babb6f4cebe5532914eb2747182a47f99001fe60e596e2f0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a61b5da50f9ffc899a9f74b55d4e0928ffd125281dfe59ae5ef0483b0be87c6e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "27f6b27159634873450d1e9efe37cf2ef1572302364a5f1502bd291a1a7581d6",
+        "loss": -1.0,
+        "latency": 22.411,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "ca371f38528592b443db1bab4ba2023a9c4dd2a973313b5004ebc0ec355e039b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "331db11ba8d14db16553048fd3eb18035c9c84926996eeecefb032b4e282dee3",
+        "loss": -1.0,
+        "latency": 0.615,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "79e39a53495b1276e5052c35c26325a538f7dc9e9602c33b489e5fcf7381462a",
+        "loss": -0.86,
+        "latency": 0.369,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_moons",
+    "seed": 2026,
+    "pareto_size": 7,
+    "hypervolume_2d": 49.4561,
+    "frontier": [
+      {
+        "candidate_hash": "9b201fde186e1be8d60b00dc4118e7ab17d90f20f3684caec78124142e98bf58",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "229f58e3bdb718b9ec7cb79efd375d53d84c24496a7615d057b5951f755e364d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "77deb4fc8aa65931221499aeb537030ad48b1427dbbc9376148e88d2368b532d",
+        "loss": -0.99,
+        "latency": 0.431,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "df10f7db57bdf30f531bd3d25ffd0bbc43ce1103442e58c488c1a1417ab8d734",
+        "loss": -0.88,
+        "latency": 0.466,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4251eb2d1cabab74cbe54c9b71136deaafbf2858ad2e491498d4ef9df17d2464",
+        "loss": -0.84,
+        "latency": 0.457,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "425daab8c3f92f23d04420412a12238a0788f4fcefee693892fcf99ebe97b3fb",
+        "loss": -1.0,
+        "latency": 11.717,
+        "memory": 12.1
+      },
+      {
+        "candidate_hash": "1e55013d50d8f546c1a9923c2822b151aabb876beaf2b3b4b303390afa0d300b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_moons",
+    "seed": 2026,
+    "pareto_size": 8,
+    "hypervolume_2d": 49.1154,
+    "frontier": [
+      {
+        "candidate_hash": "532bcab6a1fe3f39bbcfff42f2e0e75e00c5983acc46885a3db270b1d331e65b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "004f6c2f5ee24330cd299995c188065b15f81d5d6513f2620a07f007a3d8e77e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "368aea21ef78e3784fa14fb6a38e4ba90813963eaeaac3c17f499ff576db55ae",
+        "loss": -0.89,
+        "latency": 0.759,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "373927d96e07336f3a5d4fbdcc9f8d79e273dd1c97654738bdc6cd87b43646be",
+        "loss": -0.88,
+        "latency": 0.454,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "38bc4a82f97b24b7f9f5dfdfd1bb0c4b4a2441e78bd4f1c672383cc4c6a2b4d3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1e55013d50d8f546c1a9923c2822b151aabb876beaf2b3b4b303390afa0d300b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b981ac81613062b0b46446084f83153fe45057b615a88710c12d0c731c53964a",
+        "loss": -0.99,
+        "latency": 0.418,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "f49f76632fdbfdb63d4e21918fec5d92d40def74422eb8d46018418bc93d0701",
+        "loss": -0.86,
+        "latency": 0.384,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_shifted_xor",
+    "seed": 42,
+    "pareto_size": 10,
+    "hypervolume_2d": 47.5945,
+    "frontier": [
+      {
+        "candidate_hash": "ff77f5d2003dca8f18184789287429084635b308954e030de3039c1e860c03a8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4d0b5fa514841634218b1d87eccb5d1a9819415e1b3c3f45a472c09be370030e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e11e3a67089e8498136b26c848db65872143c7463773ae1022a665dd7b8f071d",
+        "loss": -0.94,
+        "latency": 0.501,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "85aeb7f5c6fb0507d292633deeb2521dcbccf384665b1ea9193aa080c878a0e6",
+        "loss": -0.56,
+        "latency": 0.386,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "1364f7b01c0178d9a441ef2e5b014e2e5f75cdc61b8ce3dd28217fe03f77278f",
+        "loss": -0.57,
+        "latency": 2.2,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "2a9cfc7f1b8b3edfc3f5e9616b628b513662cfc0804f95b58cb0ca4324051699",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b77af9b72dfdc073f20d0fddd9eb8c11bac5281e746e61fea21ee007c98d4992",
+        "loss": -0.91,
+        "latency": 0.464,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "7cc1f652339f7ec5d9d092d6426913d059b7a8e255220afced44c5ad7a5b5788",
+        "loss": -0.96,
+        "latency": 0.594,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "3bc51f6d417dc38f0e8d40085f54d07bfd3296324856f396b7daaecd97bc88b2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0469dd05fbc5d47cb79a4566425082d2d3604e7445687f38292ef6a44e16c61c",
+        "loss": -0.92,
+        "latency": 0.5,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_shifted_xor",
+    "seed": 42,
+    "pareto_size": 5,
+    "hypervolume_2d": 49.0723,
+    "frontier": [
+      {
+        "candidate_hash": "d105fcd8e79d245e4f0099fc38a2a14fca2f9ba4d32288fecdb4f2740a95f3b1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b0423a7dceba5c79455e2f299983bb5f48d409f113940f283e21505c726a7d9e",
+        "loss": -0.97,
+        "latency": 0.448,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "70c09c21471e8c34ea96b10566e23d732e88fe1a2f94be3fe3faf6774b270af0",
+        "loss": -0.68,
+        "latency": 1.378,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "407b8bf7fd77a9bcf35bc3b216ea9feba8dcfcc5de8f01f3e06d0adb1e7a230b",
+        "loss": -0.99,
+        "latency": 0.607,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "6950a329c4151331c7a562187b5ca87ccfd9cb81ba9325183b1b943f497b6fa3",
+        "loss": -0.56,
+        "latency": 0.414,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_shifted_xor",
+    "seed": 123,
+    "pareto_size": 12,
+    "hypervolume_2d": 48.0923,
+    "frontier": [
+      {
+        "candidate_hash": "e7f4b66c8ff83073bb31497f0221bf406af5165ad0eb6ed3be64c9c609b15713",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "19c5d3403b4df3f00cfafdaa43f6bd610bea5f8832a846256e6c2ba76148c46a",
+        "loss": -0.97,
+        "latency": 3.706,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "8de1ce5867d7f53dbce46ed8411353c9265f19a702876862a4644d0448d65d9c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8a14f7024fbd943f39561d91dff782e302663cefb8f71299b312b004db652ab8",
+        "loss": -0.61,
+        "latency": 0.454,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "509fb8df46fbfff7889fc2a58ea6580731d1c406f0b8a0b600832b1f577c3d80",
+        "loss": -0.51,
+        "latency": 0.318,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "246b81e01930e0fd2bd09c6c2a38a0a866fcbc0ccd1d0184b78ab7e2fc2b92af",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "75e592e9079f960a448aead3d4c76325a7fd10ea9656f1c85ffc72d053d462db",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "00657fa64a51dcf210244cb18d56f2e70fe98bf13c8addafe89e389f7ad51621",
+        "loss": -0.96,
+        "latency": 0.466,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "6b2a25805f82a661d27559f34edb33ec06fb9fc5be487ba42ceee7b409cbd2a4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9b3ea711543349d2314cd569e277e80449d4ad0cf42489f01f9a7c55afa10f48",
+        "loss": -0.64,
+        "latency": 1.459,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "898319f8410b191d2601cf74b3aea4da6454fbf463f083950988bdfef883e66d",
+        "loss": -0.65,
+        "latency": 1.572,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "17c99d3793c61b614f38993f250dfc5ed096de70535b29cd72ca12c60fed0c70",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_shifted_xor",
+    "seed": 123,
+    "pareto_size": 12,
+    "hypervolume_2d": 48.1344,
+    "frontier": [
+      {
+        "candidate_hash": "611d61b8034d44b073d42c7a58cba62e35429a5dbfb3813621469d9106993ca8",
+        "loss": -0.51,
+        "latency": 0.381,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "2172931fbe4594fd57ec8eba08074cf8743da417ef7776186f373572bd1f181d",
+        "loss": -0.5,
+        "latency": 0.346,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "a15b754aa906265147645b88c8f78b43278b2c11d9d715f238365e6335cab747",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fe22b3d6dddf2afc88de1073bbc37863f88e75ca6e799be23dd32867d08fed51",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2f1082795d48e723d6c3503f55be8088967093aa3f65087ab5e00eb5b19b7e9b",
+        "loss": -0.49,
+        "latency": 0.327,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "18bf1a77d48fe6b3d9612b52e8f31e48685139603bc72bb4cdb674bb711caa97",
+        "loss": -0.97,
+        "latency": 0.57,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "a255d4cd013e2b11c2b55bc24046391cad15d82a7185b9f4b13fa6a228e48c35",
+        "loss": -0.54,
+        "latency": 0.375,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "76d51695c72065fb65895df7a3145c6cf4eed42fb2eaf18cbdcb9d44881fe6ba",
+        "loss": -0.95,
+        "latency": 0.428,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "c4443bd113c03fe9cea1fcaca096805da631148fa0619a647af437553ff223db",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "444476fa514efba4c1aec92e1ec69702636e54b3da18328912fd570689706d60",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "61d9550d419d3837d41dd9874cda974404a6ff5b8d570058e0f21292931962cc",
+        "loss": -0.97,
+        "latency": 1.926,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "e23f6e7823199b141cf906668b54c16de76c319f61291be042b087a19111f5df",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_shifted_xor",
+    "seed": 456,
+    "pareto_size": 11,
+    "hypervolume_2d": 49.4811,
+    "frontier": [
+      {
+        "candidate_hash": "81cc0c6132f384137696fb3b1c837d4dc970400ecf7049176ce8eec3e4935d4e",
+        "loss": -1.0,
+        "latency": 0.751,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "587fa106e61de69f21db31c70b427bbf1326964ba2473262ccc0b3738866cc74",
+        "loss": -0.61,
+        "latency": 0.523,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "f08279c2fc3cca58f35ac21cff0e81158f7d14363816d20fdbbfa372ebc9c68a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "829550b0c8d7af1d783a1e39d8cb6ebde2714186344042e89c6b8fe1791855d6",
+        "loss": -0.6,
+        "latency": 0.541,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "1c935edbb29abcd388d392e622ad7b659bb0565369b07a8410cacb2ffad30beb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fd293f37b10268bcf4ebd25e43eaeb2a776ff52e4c96a9d65d80f0a7b475e1c6",
+        "loss": -0.97,
+        "latency": 0.885,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "45b6dbc4c5ef32ce82201ae1942f59408ffee43138c998cbb577e7f05c3ed506",
+        "loss": -0.47,
+        "latency": 0.417,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "02261e518b73f70ea9e5e7a8cba4184805ca7e78e9646f3427d0f7e901ed1eed",
+        "loss": -0.97,
+        "latency": 0.631,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "537741ef50a18fe3f434596504b734098bd0a8a093e4ebafafcfd6c3a8f96bdc",
+        "loss": -0.98,
+        "latency": 0.96,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "ef6e99631199622ae2e7d4f489426c75af19d7d343938bc9098f273c4de8ed1a",
+        "loss": -0.66,
+        "latency": 0.794,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "6790c4295094de623e7d51363f2ab7cc2c17fd6b2f01e095d0b768eca521342e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_shifted_xor",
+    "seed": 456,
+    "pareto_size": 6,
+    "hypervolume_2d": 49.0919,
+    "frontier": [
+      {
+        "candidate_hash": "e3358eeea0b3af23b82f59a088be7834e4a3653198d1e470347379171a6036cd",
+        "loss": -0.59,
+        "latency": 0.601,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "1175355f43032c14a570b5821bad700ecca1f87624ad447251616a1cd39b1aa5",
+        "loss": -0.99,
+        "latency": 0.602,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "a328ecbe96cdeb0bddcaf65e6d489f8cec5314a94a228c3eba251a6488832d30",
+        "loss": -0.58,
+        "latency": 0.334,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "595cb86d79c725781846f677fe2b1bc30a7bb18c75e2aa065c0b1bf722ea4bc3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "bb44baf4f5eaad5a00f50a050c3d5afdc2dae74d929371f2f06672ef85664488",
+        "loss": -0.98,
+        "latency": 0.521,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "f2cf03c70bb8ab9bbb1db90c1e2e4213a56160f94149ca27b0ac097f794946ac",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_shifted_xor",
+    "seed": 789,
+    "pareto_size": 11,
+    "hypervolume_2d": 49.082,
+    "frontier": [
+      {
+        "candidate_hash": "65d29b976a36b2b7af41647530c07f23ef1ddd8b5169e187e4f8a44460e30313",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "db8859ace40b659191d4a62d8b9155df13b2ad7316fded320c40834d9d0d6820",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c24f50550ac16ea842f52cce2e083069df58c31896bc15d37cdefe5b79bd3f02",
+        "loss": -0.5,
+        "latency": 0.45,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "f2a77d5a098219692244f24c05ac239e7ffc04ba5fce9c983d0c226fc7de6639",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b505d5ff11ce3648840c46df14ff5420331d3bcf3f71e1797690d041a59d6cbf",
+        "loss": -0.99,
+        "latency": 0.48,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "5ef5afbf5457b6c75f1bf6830f5aa163798c49ee044e92cafcb09c0c1d8dc300",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "77b1383c54b4455b9acbc3a8fe966e45edcf06ae9e6808f2a9f6c039e9b53775",
+        "loss": -0.51,
+        "latency": 0.653,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "7991bf6a366c065ce35b936a8dec31166e6adc3b00296c7124eeabe987481137",
+        "loss": -0.65,
+        "latency": 0.392,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "8852d444d1d68d126766954156b1cadf6c8e298b44bf9e08e41a79a2668dc54f",
+        "loss": -0.6,
+        "latency": 1.396,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "ae7123c70ef413b5da941d2c6d55ac7570c33dfe292d54a98683e586748e039a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d8ad82b490080fa07ac896f5b957afb909c5031309912cfd19903f3f975a7947",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_shifted_xor",
+    "seed": 789,
+    "pareto_size": 14,
+    "hypervolume_2d": 48.5999,
+    "frontier": [
+      {
+        "candidate_hash": "2e916a6b1c5e02c506dd4adaef4ecb35e44b6a4e05fbbfe0b4bbb4ce33298f89",
+        "loss": -0.75,
+        "latency": 0.477,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "18f79f55d7fb21199c627d44beec42ad0afa3885b59f14cee138ec2aa6f371b3",
+        "loss": -0.95,
+        "latency": 0.505,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "77b1383c54b4455b9acbc3a8fe966e45edcf06ae9e6808f2a9f6c039e9b53775",
+        "loss": -0.51,
+        "latency": 0.576,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "00071f8894fcfa8a10efba6f16c0808f7659a3777c50014eb1fc2e54e282a0aa",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5ed0d7dce63ee445e3af4c79544b6eff4219506b8d0cfeca359fee8f2df6a768",
+        "loss": -0.63,
+        "latency": 0.414,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "de02257f3b19731d22d0745cde424064adbe1592afe4ebd8cf5cb69fc09ba4dc",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a1e8df554df5da90362aa12f69cd2458ca03c32c7cde5ea58f06b87da4864dfc",
+        "loss": -0.5,
+        "latency": 0.451,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "c914dae88573ac825b50efbc5cacdb3b5ceec3b822470c34b15586bf4b5f1778",
+        "loss": -0.52,
+        "latency": 0.583,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4b20d49a25af0562e24e445ee656402ae6e524889fe88ccc2690097bdb8f50d3",
+        "loss": -0.77,
+        "latency": 0.495,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "dfb8cf9202f955f5b73cf5749963b84ab372bc24a8fb46e21f2462c7f2e74889",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "34ee0ae071abcbf54b81825af84fe74244ad9d8a17f28635454cd8f12ba07ea0",
+        "loss": -0.6,
+        "latency": 1.396,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "d5292ef3bcb51553a20885b5a0447d1d0532304966269359246152f3cdfa6eba",
+        "loss": -0.98,
+        "latency": 0.515,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "3ebdf1b35ea0ed0e3620bac422dfb5a42b80bbaae988f7b556af6e6fcfb63139",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0d22b00f7c8b30916f39c6620a955527449597d9826c1af6dfef73e7dae72423",
+        "loss": -0.61,
+        "latency": 0.358,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_shifted_xor",
+    "seed": 2026,
+    "pareto_size": 11,
+    "hypervolume_2d": 49.6233,
+    "frontier": [
+      {
+        "candidate_hash": "c4e17e7fd807581343890b87a980f82f4f9f9ccfe5372c4f43ae7b7d8fbdcd1b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8776c5f49050263ddca6723be846ff3ba5b28462053e1525fe28a6e5814d1888",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b20ba96c34dbd63b4b370f2394e74f91050b94079616bb3ce5aea86c1ada9427",
+        "loss": -0.99,
+        "latency": 0.813,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "bfe380c2b8805f7064906103be5710b57b418ae563538ab48ee974aa1c1f4cee",
+        "loss": -0.62,
+        "latency": 0.525,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "14bc9b51444a218e7b2e1de5ceb467a8cd2c7581c2bc2139bc95183f28fba7ba",
+        "loss": -1.0,
+        "latency": 17.597,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "5b21fbab7a0491fb2a8de00592ad3cb59f2ba02ad59dd94fae00893738205dad",
+        "loss": -0.98,
+        "latency": 0.451,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "8652ae420b33891eb70c6852000bcf68cce6910260fa3744cde80597a498eece",
+        "loss": -0.61,
+        "latency": 0.32,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "26f008819012a6d058153b003db370fe41b6afc93e0ade181dfc2865da160357",
+        "loss": -0.66,
+        "latency": 5.827,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "81dbc080225994bb4c93e7969155599dbb0482a95abf46e1f8e9819e92544547",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5c902244401905f59ef77fa18711cab856cf080f87e8d1774573a4234c96f2e3",
+        "loss": -1.0,
+        "latency": 0.73,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "371fc7205fc14e94c9a31eeb66ede88a8bd41a6f1d42464d351e9a2664c9d15e",
+        "loss": -1.0,
+        "latency": 34.673,
+        "memory": 12.02
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_shifted_xor",
+    "seed": 2026,
+    "pareto_size": 10,
+    "hypervolume_2d": 49.629,
+    "frontier": [
+      {
+        "candidate_hash": "33a0b04bae2c7e067bc502b15fe3980f6f8001a1a420e114e4d1406452b409cd",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "278db1886d737937789cf4e7e9cc20ac5cbe7f728661ca7c799544b16992caa1",
+        "loss": -0.66,
+        "latency": 1.725,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4edffe627d729dfe993c025ce75b2205acdf1c04e409d87b332ca61653b46293",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9b9f2ad7ff92b4c12a6a80ecd830cd877ee143371a67d38200e13d1f952b37c3",
+        "loss": -1.0,
+        "latency": 0.371,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "0a2ac8e6fe4f2f095b1783e30e36533b5917c510f60e1e99193bdb5db3072d42",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "862d79cdecba247e741a257de0a2d17ebe37365e7ddee8e3b897fbe3e9af6137",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6ecf5f71858b4fc0f26a1a533e633dbf395f514b9ef41649f4becccd64eea5d9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b30874bce31681392803e7ae6036398381c10115603fde12f4bd7beecca39f2d",
+        "loss": -0.62,
+        "latency": 0.421,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "38bc4a82f97b24b7f9f5dfdfd1bb0c4b4a2441e78bd4f1c672383cc4c6a2b4d3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c27a5cbf89966b1e3b58fec78f275ccf86ba9361793656613183a32e29d179bc",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_parity",
+    "seed": 42,
+    "pareto_size": 8,
+    "hypervolume_2d": 49.628,
+    "frontier": [
+      {
+        "candidate_hash": "d105fcd8e79d245e4f0099fc38a2a14fca2f9ba4d32288fecdb4f2740a95f3b1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "20fcb704c76938f4bd49673e94e2eb4611c29ed5343ec2f716c34126750ad670",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "24c0bae0c8928775cc60df8342234df1fa21f5e03d27c2ecb013f98e0e58e129",
+        "loss": -1.0,
+        "latency": 0.372,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "bb9994d912924da9b307c5cff6db1a19cd2d3270df1b25e45dabc3bebbae5c73",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "30ac270074c3eb7a0c72760ed4b91985ec66036e729a6a6679709995fe0ca4d3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "06be93b8acf6d36124f093b11d514f7eb7987a4b45bab5ba02ea6d367f75e4a7",
+        "loss": -0.92,
+        "latency": 0.446,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "48a06995bee2b4ca4a746e03ef7629a48574d92df33d08d64c4bdec4d4666e8f",
+        "loss": -1.0,
+        "latency": 0.476,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "6c1f3dafc5771f32c41829cb1d6d55c7b122a0712aff0ff007fef14113bbc7d8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_parity",
+    "seed": 42,
+    "pareto_size": 9,
+    "hypervolume_2d": 49.673,
+    "frontier": [
+      {
+        "candidate_hash": "ff77f5d2003dca8f18184789287429084635b308954e030de3039c1e860c03a8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0fe4a9e79c1adc50ae9623c37c1a7dd3cdb485da1ac4bf98974112532c9f01c2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c0fed851b8ed4da37b1e69f4158ea3729e19120a2f9c08c361f00cfd85022827",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "7e519f0df761b8b4eccd170653065b3036a1e37293c88adec255bdfd4c1a57cc",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "655e8af3a5c8aa343b0f00aedecce3aeae741fb2b8df3bc50e7291f9531cf3f7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "495892baddb67877459b1cade9c0fdc01b7782b575ef8ea3a91f093c571f5232",
+        "loss": -1.0,
+        "latency": 0.455,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "283d9860bf32e205f1e31bd9404f737997d698263501d05ff2a96438ff2598d3",
+        "loss": -1.0,
+        "latency": 0.327,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "811e99d984c6a98f27bb31500da0201aabc6ede8c597bd8202ed06681e7b764f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c35b912aac2a353acf940c6b3188057031422f905f53848de35e5c9d09974996",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_parity",
+    "seed": 123,
+    "pareto_size": 10,
+    "hypervolume_2d": 49.662,
+    "frontier": [
+      {
+        "candidate_hash": "e7f4b66c8ff83073bb31497f0221bf406af5165ad0eb6ed3be64c9c609b15713",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8de1ce5867d7f53dbce46ed8411353c9265f19a702876862a4644d0448d65d9c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "67858a572127485638b33ed9a83f64f62681333874826446c30e01719e7df1fb",
+        "loss": -1.0,
+        "latency": 0.443,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "c0b354a620050d4528cb8941ac2b01ba2623f2de9f117201f7a4a8e951f77675",
+        "loss": -1.0,
+        "latency": 0.338,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "20c76eadc899533ed494082236231716bc2ebb31714aff9e99d0d471fbb20a5c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "246b81e01930e0fd2bd09c6c2a38a0a866fcbc0ccd1d0184b78ab7e2fc2b92af",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "75e592e9079f960a448aead3d4c76325a7fd10ea9656f1c85ffc72d053d462db",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6b2a25805f82a661d27559f34edb33ec06fb9fc5be487ba42ceee7b409cbd2a4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "17c99d3793c61b614f38993f250dfc5ed096de70535b29cd72ca12c60fed0c70",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5978f1daec42f14e402d5aecb0e601949acf6d3fb156966ffd13ce91b51d9c3d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_parity",
+    "seed": 123,
+    "pareto_size": 4,
+    "hypervolume_2d": 49.616,
+    "frontier": [
+      {
+        "candidate_hash": "a15b754aa906265147645b88c8f78b43278b2c11d9d715f238365e6335cab747",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fe22b3d6dddf2afc88de1073bbc37863f88e75ca6e799be23dd32867d08fed51",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "88f1b4368675d00199ce285a93726ae466313e9f6972d1170167420997521ed9",
+        "loss": -1.0,
+        "latency": 0.384,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "5419d89d7ccd672f440fbecf17da0cbce9215ed7ca2d093ece4adca4e8c43350",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_parity",
+    "seed": 456,
+    "pareto_size": 5,
+    "hypervolume_2d": 49.683,
+    "frontier": [
+      {
+        "candidate_hash": "58a95e9bcbdceda3c74be5a466083b0044e1a08cc294c1fd43b5efe60fc8f990",
+        "loss": -1.0,
+        "latency": 0.317,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "f08279c2fc3cca58f35ac21cff0e81158f7d14363816d20fdbbfa372ebc9c68a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1afcf26977e994ea3293f19717689aff0996365395d2c6d653aa8333cd818411",
+        "loss": -1.0,
+        "latency": 0.395,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "a8b00be33b8d92ab3b57f02c89d35c430b38d3f3973590a51af277bdea8b3d75",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a0fb83ec989beae99163227aaf1d9d196eb00facba80a24ff2c5eaeadebfb152",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_parity",
+    "seed": 456,
+    "pareto_size": 3,
+    "hypervolume_2d": 49.689,
+    "frontier": [
+      {
+        "candidate_hash": "5a8821f0fc27d157eff8ec8fc440ba71182688540744f86b04de09b70ecdff03",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e40ebe36286615912b46fa21d32bf0044f2f3ea21b5dbeebd68a651cad72f375",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "31d2b70c492c8ca47d1a34628458a1cdd97096868edaf9ebfc4f068c148a4547",
+        "loss": -1.0,
+        "latency": 0.311,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_parity",
+    "seed": 789,
+    "pareto_size": 10,
+    "hypervolume_2d": 49.593,
+    "frontier": [
+      {
+        "candidate_hash": "65d29b976a36b2b7af41647530c07f23ef1ddd8b5169e187e4f8a44460e30313",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "db8859ace40b659191d4a62d8b9155df13b2ad7316fded320c40834d9d0d6820",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6eccc3c3d8613c7aad42d1859dcda0a170793f7c37d99980aba5726669eb4610",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0beb09e19d428ec666dd675ef246334eb452b826ab9cfb06184ecde5cee2c3b4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "900de8197af395039ebe5b6751806fbd18ec9a99648fac9eedf35d4d6aa65f92",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "22da3e6b522e8702e543b767502fb776a83c643e3d5d291f2ae827c949b85c66",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "47b0028887fbb541b4ee8e88111f59f35be217e7d780acf5bfd110cb5d2880ca",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a225e5f7abf96183dd1dadee10a8821e87f00a26c1ff9f1eefaecc46af71e4ee",
+        "loss": -1.0,
+        "latency": 0.407,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e43f7256dc0313098bbe6765867854a8c4c767d16e1a75b8296eb5024e78e580",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ae7123c70ef413b5da941d2c6d55ac7570c33dfe292d54a98683e586748e039a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_parity",
+    "seed": 789,
+    "pareto_size": 13,
+    "hypervolume_2d": 49.596,
+    "frontier": [
+      {
+        "candidate_hash": "bc10d1ff9abdc782853dd426ed258bb96922d686daf080eb7fe954a00d3b6607",
+        "loss": -1.0,
+        "latency": 0.404,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "48106ab0a887588126fafe3eafcbad32b34a3189b30de7f9654a85838fa94a35",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "97772613818645951ec9a5597cde4917de9c572a1f212db37365c44ae290d458",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c6f6fd119912bf9a3bc102f5234d9be5cb6a06913e4f077b04837d7064bf32a3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "32bed7626754be4d5e25045f89029a17c55dfac1fd6807ceef6d4d659eaa7bfa",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "dc5f0927d28b9de2539991ef5b7c8d0411453ed13cefcb329a999b786e732768",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "22da3e6b522e8702e543b767502fb776a83c643e3d5d291f2ae827c949b85c66",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a8d66fb574399e9804fbef928b90e3a7ae92451b2419817e9ad4678aaf1f09c7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "3318979490ef0b4d2e68713233b18c983724f9a6fc1e07bbc400e87a58b56cd6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "757fdfd47a05caaccb924b2335ea653e7ca1da06a3f3072c40bf29c8a26f6925",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "de02257f3b19731d22d0745cde424064adbe1592afe4ebd8cf5cb69fc09ba4dc",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a61b5da50f9ffc899a9f74b55d4e0928ffd125281dfe59ae5ef0483b0be87c6e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "31337d712f5ceb459a8267aa2e9e4920a59b1d2f52bf1e4a016d7d70c3d36639",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "q_parity",
+    "seed": 2026,
+    "pareto_size": 6,
+    "hypervolume_2d": 49.602,
+    "frontier": [
+      {
+        "candidate_hash": "33a0b04bae2c7e067bc502b15fe3980f6f8001a1a420e114e4d1406452b409cd",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4edffe627d729dfe993c025ce75b2205acdf1c04e409d87b332ca61653b46293",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6ecf5f71858b4fc0f26a1a533e633dbf395f514b9ef41649f4becccd64eea5d9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "38bc4a82f97b24b7f9f5dfdfd1bb0c4b4a2441e78bd4f1c672383cc4c6a2b4d3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c09376fd181a8aa72ca3f76cb5fbea358047adc7755a9d77c3c229b047e491fe",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b0062aac835ba200e544977c07c314966b0b4b4c5dbb77879fc8da7e9700ae91",
+        "loss": -1.0,
+        "latency": 0.398,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "q_parity",
+    "seed": 2026,
+    "pareto_size": 9,
+    "hypervolume_2d": 49.57,
+    "frontier": [
+      {
+        "candidate_hash": "c4e17e7fd807581343890b87a980f82f4f9f9ccfe5372c4f43ae7b7d8fbdcd1b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8776c5f49050263ddca6723be846ff3ba5b28462053e1525fe28a6e5814d1888",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5755fc47ec05151a3b05ed3b337d1fd1c6dc61e766200b0591ebf0628b4942a1",
+        "loss": -1.0,
+        "latency": 0.449,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "a368f2144e7f2472ae4988f01d869631779defc6b3ef5b03855ccafef175c11a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fb5aefee9a3dc751a10e28d2daadf264c171e64dfd82ad1bf960c48361c3ad55",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0728a15662c30ac6a4284d3b14e68718b948f69c988682e44fc75399145c8ff1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2ccdfc3cabe76a8a2a063ecdd876dec905676d61699b4ed2595f653d2567ad55",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "34f4010b10c45594f517f42cb9ebbf99c11f9c798a08721a363a2d3222713a2e",
+        "loss": -1.0,
+        "latency": 0.43,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "81dbc080225994bb4c93e7969155599dbb0482a95abf46e1f8e9819e92544547",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "breast_cancer",
+    "seed": 42,
+    "pareto_size": 10,
+    "hypervolume_2d": 48.708,
+    "frontier": [
+      {
+        "candidate_hash": "3c52d1dd9cf6a2ab425a369d42904d7222473e47eb72a1a7c27822e768a2a091",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6bb18e46bb7b5ecad34851aa861382eed2190044b1fb66744c1bf3f27cab9c25",
+        "loss": -0.97368,
+        "latency": 0.645,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "f42c621e78a3bdd01cdda3725fd51885ba0a0cca36db81b53b63801842c4f06a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2cbde2aa72e5281a371195bf0c30730b199af22a030820ca3eea5e6eb93af4ee",
+        "loss": -0.97368,
+        "latency": 0.478,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "360e61650e5c8b68eacbcde5ebe4353056d9d15e8a6360424556eed197fbed1e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "03cf3334b5d31cdd38a39d18f1a7f2913b040ff32eca7e423bedc7d38994157f",
+        "loss": -0.96491,
+        "latency": 0.414,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "a18eaae9ad3c792776cac6e9e3e60b7efe68115c0ed57f0bc6cae4131e98ac86",
+        "loss": -0.94737,
+        "latency": 0.437,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "fe4261c36851058c086aa1b990a5aed773165d21e52d04874ff54257a316c66e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "34379afaeeec985e32588423b9a1627b10c92e848e7fa81f5aeca0ed6a0dd36c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5ff91a3fb7cb755dfa038d3785ea7c02ce6a3630d26a528fed606dd701c2794d",
+        "loss": -0.98246,
+        "latency": 1.289,
+        "memory": 12.09
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "breast_cancer",
+    "seed": 42,
+    "pareto_size": 10,
+    "hypervolume_2d": 48.2696,
+    "frontier": [
+      {
+        "candidate_hash": "addfb863a09357993104ce86519dad5311d258b5965f5b528c1fec8b9a87c7b1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "360e61650e5c8b68eacbcde5ebe4353056d9d15e8a6360424556eed197fbed1e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "75dfd1accb84611f478b81b6c9dba2663d31ce79a45fe1393cfcd61ae68d9707",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4952d4948fe87e036bd1e9a96ac103f11059f149df3156c2e9217a9f4712b765",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4cf62c21fd2cf439b2d94521a8408ed0b7e8ac7711be416edf1a832e73640d35",
+        "loss": -0.97368,
+        "latency": 0.447,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "68c2f8ad47842c76a54f40b493fc8ef893a85b518ff616bd84892ebbe397d407",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "7288a3ce279c03365e49a9bda0ae0a8209ee3e9812db5e329f10b7a94305f18d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c7e3e92cbdd730489bf804892ac07b46a7eb2f49369adef5aeaf4e4ad1f35868",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "46e72ed8432b70ed6ffc8b44eac9944a784c469c4884cfc3fdb57740fd12fd4e",
+        "loss": -0.94737,
+        "latency": 0.425,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "b6b7e8d6a2f4301e978138667882a00e0836f734e27e295a7898a80650501099",
+        "loss": -0.96491,
+        "latency": 0.492,
+        "memory": 12.02
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "breast_cancer",
+    "seed": 123,
+    "pareto_size": 15,
+    "hypervolume_2d": 49.6401,
+    "frontier": [
+      {
+        "candidate_hash": "6f9ddd07bd1db104453ffb04c76fc67ab427ee61fa0ae55833ee11d3b659f760",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5588f9db9a67dc83a7d0d029d940bbd3d4ca2ab7cb365c002c229b23ca6cfc33",
+        "loss": -1.0,
+        "latency": 0.77,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "20f18a639befa9ab9f6cb5318e79139ef26d4fe685fef7db3cbb9714939c5673",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "57bd0bd7f04cbcc38bbfccd0486a78bd6a399b45280426909d0e0f41479b957a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "70309c727b8f4168512183d3b1a283a661245459603d226ab48b0cd7cc4f6150",
+        "loss": -0.98246,
+        "latency": 0.399,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "2fb54b72d75c4cebf3fd7a7b95475afbdd7353a0ab043b2fb3fff094ba45b4b3",
+        "loss": -0.90351,
+        "latency": 0.652,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "cf8d7f5e479ecef26386e1254c72833ea7ce59dd6483deaf7c286161fd45c198",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "f1ae81f901a193be2393538a063d6afc5cb0bf5dce9302260c627947e6d977f3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b4e818f54ff93ceca6c5a3ad89410f35e8de5c9a6bc3d72fc6da8e82c90aa123",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "aba9b0f4b08f5c4ed9752107b71dc29d05ebaa2959ff77655b91035e67e17a51",
+        "loss": -0.98246,
+        "latency": 0.598,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "be7c92ab8718ba0dd8386ad11ecf3452077a8fbbc867b7ba7ec9983c4dc5e038",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b943c326859fe9ec37a3ce04512fdea0332d958e49c2a3b18beeffac567aa50d",
+        "loss": -0.96491,
+        "latency": 4.44,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "d0c44939e3d8db13bf556af3041e060c2368b8b01dc222b853d65736c4fb4d87",
+        "loss": -0.98246,
+        "latency": 0.354,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "d5cba6a488d8cf111b278935ee645177208f433d4779ea37bd7ab6c5997ff7cb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "18ac43c52b352ccbb3b1a3a80c0e79457a4cb07bd0141d194dd9de4599e0dfe4",
+        "loss": -0.99123,
+        "latency": 0.606,
+        "memory": 12.03
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "breast_cancer",
+    "seed": 123,
+    "pareto_size": 7,
+    "hypervolume_2d": 49.6581,
+    "frontier": [
+      {
+        "candidate_hash": "59c513cd39405e7404ef3b6ac4e50686a0bd97cf86f15ded5eb06e77db8d16b7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c14598f77bb037b5ca89e459858bc24ace4930146441489e4ad4bd2aba36dd7b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0548ca76611a5278e7fe059d1e59b99bb6c3a8178454688eb8bc8dc6a6cbb6e2",
+        "loss": -0.98246,
+        "latency": 0.421,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "f323fbd7f6bdc317b8e5043d85e8c843ce5af65cd0cd01b701402e1e38ca5316",
+        "loss": -0.87719,
+        "latency": 0.33,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "f848e81472ad3b43c817e10031bf5ec9dc95281daeb3975f9692effd441bad1e",
+        "loss": -1.0,
+        "latency": 0.46,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "d18eb83c650b3c4423cfa9823f24890d1321540d9c1d8a505e4652ad68dd27f2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9216470d6f96c871c0032d59b6ff22875a5d7d1caca7cb114af3ef5f8c5daf18",
+        "loss": -0.95614,
+        "latency": 0.443,
+        "memory": 12.02
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "breast_cancer",
+    "seed": 456,
+    "pareto_size": 9,
+    "hypervolume_2d": 48.737,
+    "frontier": [
+      {
+        "candidate_hash": "a90a7233b760418cf12efdc7b393bd570024a6551a4e0a1dba7d214b28bc12cd",
+        "loss": -0.92105,
+        "latency": 0.419,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "b985f8ce284d9545565c1255811ef0a7b8ca7c28550f3fa0211e99f3a6fd3f57",
+        "loss": -0.97368,
+        "latency": 0.522,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "218c7de7e50d7d2417a0d5e9b2de309e28d3ff6df7c99fbf85247c1da70de5a4",
+        "loss": -0.90351,
+        "latency": 0.383,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "669f6b7df523471514bcedc85ab3c79453fa9f1840bfa435f26348c34ab70c22",
+        "loss": -0.96491,
+        "latency": 0.42,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "2f061db89f8c72e9d3c2eb1f24581bf391f9812c39153e974e77de16c0160741",
+        "loss": -0.92105,
+        "latency": 0.405,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "64005d1d01dd0b1d8f46ce75a348a7f4f5d82cbf2fd8100374e6a7475bdc056c",
+        "loss": -0.95614,
+        "latency": 0.436,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "ba9cc8ed8a94f64f67527bae69e73bc437b9a54ca8b3a91cb30e6b70b495bcab",
+        "loss": -0.95614,
+        "latency": 0.499,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "e9e1195f4383d7723a01da7223b36d614d0e784da6103865fe20f809c87fab50",
+        "loss": -0.98246,
+        "latency": 1.117,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "02bdccb30a23843d26396fef64b02c6887d2e1f04046222d341abd7fdc420c45",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "breast_cancer",
+    "seed": 456,
+    "pareto_size": 13,
+    "hypervolume_2d": 48.7122,
+    "frontier": [
+      {
+        "candidate_hash": "cea17c746a11b2eb72d66b5badd55c928ac2d503be1a4ecd2f81b360b813dca8",
+        "loss": -0.30702,
+        "latency": 0.509,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "51ecf50fe1fac1357c7a36ee07cfa748104338117f39dbfe5f213dc8be44d502",
+        "loss": -0.92105,
+        "latency": 0.408,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "9e942a2330f021c0cc5122fe465bb2d8319d04456b01e0a5ab0adbbd940b3d4e",
+        "loss": -0.96491,
+        "latency": 0.618,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "773e1207da6c350861cd96274e38aebaa60ac9d8a8c9d62118c874b868d1b67b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d7fd746ed29b33c0691fc19bd3edb8a90b09034a97af850be5968c8944867822",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a98698dc907b26322e6cd118541ec77a5d9b12bfcc88e940cebf93dfa7fecd50",
+        "loss": -0.96491,
+        "latency": 0.48,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "5cd5ef0dfc917a01b6247287512928d451e5aa68bb455e389346292c1691fd97",
+        "loss": -0.95614,
+        "latency": 0.451,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "a2e26aec045f276e03435ca2f6ffb235b2884c87022e4c32501ec0bb76bdca79",
+        "loss": -0.97368,
+        "latency": 0.629,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "e57ce76f7f6760f109ad27d9406e2b173c5622438e85dced5357496d7cd5f3e1",
+        "loss": -0.95614,
+        "latency": 0.512,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "1e2fc316e09b144da839eb68580faa35a190e059e9452d5548b6d754c38b3f8f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1a2c8f268595af803f565bbb96216e3369bc6eb45dbd949423938356915d1a45",
+        "loss": -0.98246,
+        "latency": 1.079,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "4ee0832f5b332ecd1290b9be0f666d47b85f40b547f8b387cf0a46f38b86fce5",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8c20b524f6b2deded3e76500b822786f96ef230d66048d9d3d77d7561ef2041f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "breast_cancer",
+    "seed": 789,
+    "pareto_size": 13,
+    "hypervolume_2d": 49.2105,
+    "frontier": [
+      {
+        "candidate_hash": "3c9e61aed276734bf94430492d866bd390df494d9ad1844b8a7e594736c19d2d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8a6db7b59f12d7f01fa061f87276c9e340c075a1d6d8a36db11a782ddd8ca65a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "213fd8ebc3b41fba2b2e119df324d2799a3fc11cf12a50a93ca8e8eff0edbddf",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6c341aafa87d60268f7c89d8d4a09591ce3664a1b1f28c2267bfecc9c142ef96",
+        "loss": -0.99123,
+        "latency": 0.873,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "132c1b9244e9ed0c382370fdaac05d5a5a569b9da976ca9a8b03c4a326fe7018",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "46ce57c02156abfa255afd82500383b35f7d6e25624d9cf84bcf523ae313d675",
+        "loss": -0.96491,
+        "latency": 0.351,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "7a2d73fa33ffe9e4ffabb5b32104609c1ae7cf61cdf2e1d35c7d26de14bdd656",
+        "loss": -0.95614,
+        "latency": 6.394,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "a50d0cab437cf0a3c31053853f459537450b45f788ef6c2fb6798d2489c01e78",
+        "loss": -0.99123,
+        "latency": 0.566,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "4b01ade2149325fb256e17716313632c8383cd10d8d2250fcfc1fa5859dbf897",
+        "loss": -0.94737,
+        "latency": 0.501,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "c50a7251de912f9345aeb4d7cedc30195eb014226ad164140e61286f1aacad24",
+        "loss": -0.89474,
+        "latency": 0.575,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "fe7698e94039dfa7a29dbfad263a833605ba9c6667d461a027c6964bf3411863",
+        "loss": -0.97368,
+        "latency": 0.42,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "b15fce005f84e36af1e8a343360569b5881f4b129617c91e80b3773e0a0f1643",
+        "loss": -0.97368,
+        "latency": 0.516,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "05e3eb35c73d78831eed9069dd156de1700e4b7215d8f944bd12ef409fbf0e35",
+        "loss": -0.98246,
+        "latency": 0.422,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "breast_cancer",
+    "seed": 789,
+    "pareto_size": 10,
+    "hypervolume_2d": 48.7352,
+    "frontier": [
+      {
+        "candidate_hash": "a232335128ac14c7e21de7e83fc3ba4a5bedafa86b86e4f3d633deffdb9414ae",
+        "loss": -0.95614,
+        "latency": 0.481,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "45c93a169769eb7dd29015d526ba1b89090fb923a2f19b833e2d118f1becaaba",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8c6d6d20a9c3a162b42c88b17de63c8d1f4f31d6a961b1246a0c64f9bba0553a",
+        "loss": -0.94737,
+        "latency": 0.45,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "a8555f4e70e0a0c7315a092a2a693e3750ec49bccdecb31840353e5949665a2e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d5eb279540bd6a7ff8bddb870db63900ca6f89282277da1ee9ddc2972b6df904",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "f8664a614867f833d50f12c0c903172cb92b37ea2c43bd4a63e14d19fc98cd5a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "f1ec025768e8105a4d179e6849b0c98f4e01766bf5e700691451387c80480c29",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "64bdb1044e466864eeab755e49ad47aad37a39e3afea0f5a4c53dcc88edfdc13",
+        "loss": -0.97368,
+        "latency": 0.393,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "c146413fff5598cb7eefc68e00d8924188d90a93d62a754f98337caf8ec56bcd",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "883fa6cb638c30ddd480e84698c2fea7a0e331eb6bb5e6f3fe368e7924e8af44",
+        "loss": -0.98246,
+        "latency": 0.591,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "breast_cancer",
+    "seed": 2026,
+    "pareto_size": 8,
+    "hypervolume_2d": 48.3071,
+    "frontier": [
+      {
+        "candidate_hash": "41eeb97f7339a5638d1b5ad715abecf7163092f248656edfa2cd52cf14d544d3",
+        "loss": -0.96491,
+        "latency": 0.387,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "e899594ae4140e33b32e3bb7359971596858b3eba37ae074f8c96dd518dcde0c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a282016bf0084a361cf5697f67ba54378217e0c957a0202095ca279dd2016f95",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "28b69ca19f95f45fc996800a81cde39e96327359890b4a3e2a0d3bb1bae21a27",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "478be925884ddfb0a44ab5ec51074af7f67e0c5f1acba592bdff15769e2bb9bf",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ba0e902bbdc41097b49149bb479a147892fbd292bff38b135611bdea42286a17",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "de6f7c273a656e831b79aea00b8ad1a4cd4bfe6b306bb71a1a80e3e2b2140b6e",
+        "loss": -0.97368,
+        "latency": 0.399,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "307aa2c7257cd101528ad55c02d9af3d7b0764bf3eefa3a018c792c7ed96456d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "breast_cancer",
+    "seed": 2026,
+    "pareto_size": 8,
+    "hypervolume_2d": 47.8808,
+    "frontier": [
+      {
+        "candidate_hash": "cb27e203b3a5a47aee72b6fdfa355f2c3e23ffaf9c012c6286e0b55d4cd3934f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0d70ac6e3b70fe83c0be9e7c9671a5988ccfc8349f507398be4a626dff47c96a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "36b5c913f7b0d13ee982c8ea7085e7bb745ea39a82d14cfa90b237b8229cac41",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2fea81f310be44121cb32aeb2068d2f1e737254fc6a1fce7d2ceae565fdd8e75",
+        "loss": -0.89474,
+        "latency": 0.403,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "aaf00068c7f40f4b3c7890fb6e8281ef18afd6bc7a55c9f6d9b85d4b9bc6800f",
+        "loss": -0.94737,
+        "latency": 0.483,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "528241fd8b35e4e3d54624742b93e41a9ceb1b98b016ad23090396cc19ccf2a1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ea705edce29bc9d8077ed8952979f9f43aa5062c43b8268d443cebc2cfd406f8",
+        "loss": -0.96491,
+        "latency": 0.559,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "bc7dff926776e64313a178590510b31aaa29f6151a8494dc3ec099e2cff4b4ab",
+        "loss": -0.96491,
+        "latency": 0.378,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "wine",
+    "seed": 42,
+    "pareto_size": 7,
+    "hypervolume_2d": 49.1483,
+    "frontier": [
+      {
+        "candidate_hash": "71a25937cdaaa97282b2f22c5755c07006815bd7c1f97c164e29c200ded081e6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "762b6d59e4d641f0fcbebe1e1b6ef41243c001d8806a0b98d07d3f87bfad101f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "035d0207f36f213f0b1b844cb232c8e393ce03ccb6811aef44972d042d3d1580",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ec2d13982655b4543f28a6417d19ee2cd2cd9a31298f5449552c3806a3311dd9",
+        "loss": -0.94444,
+        "latency": 1.192,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "3b0e3297c1706156a5da47bdc3714a94fa15ef290936c52d4d4cdb20330f6542",
+        "loss": -0.97222,
+        "latency": 1.226,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4f695df047797940e4a0913aeabce5fe47c17bfb893d0293365054f299b7a8f0",
+        "loss": -0.97222,
+        "latency": 0.841,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "851021f16e5ecc3b0198650b71e58a76e1a30fcf3e07380495cb9cae7f5eea39",
+        "loss": -1.0,
+        "latency": 1.227,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "wine",
+    "seed": 42,
+    "pareto_size": 7,
+    "hypervolume_2d": 48.8476,
+    "frontier": [
+      {
+        "candidate_hash": "2ed5263827e8c260008f65120cf17ea2b2c6d8597233c0e0b890b62d87f48046",
+        "loss": -0.44444,
+        "latency": 1.124,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "1e35e2f0b1a42cbf28d5897d837e313eda60fd43a2733a66a3833feb53a27ad7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1bb773131d7933a0e363085ab2667459c84ad2b55c21338a276141bf4b4468ae",
+        "loss": -0.94444,
+        "latency": 1.152,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "ca3bc57be6b663c91cc2031b7a1eafdb17aa3ddb2c316182ef8081cdc599c74d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9ee624b4fb0459bba552b2de76f2dcef3447a8c305baa2a7ff19e07212e37c46",
+        "loss": -0.97222,
+        "latency": 1.269,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "53f5bf84a306887103c43fa98b72e4711651662bbf1f4e03ef31f88359b122f3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1d18c2c2d81aad203cb311ca8213a86a9ad81f8ccbc6e46d477ccd21b705db65",
+        "loss": -1.0,
+        "latency": 1.498,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "wine",
+    "seed": 123,
+    "pareto_size": 7,
+    "hypervolume_2d": 48.816,
+    "frontier": [
+      {
+        "candidate_hash": "9e1af288008f682e708d1d87f5bcaa2d130f94249e256ca5d1ed73a408d2cd4d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ddeea75111207ed0e3537557957e084f369a15b310f3280500d6b17a8deab7b3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a3b6eb592c4c9be86462f08a88efd49f876847f39c0db5cd928d4aa317787a22",
+        "loss": -0.91667,
+        "latency": 1.185,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "fe983a0dbb95f2612a65462d22202158bf84c1a5c226c5040026b99789276978",
+        "loss": -1.0,
+        "latency": 1.41,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "82af21ab6ac122adbdbd0ce9a3afefc66c18a33eb699a40010548450c93dfeff",
+        "loss": -0.97222,
+        "latency": 1.407,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "f140b35c353a49a0def4506a9429c72d4bd3bd9ba473e686363d098fcef4bd01",
+        "loss": -1.0,
+        "latency": 1.184,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "584003f8fe3e4e528f5512e097930807d56cc8d9e5287b0fac531bef7af84264",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "wine",
+    "seed": 123,
+    "pareto_size": 10,
+    "hypervolume_2d": 48.9555,
+    "frontier": [
+      {
+        "candidate_hash": "548124e4654c2f122edf9d84bb1a3c01bd04019c898e56422734a3e1548b274b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "04859b800d59c0b84ced4bb794a4d984d2341f37d8a67166bce1d9a7a2def3ea",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b23510fdf86ecd4ee2035c0bd397718de4986a218e9b831a33441ba46d21b5d4",
+        "loss": -0.97222,
+        "latency": 1.153,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "475ba805e70f89cd636b811874e5c87366f9fdb2e224fb231227a1eed8474cf4",
+        "loss": -0.97222,
+        "latency": 1.217,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "2603aba58e53a774085b9430bd31a52d08786460844f3ed2e707bb5e0f1dc40c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d4f4c999a2c8210fff7bd872b71af9f16d67d12d5d024955a78d7af9df7a7625",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "38174b9d773b3289128493ae3b47b2e36a07b60b50d075e539894c65022e9606",
+        "loss": -0.58333,
+        "latency": 0.953,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "367a440c8ebf4b2719455016486e04a301231050a89520cd5ac187c7e152f2a1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a70abd207cb66cbd77d56c83e576bafd6290e6482afbec8863790e4810bad4a7",
+        "loss": -1.0,
+        "latency": 1.447,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "8c4411541eaab31e900d834d969580dab02c10ccc30a1e3161e8d180169e8a08",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "wine",
+    "seed": 456,
+    "pareto_size": 2,
+    "hypervolume_2d": 49.107,
+    "frontier": [
+      {
+        "candidate_hash": "f387f81cb7204abbec12f88e7c494bd106abd400d2602f076240fb258a666fe9",
+        "loss": -1.0,
+        "latency": 0.893,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "85b20847cdb5abbfdae1fc2bb9f0c272508000ed5a356e3d92a12f92ab618948",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "wine",
+    "seed": 456,
+    "pareto_size": 4,
+    "hypervolume_2d": 49.09,
+    "frontier": [
+      {
+        "candidate_hash": "60d86d3030f7553a27d7dda3fae4de9f46e2458bf7f1e5c95cbe486a1c3f1b04",
+        "loss": -1.0,
+        "latency": 0.91,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "df936e0c09661e790d08f4bfb4dee5d9d64cbbed4df5ab0ae428948374ccdfa1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6286dddef38c2fa626097daf3114b8b7b4752ac37b5688495375710abcd947ef",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b41989ffd388d799365551a4df7ac25f67b5d0acb72feef093e1cacca1ea03ac",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "wine",
+    "seed": 789,
+    "pareto_size": 12,
+    "hypervolume_2d": 46.0986,
+    "frontier": [
+      {
+        "candidate_hash": "1c439d584a176f9429c61b563cd6275b15774498feed1a8aac3e751c4b1cdaaa",
+        "loss": -0.38889,
+        "latency": 1.116,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "3e0220e79bfb126e2ae31a2309c885072923247d04c8f280b866ab6dc3796be0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "173df688c73b1b15079470601d75593f254f5800beac823d68e8e3ac2224070b",
+        "loss": -0.91667,
+        "latency": 1.237,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "b98fcaa7e1476aa5ccaba52787777229252bb75bd9354ef3f68d13300768bf8c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b26f51c219b6a914e74de90d21e9e497c21e9421e786b042daf6c7f0563ec884",
+        "loss": -0.94444,
+        "latency": 2.132,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e4a07c31bd970794981d7fb1b070df8b91085dff7108605119b25b1c8c09a80b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "425624e5a64aa0eb61743184c9f21603212ba98d0eb5b850c685b6e5fff02b2d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5f37a90dfca0306975222184b62eadbad1c67806bebc4000501d87a76075f251",
+        "loss": -0.38889,
+        "latency": 1.336,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "c8cba01a67856c3c5388a9deec673b202daca51f20598eb05fe2ab2013dc7889",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "509d3c68970f4c52db8d7ac18a6a5d5ede68b72670bb92f39e751e747012e1d9",
+        "loss": -0.88889,
+        "latency": 1.376,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "7cfe8eec57a6897c4d446127ea57cf9a7efdd778b967d54303c08b844f4352d6",
+        "loss": -0.94444,
+        "latency": 1.315,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "b53bca0ccc75b821118c4f44633434627321b4b4ded8c97c005b90248ba1d361",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "wine",
+    "seed": 789,
+    "pareto_size": 9,
+    "hypervolume_2d": 48.7332,
+    "frontier": [
+      {
+        "candidate_hash": "ae9294cbf28abc4a01dbd96de1c85fe0315072000082bc32105b2e9103983cb1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "19a42065b358e12b3edcacf97a3f812588b7eb93d13ff645337315f145393600",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "77f9a0480a8a61d7de213c8b630fb840e4a03c35475ca2c4422631058215b8f2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e0abd92423dee13338114adc1670b2400834d6d0d139ae1b27f9a8db2baf29d5",
+        "loss": -0.94444,
+        "latency": 1.576,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "2a9385a5935db57393c2740aaca548591dbff7a28f7a6a054e9502d86a5b9610",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2516cead696282b6bbc4767f9b48c7302fd0b2b855a92ebfdfb092122c8c383d",
+        "loss": -1.0,
+        "latency": 3.066,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "b52cbaf80400ce01478cd1c07a7ccf739a75747d33e0b7f6e60228898d55df0b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1362ea05fa9e47279002028db412caf9f6e253653efbc2574290bcabca670768",
+        "loss": -0.88889,
+        "latency": 1.17,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9c6901b63c4b1221f964475532fdb8512a281381fcbe966c08db4aef7486a142",
+        "loss": -0.94444,
+        "latency": 1.161,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "wine",
+    "seed": 2026,
+    "pareto_size": 9,
+    "hypervolume_2d": 49.0217,
+    "frontier": [
+      {
+        "candidate_hash": "89c697c95bd813b5543e1d89aab79da30cb65ac34a4782ef4b78fd05ce0eec53",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "dd3a8d05cae8d4f94515d809f5ab9cb03c9a4ad828bc179b7bac9aa7a90726fe",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "855d4969f075017a2d715639ba1cf3a9878dff64dbfb87c9418c32f5c592c5d6",
+        "loss": -0.94444,
+        "latency": 0.962,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "21c57ca3b5bf801b7333a9fa4215c36827eb7b51eed8512b52f40dd5edb23d94",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "41f752c58300674c1206eca0f6a708dde0bc6c9fb9595f2471e32eee0c57b987",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "624de04b98a2b132d437f5c43c4b157bbbe93015bba317fceab25f4b888ad681",
+        "loss": -0.97222,
+        "latency": 1.194,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "1862fff75f28b6a904585c275deb0d9376df368b16fe4911deadc41764e73e0e",
+        "loss": -1.0,
+        "latency": 1.434,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "b16b7f74b370bbfc3b4faf72f75e733eb244a8ea8fe5d62b4dc9eff23d85b741",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "beff0156e20495556dbe99d28d0a7ad45a977d51af0222d85bd42a8e08a29d70",
+        "loss": -0.97222,
+        "latency": 1.078,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "wine",
+    "seed": 2026,
+    "pareto_size": 9,
+    "hypervolume_2d": 48.922,
+    "frontier": [
+      {
+        "candidate_hash": "6b8ac2ebedca1f85e4c670e009bc822c97be9101db3a87a21ebe8282caa2dafc",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "af77b01b704e3b261c558befae99155a5e48fa15db095394b24ca70965156b46",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "820dd543ff0ed71835e4818584627f2730560d2197a6176fc29b09a76f2b18e4",
+        "loss": -1.0,
+        "latency": 1.078,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "c81c3fbd4d4a28e0c661e704c7a544dd5ab54e877d6973ea86089345801702ac",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a9a8fa0673a44ac01e3a620ef15dd5dcb1590b12903d3743e5ccd10ea578fd3f",
+        "loss": -0.97222,
+        "latency": 1.527,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e3f37b986dd6567912c4ad28ed0629aa3b55bdb5926c00e0ab09d7ea7dc6a720",
+        "loss": -1.0,
+        "latency": 1.584,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e43ef5f1451526fa5968b2fbed18dbae33ca204f3a89f4b1b10300fd75e73a2c",
+        "loss": -0.94444,
+        "latency": 1.342,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "ba66411709ad198206c9c5dc1ea884b709c41f1a2a99a5940cf68ed96727b0b4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "051ded07e55f5e17ef2a5cf553967591c6aff120608d6a0a928ad94e59d7f4e1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "digits",
+    "seed": 42,
+    "pareto_size": 10,
+    "hypervolume_2d": 48.3701,
+    "frontier": [
+      {
+        "candidate_hash": "b1ca6e7406e59404ba30968218c3e08fad8726a558f6f06c1770f46513052be7",
+        "loss": -0.10833,
+        "latency": 13.582,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "b4b67943302ebf986ec1871a7f59232934abbde90ddfb70765aa962f8d83b3c0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fa12fde48d90f2fa4a446012f2f3869796bd4a2636b1b97ea8eed2fab2844817",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "984180b630a32fd780d5b7a8e876259595b01c6395ca47cfaa7d96f09ffcd4c8",
+        "loss": -0.95,
+        "latency": 0.577,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "1890f9d31af0e85081fe5793529caf5d14f41873573f32f65f0b7535f1fcbd48",
+        "loss": -0.925,
+        "latency": 0.376,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "3917ec5db20361bb03a23aa563f0f245e46fd6b368f92e1af273580a54a0a038",
+        "loss": -0.96667,
+        "latency": 0.458,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "fafd509446f509cffcce4bdff2701b7c6d3a0f498ce7cdb97927facec2aca302",
+        "loss": -0.93333,
+        "latency": 0.408,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "7f6acbd905b4a45c210f663448d4056d25a0b00e5bbcb7efb535f8be5902d3a1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8ccccb2b309ae4e3061253884a48d0baf8a34b978e8f44e0c89e66f1b750fa25",
+        "loss": -0.975,
+        "latency": 1.612,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "69cca774ce2a977227625b3a5364992d27061dafc37c71ae0ab6f9689ab95b61",
+        "loss": -0.975,
+        "latency": 2.105,
+        "memory": 12.06
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "digits",
+    "seed": 42,
+    "pareto_size": 12,
+    "hypervolume_2d": 48.3538,
+    "frontier": [
+      {
+        "candidate_hash": "5fcf56330796e2e5ae52c1f3830311d62af6dd136e8367715a818ee012515705",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0f523fb655d920a79051db2d0e74da0f4708501984734dc8750667f772bcfc7c",
+        "loss": -0.88333,
+        "latency": 2.908,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "51533f2cb23d679749a4a0d57d471c191a888cd0fc2bc03089115d0618d46e6a",
+        "loss": -0.95,
+        "latency": 4.787,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "3b38248fb67144cad24285eeb586af6ef7dde95c7de17a539fb4007aa43a2c7c",
+        "loss": -0.10833,
+        "latency": 5.335,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "f0cdb049b86e5dab8a860e34f38e02a1be43e76eff6bb33019233c1d2ec189d8",
+        "loss": -0.93333,
+        "latency": 0.383,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "fdf413b50083bc4cd40bcec3069d0e8cd63f184142f108a0701662bc7853e85c",
+        "loss": -0.975,
+        "latency": 1.615,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "a98fc4c6f20add19fa84b33b2c31a015c13cd0345edbf2a476b1acbe0b7ff86d",
+        "loss": -0.95,
+        "latency": 0.402,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "35f6ed2bba52b7b4a3c0002cec21ade2f12cdd7f5cec01679da8803ea4d995fb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "24beacc849937de1f23141ab5c843d7dbdfd770a5cd18abdffbb34407e71f50e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "212de3118e8f9b8adc5a3eca2697c4669f4b7c5bbdf237c458d8cd9ecabf1460",
+        "loss": -0.95833,
+        "latency": 0.614,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "c63e7ad5275998b38c5a47580a2daf27062df508f7980b01e229fa934867f5fc",
+        "loss": -0.94167,
+        "latency": 0.435,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "0ce9769aa431adfbbb094de067953934304ad2115ccee592fd5ed94320246633",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "digits",
+    "seed": 123,
+    "pareto_size": 12,
+    "hypervolume_2d": 47.9569,
+    "frontier": [
+      {
+        "candidate_hash": "104252a38ce66502d17ae3bfe93de100ee3b436ef179673155a6b5a9b11b1ebc",
+        "loss": -0.90833,
+        "latency": 0.386,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "c0bc4902affa50fc1e62c7bb70e10420c6790dfad0ba2e358757af38ed9df471",
+        "loss": -0.94167,
+        "latency": 0.379,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "127ecdb74c8814333898aa31cdf4cf4be32628c8acf09932b2511d2d4c99e145",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "664f94fd07c3c95aa0f93c604e94369f5ba704de6095fb4531d14bc4c8c7815a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "82b7950428e8f4d7c58c50ee4ac83d5834be7d194cb61da2a2d4c6593539730a",
+        "loss": -0.64167,
+        "latency": 2.725,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "de2a8481d0d2f8a63337d0b9b144ef37da6407ffdc879f4658d8f1d8c3385e25",
+        "loss": -0.925,
+        "latency": 0.387,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "40978e084792344190cea424376f8ffcdcd601d92a822dd25c53fecba72795ab",
+        "loss": -0.94167,
+        "latency": 0.497,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "ece6aeb3d087d5e34b09ad22f1cc9e2323be8842c7ed9e29b379fea8e133a6b6",
+        "loss": -0.95,
+        "latency": 3.3,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "66d47ad79485921cb9c6c082ba19e9becd890606f7bc3a0517aca700eae5c936",
+        "loss": -0.96667,
+        "latency": 0.789,
+        "memory": 12.16
+      },
+      {
+        "candidate_hash": "9dce3125e70abc83d8b8b56a88234574513d42fc276663b976c217dedc8c9ac9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "83e3a860309928f86ec09ffa84d0ebb94503518f7acbe0ab292e9a99da17989a",
+        "loss": -0.93333,
+        "latency": 0.403,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "1a00aaa889b5b630ded750f7440e88178e92437265feaa75e20b75033633373c",
+        "loss": -0.95,
+        "latency": 1.858,
+        "memory": 12.11
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "digits",
+    "seed": 123,
+    "pareto_size": 12,
+    "hypervolume_2d": 47.9446,
+    "frontier": [
+      {
+        "candidate_hash": "aafc7dca16cb0a590e55d1570446f261e8b35f3f6c82976fd0ae0e8f051a58e9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c33dcc1fc55e14849a70eb8702e0409bf1fc6838f9ef0f14419df45f0cfa094c",
+        "loss": -0.93333,
+        "latency": 0.394,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "1ec577bef72da1d0880ee00820f6a061fcca9b7f5c57adfc29dac76ea110931f",
+        "loss": -0.63333,
+        "latency": 10.558,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "4e0008ad66d910b889329b591a3af8ac4601a8fcebdc10639e97289d1f8f7b7a",
+        "loss": -0.95,
+        "latency": 1.622,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "a8e2d6dd5d197ae90046664657cd9428df67f781befdde6666149df9d0d07f89",
+        "loss": -0.94167,
+        "latency": 0.496,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "2fcd7a01629ade7a32f699a462a886cafc6cd8fa385ba30a1f0563ba1379440d",
+        "loss": -0.93333,
+        "latency": 0.476,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "4bb89ba7d74b9f62832085c1368e453d2e70257cc99bc7b3588fab41df745c38",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1e29dee3449c19d6696adce4a432812e34f29f841fdd594f67354986b6af306d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c5c6aa1b916065b7dc8f52443402ada3821aea819207118c70cf97fca79a5dd6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6e1e110aef8d80d6b5d40fd9a8e79106716a8b996b1f7fa6ead0bbb602d2c088",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fa303dba7125dcc8d4f691b855860fddc7fb38adad7af42ee99e78a736e7e2c6",
+        "loss": -0.94167,
+        "latency": 1.217,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "6dfd584868b192a69e5e1468177194711569801ad2d1af2d0c18258de2e66f16",
+        "loss": -0.96667,
+        "latency": 0.683,
+        "memory": 12.12
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "digits",
+    "seed": 456,
+    "pareto_size": 11,
+    "hypervolume_2d": 48.7362,
+    "frontier": [
+      {
+        "candidate_hash": "ea64111a90ccba6b59b249a7a304fcd9afca4d9c525ca0b2812fd61a12f0bc92",
+        "loss": -0.96667,
+        "latency": 1.364,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "9f9feba1cad318f6b4121fce0f97b8099e067ea2da2eba13df601b8a084c0bdb",
+        "loss": -0.85833,
+        "latency": 0.414,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "5b2af476f55b19bbaeac74a3a7f87e8b0c14044faf776df0f742e9e770b311d1",
+        "loss": -0.94167,
+        "latency": 0.416,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "a6632e37d75da6f43380f9f0301e73e3fee66adf49d1b6ce92c1e61686df2540",
+        "loss": -0.95,
+        "latency": 0.411,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "81b53fc8c07d0b588345be95a48cc85d5cadc42f6586c98c3d9bad9fed18ca31",
+        "loss": -0.95,
+        "latency": 0.479,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "799381e93d3984d568b9d9c20696461a61576743ef1970b2944fdcd12a98c52a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b09005270cf7bbf6cad3c12ca462d3c21e38e67751dfb18fe57fa388a1037b75",
+        "loss": -0.98333,
+        "latency": 1.369,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "5d031db91b7ef8d5338ec010cd58373ccbc798f330b37415684699030b6dff88",
+        "loss": -0.925,
+        "latency": 0.525,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "d75a0ada12d002f8cc930c004680f3aeaf21df91b40e651ca4a940ee6d4148c6",
+        "loss": -0.91667,
+        "latency": 0.429,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "f4174c624d982a56d3a3e7c90e5fe7108294b221307222a0c9166002d43165c8",
+        "loss": -0.95833,
+        "latency": 0.685,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "a2d6256143228e80ed9a77dc9f83547eee5aed8c30778e975ac16349503846da",
+        "loss": -0.975,
+        "latency": 2.066,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "digits",
+    "seed": 456,
+    "pareto_size": 10,
+    "hypervolume_2d": 48.7736,
+    "frontier": [
+      {
+        "candidate_hash": "fa2351dd1246e0720018ff988695b026d6a1d5762ceffcf89df6d96f07103824",
+        "loss": -0.98333,
+        "latency": 1.225,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "2528c865ec97112cb3ea2378583fd80fb1f19935433062334828bf8f0d875e17",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ec255471563a2fa80cf0991a416c0c0117a30dc335cff1313dc892be844e1663",
+        "loss": -0.925,
+        "latency": 0.42,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "1d38fb0370b857c70199769ac973f1a2e9e792862111dfe6f57ae8f892740fca",
+        "loss": -0.90833,
+        "latency": 0.375,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "ce15d62c349f5aa3ec7719f31dca966be57814e984c0110e20f91f03d86bffef",
+        "loss": -0.95,
+        "latency": 0.371,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "15d890545356014c82ffe197e28911b9dd409a7d836ce9d833099fab10e72ec1",
+        "loss": -0.925,
+        "latency": 0.409,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "a4a68119b6a3b4314f2a1ea662ac5e994c76ead31157fe089e6a07dd50edbbde",
+        "loss": -0.96667,
+        "latency": 1.201,
+        "memory": 12.11
+      },
+      {
+        "candidate_hash": "189cb9f052654dc384d4d127ee66f12dc0f385253ae258a52c96a3765a0fe8aa",
+        "loss": -0.93333,
+        "latency": 0.721,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "4b4920a4df8bce9833337406841c0e381cf46418e27a9829f825df60fdd6c2b2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a2d6256143228e80ed9a77dc9f83547eee5aed8c30778e975ac16349503846da",
+        "loss": -0.975,
+        "latency": 1.255,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "digits",
+    "seed": 789,
+    "pareto_size": 14,
+    "hypervolume_2d": 47.1159,
+    "frontier": [
+      {
+        "candidate_hash": "38790ca80c78a6a895636596b8cb892a2df1f73c351c998c79df6b50db77f403",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "cc94046d3b26cc77be8ec535895329ead03b5ae47af3431c7c2743eba0bcaace",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "14e09527a70d98a8bd5f28c31701ae1ddcbb1f0b3cc324ec406125800a89aed9",
+        "loss": -0.9,
+        "latency": 0.401,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "a6e96c27b7a37b603d794f48b7c61eb0337b397dc5364fde5f06137644ec8052",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9509bc98d460f6ffa7ea7a79d56fb15bd797824d81c6f0542cbbc5f9fb7b16d8",
+        "loss": -0.95,
+        "latency": 13.874,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "c4d04484859fbe959ccc33b22cffef3f6be53a984206531b17451849ff061dc4",
+        "loss": -0.29167,
+        "latency": 11.124,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "8bab591720f6756ce50dfb6d725a8597a0caed69c33a4b3cc4b019453f1040be",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "104b533c408ea975c6cdc369bab029538a2faf294ea80e7e09ebe4a6bb165f24",
+        "loss": -0.91667,
+        "latency": 0.471,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "ace852fff67c67db841ddd68073a5dd5126615fa54482acc153b21776f029eeb",
+        "loss": -0.9,
+        "latency": 0.433,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "2ca4b3d056f7f56b9aa10eef55669798331e44532a5989f0f07b85ee372e533b",
+        "loss": -0.94167,
+        "latency": 1.464,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "bc991ec1ef5cc9b30a1f8b4d46d183c4e8923af53d8cc3f44d91797e80352c00",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9e0a0e08aac0a089900ebd487d3620eaa2f6deaaa008d6a85654cfa77e6220a6",
+        "loss": -0.95,
+        "latency": 0.465,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "a4a40067d7b9baea144df01d3f0950495e4800aa302fa400aa851d7782150da6",
+        "loss": -0.95,
+        "latency": 0.738,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "3e9c999c6dc6c26c8e94e6316b04de6d89ba5606220fdeb819b03caf2fba8640",
+        "loss": -0.09167,
+        "latency": 3.353,
+        "memory": 12.05
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "digits",
+    "seed": 789,
+    "pareto_size": 13,
+    "hypervolume_2d": 47.1257,
+    "frontier": [
+      {
+        "candidate_hash": "e73945e1f997cb069da7024db603d0b2285f64a2ba0bdd5f773556c89b7ddc22",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "878a66fc831c43e57df1efc623da05225077d60aaea2ede284c73bb070dcdd88",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "85369562d35023012e3452f8ea66e38f46fb169f25de9998ba28828f04d16de9",
+        "loss": -0.91667,
+        "latency": 0.483,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "257d24c8288356b05c0a23d1862f3bff5bf313287a8cb317c08de0086700242a",
+        "loss": -0.93333,
+        "latency": 0.441,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "7789a0f4a6a159003f96907678052414ec34999c1902ff2ea2fd5af2a76f9e2a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "97dfbcb921df728fecf88ce8f9e50761f36de38bc43b2ecc6adec1868d27a41a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a4a40067d7b9baea144df01d3f0950495e4800aa302fa400aa851d7782150da6",
+        "loss": -0.95,
+        "latency": 0.397,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "3d58f28bb929e2866921afa3651a4f876b59a7e4573cbab53de9847d33591246",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ccadbabc8c432cd8cbda5cac516fd226b99650dd97ee361a6f842d0cfe285f2b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "07040afaffb9e737f15b96bbef9c8acdccf7eb37665ce49f0f197f4d2de802bc",
+        "loss": -0.94167,
+        "latency": 1.112,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "31758b70154e937916f1c738c4d722d798431d0ca2af3b905414b82baf2e9f7b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "76ba9ee8eb809d02ac30d1f65b046e5fd249099e342ba9ff1f3827a13fd74069",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "62d466a4a1683a8cfb517558dac72e9382315461f937ada59b98aa0ec49b6da7",
+        "loss": -0.94167,
+        "latency": 0.394,
+        "memory": 12.09
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "digits",
+    "seed": 2026,
+    "pareto_size": 11,
+    "hypervolume_2d": 47.9189,
+    "frontier": [
+      {
+        "candidate_hash": "f56db3403ab4c19916fa506f5ae3ae2e8f3db7d2ab5efcb16e898213e057c9dd",
+        "loss": -0.90833,
+        "latency": 0.398,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "e2bc0758d52c35d6b43511fe8024f08310ac47a070be509727b76dbaca12c331",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "23dc9ac1cdbbe05d343b1f5564d6c6aaddacf2374dd8317d857277ea40b7a420",
+        "loss": -0.9,
+        "latency": 0.38,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "e584c1961eb75791beefbf0ac71bcb8bd31b93f8f5f403f2518a073b66526f88",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c440129b577dae747c45d1c6d401bd911aefdc97868c5dc4475becd8f6468078",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "906c4212ff260158a06ce8fc200fc1b9e3d1fe315bce586f5161d4e92f3668ae",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "49f5b588f0f85b377de28f74f6882a353d802af52204a586f6116ad4a71fc095",
+        "loss": -0.91667,
+        "latency": 1.758,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "a0540f308b5c71247bc23ffa9a85633a528d20b84bcad4aff3ffe99630788e3c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ffbd377390c66e055f18bf28640259628c1847e5fc881f9b17bf9a82cfbf689d",
+        "loss": -0.96667,
+        "latency": 1.188,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "a3a30a4b59549fa9afecd9cfc8cd29fdcb4fb90a6727ef92bf3dcc13bde84b28",
+        "loss": -0.9,
+        "latency": 0.58,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "6e8b601de4fe0f5b0184385cf67159e3918ac59fca8c5984ebee518de33f74f3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "diabetes",
+    "seed": 42,
+    "pareto_size": 10,
+    "hypervolume_2d": 40.0727,
+    "frontier": [
+      {
+        "candidate_hash": "b9ad78d9acf5216ea898f2eb1e8430c82228deb1e2f258672677156a673ce1b8",
+        "loss": -0.73034,
+        "latency": 0.502,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "268b6fff4a9df98159a5ba1bdb213414e2a278f0ddd95ad5c7eef4f0f0ba2f58",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8296fead2839d91d04e61418a2a9370e9fb110460ec3fdc09894d86b22883d82",
+        "loss": -0.80899,
+        "latency": 0.732,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "3c4ccc70755810c34f614ba3a03315f94d18149fe07d1fc0d4c1b512f860c24f",
+        "loss": -0.39326,
+        "latency": 0.416,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "5b4719d3946d83f6817d529bca847990687927f72f9f8bd5244044c67cb10b33",
+        "loss": -0.7191,
+        "latency": 0.484,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "c698d635d2c59d75287f44a147de1efae66144b3dc8e9085d8ab5e88effe3d71",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fcc7539e34904daf1356d75b501c18c036e787f2ee0021760de9db6741f81888",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b361eb2ccb1e467895254f7adbb6d505fab5fa488377104e0e1477d46263fee2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2157233f70f0fe24836d0e45325b46b7569801167622b816454555d6a7b4b094",
+        "loss": -0.76404,
+        "latency": 0.559,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "8406c70733a9020ea747088520c8ee1a18d373e0172215fc1606a853b8b67b83",
+        "loss": -0.77528,
+        "latency": 0.566,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "digits",
+    "seed": 2026,
+    "pareto_size": 14,
+    "hypervolume_2d": 47.4752,
+    "frontier": [
+      {
+        "candidate_hash": "0ceaf77d5f01c24f98c20e3264e99ff827c8b37911b9fd66a1d6114d4b95497c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6548c32d569ddc310639fdba549117f3256e6c788fb3c4c3fa778100a01e450c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "bd4fa30c234bf3cf3b2cf18249db9f855f549388065f034df2ce8518961e20f6",
+        "loss": -0.95833,
+        "latency": 2.517,
+        "memory": 12.1
+      },
+      {
+        "candidate_hash": "f80964aa2db45e8819bbfcdc241bbba3e07ea70467d4da10e0e0d66aeb99b89a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fff42b52538d0e055a0e0a011e32f8bc6c6c1c08af413bd3173c9673d79a6fd9",
+        "loss": -0.89167,
+        "latency": 0.446,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "c3cf719a683a34d86e16b741ed8bb837d906b29cb38b5d277a7e3d0821a64e8b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "463e80a47658337a68e2adb527cf5ba1052878b9814236cf568694347d1a4c23",
+        "loss": -0.95833,
+        "latency": 1.891,
+        "memory": 12.11
+      },
+      {
+        "candidate_hash": "d79c68e3618e5d17f89264e759432af2a46a35405629011f07aeb8d1dc53fb54",
+        "loss": -0.875,
+        "latency": 0.407,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "9a24ae86ea3860728c80feed6cb6c3cfed252ba35c70878e76bed003fd826c0e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "347ae77fac9b77b626ce93f5e6c7718659100f49aefe307384d52f316ea42c35",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8a8c2605029b8d840a463ece748820125b64b4c610195508d1e0bc0049acb9ab",
+        "loss": -0.91667,
+        "latency": 0.502,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "9be593968304d98664d4798fedb3fdd897a6f97ee59dc6a3ce310235bc4f5236",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ec992779272f01631113197e230382e9b95cc16dc0a6423dcd6999cf01514649",
+        "loss": -0.925,
+        "latency": 0.527,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "ea90d5969a500360e5bcc2e835bb6fe2e5dbadd3168db17265dd98fda491acad",
+        "loss": -0.90833,
+        "latency": 0.408,
+        "memory": 12.09
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "diabetes",
+    "seed": 42,
+    "pareto_size": 8,
+    "hypervolume_2d": 38.3601,
+    "frontier": [
+      {
+        "candidate_hash": "7a4271f5c608f73d3bf065bb82d64d952098244406e6a53489ae8e9ac0095206",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0bf45c5405226b423ab14dda5c958fec617c0f89efce83eaa4687e47fa371479",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4185eda3b3e183a1c73609fde86121c1b42c39f64ffc510b5133bc1081b51277",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4d62dd5d3f457781c6cb2caaa4033bc7cf60ea12c3e63558167602e0365bf367",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "f9a1880558b36a25ef019a3a218256eb2e7aaae0c4ad3fd66fd38cd17add3828",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "05c687c51e811dcaea7e93903606eb68303fd174db6d7d2cf667fa4654424d19",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "162da350470dbdcc7bfdd7c93d098bc85d7afcb9d468cb5107b1b043ddb44216",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "17e38bb0864311f0c2ba1b4abce136f5bb0dff8e2408a765321cdcee18752dfa",
+        "loss": -0.77528,
+        "latency": 0.521,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "diabetes",
+    "seed": 123,
+    "pareto_size": 10,
+    "hypervolume_2d": 37.8409,
+    "frontier": [
+      {
+        "candidate_hash": "7bc414f0a0fcf77e06b30be7469f87185067487233e1d24c7b06d8d7b0accd12",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "77b20f2c96f108b8321e264983677e7024d20e0f453c8ff61edf5630f47cb4fe",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "53ef5f4fc5c4d8e56f1cb27f831e415a1aeb80b8939690489d9a07a493bc1404",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "93cecda2a2e737a161b2d06c243bea01876e6f3665fae626e3c03eb1a8c434fb",
+        "loss": -0.76404,
+        "latency": 0.774,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "33158fefc62c80fdfd83200fb6be7c0a6843a092fbbc4665b5b99b943f498f22",
+        "loss": -0.74157,
+        "latency": 0.57,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "cb9ed410997bddf62971d305d0f3819adaa9d64c52d60959c67fdea4aba2ac24",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6aa6a3b6772942fa586998ed42c5d628c89a193e6bf923e00eef74c319ff727c",
+        "loss": -0.42697,
+        "latency": 0.385,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "2f1f160f47f9dcb9e7b4890173cc195e2fe89baf250fec3baeeaa3cef2f4a629",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c7ba34c4c109a34f8d244fe2f423074c16522ee154f10e6fcbca3070f70e6160",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "39ba815b628088c429f129a11438c6262d5bacb29d8932f40889c7d26ccd6e52",
+        "loss": -0.75281,
+        "latency": 2.12,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "diabetes",
+    "seed": 123,
+    "pareto_size": 12,
+    "hypervolume_2d": 37.2827,
+    "frontier": [
+      {
+        "candidate_hash": "191de479894ba886f222624e747f2a872da91a0689e1031426a8110b52494bb3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e3748929bff390aab833a3e498aebdb6c6cd303048749be4da12867ee3323f1a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "16766a0f3e775fb1f7f9c45ce3824bd0bf7fff8b837e6a8d256a82b890155d88",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "344a8b86491ead922505563f09e658c30200b2121946829b3409007689bab97f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "59609480a3781aa23f98c7124382f9ed5442b36376da863fa1ee878b18488cae",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5976adbbfef5c4a232df7e0d5112df072003cb4ec2b4952257bee8406b8dffaf",
+        "loss": -0.75281,
+        "latency": 0.588,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "f640e528433d555c53e40326e29719390f23aeb3f175d9a2ed0e6cc8198af6f1",
+        "loss": -0.7191,
+        "latency": 0.47,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "c7ba34c4c109a34f8d244fe2f423074c16522ee154f10e6fcbca3070f70e6160",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b761752cc853650bfefeb50bc944e6e0957e98445ed141917d166eec5de16923",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "07c87fed2ecf87b7f11db02b1c89e540858d1bdd55e9ca0ca131a374fe513bf9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6bcb9da74514e72526d04ea2ca818dd545d3be06f03518584567fb04bdd5d2a1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d2c4d7493885fb26429e8a070490b706517b7d71560c2549d201589374d6eb22",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "diabetes",
+    "seed": 456,
+    "pareto_size": 2,
+    "hypervolume_2d": 36.6514,
+    "frontier": [
+      {
+        "candidate_hash": "4a916d6e0a92f2ef0324cb7b466cd89cf6af0c7c96152eddea40872b820abeac",
+        "loss": -0.74157,
+        "latency": 0.576,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "4071d99a2c972ebdcb7068206a2b658ff6599774ae98b5afa6886570b956cbcd",
+        "loss": -0.75281,
+        "latency": 72.03,
+        "memory": 12.03
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "diabetes",
+    "seed": 456,
+    "pareto_size": 3,
+    "hypervolume_2d": 36.6927,
+    "frontier": [
+      {
+        "candidate_hash": "18cdc4f5b0c8c14708b540bb9c601639fa12d3986f274890eca489e579d59df2",
+        "loss": -0.74157,
+        "latency": 0.598,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "6b90b1be2046c15596a807155b9584c15b681cce186a4b746380ab6993bf6b15",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2ff175297d7c3b5af9edb2313eef078a2cf55d1481b7cb50fafc2e7801f5989c",
+        "loss": -0.73034,
+        "latency": 0.519,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "diabetes",
+    "seed": 789,
+    "pareto_size": 10,
+    "hypervolume_2d": 38.9349,
+    "frontier": [
+      {
+        "candidate_hash": "81e1138fc1e106b91ebf2b0b473b8e81f56b3e0693274e1bb1af437bc59a13ec",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2ab6d9f112fc601a69274a9b56fd5ae6aae309863eaaef6ad358197bb77f2fe5",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a131d3d92355dae970fdf009383b01d15b0e2c55a5a08372f3a43bc89c4d5ce9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "f0f90a01aeaa93b6dd520f3570acd6ee87339cb51ed1f4976af1486b9d56117e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "09b1941b4af7f5e620670164a113b282da2d53ae3ef300c4edec408495bcc602",
+        "loss": -0.78652,
+        "latency": 0.502,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "b47b49a2c229d3ae10328bbd03bc4bcc0f1fdc89c47f1229ac982e69cb8ec76f",
+        "loss": -0.74157,
+        "latency": 0.497,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "8d5f0f368b22bce85e905554bf36211e7a41ea7f4b2c0f40f8ebc7c22895371c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5b111325dc954be8797c7f2c529b4e25ec3133a60f2dbb325d2ca6a1834af03e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a4a56b617b2ae465f9256a0e4c7d386ea6e62b0d9cadb6a217be0b3ffdb4da32",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "3da688561ece48f62f9e5832a0c3429502b7e1defca839e915523a9d55845117",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "diabetes",
+    "seed": 789,
+    "pareto_size": 10,
+    "hypervolume_2d": 39.4786,
+    "frontier": [
+      {
+        "candidate_hash": "ec3bb66edaefa4a65ff18d0560e96f26a3b72ec69b3c7f6a1df08f56074f6cd8",
+        "loss": -0.75281,
+        "latency": 0.528,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "b454ec56995a2642aab44055ffa9077189c4870721921ce712d0498a377f52aa",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a015e4aa82fb556e3fd6643318b573efa5af547d8ca2fc907354a98f2a4473fe",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "90f1681db27ec240401d699a5de30a704b74c69960439245f0420e78a43beb38",
+        "loss": -0.74157,
+        "latency": 0.51,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "81d22f7aa600d46fa29b01422034bbdd1673a9741141f3139fb19968b6f962a1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d6b5701fc7fe491c25720c8fc7d1c44b7e40115ec307cf95f971d639624fcf26",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0162096dc32f0bd829bcabb5888424486632ec89e3bc32a8f281582913049780",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a4a56b617b2ae465f9256a0e4c7d386ea6e62b0d9cadb6a217be0b3ffdb4da32",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a97172f4c1c1f6915b1f77c7924c01f4da7881b6aa1fe2a0ed3411fa86800fa0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "51bb041482e45f7ea372c36958228edd5fd28756fff5f16c776c9214404d9240",
+        "loss": -0.79775,
+        "latency": 0.551,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "diabetes",
+    "seed": 2026,
+    "pareto_size": 11,
+    "hypervolume_2d": 39.4799,
+    "frontier": [
+      {
+        "candidate_hash": "f94fd2c502879d7eb8460312342c9bbc9f128dfabed84b0cbca91138d728cee1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "076d2633ae4e857fec02dc5ff0c463c0f956423e7f3f0c51cfefbb9d72838a3a",
+        "loss": -0.79775,
+        "latency": 0.748,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "4ab9e8acb9b5ab5542db21d63b1aff04c949170018c53842b9b573a250402ae0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1486bea8cd1548c07a1b68278070d6145864514c08c655cfcbaa1c7aaa38af8c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "66973d686991637cee0ac9f7c6665f080e9d57ee90cbc01e6bb11c6ad247c388",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "677702fc39930f83c36ff0ba193684acbf31d787f18263e23fd91e6f303b7c2d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4a7114d2675856671e2d5092bce1e113346b3f1180fb59ea1b8896dd7879ff7a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0e10808f3dac2c2f41d36ad994bdf3345ea7fd3fe4eeb0752a9da8e499117300",
+        "loss": -0.77528,
+        "latency": 0.513,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "6db4186bd7dad1de042b15fe6ac8de8d899527af98e7a8dab4260b5b2aa371c1",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "187b7d72896fa0aceb604cfe0d8d67b88a786e7098a78330336b66c8be957c4b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "784b5c00c8a575a6fb2907c1e3ff66d764a0731e10abe25b33ee099c4a841579",
+        "loss": -0.76404,
+        "latency": 0.504,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "diabetes",
+    "seed": 2026,
+    "pareto_size": 11,
+    "hypervolume_2d": 39.4729,
+    "frontier": [
+      {
+        "candidate_hash": "22a1936dc6ba92222b38e4eb55d659c738b044b42389d2fc640a686b9a49f395",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "195785e14fae8d73e90d85d5546fff9d6832a8279f3d5654360fbb2926c3a9da",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4ab9e8acb9b5ab5542db21d63b1aff04c949170018c53842b9b573a250402ae0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0e855640bab1d537273452499a4fb9734cdbfa12b2ad8528229e9e7d0ade987e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4a7114d2675856671e2d5092bce1e113346b3f1180fb59ea1b8896dd7879ff7a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5d75e38304fcacca09ae6692497ebf11a2575a5c268f2db0f629c65fd275b757",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "85d50ffe6e509433c0ba9a0b7f64b088ed2276e18d9f432a531e6ff629a2ad37",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d139ab6b211caa6f31c070a2bc06974d9b27a2547f034401be80f8b628b01910",
+        "loss": -0.76404,
+        "latency": 0.518,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "24a753f06a4fa7cab3ca152aa58ba5eb3a06619247b9eac75c18b82ba2470df6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "bf51035448605d4d50d9f276ff2312748e5ea242d87f170b46a79241cc17c0ee",
+        "loss": -0.77528,
+        "latency": 0.529,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "9c9bd00a3b625569693516f0f052737d9f9feb4e7914cb97b0ca43ea66b8b000",
+        "loss": -0.79775,
+        "latency": 0.575,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "highdim_sparse",
+    "seed": 42,
+    "pareto_size": 7,
+    "hypervolume_2d": 40.1238,
+    "frontier": [
+      {
+        "candidate_hash": "52275b345e41bf2aff0062becce444242e41622061745476a399d78a3e06fc61",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6ff57c5d754ef6535e1e9e021823fd2429d3738bbd1f5d2e05720b1f7cb859f8",
+        "loss": -0.79,
+        "latency": 0.568,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "41615e6e0aaa8930b0ce3532bba2f3f42c9b635a5622555f4cbe77b3c5680819",
+        "loss": -0.7,
+        "latency": 0.443,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "4de054dbbb2b75ea7c1868e8df8101b3d596f78898908e90363fb8ea3dcb4104",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "4b1c0513e1e22b67e63f1d3e4cb8ccc906c4154a8deb0bf2e50acac553d5fd89",
+        "loss": -0.81,
+        "latency": 0.75,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "66840de7db8c7c71a240be88493e3af5174425dd7c80c16b16c2433b20ffc2a6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a7652c0cc004ccd246e6d909590d79f04d649bcf9ecfb1f067c49505d15460ec",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "highdim_sparse",
+    "seed": 42,
+    "pareto_size": 10,
+    "hypervolume_2d": 40.1237,
+    "frontier": [
+      {
+        "candidate_hash": "c445026f18a925a6e6e6cb08d12afc69c97f41dff4ef62c5fbee5603b3b4ec0b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "210323a1650997952c2d54ffa796b2334ff811487d49e192334b8edca298aae3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "52275b345e41bf2aff0062becce444242e41622061745476a399d78a3e06fc61",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d4499a7608c80d07e5ef1d2cca04ae5b9fbdd709a6590706af2c9c9a3e704968",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "03494cc6e75685dde1ae862f3915b0c0817ee1237474b59149698f07ffd274a2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "7eb7fa9ca13329b7818ff127f3748207be2125d685b47cc625bf443b068bab78",
+        "loss": -0.79,
+        "latency": 0.53,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "51dd3c0295cf63f10dde5823d00520fed08ebaabe148aa2498ab356d44104bf9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "f69d270ff6c075d8108b79917f11f5ccdbf5f6e74d4b315485a222ce3a5b145f",
+        "loss": -0.77,
+        "latency": 0.462,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "e2c2e55981016ab05a13774db4be1a9b7588d1d28d8e66f4e7923f1798bdf832",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "dc2d83a827e1c2deae8eace1cb793fbac9fe2dd00e989867b5e3325519dfc846",
+        "loss": -0.81,
+        "latency": 0.513,
+        "memory": 12.05
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "highdim_sparse",
+    "seed": 123,
+    "pareto_size": 10,
+    "hypervolume_2d": 44.6008,
+    "frontier": [
+      {
+        "candidate_hash": "a5df95a41d53ae929270fb97302e9b8d615c3a4bf2760de5b71c206d8ac00a1a",
+        "loss": -0.79,
+        "latency": 3.046,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "3cca63a8dab1e4aae012bd615b866b972cf1825d0b43002b0b48e34c19fe4f94",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2621f7507872369c2ab7e13ee91b65e7b66baf622f4dfa294d7853f3b6ee0153",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ffcbbb81e0ed38b9e926dfd6a9369be13542d733d427a900b5685c22e7d4a4f4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "793c91f007acd72ef11071b8b3ceb9b529cb9190de9775591738d7c3978bc8c9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "595f765c87cd145354518387957b96d9a68cf28885007d3f01769f193cc1eb4a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "092bcc76c97e0155b490b312bd8d753a5971abf8b1b534bbb39467918cf74aba",
+        "loss": -0.83,
+        "latency": 0.438,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "22b7f2e55cd46bb2308f8e01d10c66a1eee14259afd85f0a701e6eb36003d6cd",
+        "loss": -0.85,
+        "latency": 0.549,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "a0e21fe80284dee229b643dabf3094e0c1bf70aa1fed9e053d753388c3951401",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "54e15260a19b6f5046fbb7c940ec63bb784185af396608eaf9c07b9f9df3d182",
+        "loss": -0.9,
+        "latency": 0.51,
+        "memory": 12.09
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "highdim_sparse",
+    "seed": 123,
+    "pareto_size": 9,
+    "hypervolume_2d": 44.0808,
+    "frontier": [
+      {
+        "candidate_hash": "856a6ce71c20e9aa5874409d1a22b0259c58d32941cc8c0d9d7db09609010a9a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "18d40c1d76e8fef97c716d495d28b5e8c7e7d07949f7d9cfa75685f333256f6b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0169f699a9b9245b50d72ef7bca94f8d265efc28a7c49df4b22a89b1e37c4e13",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9090abbbb8b049ad91a950a1a8843fcc09ce8e82bce9df7e43fe2a0301a404ae",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c1ced0dee512df779f55a1b264a90c2ae809c50607db92e1d9abfdd03e5d291b",
+        "loss": -0.89,
+        "latency": 0.758,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "0eed5fb560ae11154cac049ab9144badd9a7de4876868abe901db5fa621c6ee7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "1a0a70446750c0399239996057e76458eef7face92acfb8f6d31458edec4f50d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "98e1ad5e8cbff855db572e591e60c1456cf369232c8933851b8ea2e3d7824ba2",
+        "loss": -0.86,
+        "latency": 0.461,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "a6be0bfe983ff5441690ce066fed59f33ff3fcfe635b0e068a6a71f98fefca43",
+        "loss": -0.84,
+        "latency": 0.51,
+        "memory": 12.03
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "highdim_sparse",
+    "seed": 456,
+    "pareto_size": 4,
+    "hypervolume_2d": 39.1904,
+    "frontier": [
+      {
+        "candidate_hash": "8e01345172cc2a513ea92b18b2a84755bc9cd6cfbe697a4b2de1032f8e989bf9",
+        "loss": -0.78,
+        "latency": 0.411,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "71369b11581b287cf3b0c13f7345489a7ba1df4da84601b9f14c6dcdba82725d",
+        "loss": -0.7,
+        "latency": 0.389,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "572a6a0a62dd7de497e752f9d63278662bc5d9995b2c964c066399081dc2af7b",
+        "loss": -0.79,
+        "latency": 0.444,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "b5050967717e2b439912d1f093d768cf29096e110850cdae301cb2d02a391efc",
+        "loss": -0.77,
+        "latency": 0.484,
+        "memory": 12.03
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "highdim_sparse",
+    "seed": 456,
+    "pareto_size": 10,
+    "hypervolume_2d": 39.1614,
+    "frontier": [
+      {
+        "candidate_hash": "1100ce18460563f1153076907eb2391097996b83c69200755f12929068bbe9fc",
+        "loss": -0.7,
+        "latency": 0.503,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "18d47406b4ed5a85a97b2138291a8a7502852ae7750a2fdcc56ff1d6311e30c9",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c56b232af95349edd8dd302b0e263c829897858b50960ac0573a9c7bdbec262f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "d5d952f08217876d24b2386aa23829463bcb27de2201bf372a86b62c9a769912",
+        "loss": -0.72,
+        "latency": 0.513,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "72037da87c4f933ca5b3116ec88e4799854781372e88734fbe9831044cccc7c5",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "66df1022b0726ea36d63e6fc87da4c3782ac74a583d878d45cc4e389d4f84153",
+        "loss": -0.53,
+        "latency": 0.378,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "6b401ab75d2ae900024e11ad9f8a6841bd649d040aee69911265352bfc22e389",
+        "loss": -0.79,
+        "latency": 0.659,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "33480a038e85f047ccd1d34a57a68b9689e9615514ae8a31ac6547bab99cf0c3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "e8d9d42ae62906c9703a8c93b23d9cf889d568bb69c21fe2897e98c198267121",
+        "loss": -0.77,
+        "latency": 0.586,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "799725c42ca665e82901cad1f5c4f4a7e9a057283ce09a7d1b05a373b0199d4a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "highdim_sparse",
+    "seed": 789,
+    "pareto_size": 12,
+    "hypervolume_2d": 39.1341,
+    "frontier": [
+      {
+        "candidate_hash": "39fd57ab0e8213df68b6dc5884273cf2b2280fa6bc15adf252a3d6a353c63486",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "3d825a8515d2a18f8354ebf0cf90df34930ddebf8ed67e8bd7fc7bbe16c94eca",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0155bb0b00965cd909ffc4a5a0ed6ca1d54aa6b12afdee0435d2bcdd2a88e9e5",
+        "loss": -0.75,
+        "latency": 0.476,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "1fe05df5d6ee41217de0f9538412c0bcc84fcbe494ae81b978fea3df605f1aa4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "83b1e1536cf1b03d28cf5f93ea987ade83127a5b838ea6ef702b668fe751d450",
+        "loss": -0.71,
+        "latency": 0.463,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "a3acb1701c412f0079698c4ed3f14bb12b2694c5133506104e21d555fa02d9a8",
+        "loss": -0.67,
+        "latency": 0.354,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "4547a64b73977e36160cda8c66add23a0c7b35cb245995315642cdc3fb2bff8c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c122a6e06edc44c50926221c2364c3ec0ab6f0c457183ef5843f00d94213dcc7",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ba3ca656f1c7265ba82509f5b8c40c900c5ad2cae5e7fabbaabcb82d396a07b4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c2f6f74ffbf25f17e2b3667c6f95ebb82d7e505f0338e7c054bf4d83bc9e9c51",
+        "loss": -0.73,
+        "latency": 2.325,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "bf8cecd64cc4368e737f0a132ae2f1245e6054ccb005029244fe6654bb5e1dbd",
+        "loss": -0.79,
+        "latency": 2.279,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "60232ec6e8f7e20c3291e55910d68474def81efd0593391e214ae2d3efd24069",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "highdim_sparse",
+    "seed": 789,
+    "pareto_size": 14,
+    "hypervolume_2d": 38.5562,
+    "frontier": [
+      {
+        "candidate_hash": "f607fb52f532808beeb39efbd6c73cf561fc5c643b0ad001672a1bc13b447c21",
+        "loss": -0.69,
+        "latency": 1.082,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "9b6df72dee9b6326f50f8a010a9556b4b708d177197df0f7ec75ff5ed971f1af",
+        "loss": -0.67,
+        "latency": 0.461,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "5eafd673f45cbaa0f9e80c736d454b93dccf90d23eee47271f7043fde260c5e9",
+        "loss": -0.75,
+        "latency": 0.502,
+        "memory": 12.12
+      },
+      {
+        "candidate_hash": "7274c67120982a61b2d19329d0c75c8354124f7c9e718fae808275a0e53f3870",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9508b68f27cc6062a56cf3df0b53106488f841ccfb7295b49f69fd93c1cc9999",
+        "loss": -0.74,
+        "latency": 0.557,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "a1effea88fc02e192e2baaf2c7e3829f3b328e24c1795617d55a4996977015fb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "53eb084e13991c8aa04752e87d5b1e0dce69213ebe7406af6f7130d4685182f2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ebdb1bdbd8b9171ab0a5aa806a9980ec7b5d7995b6d98f1f934ae9013a91d45f",
+        "loss": -0.75,
+        "latency": 0.776,
+        "memory": 12.09
+      },
+      {
+        "candidate_hash": "edd6cad2f4b307b989bdceca9dc17a84d87b7cb67e707ff5a2693f5e8c831ebe",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0fedba47ad7ccf764f699b4f87a1cc7d54a3babe1a72fda506ecd1ac3b3c7426",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "576c27fab2af429e17bd3b747a1ac2ed8ab8376434efd58a8da5470de611ca7c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a5736b899d9328cd06e7f3a6bce43f35917afbace3077486fd6573d4e3b2c6e4",
+        "loss": -0.75,
+        "latency": 7.732,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "947bc3a943a70d752c242a607935dc741b6cf22267b39e347045264a12522613",
+        "loss": -0.78,
+        "latency": 3.158,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "8c844dddccaefbe1663e147175d70521855b260a776a12fbffb7610d9433dbc6",
+        "loss": -0.72,
+        "latency": 2.545,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "highdim_sparse",
+    "seed": 2026,
+    "pareto_size": 12,
+    "hypervolume_2d": 44.0453,
+    "frontier": [
+      {
+        "candidate_hash": "ea4f9cc4fd9febda3b8c531683032f6673e39e9954e83676ebfd455344168207",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "cddaf7b62beea4c144ce99410078270b39ea31f1a1669934ba2e88b830820170",
+        "loss": -0.87,
+        "latency": 0.743,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "a4e55b0079a35a17eb6635a2f609776e080fe59be44923cc119ee8b2dfed7385",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0358d98e1f34861c5ec72611c886c5300c0d7bd4306690f4a2fb7958ad95d079",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b90fe68cfc674c439ed8ab7c72d44e13bfbce785be70d0bacc37df9489767262",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "837d40aa8c37920d5f45b5f28fa04be78c1c651d2c09bf9545528de6fcea9d5c",
+        "loss": -0.89,
+        "latency": 0.651,
+        "memory": 12.06
+      },
+      {
+        "candidate_hash": "3b77ed2866d593e15e6ef87c63c7fc7d8a52175e6e362237c1c01ab779e94d61",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a8e2e414c3452a67224c5134d73556f9fbf2ab67c80d775571716130b145d00d",
+        "loss": -0.88,
+        "latency": 0.51,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "45b5c8abd4806d0e84b5c6bd2f241c4fbd5fe6d3e23780d9adaf54d5fc72013a",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ebad0a883183e6c7c381aa84254f4dcc108c6cab4f6cee49862260436b21e49c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "167e530eb8db4f2b2bdce966281ebb76f95350474d9bdba0bf1f782f6849a956",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0320c5f13b0b163d755d4bd0ca0e962efaf6cc06eb9aad483731b540d5e47614",
+        "loss": -0.89,
+        "latency": 0.594,
+        "memory": 12.07
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "highdim_sparse",
+    "seed": 2026,
+    "pareto_size": 12,
+    "hypervolume_2d": 44.569,
+    "frontier": [
+      {
+        "candidate_hash": "5df7dde3f135bbb5cc84ee90a127c665bcf2aca1ec4adc0e7a9fefd0ae9e8e43",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a133cc52ba5591dc249ef937ef5a0d9d21f5431fe25d2d8c579484c5aeb1ecfe",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "a4e55b0079a35a17eb6635a2f609776e080fe59be44923cc119ee8b2dfed7385",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b90fe68cfc674c439ed8ab7c72d44e13bfbce785be70d0bacc37df9489767262",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "5c38787a6e87307830d52ab4f152944f165c8f0f4ce0c8427a932774da329594",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "924591ef0073f2e541bf37299fb530615a2f0081a9c169895a8055d6455ab764",
+        "loss": -0.87,
+        "latency": 0.477,
+        "memory": 12.07
+      },
+      {
+        "candidate_hash": "1f5631e907d103545a2343917f72a3c8fec8a92f650a50e84b3f2bedb461b653",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6174dd15cf2bf24e8aa51abc2933ec34fa8d96e041537393bebe94327624385a",
+        "loss": -0.9,
+        "latency": 0.633,
+        "memory": 12.04
+      },
+      {
+        "candidate_hash": "f82a0a8b7bc89d9ec0e2fdf1ac6b3dd91fb19a510063cff4d325965f9654836c",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6a0ead040c8215e9f5e585031ef8a97f50581aaba0bef574c4cfba8a99eee321",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2eaf981676bf5e45c034b3217617d7a3be8cb487567872e4922620235f4c41bf",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "84d8a095e93d57081f6215bee428570ef58c85fddcd209d7853c8cd7ce8f8c91",
+        "loss": -0.89,
+        "latency": 0.482,
+        "memory": 12.04
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "imbalanced_moons",
+    "seed": 42,
+    "pareto_size": 10,
+    "hypervolume_2d": 48.8821,
+    "frontier": [
+      {
+        "candidate_hash": "080c4f0f237c67d6de58d5d7bacca6234fa275d4717f93a0184901ed7a8f9af3",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "48a412a81e6a770af4dabeb1fddb8d12438c5e1251496e5b1be119daa812e950",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2485d36581c5cb9dd0e0557d6b94823710e85ecaeeb374c19a4290916a4e5cc4",
+        "loss": -0.975,
+        "latency": 0.667,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "00ef1f756c9bd10e479bac333c2474799627db531cfa269b47d6a781b8786375",
+        "loss": -0.975,
+        "latency": 0.601,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "47e651478ef9af52d33d1e68c8c9c3ff032077de0aff68e96cc94ea4fd35f9c8",
+        "loss": -0.9125,
+        "latency": 0.594,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "50db83149b77576f4274cc63894ce8fe6a10af1074323e93d8207a3bf828252b",
+        "loss": -0.95,
+        "latency": 0.595,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "3bc51f6d417dc38f0e8d40085f54d07bfd3296324856f396b7daaecd97bc88b2",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "074c4eccef6c646d9d8356b2e8acadfb2ff4732c1103d0cb794f39a21bc918ba",
+        "loss": -0.95,
+        "latency": 0.493,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "fc916c73bdaecfd250c1575d8ae2629d2091b41204df4ac1ab5ce69a88221a47",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2ff7040027581503f6b510f9fb627c0dcb7a3f461e12b07188ff5a98229ae1c3",
+        "loss": -0.9875,
+        "latency": 0.761,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "imbalanced_moons",
+    "seed": 42,
+    "pareto_size": 8,
+    "hypervolume_2d": 48.7854,
+    "frontier": [
+      {
+        "candidate_hash": "9a0ed613192768b35ec7a9afb967f880f2f7b330b9b85866fc1073c9dc12167d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "9cda483e2034e43e29d1ddde3d3e8bc149f29ab598b7d3588343dd217d0f9a0f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6dc7860fa704e8ad559301013a87ea888d80d1216b5ed345cde3d851f6d11c2a",
+        "loss": -0.95,
+        "latency": 0.594,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9347822fb113b09c8573e4d8b2ae01276e058d7dd9fce321702f788ba9e4ee7d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ddc8c35feaeacaf8263185efa31d88c4ed89635c60756338f9d010f271ecbda1",
+        "loss": -0.9875,
+        "latency": 0.679,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "7086d5ce9dfabdf7c969ab8d5092f82f88464490f56005ddd25c8a4a7d096347",
+        "loss": -0.975,
+        "latency": 0.674,
+        "memory": 12.08
+      },
+      {
+        "candidate_hash": "f0898bf620ba5fcece446762f0494101758e9c88ae276d4e2c2af78f05af6c49",
+        "loss": -0.9875,
+        "latency": 0.775,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e2dcd6b75c077ef959cfc5871b26ae9a7c3abcecb246ede8d8a23db883faa22f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "imbalanced_moons",
+    "seed": 123,
+    "pareto_size": 10,
+    "hypervolume_2d": 47.5666,
+    "frontier": [
+      {
+        "candidate_hash": "e7f4b66c8ff83073bb31497f0221bf406af5165ad0eb6ed3be64c9c609b15713",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fe53af2b5b6332d9af76a0c668a00f6b8c651d17c752d455c46ec2b4d5e43ae6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "bbad22719191c613290a8d616f8ec315132c6e17d3c0f99a58b1fbf3d9b55dcb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "72a61348f3e90314651abd1dc6b9ee4b62dfeb3ebedb7f79e30e87af5b554d38",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "517725f5af3e304493b73815d1ded522a48681e438c38a107cc88464f6c0edf4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ba12dc3e7401ca32039ecd1c77603d1e28cee1abcefe54ef86fb22190a3ac7bb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "f70d58b449cf7f1f8e4bec561a1633c4df07fb4c0404962f7f20a2f50bcda2f6",
+        "loss": -0.9125,
+        "latency": 0.674,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "03e1604fc2ce18cc0de6ea7f92d08db7b79874b9924d8950aa63e3734e5cc2ba",
+        "loss": -0.825,
+        "latency": 0.563,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "17c99d3793c61b614f38993f250dfc5ed096de70535b29cd72ca12c60fed0c70",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b69f5ca0e48b887b41dbb65f7ee4bb6c70fab546cf4ae53487021437008ff3d4",
+        "loss": -0.9625,
+        "latency": 0.699,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "imbalanced_moons",
+    "seed": 123,
+    "pareto_size": 6,
+    "hypervolume_2d": 47.686,
+    "frontier": [
+      {
+        "candidate_hash": "e363c7c08d4ce8045d44bc7dcca5a922651b34a063edcb74652e278ab8715c9b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ff02677b3048498b4f3f78a8e992ed0eece347dffa26eb92949a03e3b0ef2eca",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "32eb653108db5c8aeb4e8f901099993b91517f9fefe687993c9c12d45b64fe47",
+        "loss": -0.9625,
+        "latency": 1.196,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "335bb659bcce05788fae5b8e04639af0ed7660165b396c456238d23ab037555f",
+        "loss": -0.95,
+        "latency": 0.682,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "0c71511d69dc0a4be73f7bdf7727e791125171e6e0059ad8f7fae0ca79c3184f",
+        "loss": -0.925,
+        "latency": 0.44,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "bbad22719191c613290a8d616f8ec315132c6e17d3c0f99a58b1fbf3d9b55dcb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "imbalanced_moons",
+    "seed": 456,
+    "pareto_size": 6,
+    "hypervolume_2d": 48.2822,
+    "frontier": [
+      {
+        "candidate_hash": "9987342522982825c355497be26403d5b901df5f0aaef597e661f5a3a075f02e",
+        "loss": -0.95,
+        "latency": 0.59,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "0d607f5c192c6619e3803ed36f9a6181df6a4237d59374f21ba106783de2f8ce",
+        "loss": -0.9625,
+        "latency": 11.809,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "1c935edbb29abcd388d392e622ad7b659bb0565369b07a8410cacb2ffad30beb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "02261e518b73f70ea9e5e7a8cba4184805ca7e78e9646f3427d0f7e901ed1eed",
+        "loss": -0.975,
+        "latency": 0.679,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "1e8bdfdfd068f39032a06b7ee8f858936fa9738a89b51d50d397c135a3251af0",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "227ae4cce3369f0147a321a1b8a152a40b9303e80810f87ce1fa4b9a56de8de9",
+        "loss": -0.9375,
+        "latency": 0.473,
+        "memory": 12.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "imbalanced_moons",
+    "seed": 456,
+    "pareto_size": 7,
+    "hypervolume_2d": 48.316,
+    "frontier": [
+      {
+        "candidate_hash": "e20580b268389d3a187352796a22b9e07062dac455cdb387603cf05bd26743cb",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "87b268c5fc3fd91f34eaf8243b34278f4584d87768a82aa12fed8502ff49b539",
+        "loss": -0.9375,
+        "latency": 0.422,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "98b5470ab985f0f85d7fba40ca29142fdd218b9642e39a4135ff400ab2c4e4b2",
+        "loss": -0.9625,
+        "latency": 3.842,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4dc7b843b695561e3a8ef1349b2310b64d5819c8b9032e6dab8d56496702285a",
+        "loss": -0.95,
+        "latency": 0.604,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "95042c997741022499fb37dbe15da7a0fdca6ed61e5453a7b478eecefeaf0af4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "fde0be35e92fec227914e98aad7762b03afae57f66350610fde4a541fe508ff6",
+        "loss": -0.975,
+        "latency": 1.233,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "28941f99bd345365fa1e7d124ed687bd37e189f8be765431c7dc10d9ea88d89e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "imbalanced_moons",
+    "seed": 789,
+    "pareto_size": 15,
+    "hypervolume_2d": 48.8988,
+    "frontier": [
+      {
+        "candidate_hash": "823b88774153724f834ad25cedae22b732c304d6579836168585c07502966655",
+        "loss": -0.9625,
+        "latency": 0.474,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "48106ab0a887588126fafe3eafcbad32b34a3189b30de7f9654a85838fa94a35",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "3d6db02c66c498a67a2b3c1123d1b9fda215aa033f24c6ed22b2099855683553",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "8eb7445b6009949f7257a5aaa590d25437755f828ee0e4ab3f3cacf93b2a6db6",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b7e7794b564ad9577ad27ec4a9db07511303475b7aebb98f2180a89dd7d6f172",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "dc5f0927d28b9de2539991ef5b7c8d0411453ed13cefcb329a999b786e732768",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c1f7af9f4eadbaaefa65bb51f268ed6850e0a864287f031dbc783a6de855a8cf",
+        "loss": -0.9875,
+        "latency": 0.799,
+        "memory": 12.03
+      },
+      {
+        "candidate_hash": "ad4d7678184a7de31570c3cec8ebf8321be2f4e93abe93f2c524e7aab86ba9ee",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "353519b080b2d84dd95457432202051be7683093af352f4df939f4ba987f178f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "311a3df25deeea7d2aa355850852d713514da735ef3dabdaccc45e273bb98736",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "26cfb774bb708d7cbd64fc3128c463c72ec54b74fcf622c0ea1e5bc72a0b9777",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b7ae04f25aeb16aa7dbd6caa9fc320aef70bf69c46bc702ff62030881bf8ab63",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b8ffbc51ef13bcd71aab25d3da64d94ff53f67a2f0c3e93eda836e30f2b23898",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ca371f38528592b443db1bab4ba2023a9c4dd2a973313b5004ebc0ec355e039b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "035ae8d31b993fe1d6e4aeff42802deee141acc9a262d449d9e637bca7f4fe20",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "imbalanced_moons",
+    "seed": 789,
+    "pareto_size": 13,
+    "hypervolume_2d": 48.699,
+    "frontier": [
+      {
+        "candidate_hash": "e7bc80852ef959fc1e89d94e6b30f3569d9e6cbdaa72a46476ba6f67c50adac8",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c31c712c9edbf451808255a41731a18cb177d1281b7422c36c94a18a4a4b76ae",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "0d4e31fc4d500bbd8c830983575b3aa7b687b2e5bc073237991c085f09d98d9f",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "2254296d12e33bf18dfafd581a1efffd0382115828844553c7655dfe395a5d89",
+        "loss": -0.95,
+        "latency": 0.55,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e7461ff35af25d53849232a60b66a73da532fff8daf77fa7fc73d766a5565956",
+        "loss": -0.9875,
+        "latency": 6.695,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e2bf711021edf2d873a7f6f542544acbd693e5ac08be257e8ec475dca7612c78",
+        "loss": -0.95,
+        "latency": 0.537,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "9a3655f59a38e39b36a66695f231a4745b6ca68ca756738cadcd29f2f5f9a082",
+        "loss": -0.9625,
+        "latency": 0.637,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "81af635dda3043b6acd7060ece8200c9775e4f13715f78c65a08b81c15464a9f",
+        "loss": -0.975,
+        "latency": 5.942,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "4fd66d870b30094c4001e4e9b6903f6ad7c7715ff7166035e01ba6ffd95aa140",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "ca6080bdd37d6e28b096048463c711b4a9335faa6dfdfac5fb2729bc699799f4",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "98beb391139e1e1f7c00daca2e9f90b407bf1328d08733411ad5578563863d80",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "60f80f6b9ab6ff89f50640ecfce2ec9dd9aac4431f3a89c4c371c33232b9e034",
+        "loss": -0.9625,
+        "latency": 0.635,
+        "memory": 12.02
+      },
+      {
+        "candidate_hash": "ca371f38528592b443db1bab4ba2023a9c4dd2a973313b5004ebc0ec355e039b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      }
+    ]
+  },
+  {
+    "method": "amde_30_lite",
+    "dataset": "imbalanced_moons",
+    "seed": 2026,
+    "pareto_size": 7,
+    "hypervolume_2d": 49.4144,
+    "frontier": [
+      {
+        "candidate_hash": "24043d27624a5156a5cec94ad1b63bc79bb6003722288e338b2910827450fd63",
+        "loss": -0.9625,
+        "latency": 0.6,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "9b201fde186e1be8d60b00dc4118e7ab17d90f20f3684caec78124142e98bf58",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "229f58e3bdb718b9ec7cb79efd375d53d84c24496a7615d057b5951f755e364d",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "aada85bd45f9983e26b049fd7fdd8ae442d4d9e02744d6af26c77784108507bf",
+        "loss": -0.95,
+        "latency": 0.557,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "e49632a3eaeadab47ce30fd22e3be7508b37e78ff202a582dfbfef8739b40fa9",
+        "loss": -1.0,
+        "latency": 2.72,
+        "memory": 12.1
+      },
+      {
+        "candidate_hash": "1e55013d50d8f546c1a9923c2822b151aabb876beaf2b3b4b303390afa0d300b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "12dc177f3aba41c7ce9091edea49653362a38df23fa2e35f7b934859b1e5f7a8",
+        "loss": -0.9875,
+        "latency": 0.599,
+        "memory": 12.01
+      }
+    ]
+  },
+  {
+    "method": "amde_40",
+    "dataset": "imbalanced_moons",
+    "seed": 2026,
+    "pareto_size": 11,
+    "hypervolume_2d": 49.5076,
+    "frontier": [
+      {
+        "candidate_hash": "532bcab6a1fe3f39bbcfff42f2e0e75e00c5983acc46885a3db270b1d331e65b",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "004f6c2f5ee24330cd299995c188065b15f81d5d6513f2620a07f007a3d8e77e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "368aea21ef78e3784fa14fb6a38e4ba90813963eaeaac3c17f499ff576db55ae",
+        "loss": -0.9875,
+        "latency": 0.963,
+        "memory": 12.0
+      },
+      {
+        "candidate_hash": "36f24c24ff6f7a9c422a18c10c36cf97884a031d5e393c3372e075a8ea570e49",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "075a7428ab2478dece7a078f208f78c1ff802c8047a5b6cb977402c7f089de3e",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "6886c5aba90fdd95b2395f6004d813c284dc6a5375cc59d8caa838760173937c",
+        "loss": -0.9875,
+        "latency": 0.562,
+        "memory": 12.05
+      },
+      {
+        "candidate_hash": "e49632a3eaeadab47ce30fd22e3be7508b37e78ff202a582dfbfef8739b40fa9",
+        "loss": -1.0,
+        "latency": 0.849,
+        "memory": 12.1
+      },
+      {
+        "candidate_hash": "3aea344a9b3586a93bfd314a2424df826ca17b79721e37eab6720c2e571a1405",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "b981ac81613062b0b46446084f83153fe45057b615a88710c12d0c731c53964a",
+        "loss": -0.9875,
+        "latency": 0.637,
+        "memory": 12.01
+      },
+      {
+        "candidate_hash": "f10946b42395751db50368a548c24c59f2d5dbad4197e0907ce5aeccfb1997bf",
+        "loss": -0.0,
+        "latency": 0.0,
+        "memory": 0.0
+      },
+      {
+        "candidate_hash": "c692f3e36eb224207dbd57f44f5f469c743176c7e9b723c1c2a1c52ee105761c",
+        "loss": -0.9625,
+        "latency": 0.486,
+        "memory": 12.0
+      }
+    ]
+  }
+]
