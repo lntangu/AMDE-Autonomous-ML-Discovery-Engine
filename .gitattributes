@@ -1,0 +1,16 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python, YAML, JSON, Markdown, TOML use LF
+*.py text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+
+# PowerShell scripts keep CRLF for Windows native execution
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf

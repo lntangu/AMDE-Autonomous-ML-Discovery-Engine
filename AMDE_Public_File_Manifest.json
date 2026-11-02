@@ -1,0 +1,782 @@
+{
+  "release": "AMDE 2.0.3",
+  "total_files": 194,
+  "files": {
+    ".gitattributes": {
+      "size_bytes": 358,
+      "sha256": "d5022f281c07e7db810459f71aa22cc7c76c14312ca58ab5049122abaee2c63e"
+    },
+    ".gitignore": {
+      "size_bytes": 546,
+      "sha256": "65c733751c0948e2ae7a91d956c66460bd7682e71b9c7c65c97222aafda9935a"
+    },
+    "CHANGELOG.md": {
+      "size_bytes": 12506,
+      "sha256": "ae3272bc6d6e0183fa2255d0965708ebc1d57e90d3dac2cee9301ba290126f33"
+    },
+    "CITATION.cff": {
+      "size_bytes": 550,
+      "sha256": "fd8f00ce8279fb6fb1338b1f84a36397b923b5267873c0fb1a103ebe39cfc512"
+    },
+    "CODE_OF_CONDUCT.md": {
+      "size_bytes": 2122,
+      "sha256": "003f1d2025e7797bbaa98fe636f5648c7e2bb69eb937455c822ba029ef1c0d42"
+    },
+    "CONTRIBUTING.md": {
+      "size_bytes": 2103,
+      "sha256": "5911165ee17e6b1dd26556ef0d18f2adfe3c1093735f04ea37214c83f4ca7f85"
+    },
+    "LICENSE": {
+      "size_bytes": 1069,
+      "sha256": "7f7a4d36c5a26183659686096c71de739328cf36d0ef42a83b4292dce0cd44e1"
+    },
+    "README.md": {
+      "size_bytes": 8895,
+      "sha256": "2f46f35711cb7bbb615fe81007693f0ec95c60c22d3fdfab57aa32c0b23edc27"
+    },
+    "SECURITY.md": {
+      "size_bytes": 877,
+      "sha256": "c6f88407269abfc14e883a1e71d19618e07c130aae1750ecd052ec47df972c52"
+    },
+    "SUPPORT.md": {
+      "size_bytes": 905,
+      "sha256": "939f76a4d715a7e9bed0f1c379e68fe29bad596e34be0102a1ab37872fd04afe"
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "size_bytes": 1653,
+      "sha256": "734999dd1efee216cacc397139618da8234d42e80969e307b626cb4e6a69cb04"
+    },
+    "pyproject.toml": {
+      "size_bytes": 832,
+      "sha256": "ba41bf276d5921057c7e0d80d5a9768097953eb4f221d83289c01540744a2eeb"
+    },
+    "config/default.json": {
+      "size_bytes": 7511,
+      "sha256": "1f6569a2453b0485ffea5d95c8cc68eaf65d0847c3d0ef0ddbe7f8570dcf2342"
+    },
+    "config/resource_policy.json": {
+      "size_bytes": 664,
+      "sha256": "6a5a8ded3e544e34caee5dbafc059617d78b2a3d30a0e1a48b019c3767e710fa"
+    },
+    "docs/AMDE2_ARCHITECTURE.md": {
+      "size_bytes": 4973,
+      "sha256": "18af435f1b7d37999c5ca8eff7135627b41a7dc7f28e3aa1c1d2f5cea938cca0"
+    },
+    "docs/ARCHITECTURE.md": {
+      "size_bytes": 3389,
+      "sha256": "29e709ce936aa31b0fd44bb7a92a7dc1cb13479e3c1c68cc1a465043f9ef24d5"
+    },
+    "docs/CLI_REFERENCE.md": {
+      "size_bytes": 1593,
+      "sha256": "b70cb0faa92a3abd7f137d557c031092530ca01b38f3ebda5bd0ffb34d69b0c5"
+    },
+    "docs/DATA_STORAGE.md": {
+      "size_bytes": 1658,
+      "sha256": "a53a946ce0af52c2981b84d60bfb523de0e09b366485212eaa981f21e98b9fec"
+    },
+    "docs/DEADLINE_AND_PROCESS_MANAGEMENT.md": {
+      "size_bytes": 1673,
+      "sha256": "003a1ceb20397924ccb68d3d44f0ea1db665442a9de5776d75a1dc1b74e20cf0"
+    },
+    "docs/EXTERNAL_BENCHMARKS.md": {
+      "size_bytes": 8051,
+      "sha256": "e1ca58e6c6c23d8023911d6c35aa705ecc8ffdaf009abf9b3277bc765649ac03"
+    },
+    "docs/GENERALIZATION_PROTOCOL.md": {
+      "size_bytes": 5901,
+      "sha256": "d954c7d0b031b0376be03c880fd6c728e8f988e2c1070c2e84266db4a49ebbca"
+    },
+    "docs/INSTALLATION.md": {
+      "size_bytes": 1563,
+      "sha256": "19d06c4be0d065cd76cd02ec90be2f739960fdf26f625b587bfde049d3076d59"
+    },
+    "docs/OPEN_ENDED_SEARCH.md": {
+      "size_bytes": 5693,
+      "sha256": "955e090b11351aabef9dc27a28fa0f613e97e08f8c6f5a06a4e0e35062f5fa3b"
+    },
+    "docs/QUICKSTART.md": {
+      "size_bytes": 1614,
+      "sha256": "53ec6034fcaab46b3f50bce8bb43fcb8e1cc5b60d9b0d5009ad61eef1343a043"
+    },
+    "docs/RESEARCH_TOOLKIT.md": {
+      "size_bytes": 7264,
+      "sha256": "f09bd0fac19231726bafd0822dd4faf75ce87e5925861ffc5556d67e4bc3bfdb"
+    },
+    "docs/SCIENTIFIC_LIMITATIONS.md": {
+      "size_bytes": 2061,
+      "sha256": "ecf2251580a945b252b3c9b8892bf500e189ce83a357bf03cdf9be0b4f3a184a"
+    },
+    "docs/SECURITY_MODEL.md": {
+      "size_bytes": 1238,
+      "sha256": "c2821762e4752ea48919941ab04938fce78a0243c9b2c1177eecdae45e52949c"
+    },
+    "docs/TROUBLESHOOTING.md": {
+      "size_bytes": 1232,
+      "sha256": "29761d023b5de72b37061439bc01a5caa7236c7ce350186481b9d74fa0b73340"
+    },
+    "examples/candidate_linear_adam.json": {
+      "size_bytes": 680,
+      "sha256": "551696a67f5bd2f24704a15067d4030b7fb480b048f9084f0decdd92ced8ca83"
+    },
+    "examples/external_benchmarks/manifest.example.json": {
+      "size_bytes": 623,
+      "sha256": "b476a27e90fd679a953228e1485c06feb02dce11680a9814c59e6779fc8bb245"
+    },
+    "examples/external_benchmarks/synthetic_classification.csv": {
+      "size_bytes": 759,
+      "sha256": "73d72b6a64cf2b5e93e0144ee6de593358f2077141ad98ca4a82324597b49d09"
+    },
+    "scripts/amde2.bat": {
+      "size_bytes": 199,
+      "sha256": "a6b357d14d02ca5848060c6d19d5268b36b144a27610983473887227c9ce5b15"
+    },
+    "scripts/amde2.py": {
+      "size_bytes": 370,
+      "sha256": "91243937b5f2b2a14f80e0017bb54f60dd8074103908d4b354d9674734a880f6"
+    },
+    "scripts/amde2_logrelay.py": {
+      "size_bytes": 2049,
+      "sha256": "8eb857b085b0363c311a6d21f8b7428357cbdf2e68a79a2baf12cfe02a7fc1a2"
+    },
+    "scripts/benchmark_hardware_profiles.py": {
+      "size_bytes": 10668,
+      "sha256": "b231f3fe94d3a225772da987fccfdbaa724b3dec1483b1fe0fa85ea019991ba2"
+    },
+    "scripts/build_release.py": {
+      "size_bytes": 5582,
+      "sha256": "a0437bac209bfa6d5828e459a5901f48d82c0d5e795457556bf6f241bbe76c9d"
+    },
+    "scripts/control_experiment.py": {
+      "size_bytes": 8842,
+      "sha256": "c40875d03783b51b0f11d7f3f70f59c100ae6a0cd665b85457518a7da4ac0c81"
+    },
+    "scripts/doctor.bat": {
+      "size_bytes": 319,
+      "sha256": "f465805433d91606e5a849478c14311933de74d4f77085f8cca06c55e7118997"
+    },
+    "scripts/doctor.ps1": {
+      "size_bytes": 510,
+      "sha256": "5cedf41b12825f6aebc1c1e4c87ca4891cc5f311cbd2803c51e35055809d5074"
+    },
+    "scripts/evaluate_external_benchmarks.py": {
+      "size_bytes": 17618,
+      "sha256": "c4149fd833f68f3b85dbfd8d6f6dd8d2cbd1d6051ccb038ac16a9c3c22527c0e"
+    },
+    "scripts/generalization_audit.py": {
+      "size_bytes": 4661,
+      "sha256": "472bbbe3a2b7607a3de18bca5b94d2fe6d44696cb1dec3f688d48bd5febacfcf"
+    },
+    "scripts/hybrid_control.bat": {
+      "size_bytes": 243,
+      "sha256": "37279b80dd7321023135cd301e29d475e50935682918cd650d8300c39678ef64"
+    },
+    "scripts/hybrid_control.py": {
+      "size_bytes": 9344,
+      "sha256": "003698224fe25e03cda98f1fd818bb69d95c4b17af30b8a5cefbe33b839ade76"
+    },
+    "scripts/hybrid_research_campaign.bat": {
+      "size_bytes": 336,
+      "sha256": "cecae06ffc98bad8e78fcc310c834c4bc58037586cdc6767be1a857e716290d7"
+    },
+    "scripts/hybrid_research_campaign.ps1": {
+      "size_bytes": 469,
+      "sha256": "503f8437a2342e62138a3e4afd8aae5bffea0adeb1c302ca792664db0b0b2511"
+    },
+    "scripts/hybrid_research_campaign.py": {
+      "size_bytes": 22107,
+      "sha256": "dea6bd3e2d6b7c75403be8fdf430b0288cb3e3b570bad97668dfcf6cb6a30330"
+    },
+    "scripts/inspect_active_ledger.py": {
+      "size_bytes": 2627,
+      "sha256": "b465d53652a5fc22be111fa4f25a42f6f2ad39b468f4d35ceaa8ca02c932300d"
+    },
+    "scripts/install_amde2_autostart.ps1": {
+      "size_bytes": 2426,
+      "sha256": "94a78ca2545c3c85e283aca444186a1b2125f5c6855a08a3c916e621e456bccc"
+    },
+    "scripts/profile_cuda_kernels_validity.py": {
+      "size_bytes": 16102,
+      "sha256": "e3993782581d1fcc6c8626c87e01c8819cf435907374c8426d950b54a643f08f"
+    },
+    "scripts/profile_hardware_utilization.py": {
+      "size_bytes": 16302,
+      "sha256": "387fd215e5f1c0c556527c5d5c1ec7dc9156f06c6a04c450b4aad3aa91640fe8"
+    },
+    "scripts/quantum_doctor.bat": {
+      "size_bytes": 298,
+      "sha256": "349fa28dad20b5c9fbee1d7a7242b3c423364b30c6f2ae9fddb5d495d33c95ca"
+    },
+    "scripts/quantum_doctor.py": {
+      "size_bytes": 4666,
+      "sha256": "c4eb2d1e44a64e1db450514b4f2c117695b4b60001d701792ab8de2ddfbd79b2"
+    },
+    "scripts/quantum_maze_demo.bat": {
+      "size_bytes": 301,
+      "sha256": "7aa80599d9f10ed661c3eb2f9a11dcf375aac04c7ff09c1cf27c813e840d1d21"
+    },
+    "scripts/quantum_maze_demo.py": {
+      "size_bytes": 1489,
+      "sha256": "666c1a23fc8c7617c7df27f63071d111bbacbd4a6014e4b3e752941447dbdb68"
+    },
+    "scripts/quantum_research_campaign.bat": {
+      "size_bytes": 325,
+      "sha256": "8c5420f8893f19c912fa58af2f3872a3de6d375c39b5759dc88269a8239256a8"
+    },
+    "scripts/quantum_research_campaign.py": {
+      "size_bytes": 44740,
+      "sha256": "25a57e12e28b9346db107a721b7ec9697a7b371127848b69927daf7af99508ee"
+    },
+    "scripts/register_source_path.py": {
+      "size_bytes": 1109,
+      "sha256": "15c15dcc6aa6074c84c80fe4d4205868d63f952c04d112ae95cf780b1023169a"
+    },
+    "scripts/report.bat": {
+      "size_bytes": 319,
+      "sha256": "c64a077e1d83179d36ce4d35bb1c8626004fcd44f466eeb9b4c5fac664c0b6b8"
+    },
+    "scripts/research_campaign.bat": {
+      "size_bytes": 329,
+      "sha256": "7bc3122720801d558ac8511dafb764a621630a6fd046f0f3e7be90c17ce3e402"
+    },
+    "scripts/research_campaign.ps1": {
+      "size_bytes": 462,
+      "sha256": "03d80aee95c126618a89781bfc651b3a85f08f3a96b20f3820be876b14f72ea9"
+    },
+    "scripts/research_campaign.py": {
+      "size_bytes": 26032,
+      "sha256": "33a693b01918a5b06aa84d77ca0c5a0a462fc0676a30894f735c1ed07f6da578"
+    },
+    "scripts/research_lab.py": {
+      "size_bytes": 7115,
+      "sha256": "d450481610b66799ea2a814c1a87c65f7cf63b0b45a425917e38b0206bb3a543"
+    },
+    "scripts/run_continuous.bat": {
+      "size_bytes": 402,
+      "sha256": "56bd525819d94b27884278ecdb6ae62c0c5e2157a7ad241f1617e92525bc907c"
+    },
+    "scripts/run_continuous.ps1": {
+      "size_bytes": 533,
+      "sha256": "1cb42b290a0985d51b199f9efbab3567510202761f5486cf0c5d027de321b578"
+    },
+    "scripts/run_full_test_suite.py": {
+      "size_bytes": 9406,
+      "sha256": "43377f6b78bc339e1d10c1c4493ab57b69e245668efb1fd8907dab25fac4735a"
+    },
+    "scripts/run_integration_tests.py": {
+      "size_bytes": 9556,
+      "sha256": "22bc2aafe17d73d4a24293ddde34094c755e16cf40a1eceb644671d04be6de0e"
+    },
+    "scripts/run_once.bat": {
+      "size_bytes": 380,
+      "sha256": "a65463349b2e0f58f01ed842b191d4e901ec55336c7bbad3848b39e8fca56e7c"
+    },
+    "scripts/run_once.ps1": {
+      "size_bytes": 511,
+      "sha256": "091ee36d422228cb79715f93274e3a5d7710affb68c6c87f55626d017e597d07"
+    },
+    "scripts/run_smoke.bat": {
+      "size_bytes": 557,
+      "sha256": "00451b2b0ef0ec28ed2ad3b7a252f3ecac4dd1036f9d3506e5d3abf477f74f40"
+    },
+    "scripts/run_smoke.ps1": {
+      "size_bytes": 617,
+      "sha256": "6c2fa97e7592d9eb9b12ad6c31b324d44f010af465b6a9ff3ecfde4019a8f45b"
+    },
+    "scripts/run_unit_tests.py": {
+      "size_bytes": 1390,
+      "sha256": "2a37824c40a21b946b7b84388118e0cfbd5e5a7c0a10f977f0e0323c22069091"
+    },
+    "scripts/setup_venv.bat": {
+      "size_bytes": 1391,
+      "sha256": "b0f9e164e6fb2e87d25837e42c89121d61aa7bbe0ca3d461e3f24350c7253d3d"
+    },
+    "scripts/setup_venv.ps1": {
+      "size_bytes": 1294,
+      "sha256": "fad89a79341c216bf9d54205cb442854bd6bd79647c4288f8b54764ee3dd6337"
+    },
+    "scripts/status.bat": {
+      "size_bytes": 399,
+      "sha256": "452b884c0c2a1377a478d2918f32935f9bb499cd8606f433ca250284d5ff07d2"
+    },
+    "scripts/status.ps1": {
+      "size_bytes": 536,
+      "sha256": "46ea6e9f92b3360ef35e94151589f18b7bb898a36f433e886afe7cc712494042"
+    },
+    "scripts/stop.bat": {
+      "size_bytes": 486,
+      "sha256": "88deedb90721fa2786ec32e890b026f82cff56bf12cab2ffd6cef4b263830f29"
+    },
+    "scripts/stop.ps1": {
+      "size_bytes": 515,
+      "sha256": "b4dbb257bb4c86002f65245bf71b18b25022ff757d5c1bddb8b1fb3a0d69b8c0"
+    },
+    "scripts/stop_hybrid.bat": {
+      "size_bytes": 279,
+      "sha256": "c885502605ceb9c70f4537748d839b760d6711ab7f669735b7e33a3ebbc30d30"
+    },
+    "scripts/stop_hybrid.ps1": {
+      "size_bytes": 391,
+      "sha256": "2615427b2ee5ce6a7f4e187288d83cc1f330f5c1247cc73ecac956d67ca5d4ba"
+    },
+    "scripts/test_windows_native_qualification.py": {
+      "size_bytes": 6845,
+      "sha256": "6abfa5d3386e2f594e00e56c71bb59104b3cd9253a3c3ffd0e1bbab09c9ad55e"
+    },
+    "scripts/uninstall_amde2_autostart.ps1": {
+      "size_bytes": 533,
+      "sha256": "91764a01420679c68c795a5e3bd68593e066cbb8175966dcfc248901299e03cb"
+    },
+    "scripts/verify_data_preservation.py": {
+      "size_bytes": 6029,
+      "sha256": "94a37848cf0d9487fd147ea347c0fd9d48e15e3f844a37436f7f5922a09e5438"
+    },
+    "scripts/verify_manifest.py": {
+      "size_bytes": 2209,
+      "sha256": "f4964c286ff55dee6009abc917b862013f099bbdee1c70a11eef4308d4eca80c"
+    },
+    "scripts/watchdog_24x7.bat": {
+      "size_bytes": 226,
+      "sha256": "dafffe4b5f2b4ed3694abd8ddd092f5e1d8cac1f98a2821b768c8206f8a4b96d"
+    },
+    "scripts/watchdog_24x7.ps1": {
+      "size_bytes": 6392,
+      "sha256": "7703b9f6c8335a7589f324ef116d80a5caa8992cc34ab95ccbdeed235a66b3f0"
+    },
+    "src/amde/__init__.py": {
+      "size_bytes": 317,
+      "sha256": "90425dd804eaefc9c076612dafa23d115839c4ad8ce80926fdf057e42ed1c4d6"
+    },
+    "src/amde/__main__.py": {
+      "size_bytes": 325,
+      "sha256": "d8f35697bcbef787fbce86e85625460271aa937a7a6c735b2f202088678d4fca"
+    },
+    "src/amde/cli.py": {
+      "size_bytes": 17267,
+      "sha256": "b120cc6cfae29e480a284df554e3f6e271fdb07f2d2c790b7a990da6d66b5dc4"
+    },
+    "src/amde/config.py": {
+      "size_bytes": 24961,
+      "sha256": "fc0a77fad5c7a0b57e0f0e1fb8e2c23334ec980c02ff79bc27bf009bdf4ee125"
+    },
+    "src/amde/errors.py": {
+      "size_bytes": 2648,
+      "sha256": "6659411f77f452b7d388986cb7fe4204ea1acf0cbad9f2874eb801c100bd6ea2"
+    },
+    "src/amde/orchestrator.py": {
+      "size_bytes": 101493,
+      "sha256": "c668894f2c07cd83e87a5a600d87e07a3dbca6f9d0ce4fdfe30b351ced27c090"
+    },
+    "src/amde/util.py": {
+      "size_bytes": 12725,
+      "sha256": "39bb94576dd61ca71880c650b3bca175682c1b68b851840fb35ecb6daced5602"
+    },
+    "src/amde/baselines/__init__.py": {
+      "size_bytes": 192,
+      "sha256": "223d292985c9a1b05fbee100ad84aee0471645ed1b233b12425be29ad34c9aba"
+    },
+    "src/amde/baselines/registry.py": {
+      "size_bytes": 4131,
+      "sha256": "92198f45f6235745ab4e075a7432b86647a82d1bf00e191d062dc3dd0c6d6a7c"
+    },
+    "src/amde/benchmarks/__init__.py": {
+      "size_bytes": 255,
+      "sha256": "3bc1d8c150a03cbf71f25a6832d4b7d0ac2b48bba712147ce256e20874cd5863"
+    },
+    "src/amde/benchmarks/arc.py": {
+      "size_bytes": 9916,
+      "sha256": "ddc9e001c6226b0a1b426032f52b7e417aa1270ac192160b20ac61170380b7e5"
+    },
+    "src/amde/benchmarks/base.py": {
+      "size_bytes": 6273,
+      "sha256": "bd6545ff9ce3acb8b6d8fc289ab6e0f94c3e16d8c66048f9044c6e229b1e06d0"
+    },
+    "src/amde/benchmarks/external.py": {
+      "size_bytes": 31178,
+      "sha256": "29910a6fae30d9bef6fca01c1fdbb3260e4044b2fcfc949f6d699da10f51d40e"
+    },
+    "src/amde/benchmarks/generators.py": {
+      "size_bytes": 12477,
+      "sha256": "ee21766ed5a0ea43a93d7599ed7813d71a0dae74fe232eadc0c4364cb5c781d1"
+    },
+    "src/amde/benchmarks/registry.py": {
+      "size_bytes": 7779,
+      "sha256": "8c61faacf3cf3644c965869023cf781b721cfb1864dfdba6b78015b022e3164a"
+    },
+    "src/amde/discovery/__init__.py": {
+      "size_bytes": 73,
+      "sha256": "170c0d320b31b778152a630070382eb921dd13e89bd4258fa275ffa41f1bcb9d"
+    },
+    "src/amde/discovery/archive.py": {
+      "size_bytes": 11888,
+      "sha256": "010f8c35a6be98f1823e26cdca250babc8065461c80ae7e006502aacb507dd06"
+    },
+    "src/amde/discovery/dsl.py": {
+      "size_bytes": 18862,
+      "sha256": "9cfaf83b16c0c1d85f5ec9f73dced3b46122a320ea860f56960baefa4b8def4b"
+    },
+    "src/amde/discovery/factory.py": {
+      "size_bytes": 7540,
+      "sha256": "7ca2bbdf6cd2c9ed78bf574fa55edd0f2c4421692f572d8e74ca1dd758a5eaa1"
+    },
+    "src/amde/discovery/genome.py": {
+      "size_bytes": 14370,
+      "sha256": "c7cc6822daa2c29d3987703cb5a6366a4ccb1d7007542e244a67fbec1ba513fd"
+    },
+    "src/amde/discovery/operators.py": {
+      "size_bytes": 10578,
+      "sha256": "45cab52887200062368829071a9094fc1b24b58f8c69879d7796d952aa2fded4"
+    },
+    "src/amde/evaluation/__init__.py": {
+      "size_bytes": 71,
+      "sha256": "b9eb4df8a8577009e1a7241877a49ad5d426bf63e68b9d2ac07e6b0244db03ae"
+    },
+    "src/amde/evaluation/evaluator.py": {
+      "size_bytes": 13218,
+      "sha256": "bbcb26e9b378c5279a0227e8d990fe8e7db5daa9f0360e5657da4e926c8e003e"
+    },
+    "src/amde/evaluation/generalization.py": {
+      "size_bytes": 10897,
+      "sha256": "63e7a9f61b9d1eae1ce05921c99d6d61b0ea3c9dd38b2fdf3f3997b40dd955cc"
+    },
+    "src/amde/evaluation/isolation.py": {
+      "size_bytes": 13137,
+      "sha256": "ca8dac5bd9c97fdfeac89c2b962bbe33edebc6c4383fcb1a735a408a61531fa7"
+    },
+    "src/amde/evaluation/metrics.py": {
+      "size_bytes": 12390,
+      "sha256": "528253d948d707db6c71eb1b08e8217dcb2fc325e7f7aeee9b13ac53697524dc"
+    },
+    "src/amde/evaluation/sealed.py": {
+      "size_bytes": 8801,
+      "sha256": "560e0f9a17846cbed930e9a284724b1da0821b1262e726841dc4c9da0686efcd"
+    },
+    "src/amde/evaluation/worker.py": {
+      "size_bytes": 10795,
+      "sha256": "f9c64510f2eaa0028ae80bba979f188bd85b5aebe4ab7ff5b64fe571c32ae5f1"
+    },
+    "src/amde/models/__init__.py": {
+      "size_bytes": 56,
+      "sha256": "7cf2de5a1a89e1b544247c774e7601da0068f09c7dedbd3ccd67f057e8231551"
+    },
+    "src/amde/models/torch_trainer.py": {
+      "size_bytes": 17412,
+      "sha256": "64f0b975c5d99a5050a6b268076ea586b3d87b146548cdb8a25b9c84fd60be62"
+    },
+    "src/amde/models/trainer.py": {
+      "size_bytes": 25053,
+      "sha256": "3265d8ef704317cbd95cb79b74f9a1bb1eb84c4a3f56a17239e7fd15f74769aa"
+    },
+    "src/amde/quantum/__init__.py": {
+      "size_bytes": 821,
+      "sha256": "87228d4b77e99287a44247c6393393b602a38ba1895fc026c710539c4774b437"
+    },
+    "src/amde/quantum/kernel.py": {
+      "size_bytes": 7584,
+      "sha256": "8bbed7c906872e628b0627ab1224e021706df02982b9e91c5327728f6daab899"
+    },
+    "src/amde/quantum/maze.py": {
+      "size_bytes": 6097,
+      "sha256": "a40035e3936f5dea9c7b68774b87c730af20842602cec8eed40ce285458f89e4"
+    },
+    "src/amde/quantum/profiles.py": {
+      "size_bytes": 7375,
+      "sha256": "313141362c41fe10b9406a7aa525b7abf27f0abbdad513023eb46b76efe10fc6"
+    },
+    "src/amde/quantum/statevector.py": {
+      "size_bytes": 9252,
+      "sha256": "93509a379a4f9d79a814843838ea3171efb8497b892ba86787dfe1e76b981740"
+    },
+    "src/amde/quantum/vqc.py": {
+      "size_bytes": 16432,
+      "sha256": "84cc2091bf63de61b8961ff80688738f7f492688a6e684783d010baa92e7037b"
+    },
+    "src/amde/research/__init__.py": {
+      "size_bytes": 363,
+      "sha256": "7f6ca3a0eeca9f64333418dbf83f6bbcc928e95d6dc5e4bd06a57bae9756469b"
+    },
+    "src/amde/research/ablation.py": {
+      "size_bytes": 7355,
+      "sha256": "5efb817bf0cf8306a9c3b6f419f54e36975b6340e18a2e63c99b34b0705c094f"
+    },
+    "src/amde/research/hypotheses.py": {
+      "size_bytes": 13834,
+      "sha256": "241bcdee11bf3ebb8b4b3ba504ff96e66f63de8d6e25b310038fac3fc6572bdf"
+    },
+    "src/amde/research/statistics.py": {
+      "size_bytes": 7732,
+      "sha256": "bc80a1cd18c9a273b49873f25e95be49ad7594f1b5a0bab4b72275957122234a"
+    },
+    "src/amde/runtime/__init__.py": {
+      "size_bytes": 74,
+      "sha256": "04e810aef9efe37dcb743c2342ac340c66000a787f5d9586495fd3d3472b3971"
+    },
+    "src/amde/runtime/amde2.py": {
+      "size_bytes": 121370,
+      "sha256": "e24613ab76ed03b842e6fa98d30af66df0eadc6cb334065aebced1442f9a4bb9"
+    },
+    "src/amde/runtime/heartbeat.py": {
+      "size_bytes": 3551,
+      "sha256": "dfbd1877392746895c8abca55bb694f7c2842284c7d34b177e0a17b27257de85"
+    },
+    "src/amde/runtime/job.py": {
+      "size_bytes": 14105,
+      "sha256": "ac7560ca60c2808bd6f4d77901eadc589bd22d62c8c44a8fb33e0b5702b2f6c4"
+    },
+    "src/amde/runtime/lock.py": {
+      "size_bytes": 8087,
+      "sha256": "25201bfebcb83e5f0e79e09cfbb3938f2b72faeddea540d82e165ac143543a3b"
+    },
+    "src/amde/runtime/resources.py": {
+      "size_bytes": 18650,
+      "sha256": "7d60cef8d86ee8741e61efe05520b7192bb3dedc4e07f94d766cda753c86d38f"
+    },
+    "src/amde/search/__init__.py": {
+      "size_bytes": 419,
+      "sha256": "9cdacc6e3cb9a46137382788e172e6fb59c94830fce2de40b6ab40340ccc4e84"
+    },
+    "src/amde/search/meta_policy.py": {
+      "size_bytes": 2984,
+      "sha256": "af3d13fe3002cb3c998d2958c78f536e835f107ace65a1a9a1d78d148f2ebd3b"
+    },
+    "src/amde/search/open_ended.py": {
+      "size_bytes": 6381,
+      "sha256": "023fbda862dae3f593d74e0f9bdb0e79c9dd807564b130457c9106abdd6b1601"
+    },
+    "src/amde/search/population.py": {
+      "size_bytes": 17374,
+      "sha256": "a74cd89d188352e5077fd9781b97b04e2f17fda7c156207bbd383bc43c977a12"
+    },
+    "src/amde/search/portfolio.py": {
+      "size_bytes": 2768,
+      "sha256": "7c2bc152993da26aa2c173bf3af0a99d178126b7af8d374ea9dfe58fd908488b"
+    },
+    "src/amde/search/selection.py": {
+      "size_bytes": 3351,
+      "sha256": "e7f37994cc2f0e33cbf1748e4b79dfe49edf439a519a4c10073f5406dda523f9"
+    },
+    "src/amde/search/stagnation.py": {
+      "size_bytes": 3178,
+      "sha256": "ac8056899cd01cbce9552c708951300c1587083ceb42506a3db9772e58866c6f"
+    },
+    "src/amde/search/strategies.py": {
+      "size_bytes": 10696,
+      "sha256": "2797ea628d5d11458bbcb9f6f95d717aa1f3d5aa0d66935aff1cb7f5fe1674c9"
+    },
+    "src/amde/storage/__init__.py": {
+      "size_bytes": 69,
+      "sha256": "eb8421925485b2cae3a0a9b8d1ccc682898aeb5bac76c6b58b4b408422a95f06"
+    },
+    "src/amde/storage/artifacts.py": {
+      "size_bytes": 4750,
+      "sha256": "2a5a9752c58881a075ae8960f5fe2987a998849f71be21b9eddb6cfa6a5380c5"
+    },
+    "src/amde/storage/budget.py": {
+      "size_bytes": 3170,
+      "sha256": "d8688864284e84ad3783a4120b7cff615bef4c59dfde912feccffd917ed7a6ff"
+    },
+    "src/amde/storage/checkpoint.py": {
+      "size_bytes": 6136,
+      "sha256": "5551b9be77600857707186f11243ad00c548eedea1ae78aab985c84fd4b07617"
+    },
+    "src/amde/storage/ledger.py": {
+      "size_bytes": 36145,
+      "sha256": "20950175077b31f63b2d84f6a282f0bc74ed477282afd869e58678183b05e609"
+    },
+    "src/amde.egg-info/PKG-INFO": {
+      "size_bytes": 9913,
+      "sha256": "fd932044bb6da15087df0cbbf3f15cd1f2f373651e2e6ace6d785f6c5d1ed641"
+    },
+    "src/amde.egg-info/SOURCES.txt": {
+      "size_bytes": 1939,
+      "sha256": "566bd98eb9ad43f63379fcb80156eb72a0d60302e5fd0cefcb2f180b4f9528d6"
+    },
+    "src/amde.egg-info/dependency_links.txt": {
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "src/amde.egg-info/entry_points.txt": {
+      "size_bytes": 71,
+      "sha256": "a28840c0fadc07bf5c441283f69fad72d273469c5f1adc0da8f45ef78617354e"
+    },
+    "src/amde.egg-info/requires.txt": {
+      "size_bytes": 152,
+      "sha256": "d7f161d6ed577428676dc628fcb41dea89e5c1bc1acb9a4404d6b9f279504d05"
+    },
+    "src/amde.egg-info/top_level.txt": {
+      "size_bytes": 5,
+      "sha256": "689ffae5d2f3ad8dfec6de14d3ff5423fa93cacdb27e2ce1c0e32a009b5752ed"
+    },
+    "tests/__init__.py": {
+      "size_bytes": 775,
+      "sha256": "33bc76dff555fb15bc84b438b979ff296f8af0e6e1654f16f5f8a60aed341d0e"
+    },
+    "tests/support.py": {
+      "size_bytes": 5796,
+      "sha256": "9762b30d4bf23a1cf1a05eaec4f358c52edc955592df91d051454f9b95d004f6"
+    },
+    "tests/integration/__init__.py": {
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests/integration/test_amde2_runtime.py": {
+      "size_bytes": 19109,
+      "sha256": "0eb79822bb552be870c103e1cd77d43c9f7209bf58ef44911c8384beaf75b676"
+    },
+    "tests/integration/test_engine.py": {
+      "size_bytes": 10726,
+      "sha256": "149d0bc4de7a890f1595e16f3f45cad89e4ad16158667b45c7b37fa58441cdda"
+    },
+    "tests/integration/test_external_benchmarks.py": {
+      "size_bytes": 4566,
+      "sha256": "811a551c6eb6f4bb8acb21371b0e609dff9ec661d8f2f9f2f629e74e7a6360cf"
+    },
+    "tests/integration/test_final_acceptance_closure.py": {
+      "size_bytes": 30752,
+      "sha256": "fce48480719b3907b8f9755f7f3097c45c05e920a9488e27a2cf54fd4009cdc2"
+    },
+    "tests/integration/test_hard_deadline_integration.py": {
+      "size_bytes": 14921,
+      "sha256": "ca4e9ed0b7e83ffcfc42b8a85f560bfe82e0d7c191f72b3117f8737e036fb980"
+    },
+    "tests/integration/test_quantum_research.py": {
+      "size_bytes": 15492,
+      "sha256": "26b6b234fdc597ee84ce9f17f970375d3b085e277ebddfd979d29efd5a5c7f86"
+    },
+    "tests/integration/test_research_lab.py": {
+      "size_bytes": 5509,
+      "sha256": "beaede7d4be5f7ba4dde83aeb4c47fa9e61b385558bab2f52247e1abf0e76268"
+    },
+    "tests/unit/__init__.py": {
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests/unit/test_amde2_forced_termination.py": {
+      "size_bytes": 14848,
+      "sha256": "21de93b7f48009f7e9162fcc4c06652843795d4c2fb50930ec2f4aa0ece7821f"
+    },
+    "tests/unit/test_amde2_job.py": {
+      "size_bytes": 5235,
+      "sha256": "e8ee8e23c1d2868ae896ec9fd25b35100d7df3e116b06726acc929c2bafbcfd5"
+    },
+    "tests/unit/test_amde2_runtime.py": {
+      "size_bytes": 26487,
+      "sha256": "27911de1f7143898ab6d186d98a4a8ff98b7f2bbfeb381c9b61ba74f2f7001ea"
+    },
+    "tests/unit/test_backward_compatibility.py": {
+      "size_bytes": 3344,
+      "sha256": "3c0d5af851f3d4fc5b04dab78a8ff1cb2ce93d8aad3ba0633161c837767b9e04"
+    },
+    "tests/unit/test_benchmarks.py": {
+      "size_bytes": 9373,
+      "sha256": "b04df9e66b95ea8cbf3881d9e726e437faabaab520eb9e45e44f7a26f38fd5d4"
+    },
+    "tests/unit/test_campaign.py": {
+      "size_bytes": 8464,
+      "sha256": "593cce69585f3abaa98da472ad5a43960e0f6e6bcef0248e75bbce1ca403fcea"
+    },
+    "tests/unit/test_checkpoint_lock.py": {
+      "size_bytes": 7377,
+      "sha256": "5bbc366dba2a654d7aa876b00cc03b6dfd6c60e4b5a583b6035fd8ab95cd8b80"
+    },
+    "tests/unit/test_config.py": {
+      "size_bytes": 10130,
+      "sha256": "8bf74f9fc02fe3ec5d41431de1f25a573cad629b54220c6ce3033686f50d6150"
+    },
+    "tests/unit/test_discovery_archive.py": {
+      "size_bytes": 4634,
+      "sha256": "0e44b5877a473798e3d75425f521976de2d14f2637875e3de51c01a992df74d5"
+    },
+    "tests/unit/test_dsl.py": {
+      "size_bytes": 3864,
+      "sha256": "1d4feb5cc1456e11118a7b019b19d0026eeb6d6decf63174b4183912ebff0805"
+    },
+    "tests/unit/test_evaluator.py": {
+      "size_bytes": 9494,
+      "sha256": "1235b4b2b2807d33888a6836dfe7617b378b4e83721c9812d63ce1ff32bcb70a"
+    },
+    "tests/unit/test_external_benchmarks.py": {
+      "size_bytes": 14244,
+      "sha256": "16a7e623120aa0a01af158d193f179886f92a9a7615dc8e44b39ac2cbe1254e4"
+    },
+    "tests/unit/test_generalization.py": {
+      "size_bytes": 2596,
+      "sha256": "cd917b46796dd1a16702585feac3a63357d7a83c359cbdbb4300c682e41f0b37"
+    },
+    "tests/unit/test_genome.py": {
+      "size_bytes": 5309,
+      "sha256": "03d5f9de2d4cbe81096243b94fb949d98a4ff85dc1cffac2abe0bd9e35b1ab5f"
+    },
+    "tests/unit/test_hybrid_control.py": {
+      "size_bytes": 1174,
+      "sha256": "adc2c4dadf4dd84ff771e5c2418617c7814a0e97955833fcbaad457a9d93f5e5"
+    },
+    "tests/unit/test_isolation.py": {
+      "size_bytes": 5701,
+      "sha256": "06455cc9d4068ea081b0b09ddb7a2116d3fa9f96227496a71a098ad4abbb6934"
+    },
+    "tests/unit/test_ledger.py": {
+      "size_bytes": 11444,
+      "sha256": "24b613812d93afa54fd4418a7295de8278072b62539fcb8226e3e75690ee7a62"
+    },
+    "tests/unit/test_metrics.py": {
+      "size_bytes": 6964,
+      "sha256": "9e19bdad8d8216336a043df1a3d4245ba0f612967817658c5000ab23f047af17"
+    },
+    "tests/unit/test_open_ended.py": {
+      "size_bytes": 3893,
+      "sha256": "e62aa025396e12926e3c1699a459b5625ccec37fb7b44ee6776336ffbda7798f"
+    },
+    "tests/unit/test_orchestrator_cache.py": {
+      "size_bytes": 6112,
+      "sha256": "0d2b523eb4f16cbf01caf89334d8d7f5b4ef1958b0f8ff7608c292a60eb637d2"
+    },
+    "tests/unit/test_population.py": {
+      "size_bytes": 5534,
+      "sha256": "900e6ae95eb05065596404e7068b0df8efa4dfe2fcf37432abfba9413a7d2048"
+    },
+    "tests/unit/test_quantum.py": {
+      "size_bytes": 6009,
+      "sha256": "2129b9eada05eadc21caad50aace87e44086b0db0b0acbf8510686c406203133"
+    },
+    "tests/unit/test_quantum_profiles.py": {
+      "size_bytes": 4206,
+      "sha256": "1b9b1a70766a5f722e17c5fa8654b4fa0a8a92214da1ef82694fed774a4bb8c3"
+    },
+    "tests/unit/test_research_toolkit.py": {
+      "size_bytes": 8568,
+      "sha256": "85e346d9994b92403e4bbff5ccb8cc1960efd663d953daa137519ed7adf16fec"
+    },
+    "tests/unit/test_runtime_monitoring.py": {
+      "size_bytes": 3239,
+      "sha256": "f0bb95dd2b9b7282ddbcd138cafeaace4d25774f2843659e774cc6d35ee3b987"
+    },
+    "tests/unit/test_sealed.py": {
+      "size_bytes": 9334,
+      "sha256": "937f6b5a5a50874f9d0b47670dc3ccb3a6b7bd4f5c175dc352a6701eb5ac8f11"
+    },
+    "tests/unit/test_search.py": {
+      "size_bytes": 4449,
+      "sha256": "6d9bd080c215148b59f86a7a444756f7f65d98f7fbfa726838c49996f77a7fe4"
+    },
+    "tests/unit/test_smoke_config.py": {
+      "size_bytes": 1412,
+      "sha256": "1a1e17e7f5f4170387ffb1c8422da2d5a6d816db7f22698c1f9717c27149edf0"
+    },
+    "tests/unit/test_stagnation.py": {
+      "size_bytes": 1483,
+      "sha256": "1e3ffb4f3dec8594a5c6f472dc72f067495e5b3fceb457866ad523910c9d2dd9"
+    },
+    "tests/unit/test_storage_budget.py": {
+      "size_bytes": 1808,
+      "sha256": "183b31704371602454b7d2e47edec99723bee7e39b64e261cf4aeee52b8e5b0d"
+    },
+    "tests/unit/test_trainer.py": {
+      "size_bytes": 12155,
+      "sha256": "eece96a24d3c4fd2335995b0505cf0b23599d1a093d149ad25d036d55de2d5dc"
+    },
+    "tests/unit/test_util.py": {
+      "size_bytes": 4047,
+      "sha256": "88aaa40bf3608a80233914f4ddb51bec3faddd0d4ad6feebf43249711a128a5d"
+    }
+  }
+}

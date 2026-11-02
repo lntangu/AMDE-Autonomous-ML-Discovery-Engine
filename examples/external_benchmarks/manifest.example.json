@@ -1,0 +1,21 @@
+{
+  "schema_version": "amde-external-datasets-v1",
+  "dataset_families": [
+    {
+      "family_id": "demo_synthetic_classification",
+      "domain": "synthetic_tabular_demo",
+      "source": "synthetic",
+      "source_version": "amde-example-v1",
+      "license": "CC0-1.0",
+      "reference": "Synthetic demonstration generated for AMDE documentation; not an external benchmark",
+      "task_kind": "classification",
+      "feature_columns": [
+        "feature_1",
+        "feature_2"
+      ],
+      "target_column": "target",
+      "csv_path": "synthetic_classification.csv",
+      "seen_during_search": true
+    }
+  ]
+}

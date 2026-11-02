@@ -1,0 +1,37 @@
+{
+  "dsl": {
+    "b_update": null,
+    "m_update": null,
+    "v_update": null,
+    "version": "dsl-v1",
+    "w_update": null
+  },
+  "level": "B",
+  "model": {
+    "activation": "tanh",
+    "hidden": [],
+    "kind": "linear"
+  },
+  "optimizer": {
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08,
+    "kind": "adam"
+  },
+  "recipe": {
+    "batch_size": 32,
+    "early_stopping_patience": 5,
+    "epochs": 50,
+    "grad_clip": 5.0,
+    "init": "normal",
+    "init_scale": 0.5,
+    "l1": 0.0,
+    "l2": 0.0005,
+    "learning_rate": 0.01,
+    "loss": "auto",
+    "lr_schedule": "cosine",
+    "seed_policy": "hash",
+    "standardize": true
+  },
+  "schema_version": "2.0.0"
+}

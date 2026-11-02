@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "cpu": {
+    "reserve_logical_cores": 2,
+    "max_workers": 6,
+    "min_workers": 1,
+    "threads_per_trial": 1
+  },
+  "memory": {
+    "reserve_mb": 8192,
+    "per_worker_estimate_mb": 640,
+    "hard_cap_mb_per_worker": 2048,
+    "max_reserve_fraction": 0.25,
+    "minimum_reserve_mb": 512
+  },
+  "gpu": {
+    "enabled": true,
+    "reserve_vram_mb": 768,
+    "required_free_vram_mb": 768,
+    "max_concurrent_trials": 1,
+    "thermal_warn_c": 80,
+    "thermal_stop_c": 88
+  },
+  "disk": {
+    "min_free_gb": 5.0,
+    "max_run_gb": 12.0
+  },
+  "queue": {
+    "max_wait_seconds": 60,
+    "poll_seconds": 2
+  },
+  "blas_threads": 1
+}
