@@ -1,7 +1,8 @@
 # AMDE 4.0 — Autonomous Machine Learning Discovery Engine
 
-[![Architecture Version](https://img.shields.io/badge/architecture-4.0.1-blue.svg)](docs/architecture/AMDE_4.0_System_Architecture.md)
-[![Release Status](https://img.shields.io/badge/status-QUALIFIED__FOR__RESEARCH__RELEASE-brightgreen.svg)](docs/PROJECT_CLOSURE.md)
+[![Architecture Version](https://img.shields.io/badge/architecture-4.0.1-blue.svg)](docs/FINAL_ARCHITECTURE.md)
+[![Release Status](https://img.shields.io/badge/release-v4.0.1-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.1)
+[![Final Closure](https://img.shields.io/badge/audit-CLOSED-success.svg)](docs/AMDE_Final_Release_Closure.md)
 [![Tests](https://img.shields.io/badge/tests-28%2F28%20passing-success.svg)](reports/final_release/FINAL_TEST_REPORT.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -27,11 +28,15 @@ AMDE 4.0 systematically resolves all historical architectural defects ([DEF-01 t
 
 ### Installation & Environment Setup
 ```bash
-# Clone the repository and enter the AMDE 4.0 worktree
-cd AMDE_Worktree_v400
+# Clone the repository
+git clone https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git
+cd AMDE-Autonomous-ML-Discovery-Engine
 
-# Install dependencies (Python 3.10+ supported; verified on Python 3.14)
-pip install numpy scipy scikit-learn psutil
+# Install package and dependencies (Python 3.10+ supported; verified on Python 3.14)
+pip install .
+
+# Or install directly from pre-built wheel:
+pip install https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/download/v4.0.1/amde-4.0.1-py3-none-any.whl
 ```
 
 ### Running an Evidence-Guided Discovery Campaign

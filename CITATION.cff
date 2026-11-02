@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software in your experimental research, please cite it as below."
+authors:
+  - name: "AMDE Project Maintainers"
+title: "AMDE: Autonomous Machine Learning Discovery Engine"
+version: 4.0.1
+date-released: 2026-11-02
+url: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
+repository-code: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
+license: "MIT"
+keywords:
+  - "machine-learning"
+  - "automl"
+  - "multi-objective-optimization"
+  - "thompson-sampling"
+  - "pareto-frontier"
+  - "research-software"
