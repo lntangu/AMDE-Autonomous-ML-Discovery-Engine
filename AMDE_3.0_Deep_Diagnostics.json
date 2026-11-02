@@ -1,0 +1,81 @@
+{
+  "deduplication": {
+    "collision_detected": false,
+    "single_attribute_checks": [
+      {
+        "attribute": "learning_rate",
+        "new_val": "0.0088635",
+        "distinct_hash": true
+      },
+      {
+        "attribute": "activation",
+        "new_val": "relu",
+        "distinct_hash": true
+      },
+      {
+        "attribute": "scaler",
+        "new_val": "standard",
+        "distinct_hash": true
+      },
+      {
+        "attribute": "batch_size",
+        "new_val": "64",
+        "distinct_hash": true
+      }
+    ],
+    "float_7dec_tolerance_merged": true,
+    "float_macro_diff_distinguished": true
+  },
+  "archive_persistence": {
+    "elite_restored_match": true,
+    "pareto_restored_match": true,
+    "negative_memory_restored_match": true
+  },
+  "negative_memory": {
+    "failures_recorded": 1,
+    "candidates_screened": 50,
+    "pruned_count": 0,
+    "true_positives": 0,
+    "false_positives": 0,
+    "false_positive_prune_rate": 0.0
+  },
+  "multifidelity_calibration": {
+    "n_evaluated": 30,
+    "true_spearman_rho": 0.4893,
+    "spearman_pvalue": 0.00606,
+    "r0_mean_time": 0.2274,
+    "r2_mean_time": 1.6992,
+    "fidelity_time_ratio": 7.47,
+    "top_candidates_discarded": 6,
+    "false_rejection_rate": 0.8571
+  },
+  "controller_dynamics": {
+    "strategy_shares": {
+      "random_search": 0.82,
+      "tpe_proposal": 0.02,
+      "evolutionary_mutation": 0.02,
+      "local_refinement": 0.12,
+      "surrogate_ei": 0.02
+    },
+    "adapts_to_feedback": true,
+    "first_5_steps": [
+      "random_search",
+      "tpe_proposal",
+      "evolutionary_mutation",
+      "local_refinement",
+      "surrogate_ei"
+    ],
+    "last_10_steps": [
+      "random_search",
+      "random_search",
+      "random_search",
+      "local_refinement",
+      "local_refinement",
+      "local_refinement",
+      "random_search",
+      "random_search",
+      "local_refinement",
+      "local_refinement"
+    ]
+  }
+}

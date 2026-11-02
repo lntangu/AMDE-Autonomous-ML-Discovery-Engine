@@ -1,0 +1,298 @@
+{
+  "q_xor": {
+    "full_amde_30": {
+      "test_accs": [
+        0.97,
+        0.95,
+        0.99
+      ],
+      "durations": [
+        5.81,
+        2.24,
+        2.13
+      ]
+    },
+    "wo_controller": {
+      "test_accs": [
+        0.97,
+        0.96,
+        1.0
+      ],
+      "durations": [
+        3.97,
+        4.17,
+        4.41
+      ]
+    },
+    "wo_multi_fidelity": {
+      "test_accs": [
+        0.99,
+        0.95,
+        0.99
+      ],
+      "durations": [
+        3.32,
+        3.41,
+        2.59
+      ]
+    },
+    "wo_surrogate": {
+      "test_accs": [
+        0.97,
+        0.99,
+        1.0
+      ],
+      "durations": [
+        2.0,
+        2.36,
+        2.6
+      ]
+    },
+    "wo_negative_memory": {
+      "test_accs": [
+        0.97,
+        0.95,
+        0.99
+      ],
+      "durations": [
+        2.97,
+        2.22,
+        2.1
+      ]
+    },
+    "amde_203_baseline": {
+      "test_accs": [
+        0.97,
+        0.99,
+        1.0
+      ],
+      "durations": [
+        2.71,
+        2.41,
+        0.81
+      ]
+    }
+  },
+  "breast_cancer": {
+    "full_amde_30": {
+      "test_accs": [
+        0.9478,
+        0.9304,
+        0.9826
+      ],
+      "durations": [
+        4.03,
+        4.42,
+        2.55
+      ]
+    },
+    "wo_controller": {
+      "test_accs": [
+        0.9478,
+        0.9652,
+        0.9652
+      ],
+      "durations": [
+        6.5,
+        6.24,
+        6.6
+      ]
+    },
+    "wo_multi_fidelity": {
+      "test_accs": [
+        0.9478,
+        0.9304,
+        0.9652
+      ],
+      "durations": [
+        6.12,
+        6.37,
+        5.2
+      ]
+    },
+    "wo_surrogate": {
+      "test_accs": [
+        0.9739,
+        0.9652,
+        0.9826
+      ],
+      "durations": [
+        3.45,
+        3.48,
+        3.7
+      ]
+    },
+    "wo_negative_memory": {
+      "test_accs": [
+        0.9478,
+        0.9304,
+        0.9826
+      ],
+      "durations": [
+        3.79,
+        5.63,
+        2.88
+      ]
+    },
+    "amde_203_baseline": {
+      "test_accs": [
+        0.9478,
+        0.9565,
+        0.9826
+      ],
+      "durations": [
+        2.51,
+        3.21,
+        6.35
+      ]
+    }
+  },
+  "digits": {
+    "full_amde_30": {
+      "test_accs": [
+        0.9528,
+        0.9583,
+        0.9722
+      ],
+      "durations": [
+        13.91,
+        13.32,
+        10.6
+      ]
+    },
+    "wo_controller": {
+      "test_accs": [
+        0.9556,
+        0.9583,
+        0.9722
+      ],
+      "durations": [
+        51.94,
+        29.71,
+        25.28
+      ]
+    },
+    "wo_multi_fidelity": {
+      "test_accs": [
+        0.9528,
+        0.9694,
+        0.9778
+      ],
+      "durations": [
+        46.41,
+        52.4,
+        31.31
+      ]
+    },
+    "wo_surrogate": {
+      "test_accs": [
+        0.9722,
+        0.9694,
+        0.9722
+      ],
+      "durations": [
+        14.46,
+        14.28,
+        13.95
+      ]
+    },
+    "wo_negative_memory": {
+      "test_accs": [
+        0.9528,
+        0.9583,
+        0.9722
+      ],
+      "durations": [
+        13.82,
+        13.08,
+        9.78
+      ]
+    },
+    "amde_203_baseline": {
+      "test_accs": [
+        0.9556,
+        0.9556,
+        0.9806
+      ],
+      "durations": [
+        9.32,
+        8.9,
+        56.02
+      ]
+    }
+  },
+  "highdim_sparse": {
+    "full_amde_30": {
+      "test_accs": [
+        0.75,
+        0.8,
+        0.8583
+      ],
+      "durations": [
+        5.59,
+        7.06,
+        6.7
+      ]
+    },
+    "wo_controller": {
+      "test_accs": [
+        0.7833,
+        0.8,
+        0.8333
+      ],
+      "durations": [
+        9.51,
+        8.85,
+        10.28
+      ]
+    },
+    "wo_multi_fidelity": {
+      "test_accs": [
+        0.75,
+        0.8,
+        0.8583
+      ],
+      "durations": [
+        8.77,
+        9.52,
+        11.03
+      ]
+    },
+    "wo_surrogate": {
+      "test_accs": [
+        0.775,
+        0.8,
+        0.8167
+      ],
+      "durations": [
+        5.34,
+        5.57,
+        5.14
+      ]
+    },
+    "wo_negative_memory": {
+      "test_accs": [
+        0.75,
+        0.8,
+        0.8583
+      ],
+      "durations": [
+        6.08,
+        10.42,
+        10.24
+      ]
+    },
+    "amde_203_baseline": {
+      "test_accs": [
+        0.7583,
+        0.7917,
+        0.825
+      ],
+      "durations": [
+        4.24,
+        2.18,
+        5.78
+      ]
+    }
+  }
+}
