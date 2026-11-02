@@ -9,13 +9,15 @@ Verifies:
 - EGADA Controller: Discounted Thompson Sampling and multi-fidelity scheduling
 """
 
+import copy
 import math
 import random
 import unittest
 import numpy as np
 
+from amde.discovery.config import EngineConfig
 from amde.discovery.controller import EGADAController
-from amde.discovery.engine import AMDE3DiscoveryEngine
+from amde.discovery.engine import AMDE3DiscoveryEngine, AMDELiteEngine
 from amde.discovery.evaluator import MultiFidelityEvaluator, RankCorrelationMonitor
 from amde.discovery.memory import CandidateDeduplicator, EliteArchive, NegativeMemory, ParetoArchive
 from amde.discovery.search_space import Candidate, SearchSpace, compute_genome_hash
@@ -171,6 +173,74 @@ class TestAMDE3Discovery(unittest.TestCase):
         test_score = engine.evaluate_sealed_test(X_train, y_train, X_test, y_test, res["incumbent_candidate"])
         self.assertIsInstance(test_score, float)
         self.assertGreaterEqual(test_score, 0.0)
+
+    def test_engine_config_presets(self):
+        """Verifies evidence-driven feature flags and default presets."""
+        lite_cfg = EngineConfig.amde_30_lite_default()
+        self.assertFalse(lite_cfg.enable_surrogate)
+        self.assertFalse(lite_cfg.enable_negative_memory)
+        self.assertFalse(lite_cfg.use_multi_fidelity)
+        self.assertTrue(lite_cfg.enable_controller)
+        self.assertTrue(lite_cfg.enable_deduplication)
+        self.assertTrue(lite_cfg.enable_elite_archive)
+
+        exp_cfg = EngineConfig.amde_30_full_experimental()
+        self.assertTrue(exp_cfg.enable_surrogate)
+        self.assertTrue(exp_cfg.enable_negative_memory)
+        self.assertTrue(exp_cfg.use_multi_fidelity)
+
+    def test_amde_lite_engine_defaults(self):
+        """Verifies AMDELiteEngine instantiates with Lite presets."""
+        lite = AMDELiteEngine(n_features=6, is_classification=True, seed=42)
+        self.assertFalse(lite.config.enable_surrogate)
+        self.assertFalse(lite.config.enable_negative_memory)
+        self.assertFalse(lite.config.use_multi_fidelity)
+        self.assertNotIn("surrogate_ei", lite.strategies)
+        self.assertIn("random_search", lite.strategies)
+        self.assertIn("evolutionary_elitist", lite.strategies)
+        self.assertIn("local_refinement", lite.strategies)
+
+    def test_controller_finite_initial_reward(self):
+        """Verifies that the first evaluated candidate receives finite reward and does not skew TS."""
+        ctrl = EGADAController(["strat_a", "strat_b"], discount_factor=0.95)
+        r = ctrl.update_feedback("strat_a", val_score=0.85, train_duration=0.5, is_novel=True, is_duplicate=False, is_failure=False)
+        self.assertFalse(math.isinf(r), f"Initial reward was infinite: {r}")
+        self.assertFalse(math.isnan(r), f"Initial reward was NaN: {r}")
+        self.assertFalse(math.isinf(ctrl.stats["strat_a"]["discounted_reward"]))
+
+    def test_controller_replay_determinism(self):
+        """Verifies bit-for-bit identical decision streams across identical seeds."""
+        strats = ["s1", "s2", "s3"]
+        decisions_1 = []
+        ctrl1 = EGADAController(strats, discount_factor=0.95)
+        rng1 = random.Random(1234)
+        for step in range(25):
+            d = ctrl1.select_strategy(rng1, budget_fraction=step / 25.0)
+            decisions_1.append(d)
+            ctrl1.update_feedback(d, val_score=0.75, train_duration=0.2, is_novel=True, is_duplicate=False, is_failure=False)
+
+        decisions_2 = []
+        ctrl2 = EGADAController(strats, discount_factor=0.95)
+        rng2 = random.Random(1234)
+        for step in range(25):
+            d = ctrl2.select_strategy(rng2, budget_fraction=step / 25.0)
+            decisions_2.append(d)
+            ctrl2.update_feedback(d, val_score=0.75, train_duration=0.2, is_novel=True, is_duplicate=False, is_failure=False)
+
+        self.assertEqual(decisions_1, decisions_2)
+
+    def test_canonical_hash_invariance_property(self):
+        """Property-based verification of canonical hash invariance under permutation."""
+        space = SearchSpace(n_features=8, is_classification=True)
+        rng = random.Random(999)
+        for _ in range(15):
+            cand = space.sample_random(rng)
+            h_orig = compute_genome_hash(cand)
+
+            # Invert outer dictionary keys
+            cand_permuted = {k: copy.deepcopy(cand[k]) for k in reversed(list(cand.keys()))}
+            h_perm = compute_genome_hash(cand_permuted)
+            self.assertEqual(h_orig, h_perm)
 
 
 if __name__ == "__main__":

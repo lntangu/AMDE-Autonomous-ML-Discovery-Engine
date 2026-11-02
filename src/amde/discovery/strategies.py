@@ -117,7 +117,7 @@ class QualityPreservingEvolutionStrategy(BaseDiscoveryStrategy):
                     candidate_genome = self.search_space.mutate_calibrated(
                         parent_genome, rng, generation=generation
                     )
-                    if not negative_memory.is_in_failure_basin(candidate_genome):
+                    if negative_memory is None or not negative_memory.is_in_failure_basin(candidate_genome):
                         genome = candidate_genome
                         break
 

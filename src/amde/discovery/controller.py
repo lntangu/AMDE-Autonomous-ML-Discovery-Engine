@@ -1,7 +1,8 @@
 """AMDE 3.0 Evidence-Guided Autonomous Discovery Architecture (EGADA) Controller.
 
 Maintains non-stationary contextual multi-armed bandit state, reward-per-compute
-weighting, duplicate penalties, and dynamic strategy allocation.
+weighting, duplicate penalties, and dynamic strategy allocation using
+Discounted Thompson Sampling.
 """
 
 from __future__ import annotations
@@ -15,13 +16,18 @@ class EGADAController:
     """Evidence-Guided Autonomous Discovery Controller using Discounted Thompson Sampling."""
 
     def __init__(self, strategy_names: list[str], discount_factor: float = 0.95):
-        self.strategy_names = strategy_names
+        self.strategy_names = list(strategy_names)
         self.gamma = discount_factor
 
-        # Bandit priors: mu_0 = 0.5, sigma_0 = 0.5
+        # Bandit priors: sum_0 = 0.5, n_0 = 1.0, variance_0 = 0.25 -> prior mean = 0.5, se = 0.5
         self.stats: dict[str, dict[str, float]] = {
-            name: {"discounted_n": 1.0, "discounted_reward": 0.5, "variance": 0.25}
-            for name in strategy_names
+            name: {
+                "discounted_n": 1.0,
+                "discounted_sum": 0.5,
+                "discounted_reward": 0.5,
+                "variance": 0.25,
+            }
+            for name in self.strategy_names
         }
         self.incumbent_score: float = -float("inf")
         self.step_count: int = 0
@@ -31,7 +37,7 @@ class EGADAController:
         """Selects the next strategy using Discounted Thompson Sampling with phase priors."""
         self.step_count += 1
 
-        # Phase 1: Pure exploration warm-up (first 5 steps)
+        # Phase 1: Pure exploration warm-up (first len(strategies) steps round-robin)
         if self.step_count <= len(self.strategy_names):
             return self.strategy_names[(self.step_count - 1) % len(self.strategy_names)]
 
@@ -40,13 +46,15 @@ class EGADAController:
             if rng.random() < 0.60:
                 return "local_refinement"
 
-        # Thompson Sampling draw:
+        # Discounted Thompson Sampling draw:
         samples = {}
         for name in self.strategy_names:
             st = self.stats[name]
-            # Standard error of mean: sigma / sqrt(n)
-            se = math.sqrt(st["variance"] / max(1.0, st["discounted_n"]))
-            sample_val = rng.gauss(st["discounted_reward"], max(0.05, se))
+            eff_n = max(0.1, st["discounted_n"])
+            mean_est = st["discounted_sum"] / eff_n
+            # Standard error of mean: sqrt(sigma^2 / n)
+            se = math.sqrt(st["variance"] / eff_n)
+            sample_val = rng.gauss(mean_est, max(0.05, se))
             samples[name] = sample_val
 
         best_strategy = max(samples.keys(), key=lambda k: samples[k])
@@ -71,26 +79,30 @@ class EGADAController:
         elif is_failure:
             reward = -0.5
         else:
-            improvement = max(0.0, val_score - self.incumbent_score)
+            if math.isinf(self.incumbent_score) and self.incumbent_score < 0:
+                # First valid candidate establishes incumbent baseline
+                improvement = 0.0
+                self.incumbent_score = val_score
+            else:
+                improvement = max(0.0, val_score - self.incumbent_score)
+                if val_score > self.incumbent_score:
+                    self.incumbent_score = val_score
+
             novelty_bonus = 0.10 if is_novel else 0.0
             # Reward normalized by square root of compute duration
             time_norm = math.sqrt(max(0.05, train_duration))
             reward = (improvement / time_norm) + novelty_bonus
 
-            if val_score > self.incumbent_score:
-                self.incumbent_score = val_score
-
-        # Apply exponential discount to past observations
+        # Apply exponential discount to past observations across all strategies
         for name in self.strategy_names:
             self.stats[name]["discounted_n"] *= self.gamma
-            self.stats[name]["discounted_reward"] *= self.gamma
+            self.stats[name]["discounted_sum"] *= self.gamma
 
-        # Incorporate new sample
+        # Incorporate new sample for the pulled strategy
         st = self.stats[strategy_name]
         st["discounted_n"] += 1.0
-        # Incremental online update of discounted mean reward
-        alpha = 1.0 / st["discounted_n"]
-        st["discounted_reward"] = (1.0 - alpha) * st["discounted_reward"] + alpha * reward
+        st["discounted_sum"] += reward
+        st["discounted_reward"] = st["discounted_sum"] / max(0.1, st["discounted_n"])
 
         self.history.append({
             "step": self.step_count,

@@ -1,0 +1,73 @@
+{
+  "replay_determinism": {
+    "runs_tested": 5,
+    "steps_per_run": 50,
+    "is_deterministic": true,
+    "sample_trajectory": [
+      "random",
+      "local_refinement",
+      "crossover",
+      "dimension_reduction",
+      "surrogate_guided",
+      "dimension_reduction",
+      "local_refinement",
+      "local_refinement",
+      "crossover",
+      "surrogate_guided",
+      "dimension_reduction",
+      "random",
+      "random",
+      "surrogate_guided",
+      "local_refinement"
+    ]
+  },
+  "gamma_sensitivity": {
+    "0.8": {
+      "gamma": 0.8,
+      "phase1_optimal_arm_share": 0.3425,
+      "phase2_optimal_arm_share": 0.3367,
+      "mean_adaptation_delay_steps": 2.65,
+      "effective_memory_horizon": 5.0
+    },
+    "0.85": {
+      "gamma": 0.85,
+      "phase1_optimal_arm_share": 0.343,
+      "phase2_optimal_arm_share": 0.3365,
+      "mean_adaptation_delay_steps": 2.71,
+      "effective_memory_horizon": 6.7
+    },
+    "0.9": {
+      "gamma": 0.9,
+      "phase1_optimal_arm_share": 0.345,
+      "phase2_optimal_arm_share": 0.3385,
+      "mean_adaptation_delay_steps": 2.82,
+      "effective_memory_horizon": 10.0
+    },
+    "0.95": {
+      "gamma": 0.95,
+      "phase1_optimal_arm_share": 0.3458,
+      "phase2_optimal_arm_share": 0.338,
+      "mean_adaptation_delay_steps": 2.84,
+      "effective_memory_horizon": 20.0
+    },
+    "0.98": {
+      "gamma": 0.98,
+      "phase1_optimal_arm_share": 0.3475,
+      "phase2_optimal_arm_share": 0.3375,
+      "mean_adaptation_delay_steps": 2.92,
+      "effective_memory_horizon": 50.0
+    },
+    "0.99": {
+      "gamma": 0.99,
+      "phase1_optimal_arm_share": 0.348,
+      "phase2_optimal_arm_share": 0.3357,
+      "mean_adaptation_delay_steps": 2.92,
+      "effective_memory_horizon": 100.0
+    }
+  },
+  "hashing_invariance": {
+    "hash_canonical_invariant": true,
+    "hash_sensitivity_to_perturbation": true,
+    "hash_example": "0bbc395cc988e475150feae66fd5381781a3994531d069cfbbea9aa2954c642d"
+  }
+}
