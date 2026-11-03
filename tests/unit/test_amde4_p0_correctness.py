@@ -11,6 +11,7 @@ Tests and proves the closure of the six P0 correctness findings:
 
 from __future__ import annotations
 
+from contextlib import closing
 import hashlib
 import json
 import os
@@ -181,7 +182,7 @@ class AMDE4P0CorrectnessTests(unittest.TestCase):
             self.assertEqual(msg, "VALID_3_EVENTS")
 
             # 2. Adversarial Tamper 1: modify experiment_id
-            with sqlite3.connect(db_path) as conn:
+            with closing(sqlite3.connect(db_path)) as conn:
                 conn.execute("UPDATE experiment_events SET experiment_id = 'exp_ROGUE' WHERE seq = 2;")
                 conn.commit()
 
@@ -190,7 +191,7 @@ class AMDE4P0CorrectnessTests(unittest.TestCase):
             self.assertIn("Tamper detected at seq 2", msg)
 
             # Restore and test Adversarial Tamper 2: modify payload
-            with sqlite3.connect(db_path) as conn:
+            with closing(sqlite3.connect(db_path)) as conn:
                 conn.execute("UPDATE experiment_events SET experiment_id = 'exp_alpha' WHERE seq = 2;")
                 conn.execute("UPDATE experiment_events SET payload_json = '{\"metric\": 0.999}' WHERE seq = 2;")
                 conn.commit()
@@ -200,7 +201,7 @@ class AMDE4P0CorrectnessTests(unittest.TestCase):
             self.assertIn("Tamper detected at seq 2", msg)
 
             # Restore and test Adversarial Tamper 3: sequence deletion
-            with sqlite3.connect(db_path) as conn:
+            with closing(sqlite3.connect(db_path)) as conn:
                 conn.execute("DELETE FROM experiment_events WHERE seq = 2;")
                 conn.commit()
 
