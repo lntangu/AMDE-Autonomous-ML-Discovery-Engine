@@ -1,0 +1,5 @@
+method,seed,best_val_score,sealed_test_score,evaluations_completed,wallclock_seconds,duplicate_rate,pareto_size,hypervolume_2d,hypervolume_3d,incumbent_family,ledger_sha256
+random_search,42,0.96944,0.96667,10,8.332,0.0,7,48.3396,,linear,
+bayesian_tpe,42,0.97222,0.95278,10,9.712,0.2,7,48.4804,,mlp,
+optuna_tpe,42,0.99167,0.97222,10,1.06,0.0,3,49.4089,,kernel_ridge,
+amde_40,42,0.96111,0.95833,10,5.082,0.2308,5,47.7528,0.0,kernel_ridge,d6828c6b49abd8db1cc99267ad83c182a114a66281797b9bfb001ead22e0a96b
