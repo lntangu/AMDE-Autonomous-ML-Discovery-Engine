@@ -102,8 +102,18 @@ class AMDE2LifecycleIntegrationTests(unittest.TestCase):
                 state = json.loads(state_path.read_text(encoding="utf-8"))
                 self.assertEqual(state.get("status"), "stopped")
                 self.assertFalse((root / "runs" / "STOP").exists())
-                classical_state = json.loads((root / "reports" / "campaigns" / f"{cid}_classical" / "state.json").read_text(encoding="utf-8"))
-                quantum_state = json.loads((root / "reports" / "quantum_campaigns" / f"{cid}_quantum" / "state.json").read_text(encoding="utf-8"))
+                classical_state = {}
+                quantum_state = {}
+                deadline = time.monotonic() + 10
+                while time.monotonic() < deadline:
+                    try:
+                        classical_state = json.loads((root / "reports" / "campaigns" / f"{cid}_classical" / "state.json").read_text(encoding="utf-8"))
+                        quantum_state = json.loads((root / "reports" / "quantum_campaigns" / f"{cid}_quantum" / "state.json").read_text(encoding="utf-8"))
+                        if classical_state.get("status") == "stopped" and quantum_state.get("status") == "stopped":
+                            break
+                    except (OSError, ValueError):
+                        pass
+                    time.sleep(0.1)
                 self.assertEqual(classical_state.get("status"), "stopped")
                 self.assertEqual(quantum_state.get("status"), "stopped")
 

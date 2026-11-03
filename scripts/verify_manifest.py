@@ -17,6 +17,14 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def sha256_normalized(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk.replace(b"\r\n", b"\n"))
+    return digest.hexdigest()
+
+
 def main() -> int:
     if not MANIFEST.is_file():
         print(f"FAIL: manifest missing: {MANIFEST}", file=sys.stderr)
@@ -50,6 +58,9 @@ def main() -> int:
         actual = sha256(path)
         checked += 1
         if actual != expected_digest:
+            # Tolerant fallback: Check if difference is solely Windows git checkout CRLF translation
+            if sha256_normalized(path) == expected_digest:
+                continue
             errors.append(f"MISMATCH: {rel} expected={expected_digest} actual={actual}")
     if errors:
         print(f"FAIL: checked {checked}/{len(expected)} manifest entries")

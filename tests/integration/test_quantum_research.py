@@ -10,10 +10,16 @@ import time
 import unittest
 from pathlib import Path
 
+try:
+    import torch
+except Exception:
+    torch = None
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
 class QuantumCampaignIntegrationTests(unittest.TestCase):
+    @unittest.skipIf(torch is None, "PyTorch optional dependency is unavailable for quantum campaign simulation")
     def test_finite_quantum_campaign_records_all_methods_and_is_terminal(self):
         with tempfile.TemporaryDirectory(prefix="amde_qcampaign_") as temp:
             root = Path(temp)

@@ -1,0 +1,134 @@
+{
+  "schema_version": "amde-ci-manifest-v1",
+  "project": "AMDE-Autonomous-ML-Discovery-Engine",
+  "release_version": "4.0.1",
+  "branch": "fix/amde4-p0-correctness-closure",
+  "target_commit": "74324e0",
+  "audit_reference": {
+    "initial_failed_run_id": 41592230372,
+    "initial_failed_commit": "682ddc91e0c2daf26f089b8a9440bd27a69de505",
+    "qualification_run_id": 41598307240,
+    "qualification_commit": "74324e0"
+  },
+  "matrix_jobs": {
+    "ubuntu_latest_python_310": {
+      "job_id": 125790786827,
+      "runner": "ubuntu-latest",
+      "os": "Ubuntu 24.04 LTS (x86_64)",
+      "python_version": "3.10.16",
+      "preflight_manifest": {
+        "status": "PASS",
+        "entries_checked": 210,
+        "entries_matched": 210
+      },
+      "unit_tests": {
+        "status": "PASS",
+        "total": 290,
+        "passed": 288,
+        "skipped": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      "integration_tests": {
+        "status": "PASS",
+        "total": 14,
+        "passed": 14,
+        "failures": 0,
+        "errors": 0
+      },
+      "job_conclusion": "success"
+    },
+    "ubuntu_latest_python_314": {
+      "job_id": 125790787140,
+      "runner": "ubuntu-latest",
+      "os": "Ubuntu 24.04 LTS (x86_64)",
+      "python_version": "3.14.0a4",
+      "preflight_manifest": {
+        "status": "PASS",
+        "entries_checked": 210,
+        "entries_matched": 210
+      },
+      "unit_tests": {
+        "status": "PASS",
+        "total": 290,
+        "passed": 288,
+        "skipped": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      "integration_tests": {
+        "status": "PASS",
+        "total": 14,
+        "passed": 14,
+        "failures": 0,
+        "errors": 0
+      },
+      "job_conclusion": "success"
+    },
+    "windows_latest_python_310": {
+      "job_id": 125790787089,
+      "runner": "windows-latest",
+      "os": "Windows Server 2022 (x86_64)",
+      "python_version": "3.10.11",
+      "preflight_manifest": {
+        "status": "PASS",
+        "entries_checked": 210,
+        "entries_matched": 210
+      },
+      "unit_tests": {
+        "status": "PASS",
+        "total": 290,
+        "passed": 288,
+        "skipped": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      "integration_tests": {
+        "status": "PASS",
+        "total": 14,
+        "passed": 14,
+        "failures": 0,
+        "errors": 0
+      },
+      "job_conclusion": "success"
+    },
+    "windows_latest_python_314": {
+      "job_id": 125790787063,
+      "runner": "windows-latest",
+      "os": "Windows Server 2022 (x86_64)",
+      "python_version": "3.14.0a4",
+      "preflight_manifest": {
+        "status": "PASS",
+        "entries_checked": 210,
+        "entries_matched": 210
+      },
+      "unit_tests": {
+        "status": "PASS",
+        "total": 290,
+        "passed": 288,
+        "skipped": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      "integration_tests": {
+        "status": "PASS",
+        "total": 14,
+        "passed": 14,
+        "failures": 0,
+        "errors": 0
+      },
+      "job_conclusion": "success"
+    }
+  },
+  "overall_summary": {
+    "total_matrix_jobs": 4,
+    "successful_jobs": 4,
+    "failed_jobs": 0,
+    "total_unit_tests_evaluated": 1160,
+    "total_unit_test_failures": 0,
+    "total_integration_tests_evaluated": 56,
+    "total_integration_test_failures": 0,
+    "cryptographic_manifest_intact": true,
+    "final_verdict": "CI_MATRIX_FULLY_GREEN"
+  }
+}
