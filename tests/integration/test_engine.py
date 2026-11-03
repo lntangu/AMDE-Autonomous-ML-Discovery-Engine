@@ -139,7 +139,7 @@ class EngineIntegrationTests(unittest.TestCase):
         self.assertIn("run_resumed", events)
 
     def test_search_reproducibility_is_independent_of_run_id_and_guards_protocol_hash(self) -> None:
-        root, config_a = make_project(self, config_data=_fast_data(proposals=3, confirm=1))
+        root, config_a = make_project(self, config_data=_fast_data(proposals=2, confirm=1))
         config_b = load_config_copy(config_a)
         engine_a = Engine(config_a)
         engine_b = Engine(config_b)

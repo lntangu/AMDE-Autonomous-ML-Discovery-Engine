@@ -49,6 +49,7 @@ from amde import (
     RandomSearchStrategy,
     ResourceBudget,
     SealedHoldoutTest,
+    create_sealed_holdout,
     SearchSpace,
     StandardEvaluationPipeline,
     StrategyPortfolio,
@@ -155,7 +156,7 @@ def run_method(
     rng = random.Random(seed)
     np_rng = np.random.RandomState(seed)
 
-    holdout = SealedHoldoutTest(dataset_name=dataset_name, X_test=X_test, y_test=y_test)
+    holdout, holdout_token = create_sealed_holdout(dataset_name=dataset_name, X_test=X_test, y_test=y_test)
     eval_pipeline = StandardEvaluationPipeline()
     search_space = SearchSpace(n_features=n_features, is_classification=is_classification)
 
@@ -173,7 +174,7 @@ def run_method(
         search_res = engine.search(
             X_train, y_train, X_val, y_val, dataset_name=dataset_name, budget=budget
         )
-        test_score = engine.evaluate_sealed_holdout(X_train, y_train, holdout)
+        test_score = engine.evaluate_sealed_holdout(X_train, y_train, holdout, token=holdout_token)
         elapsed = time.perf_counter() - start_time
 
         pareto_entries = [
@@ -249,7 +250,7 @@ def run_method(
                 strat.record_feedback(c.canonical_hash, v, improved=(v >= incumbent_score))
 
         elapsed = time.perf_counter() - start_time
-        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, holdout.token, seed) if incumbent_cand else 0.0
+        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, token=holdout_token, seed=seed) if incumbent_cand else 0.0
 
         return {
             "method": "amde_30_lite",
@@ -308,7 +309,7 @@ def run_method(
                 tpe_strat.record_feedback(c.canonical_hash, v, improved=(v >= incumbent_score))
 
         elapsed = time.perf_counter() - start_time
-        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, holdout.token, seed) if incumbent_cand else 0.0
+        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, token=holdout_token, seed=seed) if incumbent_cand else 0.0
 
         return {
             "method": "bayesian_tpe",
@@ -366,7 +367,7 @@ def run_method(
                 pareto.update(c, loss=-v, latency=res.inference_latency_ms, memory=res.peak_memory_mb)
 
         elapsed = time.perf_counter() - start_time
-        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, holdout.token, seed) if incumbent_cand else 0.0
+        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, token=holdout_token, seed=seed) if incumbent_cand else 0.0
 
         return {
             "method": "random_search",
@@ -434,7 +435,7 @@ def run_method(
                 pareto.update(c, loss=-v, latency=res.inference_latency_ms, memory=res.peak_memory_mb)
 
         elapsed = time.perf_counter() - start_time
-        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, holdout.token, seed) if incumbent_cand else 0.0
+        test_score = holdout.evaluate(incumbent_cand, X_train, y_train, token=holdout_token, seed=seed) if incumbent_cand else 0.0
 
         return {
             "method": "amde_203_baseline",
@@ -577,6 +578,7 @@ def run_benchmark_suite(
     methods: List[str] = None,
     budget: int = 50,
     max_workers: int = 4,
+    out_dir: Optional[Path] = None,
 ) -> Dict[str, Any]:
     """Executes full comparative benchmark matrix."""
     import concurrent.futures
@@ -675,19 +677,19 @@ def run_benchmark_suite(
         }
 
     # Save artifacts
-    out_dir = ROOT / "results" / "amde4_benchmarks"
-    out_dir.mkdir(parents=True, exist_ok=True)
+    target_dir = Path(out_dir) if out_dir is not None else (ROOT / "results" / "amde4_benchmarks")
+    target_dir.mkdir(parents=True, exist_ok=True)
 
-    json_path = out_dir / "AMDE_4.0_Comparative_Benchmark.json"
-    csv_path = out_dir / "AMDE_4.0_Comparative_Benchmark.csv"
-    pareto_path = out_dir / "AMDE_4.0_Pareto_Frontiers.json"
-    stat_path = out_dir / "AMDE_4.0_Statistical_Significance.json"
+    json_path = target_dir / "AMDE_4.0_Comparative_Benchmark.json"
+    csv_path = target_dir / "AMDE_4.0_Comparative_Benchmark.csv"
+    pareto_path = target_dir / "AMDE_4.0_Pareto_Frontiers.json"
+    stat_path = target_dir / "AMDE_4.0_Statistical_Significance.json"
 
     with open(json_path, "w") as f:
         json.dump({
             "metadata": {
                 "engine": "AMDE 4.0",
-                "version": "4.0.0",
+                "version": "4.0.1",
                 "budget_per_run": budget,
                 "n_runs": total_runs,
                 "total_duration_seconds": total_time,
@@ -737,7 +739,7 @@ def run_benchmark_suite(
     print(f"\nStatistical Significance Verdict: {stat_summary['overall_conclusion']}")
     for b, c in stat_summary["comparisons"].items():
         print(f"  vs {b:<18}: MeanDiff={c['mean_difference']:+.4f}, Raw p={c['raw_p_value']:.4e}, Holm-Bonferroni p={c['holm_bonferroni_p_value']:.4e}, Sig={c['statistically_significant_005']}")
-    print(f"Saved artifacts to {out_dir}")
+    print(f"Saved artifacts to {target_dir}")
     print("================================================================================\n")
 
     return {
@@ -749,4 +751,22 @@ def run_benchmark_suite(
 
 
 if __name__ == "__main__":
-    run_benchmark_suite()
+    import argparse
+    parser = argparse.ArgumentParser(description="AMDE 4.0 Comparative Benchmark Matrix")
+    parser.add_argument("--out-dir", type=str, default=None, help="Directory to save benchmark output artifacts")
+    parser.add_argument("--budget", type=int, default=50, help="Evaluations per run")
+    parser.add_argument("--workers", type=int, default=4, help="Concurrent workers")
+    parser.add_argument("--tasks", nargs="+", default=None, help="Specific tasks to benchmark")
+    parser.add_argument("--seeds", nargs="+", type=int, default=None, help="Specific seeds to benchmark")
+    parser.add_argument("--methods", nargs="+", default=None, help="Specific methods to benchmark")
+    cli_args = parser.parse_args()
+
+    out_p = Path(cli_args.out_dir) if cli_args.out_dir else None
+    run_benchmark_suite(
+        tasks=cli_args.tasks,
+        seeds=cli_args.seeds,
+        methods=cli_args.methods,
+        budget=cli_args.budget,
+        max_workers=cli_args.workers,
+        out_dir=out_p,
+    )

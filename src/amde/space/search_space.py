@@ -31,8 +31,8 @@ class SearchSpace:
     MODEL_FAMILIES = ("tree_ensemble", "mlp", "linear", "kernel_ridge")
     SCALERS = ("standard", "robust", "minmax", "none")
     IMPUTERS = ("mean", "median", "none")
-    ACTIVATIONS = ("relu", "gelu", "tanh")
-    OPTIMIZERS = ("adamw", "adam", "sgd_momentum")
+    ACTIVATIONS = ("relu", "tanh", "logistic")
+    OPTIMIZERS = ("adam", "sgd_momentum", "lbfgs")
     KERNELS = ("rbf", "linear", "poly")
 
     def __init__(self, n_features: int = 10, is_classification: bool = True):
@@ -55,7 +55,6 @@ class SearchSpace:
 
         self.mlp_params: dict[str, Parameter] = {
             "activation": CategoricalParameter("activation", self.ACTIVATIONS),
-            "dropout": ContinuousParameter("dropout", lower=0.0, upper=0.30),
             "learning_rate": ContinuousParameter("learning_rate", lower=1e-4, upper=1e-1, log_scale=True),
             "weight_decay": ContinuousParameter("weight_decay", lower=1e-6, upper=1e-2, log_scale=True),
             "optimizer": CategoricalParameter("optimizer", self.OPTIMIZERS),
@@ -96,7 +95,6 @@ class SearchSpace:
                 "family": "mlp",
                 "hidden_widths": widths,
                 "activation": self.mlp_params["activation"].sample(rng),
-                "dropout": self.mlp_params["dropout"].sample(rng),
                 "learning_rate": self.mlp_params["learning_rate"].sample(rng),
                 "weight_decay": self.mlp_params["weight_decay"].sample(rng),
                 "optimizer": self.mlp_params["optimizer"].sample(rng),
@@ -148,7 +146,7 @@ class SearchSpace:
         else:
             fam = mutated_genome["model"]["family"]
             if fam == "mlp":
-                sub_key = rng.choice(["hidden_widths", "activation", "dropout", "learning_rate", "weight_decay"])
+                sub_key = rng.choice(["hidden_widths", "activation", "learning_rate", "weight_decay", "optimizer"])
                 if sub_key == "hidden_widths":
                     widths = list(mutated_genome["model"]["hidden_widths"])
                     if rng.random() < 0.5 and len(widths) > 1:
@@ -227,4 +225,13 @@ class SearchSpace:
         fam = genome["model"].get("family")
         if fam not in self.MODEL_FAMILIES:
             return False, f"Unknown model family: {fam}"
+        if fam == "mlp":
+            if "dropout" in genome["model"]:
+                return False, "Unsupported gene 'dropout' in MLP model genome"
+            act = genome["model"].get("activation")
+            if act is not None and act not in self.ACTIVATIONS:
+                return False, f"Unsupported activation gene: {act}"
+            opt = genome["model"].get("optimizer")
+            if opt is not None and opt not in self.OPTIMIZERS:
+                return False, f"Unsupported optimizer gene: {opt}"
         return True, "Valid"

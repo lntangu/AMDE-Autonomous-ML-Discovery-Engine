@@ -14,7 +14,7 @@ import hashlib
 import json
 import sqlite3
 from pathlib import Path
-from typing import Any, Iterator, List, Mapping, Optional
+from typing import Any, Iterator, List, Mapping, Optional, Tuple
 
 from amde.core.contracts import ExperimentEvent, utc_now_iso
 from amde.core.identity import canonical_json
@@ -76,8 +76,8 @@ class EventLedger:
             prev_hash = row[0] if row else "GENESIS"
             current_seq = (row[1] + 1) if row else 1
 
-            # Compute SHA-256 of (seq, prev_hash, event_id, event_type, payload_str)
-            raw_hash_data = f"{current_seq}|{prev_hash}|{event_id}|{event_type}|{payload_str}|{ts}"
+            # Compute SHA-256 of (seq, prev_hash, event_id, experiment_id, event_type, payload_str, ts)
+            raw_hash_data = f"{current_seq}|{prev_hash}|{event_id}|{experiment_id}|{event_type}|{payload_str}|{ts}"
             event_hash = hashlib.sha256(raw_hash_data.encode("utf-8")).hexdigest()
 
             # Insert with idempotency guard
@@ -159,3 +159,52 @@ class EventLedger:
                     "timestamp": row[7],
                 }
                 f.write(json.dumps(record) + "\n")
+
+    def verify_chain(self) -> Tuple[bool, str]:
+        """Performs full cryptographic audit over the entire ledger.
+
+        Validates:
+        1. Monotonic sequence continuity with no gaps or reordering.
+        2. Cryptographic hash chaining: genesis prev_hash is GENESIS, each event's
+           prev_hash matches the preceding event's event_hash.
+        3. Recalculation and validation of every event hash over:
+           (seq, prev_hash, event_id, experiment_id, event_type, payload_json, timestamp).
+        """
+        with self._connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                SELECT seq, event_id, experiment_id, event_type, payload_json, prev_hash, event_hash, timestamp
+                FROM experiment_events ORDER BY seq ASC;
+                """
+            )
+            rows = cursor.fetchall()
+
+        if not rows:
+            return True, "VALID_EMPTY"
+
+        expected_seq = 1
+        last_hash = "GENESIS"
+
+        for row in rows:
+            seq, ev_id, exp_id, ev_type, payload_str, p_hash, stored_hash, ts = row
+
+            # 1. Sequence check
+            if seq != expected_seq:
+                return False, f"Sequence discontinuity: expected seq {expected_seq}, got {seq}"
+
+            # 2. Hash chaining check
+            if p_hash != last_hash:
+                return False, f"Broken chain at seq {seq}: prev_hash '{p_hash}' != expected '{last_hash}'"
+
+            # 3. Hash integrity check
+            raw_hash_data = f"{seq}|{p_hash}|{ev_id}|{exp_id}|{ev_type}|{payload_str}|{ts}"
+            recomputed = hashlib.sha256(raw_hash_data.encode("utf-8")).hexdigest()
+            if recomputed != stored_hash:
+                return False, f"Tamper detected at seq {seq} (event_id '{ev_id}'): recomputed hash '{recomputed}' != stored '{stored_hash}'"
+
+            last_hash = stored_hash
+            expected_seq += 1
+
+        return True, f"VALID_{len(rows)}_EVENTS"
+

@@ -131,7 +131,8 @@ class EvaluationResult:
     train_duration_seconds: float
     inference_latency_ms: float
     peak_memory_mb: float
-    evaluator_version: str = "4.0.0"
+    gpu_memory_mb: Optional[float] = None
+    evaluator_version: str = "4.0.1"
     error_message: Optional[str] = None
     timestamp: str = field(default_factory=utc_now_iso)
 
@@ -150,6 +151,7 @@ class EvaluationResult:
             "train_duration_seconds": self.train_duration_seconds,
             "inference_latency_ms": self.inference_latency_ms,
             "peak_memory_mb": self.peak_memory_mb,
+            "gpu_memory_mb": self.gpu_memory_mb,
             "evaluator_version": self.evaluator_version,
             "error_message": self.error_message,
             "timestamp": self.timestamp,

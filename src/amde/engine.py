@@ -309,14 +309,17 @@ class AMDE4Engine:
         X_train: np.ndarray,
         y_train: np.ndarray,
         holdout: SealedHoldoutTest,
+        token: str,
     ) -> float:
         """Evaluates winning candidate strictly on sealed holdout using token authorization (BOT-05)."""
         if self.incumbent_candidate is None:
             return 0.0
+        if not token:
+            raise EvaluationError("Explicit authorization token required to evaluate sealed holdout")
         return holdout.evaluate(
             candidate=self.incumbent_candidate,
             X_train=X_train,
             y_train=y_train,
-            token=holdout.token,
+            token=token,
             seed=self.seed,
         )

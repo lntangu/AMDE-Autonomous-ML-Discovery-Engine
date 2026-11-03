@@ -51,6 +51,7 @@ from amde import (
     RandomSearchStrategy,
     ResourceBudget,
     SealedHoldoutTest,
+    create_sealed_holdout,
     SearchSpace,
     StandardEvaluationPipeline,
     StrategyPortfolio,
@@ -271,24 +272,28 @@ class TestAMDE4Architecture(unittest.TestCase):
         np_rng = np.random.RandomState(42)
         X_test = np_rng.randn(20, 6)
         y_test = (X_test[:, 0] > 0).astype(int)
-        holdout = SealedHoldoutTest(X_test, y_test, dataset_name="unit_synth")
+        holdout, token = create_sealed_holdout(X_test, y_test, dataset_name="unit_synth")
+
+        # 1. Plaintext token is NOT accessible via property access
+        with self.assertRaises(AttributeError):
+            _ = holdout.token
 
         X_train = np_rng.randn(40, 6)
         y_train = (X_train[:, 0] > 0).astype(int)
         cand = self.search_space.sample_random(self.rng)
 
-        # 1. Invalid token fails
+        # 2. Invalid token fails
         with self.assertRaises(EvaluationError):
             holdout.evaluate(cand, X_train, y_train, token="invalid_token")
 
-        # 2. Valid token succeeds
-        score = holdout.evaluate(cand, X_train, y_train, token=holdout.token)
+        # 3. Valid token succeeds
+        score = holdout.evaluate(cand, X_train, y_train, token=token)
         self.assertIsInstance(score, float)
         self.assertTrue(holdout.is_consumed)
 
-        # 3. Repeated read fails (single-read enforcement)
+        # 4. Repeated read fails (single-read enforcement)
         with self.assertRaises(EvaluationError):
-            holdout.evaluate(cand, X_train, y_train, token=holdout.token)
+            holdout.evaluate(cand, X_train, y_train, token=token)
 
     # 11. End-to-End Engine Discovery Campaign
     def test_engine_end_to_end_search_and_sealed_evaluation(self):
@@ -320,8 +325,8 @@ class TestAMDE4Architecture(unittest.TestCase):
             self.assertEqual(len(results["trajectory"]), 12)
 
             # Evaluate on sealed holdout
-            holdout = SealedHoldoutTest(X_te, y_te, dataset_name="test_synth")
-            test_score = engine.evaluate_sealed_holdout(X_tr, y_tr, holdout)
+            holdout, token = create_sealed_holdout(X_te, y_te, dataset_name="test_synth")
+            test_score = engine.evaluate_sealed_holdout(X_tr, y_tr, holdout, token=token)
             self.assertIsInstance(test_score, float)
             self.assertGreaterEqual(test_score, 0.0)
 
