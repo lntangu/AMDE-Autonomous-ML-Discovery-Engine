@@ -58,9 +58,9 @@ import sys, subprocess
 IN_COLAB = 'google.colab' in sys.modules
 
 if IN_COLAB:
-    print("[Colab Setup] Installing AMDE directly from GitHub release-amde-final branch...")
+    print("[Colab Setup] Installing AMDE directly from GitHub release-amde-final commit 72be930...")
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "optuna", "scikit-learn", "scipy", "matplotlib"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "git+https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git@release-amde-final"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "git+https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git@72be93013907b8296e7918f7c1383cba6bae4cf4"])
     print("[Colab Setup] Installation complete!")
 else:
     print("[Local Setup] Using local active environment.")"""))

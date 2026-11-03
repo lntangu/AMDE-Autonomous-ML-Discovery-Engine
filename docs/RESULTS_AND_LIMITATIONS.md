@@ -1,9 +1,9 @@
-# AMDE 4.0 — Empirical Benchmark Results, Statistical Audit & Technical Limitations
+# AMDE 4.0 — Empirical Benchmark Results, Statistical Audit & Technical Limitations (Audited)
 
 **Distribution Version:** 4.0.1  
 **Target Branch:** `experiment/real-world-evidence-demo`  
-**Dataset:** Optical Recognition of Handwritten Digits (`sklearn.datasets.load_digits`, $N=1,797, D=64, C=10$)  
-**Experimental Scope:** Small preliminary demonstration benchmark (5 preregistered seeds, 30 evaluations per campaign, 20 campaigns total)  
+**Dataset:** Optical Recognition of Handwritten Digits (`sklearn.datasets.load_digits`, $N=1,797, 8\times 8\text{ grayscale images}, D=64, C=10$)  
+**Experimental Scope:** Small preliminary demonstration benchmark (5 preregistered seeds, 30 candidate evaluation budget per campaign, 20 campaigns total)  
 **Execution Environment:** CPU-only workstation runner (Intel64, 12 threads, 31.8 GB RAM)  
 
 ---
@@ -13,127 +13,127 @@
 This document presents the audited empirical findings from the real-world demonstration benchmark comparing **AMDE 4.0** against standard optimization baselines (**Random Search**, native **Bayesian TPE**, and **Optuna TPESampler**).
 
 ### Core Scientific Findings:
-1. **Limited Inferential Power ($N=5$ Seeds):** With only 5 preregistered random seeds, this experiment constitutes a **small preliminary demonstration benchmark**. It does **not** establish generalization stability across unseen tasks, nor does it provide sufficient statistical power to detect small effect sizes.
-2. **Absence of Statistically Significant Differences:** Non-parametric two-sided paired Wilcoxon signed-rank tests across all 5 seeds demonstrate **no statistically significant difference** in generalization accuracy between AMDE 4.0 and Random Search (Holm-Bonferroni adjusted $p = 1.0000$), Optuna TPESampler (adjusted $p = 1.0000$), or native Bayesian TPE (adjusted $p = 0.1875$).
+1. **Limited Inferential Power ($N=5$ Seeds):** With only 5 preregistered random seeds on a single fixed data split, this experiment constitutes a **small preliminary demonstration benchmark**. It does **not** establish generalization stability across unseen tasks, nor does it provide sufficient statistical power to detect small effect sizes.
+2. **Absence of Statistically Significant Differences:** Exact sign-flip permutation tests for the two-sided paired Wilcoxon signed-rank statistic across all 5 seeds demonstrate **no statistically significant difference** in generalization accuracy between AMDE 4.0 and Random Search (Holm-adjusted $p = 1.0000$), Optuna TPESampler (Holm-adjusted $p = 1.0000$), or native Bayesian TPE (Holm-adjusted $p = 0.1875$).
 3. **No Statistical Equivalence Claim:** Failure to reject the null hypothesis ($p \ge 0.05$) indicates that the data provides insufficient evidence of a difference; it does **not** prove that AMDE 4.0 is statistically equivalent or non-inferior to Optuna or Random Search. A formal equivalence claim requires preregistering an equivalence margin $[-\delta, +\delta]$ and conducting Two One-Sided Tests (TOST), which was not performed in this preliminary study.
-4. **Pareto Coverage & Hypervolume Realities:** In multi-objective evaluation (minimizing validation loss and inference latency), **Random Search achieved the highest observed mean 2D hypervolume ($49.6891 \pm 0.1570$)**, whereas AMDE 4.0 achieved $49.5788 \pm 0.1755$, Optuna achieved $49.4996 \pm 0.1802$, and native TPE achieved $48.7795 \pm 0.5901$. The difference between AMDE and Random Search is not statistically significant (Wilcoxon $p = 0.4375$). AMDE does **not** possess superior hypervolume coverage on this benchmark.
-5. **Deduplication Budget Discrepancy:** The AMDE 4.0 engine generated proposals and skipped duplicates, ensuring that exactly 30 **unique** model fits were executed. In contrast, the baseline wrappers evaluated all 30 proposed candidates sequentially without skipping duplicates. Consequently, native Bayesian TPE (which had a 48.7% duplicate proposal rate) only executed $\approx 15.4$ unique model fits, meaning the comparison was not perfectly budget-equivalent in terms of unique candidate evaluations.
+4. **Pareto Coverage & Hypervolume Realities:** In multi-objective evaluation (minimizing validation loss and inference latency in milliseconds per 100 samples), **Random Search achieved the highest observed mean 2D hypervolume ($49.6891 \pm 0.1570$)**, whereas AMDE 4.0 achieved $49.5788 \pm 0.1755$, Optuna achieved $49.4996 \pm 0.1802$, and native TPE achieved $48.7795 \pm 0.5901$. The difference between AMDE and Random Search is not statistically significant (exact permutation $p = 0.4375$). AMDE does **not** possess superior hypervolume coverage on this benchmark.
+5. **Deduplication Budget Discrepancy:** The AMDE 4.0 engine rejected duplicate proposals ($21.8\%$) and continued sampling until exactly 30 **unique** model configurations were fitted. In contrast, baseline runners executed a fixed loop of 30 iterations without skipping duplicates. Consequently, native Bayesian TPE (which had a 48.7% duplicate proposal rate) executed 30 model fits but only covered $\approx 15.4$ unique configurations, meaning the comparison was not perfectly budget-equivalent in terms of unique candidate explorations.
 
 ---
 
 ## 2. Quantitative Results & Comparative Matrix
 
-All values are computed from the raw benchmark logs (`seed_summary.csv` and `raw_trials.csv`) across seeds `[42, 101, 202, 303, 404]`:
+All values are computed from the full-precision benchmark records (`seed_summary.csv` and `raw_trials.csv`) across seeds `[42, 101, 202, 303, 404]`:
 
 | Optimization Method | Mean Best Val Acc ($\pm \sigma$) | Mean Sealed Test Acc ($\pm \sigma$) | Mean Wall-Clock Duration (s) | Duplicate Proposal Rate | Mean Pareto Frontier Size | Mean 2D Hypervolume ($\pm \sigma$) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Random Search (Method A)** | $0.9972 \pm 0.0034$ | $0.9828 \pm 0.0080$ | $28.91 \pm 15.22$ s | $0.0\%$ | $7.40 \pm 1.82$ | **$49.6891 \pm 0.1570$** |
 | **AMDE Native TPE (Method B1)** | $0.9800 \pm 0.0114$ | $0.9661 \pm 0.0097$ | $55.56 \pm 67.68$ s | $48.7\%$ | $4.60 \pm 1.14$ | $48.7795 \pm 0.5901$ |
 | **Optuna TPESampler (Method B2)** | $0.9933 \pm 0.0037$ | $0.9783 \pm 0.0057$ | $27.18 \pm 23.69$ s | $0.7\%$ | $6.00 \pm 1.00$ | $49.4996 \pm 0.1802$ |
-| **AMDE 4.0 Engine (Method C)** | $0.9956 \pm 0.0037$ | $0.9811 \pm 0.0023$ | $35.46 \pm 9.90$ s | $21.8\%$ | $6.60 \pm 2.70$ | $49.5788 \pm 0.1755$ |
+| **AMDE 4.0 Engine (Method C)** | $0.9956 \pm 0.0037$ | **$0.9811 \pm 0.0023$** | $35.46 \pm 9.90$ s | $21.8\%$ | $6.60 \pm 2.70$ | $49.5788 \pm 0.1755$ |
+
+*Note on standard deviations: The reported standard deviations reflect variability across algorithm seeds conditional on the single fixed 3-way data split, NOT variability across independent dataset resamplings.*
 
 ---
 
-## 3. Statistical Significance Audit & Hypothesis Testing
+## 3. Statistical Significance Audit & Exact Permutation Tests
 
-### Pairwise Test Generalization Comparisons (AMDE 4.0 vs Baselines on Sealed Test Accuracy)
-- **Null Hypothesis ($H_0$):** Median paired difference across seeds is zero ($\text{Median}(\Delta) = 0$).
-- **Significance Level:** $\alpha = 0.05$ with family-wise Holm-Bonferroni correction ($m = 3$ comparisons).
+Because the sample size is small ($N=5$), paired differences contain tied absolute values, and one comparison has a zero difference, asymptotic approximations and standard SciPy `exact` shortcuts can be inaccurate. We performed **exhaustive sign-flip permutation enumeration** across the full $2^N$ permutation space.
 
-| Baseline Comparison | Paired Differences (AMDE $-$ Baseline) | Zero Diffs | $N_{\text{eff}}$ | Wilcoxon $W$ | Raw Wilcoxon $p$ | Holm-Bonferroni Adj. Wilcoxon $p$ | Paired $t$ Stat | Raw $t$ $p$-value | Holm-Bonferroni Adj. $t$ $p$ | Significant at $\alpha = 0.05$? |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **vs Random Search** | `[+0.0028, -0.0167, +0.0083, -0.0028, 0.0000]` | 1 | 4 | 4.5 | 1.0000 | **1.0000** | $-0.3986$ | 0.7106 | 0.7106 | **No** |
-| **vs Native TPE** | `[+0.0306, +0.0167, +0.0083, +0.0028, +0.0167]` | 0 | 5 | 0.0 | 0.0625 | **0.1875** | $+3.1943$ | 0.0331 | 0.0992 | **No** |
-| **vs Optuna TPE** | `[+0.0111, -0.0028, -0.0028, -0.0028, +0.0111]` | 0 | 5 | 6.0 | 0.8125 | **1.0000** | $+0.8175$ | 0.4596 | 0.9191 | **No** |
+### 3.1 Exact Sign-Flip Permutation Wilcoxon Signed-Rank Test
 
-### Critical Statistical Audit Notes:
-1. **Raw vs Adjusted p-values:** The paired $t$-test against native Bayesian TPE produced a raw $p$-value of $0.0331$. However, after applying the mandatory Holm-Bonferroni correction for multiple hypothesis testing ($m=3$), the adjusted $p$-value is $0.0992$, which is $\ge 0.05$. Therefore, neither parametric nor non-parametric tests show a statistically significant difference at the $\alpha = 0.05$ level.
-2. **Zero Differences in Wilcoxon:** For Random Search, seed 404 produced identical test accuracy ($0.98333$), resulting in $\Delta = 0$. Under standard Wilcoxon signed-rank procedures (Pratt or Wilcoxon zero-handling), this reduces the effective sample size to $N_{\text{eff}} = 4$, further diminishing test power.
+For paired differences $d_i = \text{Score}(\text{AMDE})_i - \text{Score}(\text{Baseline})_i$:
+- Absolute values $|d_i|$ are ranked with average ranks assigned to ties.
+- Zeros are handled using the standard Wilcoxon procedure (discarding zeros, reducing sample size to $N_{\text{eff}}$).
+- The test statistic is $W = \min(W^+, W^-)$, where $W^+$ is the sum of ranks for positive differences.
+- The two-sided $p$-value is calculated by exhaustively evaluating all $2^{N_{\text{eff}}}$ sign assignments $(\pm 1, \dots, \pm 1)$ and computing the fraction where $\min(W^+, W^-) \le W_{\text{observed}}$.
 
----
+| Pairwise Comparison | Integer Diff Count (out of 360) | $N_{\text{eff}}$ (Zeros) | Assigned Ranks | Observed $W$ | Exact Permutation $p$ | Holm-Bonferroni Adjusted Wilcoxon $p$ |
+| :--- | :---: | :---: | :--- | :---: | :---: | :---: |
+| **AMDE vs Random Search** | `[+1, -6, +3, -1, 0]` | 4 (1 zero) | `[1.5, 4.0, 3.0, 1.5]` | $4.5$ | **$1.00000$** ($16/16$) | **$1.00000$** |
+| **AMDE vs Native TPE** | `[+11, +6, +3, +1, +6]` | 5 (0 zeros) | `[5.0, 3.5, 2.0, 1.0, 3.5]` | $0.0$ | **$0.06250$** ($2/32$) | **$0.18750$** |
+| **AMDE vs Optuna TPE** | `[+4, -1, -1, -1, +4]` | 5 (0 zeros) | `[4.5, 2.0, 2.0, 2.0, 4.5]` | $6.0$ | **$0.62500$** ($20/32$) | **$1.00000$** |
 
-## 4. Multi-Objective Pareto & Hypervolume Audit
+### 3.2 Paired t-test Recomputation with Monotonic Holm Adjustment
 
-### Hypervolume Formulation
-- **Objective 1 (Loss):** $f_1 = -\text{Validation Accuracy} \in [-1.0, 0.0]$ (minimized).
-- **Objective 2 (Latency):** $f_2 = \text{Inference Latency in ms/batch} \in [0, 50.0]$ (minimized).
-- **Reference Point:** $r = (\text{ref\_loss}=0.0, \text{ref\_latency}=50.0\text{ ms})$.
-- **Theoretical Maximum 2D Hypervolume:** $1.0 \times 50.0 = 50.0000$.
+The raw paired $t$-test values across full-precision observations are:
+1. Rank 1 (Native TPE): $t = +3.1943$, raw $p = 0.03308$.
+2. Rank 2 (Optuna TPE): $t = +0.8175$, raw $p = 0.45955$.
+3. Rank 3 (Random Search): $t = -0.3986$, raw $p = 0.71057$.
 
-### Why Random Search Had the Highest Hypervolume
-Random Search uniformly samples across the entire search space without concentrating on high-accuracy regions. As a result, it frequently evaluates lightweight linear models (`SGDClassifier` with inference latency $<0.04$ ms) alongside high-capacity gradient boosted trees ($>99\%$ accuracy). Because the hypervolume calculation places equal rectangular weight on latency reduction down to $0.0$ ms, having extreme low-latency points increases the covered 2D area. In contrast, guided Bayesian optimizers (TPE and AMDE) focus sampling in high-accuracy regions (which have moderate latencies of $0.15 - 0.45$ ms), slightly reducing the extreme low-latency coverage.
+**Holm-Bonferroni Step-Down Monotonic Adjustment ($m = 3$):**
+- Step 1: $p_{(1)}^{\text{adj}} = \min(1.0, 3 \times 0.03308) = \mathbf{0.09924}$.
+- Step 2: $p_{(2)}^{\text{adj}} = \max(p_{(1)}^{\text{adj}}, \min(1.0, 2 \times 0.45955)) = \max(0.09924, 0.91910) = \mathbf{0.91910}$.
+- Step 3: $p_{(3)}^{\text{adj}} = \max(p_{(2)}^{\text{adj}}, \min(1.0, 1 \times 0.71057)) = \max(0.91910, 0.71057) = \mathbf{0.91910}$.
 
-**Pairwise Hypervolume Comparisons (vs AMDE 4.0):**
-- vs Random Search: Mean diff $-0.1103$, Wilcoxon $W=4.0, p=0.4375$ (no significant difference).
-- vs Optuna TPE: Mean diff $+0.0792$, Wilcoxon $W=5.0, p=0.6250$ (no significant difference).
-- vs Native TPE: Mean diff $+0.7993$, Wilcoxon $W=0.0, p=0.0625$ (no significant difference).
+**Conclusion:** Neither parametric nor non-parametric tests detect a statistically significant difference at $\alpha = 0.05$ after family-wise error rate control.
 
 ---
 
-## 5. Deduplication Audit & Budget Parity Analysis
+## 4. Pareto Objective and Unit Consistency Audit
 
-Candidate deduplication was evaluated using `CandidateDeduplicator`:
-- **AMDE 4.0 Engine:** The engine proposed candidates and checked `is_duplicate()`. When a duplicate was detected ($21.8\%$ of proposals), the candidate was skipped without executing model fitting, negative feedback was sent to the controller, and search continued until **exactly 30 unique model fits** were completed.
-- **Baselines (Random Search, Native TPE, Optuna):** The baseline runners executed a fixed loop of 30 iterations. Each proposed candidate was evaluated and registered.
-  - Random Search had $0.0\%$ duplicates (all 30 fits were unique).
-  - Optuna had $0.7\%$ duplicates ($\approx 29.8$ unique fits).
-  - Native Bayesian TPE had **$48.7\%$ duplicates** because its categorical KDE concentrated on a small subset of hyperparameter values, repeatedly proposing identical genomes. Because the baseline runner did not skip duplicates, native TPE executed model fitting on the duplicate pipelines, resulting in only **$\approx 15.4$ unique candidate evaluations**.
+### 4.1 Latency Definition & Measurement Protocol
+- **Exact Latency Unit:** **Milliseconds per 100 samples** (`inf_latency_ms`).
+- **Measurement Formula:**
+  $$\text{inf\_latency\_ms} = \left(\frac{t_{\text{predict\_val}}}{\text{len}(X_{\text{val}})}\right) \times 100,000$$
+  where $X_{\text{val}}$ contains 360 samples. Evaluated using a single batch call (`model.predict(X_val)`) without dedicated GPU warm-up cycles.
+- **Distinction of Runtimes:**
+  - *Model fitting runtime:* Wall-clock seconds spent inside `model.fit(X_tr, y_tr)` ($\approx 0.05$s to $4.5$s depending on family).
+  - *Inference latency per 100 samples:* Scaled validation inference time ($\approx 0.03$ ms to $20.0$ ms per 100 samples).
+  - *Total campaign wall-clock:* Full end-to-end duration for 30 candidate evaluations ($\approx 9$s to $164$s per campaign).
 
-**Audit Verdict on Budget Parity:** The comparison between AMDE 4.0 and native Bayesian TPE was **not budget-equivalent in terms of unique candidate evaluations**. Native TPE's lower test accuracy ($0.9661$) is partially attributable to evaluating only $\approx 15$ unique configurations within its 30-trial allocation.
-
----
-
-## 6. Holdout Data Security Boundary Audit
-
-The holdout test data is managed by `SealedHoldoutTest`:
-- **What the Token Gate Prevents:** It enforces a single-use programmatic check in memory. An automated search loop calling `holdout.evaluate()` without the authorization token, or calling it more than once, raises an `EvaluationError`.
-- **What the Token Gate Does NOT Prevent:**
-  1. *In-Process Inspection:* Because Python does not enforce private field encapsulation, any co-located code can read `holdout._X_test` directly. Genuine security isolation requires separate OS processes or containers without shared memory.
-  2. *Adaptive Contamination Across Iterations:* In this benchmark, the identical 360-sample holdout test partition was reused across all 5 seeds and 4 methods (20 total evaluations). When developers repeatedly inspect test set performance and iterate on algorithm designs, the holdout partition becomes adaptively contaminated over time, even if each individual campaign calls `.evaluate()` only once.
+### 4.2 2D vs 3D Hypervolume Scope
+- **Published Hypervolume:** Strictly a **two-dimensional projection** over Validation Loss ($-\text{accuracy} \in [-1.0, 0.0]$) and Inference Latency ($[0, 50.0]$ ms per 100 samples).
+- **3D Hypervolume:** While the Pareto archive retains peak resident memory (MB) as a third objective, 3D hypervolume was uncalibrated ($0.0$). AMDE makes **zero claim of three-objective hypervolume superiority**.
+- **Reference Point Sensitivity ($r = (0.0, 50.0)$):**
+  - The latency reference point $50.0$ ms per 100 samples safely bounds all evaluated models (maximum observed latency was $20.001$ ms).
+  - Across alternative reference points ($r_{\text{lat}} \in [5.0, 10.0, 20.0, 50.0, 100.0]$ ms), the relative difference between AMDE and Random Search remains $< 0.5\%$, with Random Search retaining equal or higher hypervolume coverage across all tested reference thresholds.
 
 ---
 
-## 7. Cryptographic Ledger Audit
+## 5. Deduplication Terminology and Budget Accounting
 
-The SQLite event ledger (`EventLedger`) was audited:
-- **Included Hash Fields:** Every event hash is calculated as:
-  $$\text{SHA256}(\text{seq} \parallel \text{prev\_hash} \parallel \text{event\_id} \parallel \text{experiment\_id} \parallel \text{event\_type} \parallel \text{canonical\_json}(\text{payload}) \parallel \text{timestamp})$$
-  Payload includes candidate ID, parent candidate ID, complete genome hyperparameter JSON, validation score, inference latency, memory footprint, and worker execution status.
-- **Tamper-Evidence Capabilities:**
-  - *Single-record modification:* DETECTED (hash mismatch on modified block).
-  - *Record deletion or insertion:* DETECTED (sequence gap or broken `prev_hash` chain).
-  - *Record reordering:* DETECTED (sequence discontinuity).
-- **Security Boundaries & Limitations:**
-  - *Local Mutability:* The SQLite database resides on a local file system. A privileged actor with file write permissions can modify a record and recompute all downstream hashes from that block forward.
-  - *Tail Truncation:* Truncating the last $k$ blocks leaves a valid shorter chain that passes internal verification unless verified against an external root hash commitment.
-  - *Conclusion:* The ledger provides **tamper-evidence against accidental modification or auditing discrepancies**, but does **not** provide cryptographic immutability or adversarial security against privileged local actors without external digital signatures or decentralized anchoring.
+To eliminate ambiguity between proposals, deduplication rejections, and actual model training invocations, the complete accounting across all 600 evaluations is disaggregated below:
 
----
+| Metric Category | Random Search | AMDE Native TPE | Optuna TPESampler | AMDE 4.0 Engine |
+| :--- | :---: | :---: | :---: | :---: |
+| **1. Total Optimizer Proposals** | $30.0$ | $30.0$ | $30.0$ | **$38.4 \pm 2.1$** |
+| **2. Duplicate Proposals Generated** | $0.0$ ($0.0\%$) | **$14.6$ ($48.7\%$)** | $0.2$ ($0.7\%$) | **$8.4$ ($21.8\%$)** |
+| **3. Proposals Rejected by Deduplication** | $0.0$ | $0.0$ | $0.0$ | **$8.4$** |
+| **4. Total Model-Fit Invocations** | **$30.0$** | **$30.0$** | **$30.0$** | **$30.0$** |
+| **5. Distinct Genome Configurations Fitted** | **$30.0 \pm 0.0$** | **$15.4 \pm 1.1$** | **$29.8 \pm 0.4$** | **$30.0 \pm 0.0$** |
+| **6. Total Objective-Evaluation Calls** | $30.0$ | $30.0$ | $30.0$ | $30.0$ |
+| **7. Search Proposal Overhead** | $< 1.0$ ms | $\approx 2.5$ ms | $\approx 3.2$ ms | $\approx 5.2$ ms |
 
-## 8. Runtime & Overhead Reconciliation
-
-- **Sum of Individual Campaign Wall-Clock Times:**
-  - Random Search ($5$ seeds): $144.53$ s
-  - Bayesian TPE ($5$ seeds): $277.82$ s
-  - Optuna TPESampler ($5$ seeds): $135.88$ s
-  - AMDE 4.0 ($5$ seeds): $177.28$ s
-  - **Total Pure Campaign Execution Time:** **$735.50$ seconds** ($12$ minutes $15.5$ seconds)
-- **Total Process Wall-Clock Time:** **$744.02$ seconds** ($12$ minutes $24.0$ seconds)
-- **Reconciled Difference ($8.52$ seconds):**
-  - Dataset loading and initial 3-way stratified partitioning: $\approx 0.45$ s
-  - Experiment environment profiling and metadata initialization: $\approx 0.32$ s
-  - Statistical hypothesis testing computation: $\approx 0.15$ s
-  - Matplotlib publication figure generation (5 plots saved to disk): $\approx 4.80$ s
-  - CSV/JSON serialization and SHA-256 manifest calculation: $\approx 2.80$ s
+### Budget Interpretation
+All four methods operated under an **equal model-fit invocation budget** (exactly 30 calls to `model.fit()` per campaign). However, AMDE 4.0 utilized an **adaptive proposal budget** (sampling $\approx 38.4$ proposals to filter $8.4$ duplicates), ensuring 30 distinct configurations were explored. In contrast, native Bayesian TPE repeatedly fitted duplicate genomes, exploring only $\approx 15.4$ unique configurations.
 
 ---
 
-## 9. Dataset Scope & Enterprise Disclosures
+## 6. Holdout Data Protection & Generalization Boundaries
 
-The Optical Recognition of Handwritten Digits dataset ($N=1,797, 8\times 8$ bitmaps, 10 classes) is categorized as follows:
-- **Level 1 (Engineering Smoke Test):** Trivial validation of code execution paths.
-- **Level 2 (Reproducible Demonstration Benchmark — CURRENT STATUS):** Standardized, fast, offline comparison of optimization mechanics and multi-objective Pareto mapping.
-- **Level 3 (Independent Generalization Benchmark):** Diverse benchmark across 30+ OpenML tabular datasets with varied sample sizes, class balances, and feature types. **(Not performed in this study).**
-- **Level 4 (Enterprise Production Validation):** Deployment on high-cardinality, dirty, streaming industrial datasets with strict SLAs and drift monitoring. **(Not claimed).**
+- **Single Fixed Holdout:** One fixed 360-sample test partition ($20\%$) created with seed 42 was reused across all 20 campaigns (20 total evaluations).
+- **In-Process Single-Use Token:** Within each campaign, the token gate prevented the search loop from evaluating the test set more than once.
+- **Absence of Adversarial Boundary:** The token gate is an in-process workflow control. It does not prevent memory inspection of `holdout._X_test`.
+- **Adaptive Contamination:** Repeated inspection of the holdout test set across successive developer iterations creates human-in-the-loop leakage over time, even if each script accesses the partition once.
+- **Generalization Boundary:** This benchmark evaluates a single, clean, balanced computer-vision dataset ($8\times 8$ digits). It does not provide evidence of performance on large, noisy, high-cardinality enterprise tabular datasets.
 
-AMDE 4.0 makes **zero claims of enterprise readiness** from this benchmark.
+---
+
+## 7. Model Space & Kernel Adapter Verification
+
+The model space explores four families:
+1. `tree_ensemble`: `RandomForestClassifier` and `GradientBoostingClassifier`.
+2. `mlp`: `MLPClassifier` with variable hidden layer sizes, activations, and regularizations.
+3. `linear`: `LogisticRegression` with L1, L2, and ElasticNet penalties.
+4. `kernel_ridge`: In `StandardEvaluationPipeline._build_model`, the `"kernel_ridge"` family genome (specifying kernel, $\gamma$, and regularization $\alpha$) is mapped to **`sklearn.svm.SVC`** with $C = 1/\alpha$, providing exact non-linear kernel classification compatible with multi-class accuracy. Zero candidate configuration errors or uncaught exceptions occurred during the 600 evaluations.
+
+---
+
+## 8. Final Source Provenance & Pinning
+
+To prevent confusion between development states:
+- **Tagged Release `v4.0.1`:** Commit `21cd7e28cd51d76b1865387475b7f6eafb039b41`.
+- **Post-Release P0 Correctness Closure:** Commit `72be93013907b8296e7918f7c1383cba6bae4cf4` on branch `release-amde-final`.
+- **Demonstration Worktree Branch:** Branch `experiment/real-world-evidence-demo`.
+- **Google Colab Notebook Pin:** The demonstration notebook (`notebooks/AMDE_Real_World_Demo.ipynb`) explicitly pins commit `72be93013907b8296e7918f7c1383cba6bae4cf4`.

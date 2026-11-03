@@ -20,18 +20,18 @@ Today, we are looking at **AMDE 4.0**—the Autonomous Machine Learning Discover
 ### [0:50 - 1:50] SCENE 2: SYSTEM ARCHITECTURE & EXPERIMENTAL SETUP
 **Visual:**  
 Flowchart diagram of AMDE's discovery pipeline:
-1. `SearchSpace` (Tree Ensembles, MLPs, Linear Models, Kernel Ridge).
+1. `SearchSpace` (Tree Ensembles, MLPs, Linear Models, Kernel Ridge mapped to SVC).
 2. Data Partitioning (60% Train, 20% Val, 20% Holdout Test).
 3. Candidate Deduplication & Cache.
 4. `ParetoArchive` (Accuracy vs Latency).
 5. `EventLedger` (SHA-256 Chained SQLite).
 
 **Presenter Voiceover:**  
-"AMDE 4.0 focuses on tabular and classical machine learning discovery. Rather than searching over one rigid algorithm, it explores four distinct model families simultaneously: decision trees and gradient boosted ensembles, multi-layer perceptrons, regularized linear models, and kernel methods.
+"AMDE 4.0 focuses on tabular and classical machine learning discovery. Rather than searching over one rigid algorithm, it explores four distinct model families simultaneously: decision trees and gradient boosted ensembles, multi-layer perceptrons, regularized linear models, and kernel methods using Support Vector Classifiers.
 
-For our benchmark, we used the Optical Recognition of Handwritten Digits dataset—1,797 samples across 10 balanced digit classes. We evaluated four methods across five preregistered seeds—42, 101, 202, 303, and 404—with 30 candidate evaluations per campaign.
+For our demonstration benchmark, we used the Optical Recognition of Handwritten Digits dataset—1,797 samples of 8x8 pixel images across 10 balanced digit classes. We evaluated four methods across five preregistered seeds—42, 101, 202, 303, and 404—with a budget of 30 candidate evaluations per campaign.
 
-We enforced strict data boundaries: 60% of data for training, 20% for validation feedback, and a 20% holdout test set protected by an in-process single-use token gate to prevent accidental leakage during the search loop."
+We enforced strict data boundaries: 60% of data for training, 20% for validation feedback, and a fixed 20% holdout test partition protected by an in-process single-use token gate to prevent accidental leakage during the search loop."
 
 ---
 
@@ -44,16 +44,21 @@ Display the comparative boxplot (`assets/real_world_demo/score_distribution_boxp
 
 All four methods achieved high holdout accuracy on this dataset:
 - Random Search averaged 98.28%.
-- AMDE 4.0 averaged 98.11%, with the lowest variance across seeds (standard deviation of 0.0023).
+- AMDE 4.0 averaged 98.11%, with a standard deviation of 0.0023 across algorithm seeds.
 - Optuna's TPESampler averaged 97.83%.
 - And native Bayesian TPE averaged 96.61%.
 
-When we run formal two-sided paired Wilcoxon signed-rank tests with Holm-Bonferroni correction across the five seeds:
-- The adjusted p-value between AMDE and Random Search is 1.0.
-- Between AMDE and Optuna, it is 1.0.
-- Between AMDE and native TPE, the adjusted p-value is 0.1875.
+Because the sample size is five seeds and differences contain ties and zeros, standard approximations don't apply. We ran exhaustive sign-flip permutation tests across all 32 permutations:
+- The exact two-sided Wilcoxon p-value between AMDE and Random Search is 1.0 (adjusted: 1.0).
+- Between AMDE and Optuna, it is 0.625 (adjusted: 1.0).
+- Between AMDE and native TPE, the exact p-value is 0.0625, which adjusts via Holm-Bonferroni to 0.1875.
 
-This means there is **no statistically significant difference** in accuracy between AMDE and standard baselines on this dataset. Furthermore, failing to reject the null hypothesis does not prove statistical equivalence—it simply indicates that on a small benchmark of five seeds, we cannot conclude that any method is superior. That transparency is essential."
+And for paired t-tests, after monotonic Holm-Bonferroni adjustment:
+- Native TPE is 0.09924.
+- Optuna is 0.91910.
+- Random Search is 0.91910.
+
+Neither parametric nor non-parametric tests show any statistically significant difference at alpha = 0.05. Furthermore, failing to reject the null hypothesis does not establish statistical equivalence—it simply means we have no evidence of a difference on this five-seed sample."
 
 ---
 
@@ -62,13 +67,13 @@ This means there is **no statistically significant difference** in accuracy betw
 Display the Accuracy vs. Latency Pareto Frontier plot (`assets/real_world_demo/pareto_frontier_tradeoff.png`) and highlight the hypervolume comparison.
 
 **Presenter Voiceover:**  
-"Where AMDE provides practical value is multi-objective optimization: balancing accuracy against real-world inference latency.
+"Where AMDE provides practical value is multi-objective optimization: balancing accuracy against real-world inference latency, measured in milliseconds per 100 samples.
 
-Across campaigns, AMDE maintained an active Pareto frontier of six to seven non-dominated models. This allows an engineer to deploy a lightweight linear classifier taking 0.04 milliseconds per sample at 96% accuracy, or a gradient-boosted tree taking 0.45 milliseconds at 99% accuracy.
+Across campaigns, AMDE maintained an active Pareto frontier of six to seven non-dominated models, spanning from ultra-fast linear models at 0.04 ms per 100 samples to gradient-boosted trees at 99% accuracy.
 
-Interestingly, when we calculated 2D hypervolume, Random Search actually achieved the highest mean score: 49.69 versus AMDE's 49.58. Why? Because uniform random search samples tiny, ultra-fast linear models more aggressively, covering the extreme low-latency corners of the objective space.
+When calculating 2D hypervolume against a reference point of zero accuracy and 50 milliseconds, Random Search actually achieved the highest observed mean: 49.69 versus AMDE's 49.58. Why? Because uniform random search aggressively samples fast linear models, populating the extreme low-latency corners of the space.
 
-We also audited candidate deduplication. AMDE detected a 21.8% duplicate proposal rate and skipped redundant model training. In contrast, the baseline runners executed all 30 proposals sequentially. For native TPE, which had a 48.7% duplicate proposal rate, this meant it only trained about 15 unique models—a crucial factor in its lower final accuracy."
+We also audited candidate deduplication. All four methods had an equal fit-invocation budget of 30 model fits. But AMDE sampled 38 proposals to filter 8 duplicates, fitting 30 unique configurations. Native TPE did not skip duplicates, fitting only 15 unique configurations within its 30 calls—explaining its lower performance."
 
 ---
 
@@ -81,11 +86,11 @@ Terminal view:
 4. Running `ledger.verify_chain()`, showing the immediate tamper detection message.
 
 **Presenter Voiceover:**  
-"Finally, let's examine AMDE's execution ledger. Every candidate evaluation writes a record to an SQLite database, hashing the sequence number, candidate parameters, scores, and previous block hash with SHA-256.
+"Finally, let's examine AMDE's execution ledger. Every candidate evaluation writes a record to an SQLite database, chaining sequence numbers, hyperparameters, scores, and previous block hashes with SHA-256.
 
-Let's test it: if we manually alter a validation score in SQLite using a raw SQL update, running the verification method immediately detects the modification and flags the exact sequence number where the chain broke.
+If we manually alter a score in SQLite, the verification check immediately detects the discrepancy and flags the exact sequence number where the chain broke.
 
-However, we must be technically precise: this provides **tamper-evidence**, not immutability. Because it is a local SQLite database, a privileged actor with disk write access could theoretically rewrite records and recompute all downstream hashes. Real immutable guarantees require external digital signatures or decentralized ledgers."
+However, we must be technically precise: this provides **tamper-evidence**, not immutability. Because it is a local file, a privileged actor with write permissions could rewrite records and recompute all downstream hashes. Real immutability requires external digital signatures or decentralized ledgers."
 
 ---
 
@@ -95,6 +100,6 @@ GitHub repository page: `github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine`
 Displaying `docs/CLAIMS_LEDGER.md` and `docs/RESULTS_AND_LIMITATIONS.md`.
 
 **Presenter Voiceover:**  
-"To summarize: AMDE 4.0 is an auditable, multi-objective discovery engine for classical and tabular machine learning. It does not claim superiority over Optuna on tabular accuracy, but it provides transparent multi-family search, Pareto speed-accuracy trade-offs, and verifiable audit trails.
+"To summarize: AMDE 4.0 is an auditable, multi-objective discovery engine for classical machine learning. It does not claim superiority over Optuna on tabular accuracy, but it provides transparent multi-family search, Pareto speed-accuracy trade-offs, and verifiable audit trails.
 
 All code, raw benchmark data, and our full claims ledger are open source on GitHub. Check out the repository, run the local scripts, and inspect the data for yourself. Thanks for watching."

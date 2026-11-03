@@ -14,7 +14,7 @@ To ensure complete transparency regarding what was tested and verified:
 | :--- | :--- | :---: | :--- |
 | **Local Python Environment** | Windows 10 / Ubuntu 24.04 (WSL2), Python 3.10 & 3.14 | **VERIFIED** | 34 passing tests (`test_amde4_*.py`), full 20-campaign benchmark, headless notebook test (`test_execute_notebook.py`). |
 | **GitHub Actions CI Matrix** | Ubuntu 22.04 & Windows Server 2022 (Python 3.10 & 3.14) | **VERIFIED** | Workflow run `41599892492` (28 unit and regression tests passing across all 4 matrix jobs). |
-| **Google Colab Cloud Runtime** | External Google Cloud Hosted VM | **UNVERIFIED** | The notebook was executed headlessly in a local Python 3.14 environment. Execution on a live Google Colab cloud container was **not** performed. |
+| **Google Colab Cloud Runtime** | External Google Cloud Hosted VM | **NOT VERIFIED** | The notebook was executed headlessly in a local Python 3.14 environment. Live execution in a hosted Google Colab cloud container was **not** performed during this audit. |
 
 ---
 
@@ -22,9 +22,9 @@ To ensure complete transparency regarding what was tested and verified:
 
 A clear distinction must be maintained between released artifacts and development branches:
 
-- **Tagged Release `v4.0.1`:** Points to commit `21cd7e2` (`release: finalize and harden AMDE research distribution`).
-- **Post-Release P0 Correctness Baseline:** Merged into `release-amde-final` via PR #4 at commit `72be930`. (Contains all P0 correctness fixes, but does not include the benchmark suite).
-- **Demonstration Worktree Branch:** `experiment/real-world-evidence-demo` at commit `27f7f6e`. Contains the real-world benchmark engine, publication assets, and Colab demonstration notebook.
+- **Tagged Release `v4.0.1`:** Commit `21cd7e28cd51d76b1865387475b7f6eafb039b41` (`release: finalize and harden AMDE research distribution`).
+- **Post-Release P0 Correctness Baseline:** Merged into `release-amde-final` via PR #4 at commit `72be93013907b8296e7918f7c1383cba6bae4cf4`.
+- **Demonstration Worktree Branch:** `experiment/real-world-evidence-demo`. Contains the real-world benchmark engine, publication assets, and Colab demonstration notebook. Pinned to core commit `72be93013907b8296e7918f7c1383cba6bae4cf4`.
 
 ---
 

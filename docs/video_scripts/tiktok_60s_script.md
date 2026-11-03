@@ -19,7 +19,7 @@ Full screen split. Top: Generic AutoML marketing with huge claims ("99.9% accura
 ### [0:08 - 0:22] SCENE 2: THE AMDE DEMONSTRATION
 **Visual:**  
 Cut to high-contrast dark-mode terminal. Fast typing: `python -m amde.examples.real_world_demo`.  
-Colored tables stream by showing candidates from four model families: Trees, Neural Networks, Linear models, and Kernel Ridge.  
+Colored tables stream by showing candidates from four model families: Trees, Neural Networks, Linear models, and Kernel methods.  
 *Text on screen:* "AMDE 4.0: Autonomous Multi-Family Pipeline Search"  
 
 **Voiceover:**  
@@ -29,11 +29,11 @@ Colored tables stream by showing candidates from four model families: Trees, Neu
 
 ### [0:22 - 0:34] SCENE 3: REAL METRICS & THE ACCURACY-SPEED TRADE-OFF
 **Visual:**  
-Cut to Matplotlib plot: Validation Accuracy vs Inference Latency scatter plot with the Pareto frontier. Zoom in on a 0.04ms linear model and a 99% accuracy ensemble.  
+Cut to Matplotlib plot: Validation Accuracy vs Inference Latency scatter plot with the Pareto frontier. Zoom in on a fast linear model and a 99% accuracy ensemble.  
 *Text on screen:* "Pareto Frontier | Accuracy vs. Speed Trade-offs"  
 
 **Voiceover:**  
-"We tested it against Optuna and Random Search. And here's the honest truth: on this tabular dataset, AMDE did NOT beat Optuna on accuracy—it performed at parity ($p \ge 0.05$). But it mapped the full Pareto frontier between speed and accuracy."
+"We tested it against Optuna and Random Search. On accuracy, there was no statistically significant difference ($p \ge 0.05$). Random Search actually had higher hypervolume by sampling extreme fast models. But AMDE mapped the full Pareto frontier between speed and accuracy with automatic deduplication."
 
 ---
 
