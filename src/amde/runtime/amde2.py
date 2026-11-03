@@ -473,7 +473,7 @@ class AMDE2Manager:
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
-                close_fds=(os.name != "nt"),
+                close_fds=True,
                 creationflags=creationflags,
                 start_new_session=(os.name != "nt"),
             )
@@ -1070,7 +1070,7 @@ class Guardian:
         flags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) if os.name == "nt" else 0
         self.child = subprocess.Popen(
             cmd, cwd=self.root, stdin=subprocess.DEVNULL, stdout=self.log_handle, stderr=subprocess.STDOUT,
-            creationflags=flags, start_new_session=(os.name != "nt"), close_fds=(os.name != "nt"),
+            creationflags=flags, start_new_session=(os.name != "nt"), close_fds=True,
         )
         if self.job and self.job.is_active() and self.child:
             self.job.assign_process(self.child.pid)
@@ -1442,7 +1442,7 @@ def launch_guardian(root: Path, campaign_id: str) -> int:
         if os.name == "nt":
             flags = getattr(subprocess, "DETACHED_PROCESS", 0x00000008) | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0x00000200)
         child = subprocess.Popen(cmd, cwd=root, stdin=subprocess.DEVNULL, stdout=handle, stderr=subprocess.STDOUT,
-                                 close_fds=(os.name != "nt"), creationflags=flags, start_new_session=(os.name != "nt"))
+                                 close_fds=True, creationflags=flags, start_new_session=(os.name != "nt"))
     time.sleep(1.0)
     if child.poll() is not None:
         print(f"Guardian exited during startup (code={child.returncode}).")
