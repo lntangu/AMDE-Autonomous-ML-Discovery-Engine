@@ -521,6 +521,48 @@ class AMDE2RuntimeTests(unittest.TestCase):
             self.assertEqual(plan["quantum_epochs"], 12)
             self.assertEqual(plan["quantum_train_size"], 256)
 
+    def test_concurrent_state_read_under_windows_atomic_replace_contention(self) -> None:
+        import threading
+        from amde.util import read_json_safe
+
+        with tempfile.TemporaryDirectory() as temp:
+            state_file = Path(temp) / "state.json"
+            amde2._atomic_json(state_file, {"step": 0, "status": "running"})
+
+            stop_event = threading.Event()
+            writer_errors: list[Exception] = []
+            reader_errors: list[Exception] = []
+
+            def writer() -> None:
+                step = 1
+                while not stop_event.is_set():
+                    try:
+                        amde2._atomic_json(state_file, {"step": step, "status": "running"})
+                        step += 1
+                    except Exception as exc:
+                        writer_errors.append(exc)
+                        break
+                    time.sleep(0.001)
+
+            t = threading.Thread(target=writer)
+            t.start()
+            try:
+                successful_reads = 0
+                for _ in range(150):
+                    try:
+                        data = read_json_safe(state_file, default={})
+                        if isinstance(data, dict) and "step" in data:
+                            successful_reads += 1
+                    except Exception as exc:
+                        reader_errors.append(exc)
+                    time.sleep(0.002)
+                self.assertGreater(successful_reads, 100)
+                self.assertEqual(reader_errors, [])
+                self.assertEqual(writer_errors, [])
+            finally:
+                stop_event.set()
+                t.join(timeout=5)
+
 
 if __name__ == "__main__":
     unittest.main()

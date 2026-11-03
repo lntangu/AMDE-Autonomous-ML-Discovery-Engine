@@ -12,6 +12,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+from amde.util import read_json_safe
 
 
 FAKE_WORKER = r'''from __future__ import annotations
@@ -171,11 +174,14 @@ class AMDE2LifecycleIntegrationTests(unittest.TestCase):
                 deadline = time.monotonic() + 15
                 first_manager_pid = None
                 while time.monotonic() < deadline:
-                    state = json.loads(state_path.read_text(encoding="utf-8"))
-                    workers = state.get("workers", {})
-                    first_manager_pid = state.get("manager_pid")
-                    if first_manager_pid and len(workers) == 2 and all(v.get("alive") for v in workers.values()):
-                        break
+                    try:
+                        state = read_json_safe(state_path, default={})
+                        workers = state.get("workers", {})
+                        first_manager_pid = state.get("manager_pid")
+                        if first_manager_pid and len(workers) == 2 and all(v.get("alive") for v in workers.values()):
+                            break
+                    except (OSError, ValueError):
+                        pass
                     time.sleep(0.2)
                 else:
                     self.fail("initial manager/workers did not become healthy")
@@ -183,14 +189,18 @@ class AMDE2LifecycleIntegrationTests(unittest.TestCase):
                 psutil.Process(int(first_manager_pid)).kill()
                 recovered = False
                 deadline = time.monotonic() + 40
+                state = {}
                 while time.monotonic() < deadline:
-                    state = json.loads(state_path.read_text(encoding="utf-8"))
-                    workers = state.get("workers", {})
-                    if (state.get("manager_pid") and state.get("manager_pid") != first_manager_pid
-                            and state.get("status") == "running" and len(workers) == 2
-                            and all(v.get("alive") for v in workers.values())):
-                        recovered = True
-                        break
+                    try:
+                        state = read_json_safe(state_path, default={})
+                        workers = state.get("workers", {})
+                        if (state.get("manager_pid") and state.get("manager_pid") != first_manager_pid
+                                and state.get("status") == "running" and len(workers) == 2
+                                and all(v.get("alive") for v in workers.values())):
+                            recovered = True
+                            break
+                    except (OSError, ValueError):
+                        pass
                     time.sleep(0.25)
                 self.assertTrue(recovered, "guardian did not restart the manager and both workers after a manager crash")
                 self.assertGreaterEqual(state.get("manager_recoveries", 0), 1)
