@@ -1,46 +1,47 @@
-# AMDE 4.0 — Research Claims & Evidentiary Ledger
+# AMDE 4.0 — Research Claims & Evidentiary Ledger (Audited & Hardened)
 
 **Distribution Version:** 4.0.1  
 **Target Branch:** `experiment/real-world-evidence-demo`  
-**Purpose:** Strict demarcation between empirically verified facts, bounded claims, unverified hypotheses, and false marketing exaggerations.
+**Governing Standard:** Strict Empirical Verification & Forensic Demarcation  
 
 ---
 
-## 1. Classification Taxonomy
+## 1. Evidentiary Classification Taxonomy
 
-Every claim regarding AMDE 4.0 is audited and assigned exactly one evidentiary category:
+Every statement concerning AMDE 4.0 capabilities is categorized into one of four mutually exclusive statuses:
 
-- **`[VERIFIED]`**: Empirically proven by reproducible code, passing unit/integration tests, or measured benchmark outputs.
-- **`[SUPPORTED WITH LIMITATIONS]`**: True under specific environmental conditions, parameter configurations, or dataset domains.
-- **`[NOT VERIFIED]`**: Plausible engineering hypothesis or preliminary prototype lacking definitive empirical confirmation.
-- **`[FALSE / DO NOT CLAIM]`**: Scientifically incorrect, unmeasured, disproven, or prohibited under AMDE research principles.
-
----
-
-## 2. Master Claims Table
-
-| Claim ID | Category | Claim Statement | Evidentiary Status & Verification Reference |
-| :--- | :--- | :--- | :--- |
-| **CLM-01** | `[VERIFIED]` | AMDE supports multi-family pipeline search across tree ensembles, neural networks (MLP), linear models, and kernel methods. | **Verified:** `src/amde/examples/real_world_demo.py`, `Figure 4: Search Space Family Distribution`. Evaluates active models across all 4 families. |
-| **CLM-02** | `[VERIFIED]` | All candidate evaluations are cryptographically recorded in an immutable, hash-chained SQLite ledger. | **Verified:** Passing unit tests `tests/unit/test_amde4_hardening.py::test_ledger_full_chain_tamper_detection`. Tamper attempts invalidate chained SHA-256 blocks. |
-| **CLM-03** | `[VERIFIED]` | Holdout test data is sealed in memory and evaluated exactly once on the final winner, preventing data leakage. | **Verified:** Data split architecture isolates test set until final extraction (`eval_holdout` step). Validated in `INITIAL_AUDIT.md`. |
-| **CLM-04** | `[VERIFIED]` | Multi-objective optimization identifies non-dominated trade-offs between validation accuracy and inference latency. | **Verified:** `Figure 3: Accuracy vs Latency Pareto Frontier`. Generates empirical non-dominated trade-off sets. |
-| **CLM-05** | `[VERIFIED]` | AMDE 4.0 installs and passes CI test suites cleanly on both Linux (Ubuntu) and Windows across Python 3.10 and Python 3.14. | **Verified:** GitHub Actions run `41599892492` cross-platform matrix passing 28 unit and regression tests. |
-| **CLM-06** | `[SUPPORTED WITH LIMITATIONS]` | AMDE's Bayesian TPE achieves competitive accuracy on standard multi-class tabular classification. | **Supported with Limitations:** Achieves $>95\%$ accuracy on Digits dataset. However, non-parametric Wilcoxon tests demonstrate $p \ge 0.05$ vs Optuna, indicating statistical parity rather than superiority. |
-| **CLM-07** | `[SUPPORTED WITH LIMITATIONS]` | Process supervision terminates hung or out-of-memory worker processes safely. | **Supported with Limitations:** Linux/WSL relies on POSIX `SIGTERM`/`SIGKILL`; Windows environments utilize Win32 Job Objects. |
-| **CLM-08** | `[SUPPORTED WITH LIMITATIONS]` | Multi-fidelity rung screening accelerates exploration on large datasets. | **Supported with Limitations:** On small datasets ($N < 500$), 20% screening rungs exhibit rank inversion noise. Full fidelity is recommended for small sample regimes. |
-| **CLM-09** | `[NOT VERIFIED]` | AMDE scales effectively to billion-parameter Large Language Models (LLMs) or vision transformer pre-training. | **Not Verified:** AMDE 4.0 was designed and tested for tabular, classical ML, and small-to-medium neural network discovery. Zero LLM pre-training experiments conducted. |
-| **CLM-10** | `[NOT VERIFIED]` | Distributed search scales linearly across multi-node Kubernetes or Slurm clusters. | **Not Verified:** Concurrency currently utilizes standard library multiprocessing on single-node workstations. Cluster orchestration is planned for future releases. |
-| **CLM-11** | `[FALSE / DO NOT CLAIM]` | "AMDE outperforms Optuna / Hyperopt with statistical significance on all tabular benchmarks." | **FALSE / DO NOT CLAIM:** Wilcoxon signed-rank tests yield $p \ge 0.05$ against Optuna on standard tabular tasks. Claiming superiority without statistically significant rejection of $H_0$ violates empirical principles. |
-| **CLM-12** | `[FALSE / DO NOT CLAIM]` | "AMDE utilizes Quantum AI / Quantum Simulators / VQE / Quantum Superposition." | **FALSE / DO NOT CLAIM:** AMDE is a classical computational system. No quantum hardware or quantum algorithms are present in AMDE 4.0. Legacy marketing references have been excised. |
-| **CLM-13** | `[FALSE / DO NOT CLAIM]` | "AMDE reduces GPU memory footprint by 90% via automated tensor compression." | **FALSE / DO NOT CLAIM:** No direct VRAM profiling or CUDA kernel tensor compression has been experimentally verified. All benchmark experiments are strictly CPU-executed. |
-| **CLM-14** | `[FALSE / DO NOT CLAIM]` | "Zero-shot transfer allows instant optimal model discovery with 1 trial." | **FALSE / DO NOT CLAIM:** Model search requires empirical exploration. No generalizable zero-shot meta-model exists in AMDE 4.0. |
+- **`VERIFIED`**: Empirically proven by reproducible code, passing automated tests, or directly measured output in the benchmark records.
+- **`SUPPORTED WITH LIMITATIONS`**: Empirically supported under specific, stated boundary conditions (e.g. tabular classification on small datasets, CPU-only execution, non-adversarial settings).
+- **`NOT VERIFIED`**: Plausible engineering hypothesis, preliminary prototype, or unconfirmed scaling behavior lacking definitive empirical demonstration.
+- **`FALSE / DO NOT CLAIM`**: Scientifically invalid, statistically disproven, mathematically unfounded, or prohibited under AMDE engineering integrity standards.
 
 ---
 
-## 3. Enforcement Policy
+## 2. Audited Master Claims Table
 
-Any publication, documentation update, presentation, or demonstration script referencing AMDE **must** strictly adhere to the classifications in this ledger:
-1. Never present a `[SUPPORTED WITH LIMITATIONS]` claim without explicitly stating the limitations.
-2. Never present a `[NOT VERIFIED]` claim as an established feature or capability.
-3. Under no circumstances may any statement listed under `[FALSE / DO NOT CLAIM]` be used in marketing, documentation, or technical videos.
+| Claim ID | Exact Claim Wording | Status | Evidence File | Verification Command | Stated Limitations & Boundaries |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| **CLM-01** | "AMDE explores multiple model families (tree ensembles, neural networks, linear models, kernel methods) within a single optimization run." | `VERIFIED` | `src/amde/examples/real_world_demo.py`, `reports/real_world_demo/latest/raw_trials.csv` | `python -m amde.examples.real_world_demo --quick` | Restricted to sequential `[Preprocessor] -> [Estimator]` pipelines. Does not support arbitrary DAG multi-branch ensembles or deep convolutional/transformer networks. |
+| **CLM-02** | "AMDE maintains an in-process single-use token workflow gate to reduce accidental holdout test data access during search." | `VERIFIED` | `src/amde/evaluation/sealed.py`, `tests/unit/test_amde4_p0_correctness.py` | `PYTHONPATH=src python3 -m unittest tests/unit/test_amde4_p0_correctness.py` | **Workflow gate only.** Does not prevent inspection of in-process private attributes (`_X_test`). Does not prevent adaptive contamination across successive developer runs. |
+| **CLM-03** | "AMDE execution ledger records candidate metadata and hashes in SQLite with SHA-256 block chaining." | `VERIFIED` | `src/amde/ledger/event_ledger.py`, `tests/unit/test_amde4_hardening_regressions.py` | `PYTHONPATH=src python3 -m unittest tests/unit/test_amde4_hardening_regressions.py` | **Tamper-evident, NOT immutable.** An actor with local SQLite write access can recompute the entire hash chain from scratch. Truncation of the tail cannot be detected without external commitments. |
+| **CLM-04** | "AMDE records and plots multi-objective trade-offs between validation accuracy and inference latency." | `VERIFIED` | `assets/real_world_demo/pareto_frontier_tradeoff.png`, `src/amde/archive/pareto.py` | `python -m amde.examples.real_world_demo --quick` | Latency measured on CPU via wall-clock timing subject to operating system multitasking jitter. |
+| **CLM-05** | "AMDE 4.0 passes cross-platform CI unit test suites across Python 3.10 and 3.14 on Linux and Windows." | `VERIFIED` | GitHub Actions Run `41599892492`, `docs/AMDE_CI_FINAL_TEST_MANIFEST.json` | `gh run view 41599892492` | Tests cover 34 unit/regression tests. Does not constitute full system stress testing under high-load enterprise production conditions. |
+| **CLM-06** | "AMDE demonstrates candidate deduplication, detecting duplicate proposals via canonical genome hashing." | `VERIFIED` | `src/amde/archive/dedup.py`, `src/amde/engine.py` | `PYTHONPATH=src python3 -m unittest tests/unit/test_amde4_architecture.py` | Detects duplicate proposals ($21.8\%$ in AMDE engine). Engine skips redundant fits, while baseline wrappers only logged duplicate rates without skipping. |
+| **CLM-07** | "AMDE demonstration benchmark runs locally and executes top-to-bottom headlessly in Python." | `VERIFIED` | `scripts/test_execute_notebook.py`, `notebooks/AMDE_Real_World_Demo.ipynb` | `python scripts/test_execute_notebook.py` | Verified locally under Windows Python 3.14 / WSL. **Google Colab cloud execution is UNVERIFIED.** |
+| **CLM-08** | "AMDE achieves high classification accuracy on the Optical Recognition of Handwritten Digits dataset." | `SUPPORTED WITH LIMITATIONS` | `reports/real_world_demo/latest/seed_summary.csv` | `python -m amde.examples.real_world_demo --trials 30 --seeds 5` | Mean test accuracy $98.11\% \pm 0.23\%$. Limited to small $8\times 8$ pixel digits dataset ($N=1,797$). Does NOT establish generalization on large-scale tabular or enterprise workloads. |
+| **CLM-09** | "AMDE has empirical parity / statistical equivalence with standard baselines." | `FALSE / DO NOT CLAIM` | `reports/real_world_demo/latest/statistical_analysis.json` | `python scripts/audit_statistics.py` | **Failure to reject $H_0$ ($p \ge 0.05$) does not prove equivalence.** No equivalence margin ($\pm \delta$) or Two One-Sided Tests (TOST) procedure was preregistered. |
+| **CLM-10** | "AMDE achieves superior multi-objective frontier coverage / highest hypervolume." | `FALSE / DO NOT CLAIM` | `reports/real_world_demo/latest/seed_summary.csv` | Recomputation of 2D hypervolume | **Mathematically disproven.** Random Search achieved the highest observed mean 2D hypervolume ($49.6891 \pm 0.1570$ vs AMDE's $49.5788 \pm 0.1755$). Wilcoxon $p = 0.4375$. |
+| **CLM-11** | "AMDE completely prevents test set data leakage." | `FALSE / DO NOT CLAIM` | `src/amde/evaluation/sealed.py` | Architecture code inspection | **False.** In-process token gating prevents accidental programmatic calls in the search loop, but cannot prevent memory inspection or human-in-the-loop adaptive contamination across experiments. |
+| **CLM-12** | "AMDE provides an immutable cryptographic ledger." | `FALSE / DO NOT CLAIM` | `src/amde/ledger/event_ledger.py` | SQLite file inspection | **False.** Local SQLite database files are mutable. A privileged actor can alter records and recompute SHA-256 hashes without external digital signatures or consensus anchoring. |
+| **CLM-13** | "AMDE 4.0 is enterprise production ready." | `FALSE / DO NOT CLAIM` | Entire repository | Repository audit | AMDE 4.0 is a research prototype tested on small benchmark datasets ($N \le 2,000$). It lacks distributed execution, cloud storage connectors, automated drift detection, and production SLAs. |
+| **CLM-14** | "Independent confirmation of AMDE performance." | `FALSE / DO NOT CLAIM` | Repository provenance | Git history audit | All benchmark runs and audits were executed internally by the authoring team. No third-party laboratory has published an independent replication. |
+| **CLM-15** | "AMDE utilizes Quantum Computing / VQE / Quantum AI." | `FALSE / DO NOT CLAIM` | Codebase scan | `grep -ri "quantum" src/` | **Prohibited claim.** AMDE 4.0 is 100% classical. All legacy quantum references from AMDE 2.x have been excised. |
+| **CLM-16** | "AMDE reduces GPU memory footprint by 90% via tensor compression." | `FALSE / DO NOT CLAIM` | Telemetry inspection | Benchmark hardware profile | **Prohibited claim.** All benchmarks were executed purely on CPU. No CUDA GPU memory profiling or tensor compression was implemented or measured. |
+
+---
+
+## 3. Mandatory Communications Rules
+
+1. Any public communication, demonstration script, video, or documentation referencing AMDE 4.0 **must** use only claims categorized as `VERIFIED` or `SUPPORTED WITH LIMITATIONS`.
+2. All claims under `SUPPORTED WITH LIMITATIONS` must prominently state the operational boundary.
+3. Claims categorized as `FALSE / DO NOT CLAIM` are strictly prohibited in all AMDE marketing, documentation, and technical demonstrations.

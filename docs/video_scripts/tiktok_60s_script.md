@@ -1,56 +1,56 @@
-# 45–60 Second Video Script: "The AutoML Reproducibility Fix"
+# 45–60 Second Video Script: "The AutoML Reality Check"
 **Target Platform:** TikTok, YouTube Shorts, Instagram Reels, Twitter/X  
 **Aspect Ratio:** 9:16 Vertical Video (1080x1920)  
-**Total Estimated Duration:** 52 seconds  
-**Speaker Tone:** Fast-paced, authoritative, engineering-focused, zero hype  
+**Total Estimated Duration:** 50 seconds  
+**Speaker Tone:** Fast-paced, transparent, engineering-focused, zero hype  
 
 ---
 
 ### [0:00 - 0:08] SCENE 1: THE HOOK
 **Visual:**  
-Full screen split. Top: Black box with question marks labelled "Most AutoML". Bottom: Terminal showing silent, opaque training logs with zero audit trail.  
-*Text on screen:* "Why is most AutoML a black box?"  
+Full screen split. Top: Generic AutoML marketing with huge claims ("99.9% accuracy on everything!"). Bottom: Terminal showing silent, opaque logs with zero audit trail.  
+*Text on screen:* "Why is most AutoML full of hype?"  
 
-**Voiceover (Fast & punchy):**  
-"Most automated machine learning tools have a huge problem: they find a model, but they can't prove how they got there, they leak test data, and you can't verify their claims."
+**Voiceover:**  
+"Most automated machine learning frameworks make huge claims—but they rarely show you what happens under the hood or disclose when their methods don't beat baselines."
 
 ---
 
-### [0:08 - 0:22] SCENE 2: THE AMDE SOLUTION
+### [0:08 - 0:22] SCENE 2: THE AMDE DEMONSTRATION
 **Visual:**  
 Cut to high-contrast dark-mode terminal. Fast typing: `python -m amde.examples.real_world_demo`.  
-Clean colored tables stream by showing candidate architectures: Tree Ensembles, Neural Networks, Linear models.  
-*Text on screen:* "AMDE 4.0: Autonomous ML with Cryptographic Audit Trails"  
+Colored tables stream by showing candidates from four model families: Trees, Neural Networks, Linear models, and Kernel Ridge.  
+*Text on screen:* "AMDE 4.0: Autonomous Multi-Family Pipeline Search"  
 
 **Voiceover:**  
-"This is AMDE 4.0. It's an open-source autonomous ML engine. Instead of searching blindly, it explores four distinct model families simultaneously—gradient boosted trees, MLPs, linear models, and kernel ridge."
+"This is AMDE 4.0. It's an open-source autonomous discovery engine. Instead of tuning one algorithm, it searches four families simultaneously—trees, MLPs, linear models, and kernel methods."
 
 ---
 
-### [0:22 - 0:36] SCENE 3: REAL METRICS & PARETO FRONTIER
+### [0:22 - 0:34] SCENE 3: REAL METRICS & THE ACCURACY-SPEED TRADE-OFF
 **Visual:**  
-Cut to Matplotlib plot: Validation Accuracy vs Inference Latency scatter plot with a crisp highlighted Pareto frontier curve. Zoom in on a fast 0.05ms model and a high-accuracy 99% model.  
-*Text on screen:* "Multi-Objective Pareto Frontier | Accuracy vs Speed"  
+Cut to Matplotlib plot: Validation Accuracy vs Inference Latency scatter plot with the Pareto frontier. Zoom in on a 0.04ms linear model and a 99% accuracy ensemble.  
+*Text on screen:* "Pareto Frontier | Accuracy vs. Speed Trade-offs"  
 
 **Voiceover:**  
-"And it doesn't just chase raw accuracy. It maps the full Pareto frontier—balancing validation score against real-world inference latency and parameter size."
+"We tested it against Optuna and Random Search. And here's the honest truth: on this tabular dataset, AMDE did NOT beat Optuna on accuracy—it performed at parity ($p \ge 0.05$). But it mapped the full Pareto frontier between speed and accuracy."
 
 ---
 
-### [0:36 - 0:46] SCENE 4: CRYPTOGRAPHIC LEDGER & ZERO DATA LEAKAGE
+### [0:34 - 0:44] SCENE 4: TAMPER-EVIDENT LEDGER
 **Visual:**  
-Cut to terminal showing SQLite ledger verification: SHA-256 block hashes chaining together with green checkmarks: `Chain valid: 30 blocks verified`.  
-*Text on screen:* "Immutable SHA-256 Chained Execution Ledger"  
+Cut to terminal showing SQLite ledger verification: SHA-256 block hashes chaining together with green checkmarks. Show a tamper attempt being caught instantly.  
+*Text on screen:* "Tamper-Evident SHA-256 Chained SQLite Ledger"  
 
 **Voiceover:**  
-"Every single candidate evaluation is hashed into an immutable SQLite ledger. If anyone tampers with a score or parameter, the cryptographic chain breaks instantly."
+"Every trial writes a record hashed into a local SQLite ledger. If anyone modifies a score, the verification check fails immediately."
 
 ---
 
-### [0:46 - 0:52] SCENE 5: HONEST SCIENCE & CALL TO ACTION
+### [0:44 - 0:50] SCENE 5: OPEN SOURCE & CALL TO ACTION
 **Visual:**  
-Show Google Colab notebook running live with one click. GitHub repo link at bottom: `github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine`.  
-*Text on screen:* "Run the Colab Demo in 1 Click | 100% Open Source"  
+Show notebook running in local environment. GitHub repository link: `github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine`.  
+*Text on screen:* "Inspect the Code & Audit Logs on GitHub"  
 
 **Voiceover:**  
-"We benchmarked it against Optuna and Random Search. No fake claims, pure reproducibility. Try the interactive Google Colab demo right now—link in the description!"
+"No cherry-picked seeds, full raw logs included. Check out the code and audit report on GitHub!"
