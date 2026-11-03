@@ -4,6 +4,14 @@ Maintains non-dominated frontier across:
 1. Loss = -Accuracy (Minimize)
 2. Inference Latency ms (Minimize)
 3. Memory Consumption MB (Minimize)
+
+Guarantees:
+- Default `capacity=None`: Exact, unconstrained Pareto frontier preservation.
+  Every mathematically non-dominated candidate discovered is retained.
+- Optional Bounded Capacity: When `capacity` is set, uses NSGA-II Crowding Distance
+  pruning with strict extreme-point retention (min loss, min latency, min memory).
+  This preserves multi-objective trade-offs and frontier spread rather than collapsing
+  to single-objective loss optimization.
 """
 
 from __future__ import annotations
@@ -15,11 +23,20 @@ from amde.core.contracts import Candidate
 
 
 class ParetoArchive:
-    """Bounded non-dominated archive for multi-objective discovery."""
+    """Non-dominated Pareto archive for multi-objective discovery."""
 
-    def __init__(self, capacity: int = 64):
+    def __init__(self, capacity: Optional[int] = None):
+        """Initializes the archive.
+
+        Args:
+            capacity: Maximum number of frontier points to retain.
+                      Defaults to None, guaranteeing exact unconstrained
+                      Pareto preservation without approximation.
+                      When set to an integer, bounded capacity is enforced
+                      via crowding-distance diversity preservation.
+        """
         self.capacity = capacity
-        # Each entry: {"candidate": Candidate, "objectives": (loss, latency, memory), "dict": dict}
+        # Each entry: {"candidate": Candidate, "candidate_hash": str, "objectives": tuple, "loss": float, "latency": float, "memory": float}
         self.frontier: list[dict[str, Any]] = []
 
     def dominates(self, obj_a: Sequence[float], obj_b: Sequence[float]) -> bool:
@@ -27,6 +44,52 @@ class ParetoArchive:
         at_least_as_good = all(a <= b for a, b in zip(obj_a, obj_b))
         strictly_better = any(a < b for a, b in zip(obj_a, obj_b))
         return at_least_as_good and strictly_better
+
+    def _prune_crowding_distance(
+        self, points: list[dict[str, Any]], target_capacity: int
+    ) -> list[dict[str, Any]]:
+        """Multi-objective diversity retention policy (NSGA-II Crowding Distance).
+
+        Preserves:
+        1. Extreme frontier solutions for every objective:
+           - Best loss (highest accuracy)
+           - Best latency (fastest inference)
+           - Best memory (lowest memory footprint)
+        2. Maximum objective-space coverage by prioritizing points with highest crowding distance.
+        """
+        n = len(points)
+        if n <= target_capacity:
+            return points
+
+        crowding = {i: 0.0 for i in range(n)}
+        objectives = ("loss", "latency", "memory")
+
+        for obj in objectives:
+            sorted_indices = sorted(range(n), key=lambda i: points[i][obj])
+            min_val = points[sorted_indices[0]][obj]
+            max_val = points[sorted_indices[-1]][obj]
+            val_range = max_val - min_val
+
+            # Extreme points receive infinite distance to guarantee retention
+            crowding[sorted_indices[0]] = float("inf")
+            crowding[sorted_indices[-1]] = float("inf")
+
+            if val_range > 1e-9:
+                for j in range(1, n - 1):
+                    prev_i = sorted_indices[j - 1]
+                    next_i = sorted_indices[j + 1]
+                    curr_i = sorted_indices[j]
+                    crowding[curr_i] += (points[next_i][obj] - points[prev_i][obj]) / val_range
+
+        # Select top target_capacity points by crowding distance (descending)
+        # Ties broken by loss
+        selected = sorted(
+            range(n),
+            key=lambda i: (crowding[i], -points[i]["loss"]),
+            reverse=True,
+        )[:target_capacity]
+
+        return [points[i] for i in sorted(selected)]
 
     def update(
         self, candidate: Candidate, loss: float, latency: float, memory: float
@@ -54,11 +117,9 @@ class ParetoArchive:
             "memory": float(memory),
         })
 
-        # 4. Enforce capacity if needed
-        if len(pruned_frontier) > self.capacity:
-            # Sort by loss ascending
-            pruned_frontier.sort(key=lambda x: x["loss"])
-            pruned_frontier = pruned_frontier[:self.capacity]
+        # 4. Enforce capacity if bounded
+        if self.capacity is not None and len(pruned_frontier) > self.capacity:
+            pruned_frontier = self._prune_crowding_distance(pruned_frontier, self.capacity)
 
         self.frontier = pruned_frontier
         return True

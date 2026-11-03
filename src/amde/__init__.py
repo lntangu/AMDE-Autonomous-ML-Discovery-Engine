@@ -39,7 +39,7 @@ from amde.core.identity import (
 )
 from amde.engine import AMDE4Engine
 from amde.evaluation.pipeline import StandardEvaluationPipeline
-from amde.evaluation.sealed import SealedHoldoutTest
+from amde.evaluation.sealed import SealedHoldoutTest, create_sealed_holdout
 from amde.fidelity.policy import DelayedPruningPolicy, FidelityPolicy, FullFidelityPolicy
 from amde.hardware.profile import HardwareProfile
 from amde.ledger.event_ledger import EventLedger
@@ -71,6 +71,7 @@ __all__ = [
     "SearchSpace",
     "HardwareProfile",
     "SealedHoldoutTest",
+    "create_sealed_holdout",
     "EventLedger",
     "CandidateDeduplicator",
     "EliteArchive",

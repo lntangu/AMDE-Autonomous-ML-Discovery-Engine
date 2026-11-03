@@ -1,0 +1,59 @@
+{
+  "target_method": "amde_40",
+  "n_comparisons": 4,
+  "comparisons": {
+    "amde_203_baseline": {
+      "comparison": "amde_40_vs_amde_203_baseline",
+      "baseline": "amde_203_baseline",
+      "n_pairs": 18,
+      "mean_target": 0.9871311111111112,
+      "mean_baseline": 0.982631111111111,
+      "mean_difference": 0.004500000000000004,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 2.5,
+      "raw_p_value": 0.09169028154942915,
+      "holm_bonferroni_p_value": 0.3667611261977166,
+      "statistically_significant_005": false
+    },
+    "bayesian_tpe": {
+      "comparison": "amde_40_vs_bayesian_tpe",
+      "baseline": "bayesian_tpe",
+      "n_pairs": 18,
+      "mean_target": 0.9871311111111112,
+      "mean_baseline": 0.9809405555555555,
+      "mean_difference": 0.006190555555555564,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 17.0,
+      "raw_p_value": 0.2835627963831323,
+      "holm_bonferroni_p_value": 0.8506883891493969,
+      "statistically_significant_005": false
+    },
+    "random_search": {
+      "comparison": "amde_40_vs_random_search",
+      "baseline": "random_search",
+      "n_pairs": 18,
+      "mean_target": 0.9871311111111112,
+      "mean_baseline": 0.9832355555555554,
+      "mean_difference": 0.0038955555555555597,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 17.0,
+      "raw_p_value": 0.5139304151307518,
+      "holm_bonferroni_p_value": 1.0,
+      "statistically_significant_005": false
+    },
+    "amde_30_lite": {
+      "comparison": "amde_40_vs_amde_30_lite",
+      "baseline": "amde_30_lite",
+      "n_pairs": 18,
+      "mean_target": 0.9871311111111112,
+      "mean_baseline": 0.9848472222222223,
+      "mean_difference": 0.002283888888888888,
+      "median_difference": 0.0,
+      "wilcoxon_stat": 8.5,
+      "raw_p_value": 0.6741416549927048,
+      "holm_bonferroni_p_value": 0.6741416549927048,
+      "statistically_significant_005": false
+    }
+  },
+  "overall_conclusion": "No statistically significant superiority was detected under the tested conditions."
+}

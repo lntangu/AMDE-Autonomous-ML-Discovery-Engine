@@ -22,7 +22,17 @@ def default_pid_alive(pid: int) -> bool:
     try:
         import psutil  # type: ignore
 
-        return bool(psutil.pid_exists(pid) and psutil.Process(pid).is_running())
+        if not psutil.pid_exists(pid):
+            return False
+        p = psutil.Process(pid)
+        if not p.is_running():
+            return False
+        try:
+            if p.status() == psutil.STATUS_ZOMBIE:
+                return False
+        except Exception:
+            pass
+        return True
     except ImportError:
         pass
     except Exception:

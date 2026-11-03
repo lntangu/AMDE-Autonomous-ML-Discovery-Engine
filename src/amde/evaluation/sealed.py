@@ -8,6 +8,7 @@ Enforces:
 
 from __future__ import annotations
 
+import hashlib
 import secrets
 from typing import Any, Mapping, Optional, Tuple
 import numpy as np
@@ -18,21 +19,55 @@ from amde.evaluation.pipeline import StandardEvaluationPipeline
 
 
 class SealedHoldoutTest:
-    """Token-gated holdout evaluation harness."""
+    """Token-gated holdout evaluation harness.
 
-    def __init__(self, X_test: np.ndarray, y_test: np.ndarray, dataset_name: str):
+    Architectural Safeguards (BOT-05):
+    1. Single-use token gating is an in-process workflow control guarding against
+       accidental test data leakage and iterative test set overfitting during search.
+    2. Genuine adversarial process isolation requires executing evaluation workers
+       in separate OS processes without shared memory or network access (see amde.evaluation.isolation).
+    3. Plaintext authorization tokens are never exposed as public properties or inspectable fields.
+    4. Test arrays are encapsulated as private contiguous ndarrays.
+    """
+
+    def __init__(
+        self,
+        X_test: np.ndarray,
+        y_test: np.ndarray,
+        dataset_name: str,
+        auth_token: Optional[str] = None,
+    ):
         self._X_test = np.ascontiguousarray(X_test)
         self._y_test = np.ascontiguousarray(y_test)
         self.dataset_name = dataset_name
-        self._eval_token = secrets.token_hex(16)
+        
+        if auth_token is not None:
+            self._initial_token: Optional[str] = None
+            self._token_hash = hashlib.sha256(auth_token.encode("utf-8")).hexdigest()
+        else:
+            raw_token = secrets.token_hex(24)
+            self._initial_token = raw_token
+            self._token_hash = hashlib.sha256(raw_token.encode("utf-8")).hexdigest()
+
         self._evaluated = False
         self._final_score: Optional[float] = None
         self._pipeline = StandardEvaluationPipeline()
 
+    def issue_token(self) -> str:
+        """Issues the authorization token once upon harness creation."""
+        if self._initial_token is None:
+            raise EvaluationError("Authorization token already issued or provided externally")
+        tok = self._initial_token
+        self._initial_token = None
+        return tok
+
     @property
     def token(self) -> str:
-        """Returns the one-time evaluation access token."""
-        return self._eval_token
+        """Security guard: prevent search algorithms from reading authorization secrets via property access."""
+        raise AttributeError(
+            "SealedHoldoutTest does not expose plaintext authorization token via property. "
+            "Use issue_token() upon creation or create_sealed_holdout()."
+        )
 
     @property
     def is_consumed(self) -> bool:
@@ -48,7 +83,10 @@ class SealedHoldoutTest:
         seed: int = 42,
     ) -> float:
         """Evaluates winning candidate pipeline on sealed holdout partition using full training set."""
-        if token != self._eval_token:
+        if not token or not isinstance(token, str):
+            raise EvaluationError("Missing or invalid holdout authorization token")
+        input_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
+        if input_hash != self._token_hash:
             raise EvaluationError("Invalid holdout authorization token")
         if self._evaluated:
             raise EvaluationError("Holdout partition has already been consumed (single-read enforcement)")
@@ -67,8 +105,20 @@ class SealedHoldoutTest:
 
         res = self._pipeline.execute(req, X_train, y_train, self._X_test, self._y_test)
         self._evaluated = True
+        self._token_hash = ""  # Single-use consumption: immediately invalidate
         self._final_score = res.primary_metric
         return self._final_score
+
+
+def create_sealed_holdout(
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+    dataset_name: str,
+) -> Tuple[SealedHoldoutTest, str]:
+    """Factory creating a sealed holdout harness and returning the single-use authorization token."""
+    raw_token = secrets.token_hex(24)
+    holdout = SealedHoldoutTest(X_test=X_test, y_test=y_test, dataset_name=dataset_name, auth_token=raw_token)
+    return holdout, raw_token
 
 
 # ============================================================================
