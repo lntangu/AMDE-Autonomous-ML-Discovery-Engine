@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%" style="background:#ffffff; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="boxGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Title Card -->
+  <rect x="20" y="20" width="960" height="70" rx="8" fill="url(#headerGrad)"/>
+  <text x="40" y="52" fill="#ffffff" font-size="20" font-weight="700">AMDE 4.0 — Research Architecture & Subsystem Boundaries</text>
+  <text x="40" y="74" fill="#94a3b8" font-size="12">Autonomous Machine Learning Discovery Engine | Type-Safe Contracts, Multi-Fidelity Sandboxing, and Cryptographic Provenance</text>
+
+  <!-- 1. Search Space & Meta-Controller (Left Column) -->
+  <g transform="translate(30, 110)">
+    <rect width="280" height="470" rx="8" fill="url(#boxGrad1)" stroke="#cbd5e1" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <rect width="280" height="38" rx="8" fill="url(#blueGrad)"/>
+    <rect y="28" width="280" height="10" fill="#1d4ed8"/>
+    <text x="20" y="24" fill="#ffffff" font-size="14" font-weight="700">1. SEARCH & CONTROLLER</text>
+
+    <!-- Sub-block A -->
+    <rect x="15" y="55" width="250" height="120" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="77" fill="#0f172a" font-size="12" font-weight="700">Typed Hierarchical Search Space</text>
+    <text x="25" y="97" fill="#475569" font-size="11">• Model Families: Tree, MLP, Linear, Kernel</text>
+    <text x="25" y="115" fill="#475569" font-size="11">• Scalers, Imputers, Feature Selection</text>
+    <text x="25" y="133" fill="#475569" font-size="11">• Invariant Candidate SHA-256 Hashing</text>
+    <text x="25" y="151" fill="#475569" font-size="11">• Phenotype Consistency Guarantees</text>
+
+    <!-- Sub-block B -->
+    <rect x="15" y="190" width="250" height="135" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="212" fill="#0f172a" font-size="12" font-weight="700">EGADA Meta-Controller</text>
+    <text x="25" y="232" fill="#475569" font-size="11">• Multi-Armed Bandit Strategy Selection</text>
+    <text x="25" y="250" fill="#475569" font-size="11">• Dirichlet Posterior Probability Update</text>
+    <text x="25" y="268" fill="#475569" font-size="11">• Normalization & Starvation Prevention</text>
+    <text x="25" y="286" fill="#475569" font-size="11">• Bounded Multi-Armed Policy Space</text>
+    <text x="25" y="304" fill="#475569" font-size="11">• Deterministic Episode Reproducibility</text>
+
+    <!-- Sub-block C -->
+    <rect x="15" y="340" width="250" height="110" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="362" fill="#0f172a" font-size="12" font-weight="700">Proposal Generators</text>
+    <text x="25" y="382" fill="#475569" font-size="11">• Factorized Parzen Estimator (TPE)</text>
+    <text x="25" y="400" fill="#475569" font-size="11">• Calibrated Gaussian Mutation</text>
+    <text x="25" y="418" fill="#475569" font-size="11">• Chromosomal Pipeline Crossover</text>
+    <text x="25" y="436" fill="#475569" font-size="11">• Multi-Island Migration Architecture</text>
+  </g>
+
+  <!-- Connectors Left to Middle -->
+  <path d="M 310 245 L 360 245" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="316" y="238" fill="#64748b" font-size="10" font-weight="600">Candidate</text>
+
+  <!-- 2. Evaluation Pipeline (Middle Column) -->
+  <g transform="translate(360, 110)">
+    <rect width="280" height="470" rx="8" fill="url(#boxGrad1)" stroke="#cbd5e1" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <rect width="280" height="38" rx="8" fill="url(#emeraldGrad)"/>
+    <rect y="28" width="280" height="10" fill="#047857"/>
+    <text x="20" y="24" fill="#ffffff" font-size="14" font-weight="700">2. EVALUATION PIPELINE</text>
+
+    <!-- Sub-block A -->
+    <rect x="15" y="55" width="250" height="135" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="77" fill="#0f172a" font-size="12" font-weight="700">10-Phase Evaluation Contract</text>
+    <text x="25" y="97" fill="#475569" font-size="11">• Strict Split Isolation (Train vs Val)</text>
+    <text x="25" y="115" fill="#475569" font-size="11">• Preprocessors Fit Solely on Train Fold</text>
+    <text x="25" y="133" fill="#475569" font-size="11">• Subprocess Isolation (multiprocessing)</text>
+    <text x="25" y="151" fill="#475569" font-size="11">• Hard OS-Level Deadline Kill Signal</text>
+    <text x="25" y="169" fill="#475569" font-size="11">• Real Peak RSS & Memory Accounting</text>
+
+    <!-- Sub-block B -->
+    <rect x="15" y="205" width="250" height="120" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="227" fill="#0f172a" font-size="12" font-weight="700">Multi-Fidelity Resource Allocation</text>
+    <text x="25" y="247" fill="#475569" font-size="11">• Discrete Rungs (Screening / Interm / Full)</text>
+    <text x="25" y="265" fill="#475569" font-size="11">• Subsample Ratios: 20%, 50%, 100%</text>
+    <text x="25" y="283" fill="#475569" font-size="11">• Multi-Metric: Balanced Acc, F1, Latency</text>
+    <text x="25" y="301" fill="#475569" font-size="11">• ASHA Early-Stopping Verification</text>
+
+    <!-- Sub-block C -->
+    <rect x="15" y="340" width="250" height="110" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="362" fill="#0f172a" font-size="12" font-weight="700">Evaluation Cache Isolation</text>
+    <text x="25" y="382" fill="#475569" font-size="11">• Separation: Candidate ID ≠ Eval ID</text>
+    <text x="25" y="400" fill="#475569" font-size="11">• Keys Bound to Dataset, Split & Seed</text>
+    <text x="25" y="418" fill="#475569" font-size="11">• Cross-Campaign Cache Leakage Blocked</text>
+    <text x="25" y="436" fill="#475569" font-size="11">• Cryptographic Hit/Miss Audit Trail</text>
+  </g>
+
+  <!-- Connectors Middle to Right -->
+  <path d="M 640 245 L 690 245" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="646" y="238" fill="#64748b" font-size="10" font-weight="600">Result</text>
+
+  <!-- Feedback Loop Connector Bottom -->
+  <path d="M 500 480 L 500 515 L 170 515 L 170 480" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arrow)"/>
+  <text x="310" y="510" fill="#64748b" font-size="10" font-weight="600" text-anchor="middle">Evaluation Feedback (Observation History Update)</text>
+
+  <!-- 3. Multi-Objective & Provenance (Right Column) -->
+  <g transform="translate(690, 110)">
+    <rect width="280" height="470" rx="8" fill="url(#boxGrad1)" stroke="#cbd5e1" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <rect width="280" height="38" rx="8" fill="url(#purpleGrad)"/>
+    <rect y="28" width="280" height="10" fill="#6d28d9"/>
+    <text x="20" y="24" fill="#ffffff" font-size="14" font-weight="700">3. PARETO & PROVENANCE</text>
+
+    <!-- Sub-block A -->
+    <rect x="15" y="55" width="250" height="120" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="77" fill="#0f172a" font-size="12" font-weight="700">Multi-Objective Pareto Archive</text>
+    <text x="25" y="97" fill="#475569" font-size="11">• Exact Preservation (Default: capacity=None)</text>
+    <text x="25" y="115" fill="#475569" font-size="11">• Bounded Archive: Crowding Distance</text>
+    <text x="25" y="133" fill="#475569" font-size="11">• Strict Extreme-Point Retention</text>
+    <text x="25" y="151" fill="#475569" font-size="11">• Hypervolume 2D/3D Relative Ref Points</text>
+
+    <!-- Sub-block B -->
+    <rect x="15" y="190" width="250" height="120" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="212" fill="#0f172a" font-size="12" font-weight="700">Tamper-Evident EventLedger</text>
+    <text x="25" y="232" fill="#475569" font-size="11">• SQLite WAL Mode Transactional Storage</text>
+    <text x="25" y="250" fill="#475569" font-size="11">• Strict SHA-256 Cryptographic Hash Chain</text>
+    <text x="25" y="268" fill="#475569" font-size="11">• Full Metadata Hashed (incl. exp_id, seq)</text>
+    <text x="25" y="286" fill="#475569" font-size="11">• verify_chain() Replay Verification</text>
+
+    <!-- Sub-block C -->
+    <rect x="15" y="325" width="250" height="125" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="25" y="347" fill="#0f172a" font-size="12" font-weight="700">Sealed Holdout Boundary</text>
+    <text x="25" y="367" fill="#475569" font-size="11">• In-Process Single-Use Cryptographic Gate</text>
+    <text x="25" y="385" fill="#475569" font-size="11">• Single-Use Authorization Token (open_once)</text>
+    <text x="25" y="403" fill="#475569" font-size="11">• Accessible Only After Search Finalization</text>
+    <text x="25" y="421" fill="#475569" font-size="11">• Transparent Audit Boundary (Not OS Sandbox)</text>
+    <text x="25" y="439" fill="#475569" font-size="11">• Leakage Attack Hardened</text>
+  </g>
+</svg>

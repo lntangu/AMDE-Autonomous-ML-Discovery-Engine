@@ -1,0 +1,1656 @@
+{
+  "random_search": {
+    "seed_42": {
+      "method": "random_search",
+      "seed": 42,
+      "recalculated_pareto_size": 10,
+      "max_frontier_latency_ms": 3.1172,
+      "primary_hypervolume_2d_ref50": 49.8361,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8361,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.8361,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.8361,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.8361,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.8361,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "ef58273b3235",
+          "val_score": 0.93333,
+          "loss": -0.93333,
+          "controlled_latency_per_100_median_ms": 1.1285
+        },
+        {
+          "candidate_hash": "44f1763e59f0",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 3.1172
+        },
+        {
+          "candidate_hash": "ccd79aadebac",
+          "val_score": 0.43611,
+          "loss": -0.43611,
+          "controlled_latency_per_100_median_ms": 0.1522
+        },
+        {
+          "candidate_hash": "5f5364e70fcc",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 0.1812
+        },
+        {
+          "candidate_hash": "efaf9ae06c00",
+          "val_score": 0.93056,
+          "loss": -0.93056,
+          "controlled_latency_per_100_median_ms": 0.1218
+        },
+        {
+          "candidate_hash": "2bc221106a6e",
+          "val_score": 0.96667,
+          "loss": -0.96667,
+          "controlled_latency_per_100_median_ms": 0.3706
+        },
+        {
+          "candidate_hash": "6a493aa4c61f",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 0.1088
+        },
+        {
+          "candidate_hash": "fb56de47a265",
+          "val_score": 0.97222,
+          "loss": -0.97222,
+          "controlled_latency_per_100_median_ms": 1.0101
+        },
+        {
+          "candidate_hash": "51b588e39a2f",
+          "val_score": 1.0,
+          "loss": -1.0,
+          "controlled_latency_per_100_median_ms": 2.1884
+        },
+        {
+          "candidate_hash": "ff3d71a5f5a2",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 1.9807
+        }
+      ]
+    },
+    "seed_101": {
+      "method": "random_search",
+      "seed": 101,
+      "recalculated_pareto_size": 8,
+      "max_frontier_latency_ms": 4.0753,
+      "primary_hypervolume_2d_ref50": 49.83,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.83,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.83,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.83,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.83,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.83,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "5193506a6823",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 0.1971
+        },
+        {
+          "candidate_hash": "2d766dea2990",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 2.2799
+        },
+        {
+          "candidate_hash": "27ab0d5ac418",
+          "val_score": 0.95833,
+          "loss": -0.95833,
+          "controlled_latency_per_100_median_ms": 0.3017
+        },
+        {
+          "candidate_hash": "a866113440b3",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 1.3967
+        },
+        {
+          "candidate_hash": "4e5d3e47168e",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 2.06
+        },
+        {
+          "candidate_hash": "0ddfb74990b1",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 0.1344
+        },
+        {
+          "candidate_hash": "720d9f1695b0",
+          "val_score": 0.96389,
+          "loss": -0.96389,
+          "controlled_latency_per_100_median_ms": 0.1102
+        },
+        {
+          "candidate_hash": "2253ec7b65ff",
+          "val_score": 1.0,
+          "loss": -1.0,
+          "controlled_latency_per_100_median_ms": 4.0753
+        }
+      ]
+    },
+    "seed_202": {
+      "method": "random_search",
+      "seed": 202,
+      "recalculated_pareto_size": 9,
+      "max_frontier_latency_ms": 1.7851,
+      "primary_hypervolume_2d_ref50": 49.4454,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8202,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7786,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.6953,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.4454,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.0289,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "dc024b21f638",
+          "val_score": 0.98611,
+          "loss": -0.98611,
+          "controlled_latency_per_100_median_ms": 1.7851
+        },
+        {
+          "candidate_hash": "2c344c9fe3e8",
+          "val_score": 0.1,
+          "loss": -0.1,
+          "controlled_latency_per_100_median_ms": 0.2659
+        },
+        {
+          "candidate_hash": "ef2e12d89fe8",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 1.756
+        },
+        {
+          "candidate_hash": "2eaa5464a46f",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 0.2457
+        },
+        {
+          "candidate_hash": "e529acd8723a",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 0.1148
+        },
+        {
+          "candidate_hash": "f6b00988567a",
+          "val_score": 0.95278,
+          "loss": -0.95278,
+          "controlled_latency_per_100_median_ms": 0.1102
+        },
+        {
+          "candidate_hash": "a7d4f4ee66a6",
+          "val_score": 0.96389,
+          "loss": -0.96389,
+          "controlled_latency_per_100_median_ms": 0.1767
+        },
+        {
+          "candidate_hash": "a181565b6800",
+          "val_score": 0.975,
+          "loss": -0.975,
+          "controlled_latency_per_100_median_ms": 0.2906
+        },
+        {
+          "candidate_hash": "2b1997ec62c8",
+          "val_score": 0.97222,
+          "loss": -0.97222,
+          "controlled_latency_per_100_median_ms": 0.19
+        }
+      ]
+    },
+    "seed_303": {
+      "method": "random_search",
+      "seed": 303,
+      "recalculated_pareto_size": 4,
+      "max_frontier_latency_ms": 2.0307,
+      "primary_hypervolume_2d_ref50": 49.715,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8401,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.8262,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7984,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.715,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.576,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "836e993ce2c8",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 0.1178
+        },
+        {
+          "candidate_hash": "339878221429",
+          "val_score": 0.975,
+          "loss": -0.975,
+          "controlled_latency_per_100_median_ms": 0.2395
+        },
+        {
+          "candidate_hash": "e9c1883dd634",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 2.0307
+        },
+        {
+          "candidate_hash": "57e187dde220",
+          "val_score": 0.975,
+          "loss": -0.975,
+          "controlled_latency_per_100_median_ms": 0.1035
+        }
+      ]
+    },
+    "seed_404": {
+      "method": "random_search",
+      "seed": 404,
+      "recalculated_pareto_size": 8,
+      "max_frontier_latency_ms": 4.0605,
+      "primary_hypervolume_2d_ref50": 49.7158,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8409,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.827,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7992,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.7158,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.5768,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "a8157c011d92",
+          "val_score": 0.93333,
+          "loss": -0.93333,
+          "controlled_latency_per_100_median_ms": 1.4323
+        },
+        {
+          "candidate_hash": "db3f26bd437e",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 4.0605
+        },
+        {
+          "candidate_hash": "9d1a52d741a5",
+          "val_score": 0.95278,
+          "loss": -0.95278,
+          "controlled_latency_per_100_median_ms": 0.1411
+        },
+        {
+          "candidate_hash": "0b37918cc785",
+          "val_score": 0.97222,
+          "loss": -0.97222,
+          "controlled_latency_per_100_median_ms": 0.1422
+        },
+        {
+          "candidate_hash": "c7e11c6edbd8",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 1.9662
+        },
+        {
+          "candidate_hash": "32b7d265ad30",
+          "val_score": 0.96667,
+          "loss": -0.96667,
+          "controlled_latency_per_100_median_ms": 0.1279
+        },
+        {
+          "candidate_hash": "12bd46a8cab3",
+          "val_score": 0.93611,
+          "loss": -0.93611,
+          "controlled_latency_per_100_median_ms": 0.103
+        },
+        {
+          "candidate_hash": "7b122ae645a1",
+          "val_score": 0.975,
+          "loss": -0.975,
+          "controlled_latency_per_100_median_ms": 0.1556
+        }
+      ]
+    }
+  },
+  "bayesian_tpe": {
+    "seed_42": {
+      "method": "bayesian_tpe",
+      "seed": 42,
+      "recalculated_pareto_size": 5,
+      "max_frontier_latency_ms": 1.1095,
+      "primary_hypervolume_2d_ref50": 48.5087,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.7588,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.6199,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.3421,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 48.5087,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 97.1197,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "ef58273b3235",
+          "val_score": 0.93333,
+          "loss": -0.93333,
+          "controlled_latency_per_100_median_ms": 1.1095
+        },
+        {
+          "candidate_hash": "5f5364e70fcc",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 0.1027
+        },
+        {
+          "candidate_hash": "fb56de47a265",
+          "val_score": 0.97222,
+          "loss": -0.97222,
+          "controlled_latency_per_100_median_ms": 0.2778
+        },
+        {
+          "candidate_hash": "8ea7138d58ed",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 0.2179
+        },
+        {
+          "candidate_hash": "2619c22ce4b4",
+          "val_score": 0.95278,
+          "loss": -0.95278,
+          "controlled_latency_per_100_median_ms": 0.1072
+        }
+      ]
+    },
+    "seed_101": {
+      "method": "bayesian_tpe",
+      "seed": 101,
+      "recalculated_pareto_size": 5,
+      "max_frontier_latency_ms": 2.9056,
+      "primary_hypervolume_2d_ref50": 48.712,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.7119,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.6008,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.3786,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 48.712,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 97.601,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "5193506a6823",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 0.2064
+        },
+        {
+          "candidate_hash": "ef10bf339999",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 2.9056
+        },
+        {
+          "candidate_hash": "27ab0d5ac418",
+          "val_score": 0.95833,
+          "loss": -0.95833,
+          "controlled_latency_per_100_median_ms": 0.2593
+        },
+        {
+          "candidate_hash": "a866113440b3",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 1.5238
+        },
+        {
+          "candidate_hash": "9c1f890f29cf",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 0.1528
+        }
+      ]
+    },
+    "seed_202": {
+      "method": "bayesian_tpe",
+      "seed": 202,
+      "recalculated_pareto_size": 6,
+      "max_frontier_latency_ms": 1.7507,
+      "primary_hypervolume_2d_ref50": 49.4417,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8165,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7749,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.6916,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.4417,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.0252,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "dc024b21f638",
+          "val_score": 0.98611,
+          "loss": -0.98611,
+          "controlled_latency_per_100_median_ms": 1.6298
+        },
+        {
+          "candidate_hash": "2c344c9fe3e8",
+          "val_score": 0.1,
+          "loss": -0.1,
+          "controlled_latency_per_100_median_ms": 0.4044
+        },
+        {
+          "candidate_hash": "ef2e12d89fe8",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 1.7507
+        },
+        {
+          "candidate_hash": "2eaa5464a46f",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 0.208
+        },
+        {
+          "candidate_hash": "8da040ab928d",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 0.1076
+        },
+        {
+          "candidate_hash": "647ecbe95625",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 1.7124
+        }
+      ]
+    },
+    "seed_303": {
+      "method": "bayesian_tpe",
+      "seed": 303,
+      "recalculated_pareto_size": 6,
+      "max_frontier_latency_ms": 4.5231,
+      "primary_hypervolume_2d_ref50": 49.3835,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.7583,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7167,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.6334,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.3835,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 98.967,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "c228989e77d0",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 4.5231
+        },
+        {
+          "candidate_hash": "836e993ce2c8",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 0.1394
+        },
+        {
+          "candidate_hash": "d8573665381c",
+          "val_score": 0.94444,
+          "loss": -0.94444,
+          "controlled_latency_per_100_median_ms": 0.111
+        },
+        {
+          "candidate_hash": "e428deaa773c",
+          "val_score": 0.95278,
+          "loss": -0.95278,
+          "controlled_latency_per_100_median_ms": 0.11
+        },
+        {
+          "candidate_hash": "465aedcd542e",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 1.9324
+        },
+        {
+          "candidate_hash": "8b2a79d7690b",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 1.8733
+        }
+      ]
+    },
+    "seed_404": {
+      "method": "bayesian_tpe",
+      "seed": 404,
+      "recalculated_pareto_size": 7,
+      "max_frontier_latency_ms": 4.3054,
+      "primary_hypervolume_2d_ref50": 48.1145,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.6144,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.4477,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.1144,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 48.1145,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 96.448,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "a8157c011d92",
+          "val_score": 0.93333,
+          "loss": -0.93333,
+          "controlled_latency_per_100_median_ms": 1.4015
+        },
+        {
+          "candidate_hash": "db3f26bd437e",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 4.3054
+        },
+        {
+          "candidate_hash": "87b3f1d578f4",
+          "val_score": 0.93611,
+          "loss": -0.93611,
+          "controlled_latency_per_100_median_ms": 0.6901
+        },
+        {
+          "candidate_hash": "7a03548ac8f3",
+          "val_score": 0.80278,
+          "loss": -0.80278,
+          "controlled_latency_per_100_median_ms": 0.3047
+        },
+        {
+          "candidate_hash": "cc73e5a2433b",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 3.9283
+        },
+        {
+          "candidate_hash": "afc1b322c99e",
+          "val_score": 0.95278,
+          "loss": -0.95278,
+          "controlled_latency_per_100_median_ms": 3.9072
+        },
+        {
+          "candidate_hash": "d686eed3b1f9",
+          "val_score": 0.96667,
+          "loss": -0.96667,
+          "controlled_latency_per_100_median_ms": 0.2265
+        }
+      ]
+    }
+  },
+  "optuna_tpe": {
+    "seed_42": {
+      "method": "optuna_tpe",
+      "seed": 42,
+      "recalculated_pareto_size": 3,
+      "max_frontier_latency_ms": 1.8825,
+      "primary_hypervolume_2d_ref50": 49.4241,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.799,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7573,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.674,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.4241,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.0076,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "80b8f63ae50c",
+          "val_score": 0.80833,
+          "loss": -0.80833,
+          "controlled_latency_per_100_median_ms": 0.2244
+        },
+        {
+          "candidate_hash": "1ab42331d8f0",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 1.8825
+        },
+        {
+          "candidate_hash": "c17d8a250c43",
+          "val_score": 0.96389,
+          "loss": -0.96389,
+          "controlled_latency_per_100_median_ms": 0.1111
+        }
+      ]
+    },
+    "seed_101": {
+      "method": "optuna_tpe",
+      "seed": 101,
+      "recalculated_pareto_size": 8,
+      "max_frontier_latency_ms": 3.8248,
+      "primary_hypervolume_2d_ref50": 49.4572,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.832,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7904,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7071,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.4572,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.0407,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "62b0358683ac",
+          "val_score": 0.975,
+          "loss": -0.975,
+          "controlled_latency_per_100_median_ms": 1.4483
+        },
+        {
+          "candidate_hash": "06b784267324",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 0.1131
+        },
+        {
+          "candidate_hash": "1908c901f82e",
+          "val_score": 0.95833,
+          "loss": -0.95833,
+          "controlled_latency_per_100_median_ms": 0.3114
+        },
+        {
+          "candidate_hash": "15c9f1ffed92",
+          "val_score": 0.98056,
+          "loss": -0.98056,
+          "controlled_latency_per_100_median_ms": 3.8248
+        },
+        {
+          "candidate_hash": "249bb0e5bef4",
+          "val_score": 0.95556,
+          "loss": -0.95556,
+          "controlled_latency_per_100_median_ms": 0.1053
+        },
+        {
+          "candidate_hash": "d86fa3cfbaa1",
+          "val_score": 0.98889,
+          "loss": -0.98889,
+          "controlled_latency_per_100_median_ms": 0.5463
+        },
+        {
+          "candidate_hash": "bee3e2ea177f",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 0.4715
+        },
+        {
+          "candidate_hash": "639d5d9baaca",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 3.4606
+        }
+      ]
+    },
+    "seed_202": {
+      "method": "optuna_tpe",
+      "seed": 202,
+      "recalculated_pareto_size": 6,
+      "max_frontier_latency_ms": 2.0732,
+      "primary_hypervolume_2d_ref50": 49.6783,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8034,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7895,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7617,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.6783,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.5393,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "01f61bbaa8ec",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 1.9857
+        },
+        {
+          "candidate_hash": "1361cbd4da2b",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 2.0732
+        },
+        {
+          "candidate_hash": "fb0f9a92b3df",
+          "val_score": 0.95278,
+          "loss": -0.95278,
+          "controlled_latency_per_100_median_ms": 0.1065
+        },
+        {
+          "candidate_hash": "320d246565d3",
+          "val_score": 0.95556,
+          "loss": -0.95556,
+          "controlled_latency_per_100_median_ms": 0.2654
+        },
+        {
+          "candidate_hash": "38d18351a8b9",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 1.9458
+        },
+        {
+          "candidate_hash": "49e1f4372e86",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 1.9324
+        }
+      ]
+    },
+    "seed_303": {
+      "method": "optuna_tpe",
+      "seed": 303,
+      "recalculated_pareto_size": 4,
+      "max_frontier_latency_ms": 2.0098,
+      "primary_hypervolume_2d_ref50": 49.6549,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.78,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7661,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7383,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.6549,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.5159,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "32ec0d65d970",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 0.1496
+        },
+        {
+          "candidate_hash": "3a4c95192ebe",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 1.954
+        },
+        {
+          "candidate_hash": "4c304f581173",
+          "val_score": 0.98889,
+          "loss": -0.98889,
+          "controlled_latency_per_100_median_ms": 1.6446
+        },
+        {
+          "candidate_hash": "9fbbde18cb2b",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 2.0098
+        }
+      ]
+    },
+    "seed_404": {
+      "method": "optuna_tpe",
+      "seed": 404,
+      "recalculated_pareto_size": 4,
+      "max_frontier_latency_ms": 2.5445,
+      "primary_hypervolume_2d_ref50": 49.2742,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.7741,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7186,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.6075,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.2742,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 98.7187,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "d76e7ca08c2b",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 0.1304
+        },
+        {
+          "candidate_hash": "90db6e8100ba",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 2.095
+        },
+        {
+          "candidate_hash": "024a4a23f027",
+          "val_score": 0.95833,
+          "loss": -0.95833,
+          "controlled_latency_per_100_median_ms": 0.1075
+        },
+        {
+          "candidate_hash": "65c6de6ef8ce",
+          "val_score": 0.98889,
+          "loss": -0.98889,
+          "controlled_latency_per_100_median_ms": 2.5445
+        }
+      ]
+    }
+  },
+  "amde_40": {
+    "seed_42": {
+      "method": "amde_40",
+      "seed": 42,
+      "recalculated_pareto_size": 7,
+      "max_frontier_latency_ms": 2.5914,
+      "primary_hypervolume_2d_ref50": 49.7082,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8333,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.8194,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7916,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.7082,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.5692,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "3b9675c1da01",
+          "val_score": 0.93056,
+          "loss": -0.93056,
+          "controlled_latency_per_100_median_ms": 0.1221
+        },
+        {
+          "candidate_hash": "dc150edb0a36",
+          "val_score": 0.94722,
+          "loss": -0.94722,
+          "controlled_latency_per_100_median_ms": 0.2183
+        },
+        {
+          "candidate_hash": "0f2624d9e143",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 2.5193
+        },
+        {
+          "candidate_hash": "ebba5aab1a52",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 2.5914
+        },
+        {
+          "candidate_hash": "7e8ccc85fd46",
+          "val_score": 0.94722,
+          "loss": -0.94722,
+          "controlled_latency_per_100_median_ms": 0.1037
+        },
+        {
+          "candidate_hash": "4ac5e8f75c09",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 0.1142
+        },
+        {
+          "candidate_hash": "37ffe0a025f3",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 1.6955
+        }
+      ]
+    },
+    "seed_101": {
+      "method": "amde_40",
+      "seed": 101,
+      "recalculated_pareto_size": 6,
+      "max_frontier_latency_ms": 2.351,
+      "primary_hypervolume_2d_ref50": 49.4463,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8211,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7795,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.6962,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.4463,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.0298,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "2d766dea2990",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 2.2945
+        },
+        {
+          "candidate_hash": "e454369d8e2e",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 2.351
+        },
+        {
+          "candidate_hash": "1d1b525067cc",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 0.109
+        },
+        {
+          "candidate_hash": "b8b8c9bca89d",
+          "val_score": 0.93611,
+          "loss": -0.93611,
+          "controlled_latency_per_100_median_ms": 0.1047
+        },
+        {
+          "candidate_hash": "73e9a682964a",
+          "val_score": 0.98333,
+          "loss": -0.98333,
+          "controlled_latency_per_100_median_ms": 1.7942
+        },
+        {
+          "candidate_hash": "e971946734db",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 0.724
+        }
+      ]
+    },
+    "seed_202": {
+      "method": "amde_40",
+      "seed": 202,
+      "recalculated_pareto_size": 5,
+      "max_frontier_latency_ms": 2.2189,
+      "primary_hypervolume_2d_ref50": 49.7791,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.7791,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7791,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7791,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.7791,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.7791,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "f6e4abf8f4f0",
+          "val_score": 0.95,
+          "loss": -0.95,
+          "controlled_latency_per_100_median_ms": 0.1796
+        },
+        {
+          "candidate_hash": "c0f3aa04ac08",
+          "val_score": 0.97778,
+          "loss": -0.97778,
+          "controlled_latency_per_100_median_ms": 0.2586
+        },
+        {
+          "candidate_hash": "7d7c64dda835",
+          "val_score": 0.95556,
+          "loss": -0.95556,
+          "controlled_latency_per_100_median_ms": 0.1915
+        },
+        {
+          "candidate_hash": "b1a1669df070",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 1.9173
+        },
+        {
+          "candidate_hash": "95a20817d196",
+          "val_score": 1.0,
+          "loss": -1.0,
+          "controlled_latency_per_100_median_ms": 2.2189
+        }
+      ]
+    },
+    "seed_303": {
+      "method": "amde_40",
+      "seed": 303,
+      "recalculated_pareto_size": 3,
+      "max_frontier_latency_ms": 3.8314,
+      "primary_hypervolume_2d_ref50": 49.3994,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.7742,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.7326,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.6493,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.3994,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 98.9829,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "5a9cdefd43bf",
+          "val_score": 0.96111,
+          "loss": -0.96111,
+          "controlled_latency_per_100_median_ms": 0.1122
+        },
+        {
+          "candidate_hash": "d78cda7386dc",
+          "val_score": 0.97222,
+          "loss": -0.97222,
+          "controlled_latency_per_100_median_ms": 0.1574
+        },
+        {
+          "candidate_hash": "e89da76452a7",
+          "val_score": 0.99167,
+          "loss": -0.99167,
+          "controlled_latency_per_100_median_ms": 3.8314
+        }
+      ]
+    },
+    "seed_404": {
+      "method": "amde_40",
+      "seed": 404,
+      "recalculated_pareto_size": 7,
+      "max_frontier_latency_ms": 1.9034,
+      "primary_hypervolume_2d_ref50": 49.7042,
+      "sensitivity_analysis": {
+        "ref_5ms": {
+          "ref_latency_ms": 5.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 4.8293,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_10ms": {
+          "ref_latency_ms": 10.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 9.8154,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_20ms": {
+          "ref_latency_ms": 20.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 19.7876,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_50ms": {
+          "ref_latency_ms": 50.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 49.7042,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        },
+        "ref_100ms": {
+          "ref_latency_ms": 100.0,
+          "is_valid": true,
+          "out_of_bounds_count": 0,
+          "hypervolume_2d": 99.5652,
+          "validity_note": "VALID: Strictly bounds all frontier candidates"
+        }
+      },
+      "non_dominated_candidates": [
+        {
+          "candidate_hash": "0b77b80a6744",
+          "val_score": 0.95556,
+          "loss": -0.95556,
+          "controlled_latency_per_100_median_ms": 0.1357
+        },
+        {
+          "candidate_hash": "a1f36a0e7252",
+          "val_score": 0.975,
+          "loss": -0.975,
+          "controlled_latency_per_100_median_ms": 1.5087
+        },
+        {
+          "candidate_hash": "fdd3819bc9ab",
+          "val_score": 0.96667,
+          "loss": -0.96667,
+          "controlled_latency_per_100_median_ms": 0.2625
+        },
+        {
+          "candidate_hash": "01cbf40e1a63",
+          "val_score": 0.95833,
+          "loss": -0.95833,
+          "controlled_latency_per_100_median_ms": 0.1657
+        },
+        {
+          "candidate_hash": "777fa2637b4a",
+          "val_score": 0.95278,
+          "loss": -0.95278,
+          "controlled_latency_per_100_median_ms": 0.1052
+        },
+        {
+          "candidate_hash": "c0a7cd3388c8",
+          "val_score": 0.96944,
+          "loss": -0.96944,
+          "controlled_latency_per_100_median_ms": 1.0233
+        },
+        {
+          "candidate_hash": "51f1ebc2a924",
+          "val_score": 0.99722,
+          "loss": -0.99722,
+          "controlled_latency_per_100_median_ms": 1.9034
+        }
+      ]
+    }
+  }
+}

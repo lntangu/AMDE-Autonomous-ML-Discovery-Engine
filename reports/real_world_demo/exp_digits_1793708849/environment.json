@@ -1,0 +1,16 @@
+{
+  "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "machine": "AMD64",
+  "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+  "cpu_count_logical": 12,
+  "ram_total_gb": 31.78,
+  "execution_plan": "CPU Execution Plan (Deterministic Standard Concurrency)",
+  "gpu_available": false,
+  "gpu_note": "Pascal Quadro P2000 detected; not utilized (CPU-only execution strictly enforced)",
+  "sklearn_version": "1.9.1",
+  "scipy_version": "1.18.1",
+  "numpy_version": "2.5.4",
+  "optuna_available": true,
+  "timestamp_iso": "2026-11-03T12:27:32Z"
+}

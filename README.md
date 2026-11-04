@@ -1,145 +1,273 @@
-# AMDE 4.0 — Autonomous Machine Learning Discovery Engine
+# AMDE — Autonomous Machine Learning Discovery Engine (v4.0.2)
 
-[![Architecture Version](https://img.shields.io/badge/architecture-4.0.1-blue.svg)](docs/FINAL_ARCHITECTURE.md)
-[![Release Status](https://img.shields.io/badge/release-v4.0.1-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.1)
-[![Final Closure](https://img.shields.io/badge/audit-CLOSED-success.svg)](docs/AMDE_Final_Release_Closure.md)
-[![Tests](https://img.shields.io/badge/tests-28%2F28%20passing-success.svg)](reports/final_release/FINAL_TEST_REPORT.md)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![CI Matrix](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml/badge.svg?branch=release-amde-final)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/badge/release-v4.0.2-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.2)
+[![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](pyproject.toml)
+[![Platforms](https://img.shields.io/badge/platforms-Ubuntu%20%7C%20Windows-lightgrey.svg)](.github/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/notebooks/AMDE_Real_World_Demo.ipynb)
 
-**AMDE 4.0** is a complete, principled architectural reconstruction of the Autonomous Machine Learning Discovery Engine. Designed from the ground up for scientific defensibility, evidence provenance, and multi-objective optimization, AMDE 4.0 transforms autonomous model discovery from an ad-hoc heuristic exploration into an empirically grounded research instrument.
-
----
-
-## 1. Foundational Architectural Pillars
-
-AMDE 4.0 systematically resolves all historical architectural defects ([DEF-01 through DEF-10](docs/architecture/AMDE_4.0_Architecture_Decision_Records.md)) through seven core design pillars:
-
-1. **Decoupled Identity Invariant:** Candidate genome identity ($H(C) = \text{SHA256}(\text{canonical\_json}(G))$) is strictly separated from evaluation cache identity ($K(E) = \text{SHA256}(H(C) \Vert \text{dataset} \Vert \text{split} \Vert \text{seed} \Vert \text{rung} \Vert \text{version})$), eliminating cross-split cache collisions ([DEF-01](docs/architecture/AMDE_4.0_Architecture_Decision_Records.md)).
-2. **Dynamic Bounded-Entropy Meta-Controller:** Discounted Thompson Sampling with cost-normalized rewards ($R_t \in [-1.0, 5.0]$) and continuous variance expansion on unchosen arms, eliminating strategy starvation and premature heuristic lock-in ([DEF-02](docs/architecture/AMDE_4.0_Controller_Mathematical_Specification.md)).
-3. **Calibrated Multi-Fidelity Guardrails:** Full-fidelity evaluation by default; screening-rung pruning is enabled only when empirical rank correlation exceeds $\rho \ge 0.30$, with automatic safe fallback on non-linear or parity manifolds ([DEF-03](docs/architecture/AMDE_4.0_MultiFidelity_Qualification.md)).
-4. **Standardized Evaluation & Zero Data Leakage:** Preprocessing transformations (StandardScaler, OneHotEncoder) are fitted strictly on `X_train` and applied downstream via transform-only interfaces ([DEF-04](docs/architecture/AMDE_4.0_Evaluation_Architecture.md)).
-5. **Cryptographically Sealed Holdout Verification:** The 20% test partition is locked behind a 256-bit single-use cryptographic token, preventing test-set overfitting and adaptive leakage ([BOT-05](docs/architecture/AMDE_4.0_Evaluation_Architecture.md)).
-6. **Native Multi-Objective Pareto Frontier:** Simultaneous optimization of validation accuracy, inference latency (ms), and peak resident memory (MB) with 2D and 3D exact hypervolume calculation ([DEF-07](docs/architecture/AMDE_4.0_MultiObjective_Optimization.md)).
-7. **Immutable SQLite WAL Evidence Ledger:** Every proposal, evaluation, and controller decision is persisted in SQLite WAL mode with SHA-256 event chaining for complete forensic auditability ([DEF-06](docs/architecture/AMDE_4.0_Evidence_Provenance.md)).
+**AMDE (Autonomous Machine Learning Discovery Engine)** is an open-source research software platform for reproducible, multi-objective exploration and forensic evaluation of classical and tabular machine learning pipelines.
 
 ---
 
-## 2. Quickstart & Idiomatic API
+## 1. What AMDE Does
 
-### Installation & Environment Setup
+AMDE automates the search, evaluation, and selection of machine learning pipelines for tabular datasets. Rather than functioning as a black-box optimizer that returns a single model, AMDE:
+- Simultaneously optimizes predictive accuracy, inference latency (milliseconds), and peak resident memory (MB) to construct a non-dominated Pareto trade-off frontier.
+- Protects the 20% holdout test partition behind a single-use token gate to prevent adaptive test-set snooping during search.
+- Discovers configurations across four distinct model families (`tree_ensemble`, `mlp`, `linear`, and `kernel_svc`) and preprocessing stages.
+- Logs every proposal, mutation, fit, and metric in an append-only, tamper-evident SQLite Write-Ahead Logging (WAL) event ledger with SHA-256 block hashing.
+- Caches and deduplicates candidate genomes to prevent redundant training of identical model structures.
+
+> **Scope Boundary:** AMDE is designed for classical tabular datasets and standard CPU environments. It is **not** an AGI system, not a deep learning foundation model generator, not a container hypervisor, and not a distributed blockchain.
+
+---
+
+## 2. How the Discovery Loop Works
+
+AMDE operates an iterative, state-tracked discovery loop:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           AMDE Discovery Loop                           │
+└─────────────────────────────────────────────────────────────────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │    Candidate Generation     │
+                      │  (Random, TPE, Evolutionary)│
+                      └─────────────────────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │   Candidate Deduplication   │
+                      │   (Genome Hash Cache Filter)│
+                      └─────────────────────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │    Isolated Evaluation      │
+                      │  (Train Fit -> Val Scoring) │
+                      │  (Zero Leakage Preprocess)  │
+                      └─────────────────────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │    Multi-Objective Update   │
+                      │   (Pareto Frontier Archive) │
+                      └─────────────────────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │    Evidence Ledger Record   │
+                      │  (SQLite WAL SHA-256 Chain) │
+                      └─────────────────────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │    Adaptive Meta-Control    │
+                      │  (Strategy Reward Feedback) │
+                      └─────────────────────────────┘
+                                     │
+                       (Repeat until budget exhausted)
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │   Sealed Holdout Gate Test  │
+                      │  (Single-Use Token Access)  │
+                      └─────────────────────────────┘
+```
+
+---
+
+## 3. Core Architecture
+
+AMDE decouples the pipeline discovery lifecycle into five modular components:
+
+1. **`amde.space.search_space.SearchSpace`:** Defines typed hierarchical genomes spanning:
+   - Tree Ensembles (`RandomForestClassifier`, `GradientBoostingClassifier`).
+   - Multi-Layer Perceptrons (`MLPClassifier` with hidden dimensions, activations, regularization, and optimizers).
+   - Linear Models (`LogisticRegression` with L1, L2, or ElasticNet penalties).
+   - Kernel Support Vector Classifiers (`kernel_svc` mapped to `sklearn.svm.SVC(C=1/alpha)`; `kernel_ridge` is retained as a deprecated alias).
+   - Preprocessing stages (imputers, scalers, feature selectors) calibrated strictly on `X_train`.
+2. **`amde.evaluation.pipeline.StandardEvaluationPipeline`:** Executes pipeline fitting and validation under timeout controls and memory monitoring with strict data isolation.
+3. **`amde.evaluation.holdout.SealedHoldoutTest`:** Encapsulates the holdout test partition behind a cryptographic token, raising an exception if accessed more than once.
+4. **`amde.archive.pareto.ParetoArchive`:** Maintains exact non-dominated Pareto candidates across validation loss, batch inference latency, and memory footprints.
+5. **`amde.ledger.database.EventLedger`:** An SQLite WAL database recording every mutation, evaluation request, and reward with chained SHA-256 hashes incorporating `experiment_id`.
+
+---
+
+## 4. Main Capabilities & Verification Status
+
+To ensure scientific clarity, capabilities are categorized by verification status:
+
+| Capability Tier | Description | Status |
+| :--- | :--- | :---: |
+| **Verified by Automated Tests** | Multi-model family pipeline construction (`tree_ensemble`, `mlp`, `linear`, `kernel_svc`) | **VERIFIED** |
+| **Verified by Automated Tests** | Single-use token gating on holdout test partition | **VERIFIED** |
+| **Verified by Automated Tests** | Tamper-evident SHA-256 SQLite WAL event ledger integrity | **VERIFIED** |
+| **Verified by Automated Tests** | Non-dominated Pareto frontier tracking and 2D hypervolume calculation | **VERIFIED** |
+| **Verified by Automated Tests** | Cross-platform compatibility on Ubuntu Linux and Windows across Python 3.10–3.14 | **VERIFIED** |
+| **Demonstrated Experimentally** | Multi-objective trade-off frontiers on the 1,797-sample Digits benchmark | **DEMONSTRATED** |
+| **Demonstrated Experimentally** | Controlled repeated inference latency measurement (10 warm-ups, 30 repetitions) | **DEMONSTRATED** |
+| **Demonstrated Experimentally** | Deduplication filtering of repeated proposals from clustering optimizers | **DEMONSTRATED** |
+| **Not Established / Retracted** | Predictive accuracy superiority over Random Search or Optuna TPESampler | **NOT CLAIMED** |
+| **Not Established / Retracted** | Hypervolume coverage superiority over Random Search | **NOT CLAIMED** |
+| **Not Established / Retracted** | Enterprise multi-tenant isolation (token gating is an in-process barrier, not a VM sandbox) | **NOT CLAIMED** |
+| **Not Established / Retracted** | Out-of-the-box generalization to massive billion-parameter foundation models | **NOT CLAIMED** |
+
+---
+
+## 5. Installation
+
+AMDE requires **Python 3.10 or newer** (tested through Python 3.14 on Linux and Windows). Zero GPU or specialized hardware is required.
+
+### From Source (Recommended)
+
 ```bash
 # Clone the repository
 git clone https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git
 cd AMDE-Autonomous-ML-Discovery-Engine
 
-# Install package and dependencies (Python 3.10+ supported; verified on Python 3.14)
-pip install .
-
-# Or install directly from pre-built wheel:
-pip install https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/download/v4.0.1/amde-4.0.1-py3-none-any.whl
+# Install in editable mode with development dependencies
+pip install -e ".[dev,tabular]"
 ```
 
-### Running an Evidence-Guided Discovery Campaign
+### From Release Distribution Wheel
+
+```bash
+pip install https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/download/v4.0.2/amde-4.0.2-py3-none-any.whl
+```
+
+---
+
+## 6. Quickstart (CPU, < 10 Seconds)
+
 ```python
-import numpy as np
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
-from amde import AMDE4Engine, SealedHoldoutTest
+from amde import AMDE4Engine, create_sealed_holdout
 
-# 1. Prepare and partition dataset (60% Train, 20% Val, 20% Sealed Test)
+# 1. Load and partition data (60% Train, 20% Val, 20% Sealed Test)
 X, y = load_breast_cancer(return_X_y=True)
 X_dev, X_test, y_dev, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
 X_train, X_val, y_train, y_val = train_test_split(X_dev, y_dev, test_size=0.25, random_state=42)
 
-# 2. Instantiate AMDE 4.0 Engine
-engine = AMDE4Engine(
-    n_features=X.shape[1],
-    is_classification=True,
-    seed=42,
-    enable_controller=True,
-    use_multi_fidelity=False,  # Full fidelity default
-)
+# 2. Seal the holdout test set behind a cryptographic token
+holdout, token = create_sealed_holdout(X_test, y_test, dataset_name="breast_cancer")
 
-# 3. Execute Discovery Search Loop (50 evaluations)
-results = engine.search(
-    X_train, y_train, X_val, y_val,
-    dataset_name="breast_cancer",
-    budget=50,
-)
+# 3. Initialize engine and run search (budget: 20 evaluations)
+engine = AMDE4Engine(n_features=X.shape[1], is_classification=True, seed=42)
+results = engine.search(X_train, y_train, X_val, y_val, dataset_name="breast_cancer", budget=20)
 
-# 4. Evaluate Winning Incumbent on Sealed Holdout (Token-Gated)
-holdout = SealedHoldoutTest(dataset_name="breast_cancer", X_test=X_test, y_test=y_test)
-test_score = engine.evaluate_sealed_holdout(X_train, y_train, holdout)
+# 4. Evaluate the best model on the sealed holdout set exactly once
+test_score = engine.evaluate_sealed_holdout(X_train, y_train, holdout, token=token)
 
-print(f"Validation Score:         {results['incumbent_score']:.4f}")
-print(f"Sealed Holdout Score:     {test_score:.4f}")
-print(f"Pareto Frontier Size:     {results['pareto_size']}")
-print(f"2D Hypervolume:           {results['hypervolume_2d']:.4f}")
-print(f"Redundant Evals Saved:    {results['duplicate_rate']:.2%}")
-print(f"Ledger Integrity SHA-256: {results['ledger_sha256']}")
+print(f"Validation Score:     {results['incumbent_score']:.4f}")
+print(f"Holdout Test Score:   {test_score:.4f}")
+print(f"Pareto Frontier Size: {results['pareto_size']}")
+print(f"Ledger SHA-256 Hash:  {results['ledger_sha256'][:16]}...")
 ```
 
 ---
 
-## 3. Architecture Specification Library (17 Documents)
+## 7. Reproducible Demonstration
 
-Detailed mathematical specifications, defect registers, and operational guides are available in `docs/architecture/`:
+A self-contained, reproducible benchmark demonstration comparing AMDE 4.0 against **Random Search**, **Native Bayesian TPE**, and **Optuna TPESampler** is included in the repository:
 
-1. [System Architecture Overview](docs/architecture/AMDE_4.0_System_Architecture.md)
-2. [Architecture Decision Records & Defect Register](docs/architecture/AMDE_4.0_Architecture_Decision_Records.md)
-3. [Core Contracts & Identity Specification](docs/architecture/AMDE_4.0_Core_Contracts.md)
-4. [Search Engine & Candidate Operators](docs/architecture/AMDE_4.0_Search_Engine_Design.md)
-5. [Meta-Controller Mathematical Formulation](docs/architecture/AMDE_4.0_Controller_Mathematical_Specification.md)
-6. [Evaluation Pipeline & Data Isolation](docs/architecture/AMDE_4.0_Evaluation_Architecture.md)
-7. [Multi-Fidelity Qualification Protocol](docs/architecture/AMDE_4.0_MultiFidelity_Qualification.md)
-8. [Multi-Objective Pareto Frontier & Hypervolume](docs/architecture/AMDE_4.0_MultiObjective_Optimization.md)
-9. [Execution Reliability & Process Architecture](docs/architecture/AMDE_4.0_Execution_Reliability.md)
-10. [Evidence Provenance & Ledger Design](docs/architecture/AMDE_4.0_Evidence_Provenance.md)
-11. [Hardware Optimization & Pascal GPU Profile](docs/architecture/AMDE_4.0_Hardware_Optimization.md)
-12. [Security, Token Gating & Data Integrity](docs/architecture/AMDE_4.0_Security_and_Data_Integrity.md)
-13. [Scientific Benchmark Protocol](docs/architecture/AMDE_4.0_Benchmark_Protocol.md)
-14. [Software Test Qualification Report](docs/architecture/AMDE_4.0_Test_Qualification.md)
-15. [Migration Guide from AMDE 2.0 / 3.0](docs/architecture/AMDE_4.0_Migration_Guide.md)
-16. [Known Limitations & Scope Boundaries](docs/architecture/AMDE_4.0_Known_Limitations.md)
-17. [Final Release Qualification Assessment](docs/architecture/AMDE_4.0_Final_Release_Assessment.md)
+- **Script:** `python -m amde.examples.real_world_demo --budget 30`
+- **Jupyter Notebook:** [`notebooks/AMDE_Real_World_Demo.ipynb`](notebooks/AMDE_Real_World_Demo.ipynb)
+- **Controlled Latency Profiler:** `python scripts/measure_controlled_latency.py`
 
----
+### Headless Local Verification
 
-## 4. Test Suite Execution
-
-Execute the full architecture and hardening regression suites (28 tests, 100% pass rate in $< 5$ seconds):
+To run headless verification of the complete interactive demonstration notebook in under 2 minutes:
 
 ```bash
-# Architecture specification tests
-PYTHONPATH=src python3 -m unittest tests/unit/test_amde4_architecture.py
-
-# Forensic hardening regression tests (DEF-11 through DEF-16)
-PYTHONPATH=src python3 -m unittest tests/unit/test_amde4_hardening_regressions.py
+python scripts/test_execute_notebook.py
 ```
 
 ---
 
-## 5. Scientific Benchmark Suite
+## 8. Benchmark Results & Scientific Limitations
 
-Execute the full 250-run comparative empirical benchmark (5 methods $\times$ 10 tasks $\times$ 5 seeds $\times$ 50 evaluations):
+Across 20 independent campaigns (5 preregistered seeds $\times$ 4 methods, 30 candidate evaluation budget per campaign) on the Optical Recognition of Handwritten Digits dataset ($N=1,797, 64$ integer pixel features in $\{0, \dots, 16\}$):
 
-```bash
-PYTHONPATH=src python3 scripts/run_amde4_benchmark.py
-```
+### Quantitative Summary (Across 5 Preregistered Seeds):
 
-Raw outputs and significance reports are automatically exported to `results/amde4_benchmarks/`:
-- `AMDE_4.0_Comparative_Benchmark.json`
-- `AMDE_4.0_Comparative_Benchmark.csv`
-- `AMDE_4.0_Pareto_Frontiers.json`
-- `AMDE_4.0_Statistical_Significance.json`
+| Optimization Method | Mean Best Val Acc ($\pm \sigma$) | Mean Sealed Test Acc ($\pm \sigma$) | Mean Wall-Clock Duration (s) | Duplicate Proposal Rate | Controlled Pareto Size | Controlled 2D Hypervolume ($r=50\text{ms}$) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Random Search (Method A)** | $0.9972 \pm 0.0034$ | $0.9828 \pm 0.0080$ | $28.91 \pm 15.22$ s | $0.0\%$ | $7.80 \pm 2.28$ | **$49.7085 \pm 0.1584$** |
+| **AMDE Native TPE (Method B1)** | $0.9800 \pm 0.0114$ | $0.9661 \pm 0.0097$ | $55.56 \pm 67.68$ s | $48.7\%$ | $5.80 \pm 0.84$ | $48.8321 \pm 0.5722$ |
+| **Optuna TPESampler (Method B2)** | $0.9933 \pm 0.0037$ | $0.9783 \pm 0.0057$ | $27.18 \pm 23.69$ s | $0.7\%$ | $5.00 \pm 2.00$ | $49.4977 \pm 0.1691$ |
+| **AMDE 4.0 Engine (Method C)** | $0.9956 \pm 0.0037$ | **$0.9811 \pm 0.0023$** | $35.46 \pm 9.90$ s | $21.8\%$ | $5.60 \pm 1.67$ | $49.6074 \pm 0.1719$ |
+
+### Core Scientific Findings:
+1. **No Statistically Significant Difference:** Exact sign-flip permutation Wilcoxon signed-rank tests confirm no statistically significant difference in generalization accuracy between AMDE 4.0 and Random Search (adjusted $p = 1.0000$), Optuna (adjusted $p = 1.0000$), or Native TPE (adjusted $p = 0.1875$).
+2. **No Superiority Claims:** AMDE does **not** claim higher predictive accuracy or higher 2D hypervolume than Random Search or Optuna on this benchmark.
+3. **Single-Sample vs Batch Latency:** Single-sample inference ($B=1$, median $\approx 0.32$ ms) is **$67\times$ to $191\times$ slower per sample** than batch inference ($B=100$, median $\approx 0.24$–$1.64$ ms per 100 samples) due to Python/C dispatch overhead. Dividing batch latency by $N$ is invalid.
+4. **Reference Point Validity:** Bounding thresholds $r_{\text{lat}} \in \{5, 10, 20\}$ ms are mathematically invalid for the full space because candidate latencies reach up to $20.001$ ms per 100 samples. The pre-specified reference point $r = (0.0, 50.0)$ ms strictly bounds all frontier points.
+5. **Deduplication Reality:** AMDE sampled $\approx 38.4$ proposals to fit 30 distinct configurations, filtering $8.4$ duplicate proposals ($21.8\%$). While this avoided redundant fitting compared to Native TPE (which suffered 48.7% duplicates), AMDE does not save compute compared to Optuna or Random Search (which naturally explored $\approx 30$ unique configurations).
+
+<p align="center">
+  <img src="assets/real_world_demo/pareto_frontier_tradeoff.png" alt="Controlled Pareto Frontier Trade-Off" width="90%"/>
+</p>
 
 ---
 
-## 6. Scientific Honesty & Mandated Disclosure
+## 9. Google Colab Demonstration Notebook
 
-AMDE 4.0 enforces strict adherence to non-parametric statistical standards (paired Wilcoxon signed-rank test with Holm-Bonferroni FWER correction).
+The interactive demonstration is available to open directly in Google Colab:
 
-> **Mandated Release Statement:**  
-> When comparative empirical tests between AMDE 4.0 and Random Search or Bayesian TPE yield Holm-Bonferroni adjusted $p$-values satisfying $p \ge 0.05$, the system formally discloses:  
-> **`No statistically significant superiority was detected under the tested conditions.`**  
-> AMDE 4.0's qualified advantages reside in its verified search diversity, candidate deduplication efficiency (saving 15–25% of redundant evaluations), multi-objective Pareto trade-off coverage, zero data-leakage isolation, and cryptographic auditability, rather than unbounded raw accuracy gains on simple toy benchmarks.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/notebooks/AMDE_Real_World_Demo.ipynb)
+
+> **Execution Note:** The notebook [`notebooks/AMDE_Real_World_Demo.ipynb`](notebooks/AMDE_Real_World_Demo.ipynb) is verified to execute headlessly without error in local clean virtual environments via [`scripts/test_execute_notebook.py`](scripts/test_execute_notebook.py). Live execution on remote Google Colab cloud infrastructure has not been independently verified by external cloud automation; running the badge launches a standard Colab CPU instance.
+
+---
+
+## 10. Research Documentation Library
+
+| Document | Purpose |
+| :--- | :--- |
+| **[`docs/REAL_WORLD_DEMO.md`](docs/REAL_WORLD_DEMO.md)** | Overview of the real-world ML benchmark and Colab package. |
+| **[`docs/BENCHMARK_METHODOLOGY.md`](docs/BENCHMARK_METHODOLOGY.md)** | Controlled experimental setup, search space specification, and protocol. |
+| **[`docs/RESULTS_AND_LIMITATIONS.md`](docs/RESULTS_AND_LIMITATIONS.md)** | Full statistical audit, exact permutation tests, and empirical metrics. |
+| **[`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md)** | Step-by-step reproduction instructions and command reference. |
+| **[`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md)** | Transparent catalog of algorithmic, statistical, and security boundaries. |
+| **[`docs/CLAIMS_LEDGER.md`](docs/CLAIMS_LEDGER.md)** | Machine-audited ledger mapping every claim to empirical verification status. |
+| **[`docs/VIDEO_DEMONSTRATION_PLAN.md`](docs/VIDEO_DEMONSTRATION_PLAN.md)** | Walkthrough video script and visual assets demonstration plan. |
+| **[`docs/PROJECT_CLOSURE.md`](docs/PROJECT_CLOSURE.md)** | Formal project status, development closure, and release references. |
+| **[`docs/releases/AMDE_4.0.2_RELEASE_NOTES.md`](docs/releases/AMDE_4.0.2_RELEASE_NOTES.md)** | Complete release notes for version 4.0.2. |
+
+---
+
+## 11. Citation
+
+If you use AMDE in your experimental research, please cite this work as follows:
+
+```bibtex
+@software{amde2026,
+  author = {lntangu and AMDE Contributors},
+  title = {AMDE: Autonomous Machine Learning Discovery Engine (Version 4.0.2)},
+  year = {2026},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine}},
+  note = {Canonical branch: release-amde-final}
+}
+```
+
+---
+
+## 12. License
+
+This project is licensed under the terms of the [MIT License](LICENSE).
+
+---
+
+## 13. Project Status
+
+**Final research demonstration release — active feature development concluded; maintenance and corrections may continue if required.**
+
+AMDE has completed its planned research lifecycle. All core architectural components, statistical evaluations, and reproducibility artifacts are frozen and published. Community issue reports and bug fixes are welcome via GitHub Issues.

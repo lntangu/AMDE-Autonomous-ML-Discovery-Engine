@@ -1,3 +1,29 @@
+## 4.0.2 — 2026-11-04
+
+### Core Library Correctness & Hardening (P0 Closure)
+- **Model Space Rectification:** Renamed model family genome from `kernel_ridge` to `kernel_svc` across `SearchSpace`, `StandardEvaluationPipeline`, and `TPEStrategy`, mapping accurately to `sklearn.svm.SVC(C=1/alpha)` for multi-class classification. Preserved `kernel_ridge` as a backwards-compatible alias emitting a `DeprecationWarning`.
+- **Search-Space Phenotype Consistency:** Ensured all active genes in `Candidate` genomes (including MLP hidden layer widths, activations, optimizers, and dropout) directly dictate pipeline construction; added exhaustive regression tests in `tests/unit/test_model_space_kernel_svc.py`.
+- **TPE Feedback History Accumulation:** Fixed `TPEStrategy.record_feedback()` to properly update the empirical observation history, ensuring subsequent candidate proposals mathematically depend on previous evaluations.
+- **Ledger Tamper Evidency Hardening:** Upgraded SQLite WAL `EventLedger` block hashing to incorporate `experiment_id` and previous event block hashes; implemented full-chain verification with adversarial tamper-detection tests.
+- **Pareto Archive Non-Dominated Solutions:** Hardened `ParetoArchive` to preserve exact non-dominated frontiers across validation loss, latency, and peak memory, and implemented out-of-bounds candidate detection for bounding reference points.
+- **Cross-Platform CI & Windows Hardening:** Resolved Windows `PermissionError` and file-contention race conditions in state recovery polling loops; verified CI matrix across Ubuntu Linux and Windows on Python 3.10 through 3.14.
+
+### Benchmark & Demonstration Qualification
+- **Controlled Repeated Latency Protocol:** Replaced single-batch validation inference timing with a controlled repeated measurement protocol (`scripts/measure_controlled_latency.py`) utilizing monotonic `time.perf_counter`, 10 warm-up cycles, 30 repetitions, and independent profiling for single-sample ($B=1$), fixed batch ($B=100$), and validation batch ($B=360$).
+- **Single-vs-Batch Latency Empirical Disclosure:** Documented that single-sample inference ($B=1$, median $\approx 0.32$ ms) is $67\times$ to $191\times$ slower per sample than batch inference ($B=100$, median $\approx 0.24$–$1.64$ ms per 100 samples) due to framework dispatch overhead; demonstrated that dividing batch latency by $N$ is invalid.
+- **Pareto Hypervolume Recalculation & Reference Point Audit:** Audited bounding reference point validity; demonstrated that thresholds $r_{\text{lat}} \in \{5, 10, 20\}$ ms are mathematically invalid for the full search space because candidate latencies reach up to $20.001$ ms per 100 samples. Pre-specified $r = (0.0\text{ loss}, 50.0\text{ ms})$ as the valid bounding reference point.
+- **Statistical Significance Audit:** Verified that exact sign-flip permutation Wilcoxon signed-rank tests show no statistically significant difference in accuracy between AMDE 4.0 and Random Search (adjusted $p=1.0000$), Optuna (adjusted $p=1.0000$), or Native TPE (adjusted $p=0.1875$); added regression test suite in `tests/unit/test_amde4_benchmark_stats.py`.
+- **Candidate Deduplication Disaggregated Accounting:** Clarified 7-part disaggregated accounting across proposals, duplicates, rejections, and fits; disclosed that AMDE avoided redundant model fitting compared to Native TPE (48.7% duplicates), but did not save compute relative to Optuna or Random Search.
+- **Reproducible Interactive Demonstration:** Created `notebooks/AMDE_Real_World_Demo.ipynb` and headless execution verification runner `scripts/test_execute_notebook.py`.
+
+## 4.0.1 — 2026-11-02
+
+### AMDE 4.0 Research Distribution
+- Complete architectural reconstruction decoupling search spaces, isolated pipelines, Pareto archives, sealed holdout tests, and SQLite WAL event ledgers.
+- Discounted Thompson Sampling (EGADA) meta-controller portfolio managing exploration across Random Search, Bayesian TPE, Evolutionary, and Local Refinement strategies.
+- Cryptographic sealed holdout token gating (`create_sealed_holdout`).
+- Cross-platform release packaging and SHA-256 manifest verification.
+
 ## 2.0.1 — 2026-10-31
 
 ### Reliability & Fault Tolerance Overhaul

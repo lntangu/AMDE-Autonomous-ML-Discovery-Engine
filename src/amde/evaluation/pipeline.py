@@ -20,6 +20,7 @@ import math
 import multiprocessing
 import time
 from typing import Any, Mapping, Optional, Tuple
+import warnings
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
@@ -438,7 +439,14 @@ class StandardEvaluationPipeline:
                 solver="lbfgs",
             )
 
-        elif family == "kernel_ridge":
+        elif family in ("kernel_svc", "kernel_ridge"):
+            if family == "kernel_ridge":
+                warnings.warn(
+                    "Model family 'kernel_ridge' is a deprecated misleading alias for 'kernel_svc' "
+                    "(maps to sklearn.svm.SVC with C=1/alpha, not KernelRidge regression).",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
             c_val = 1.0 / max(1e-4, float(model_spec.get("alpha", 1.0)))
             kernel = model_spec.get("kernel", "rbf")
             gamma = float(model_spec.get("gamma", 1.0))

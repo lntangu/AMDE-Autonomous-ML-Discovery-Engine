@@ -1,0 +1,19 @@
+{
+  "experiment_id": "exp_digits_1793708849",
+  "dataset_name": "digits_full",
+  "dataset_shape": [
+    1797,
+    64
+  ],
+  "n_classes": 10,
+  "budget": 10,
+  "seeds": [
+    42
+  ],
+  "methods": [
+    "random_search",
+    "bayesian_tpe",
+    "optuna_tpe",
+    "amde_40"
+  ]
+}

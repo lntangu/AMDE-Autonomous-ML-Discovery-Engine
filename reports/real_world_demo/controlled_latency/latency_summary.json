@@ -1,0 +1,279 @@
+{
+  "hardware_telemetry": {
+    "timestamp_iso": "2026-11-04T02:28:40Z",
+    "os_platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "processor_architecture": "x86_64",
+    "processor_name": "Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz",
+    "logical_cpu_count": 12,
+    "ram_total_gb": 15.51,
+    "thread_env": {
+      "OMP_NUM_THREADS": "default",
+      "MKL_NUM_THREADS": "default",
+      "OPENBLAS_NUM_THREADS": "default"
+    },
+    "software_versions": {
+      "python": "3.14.4",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "sklearn": "1.9.1",
+      "optuna": "5.0.0"
+    },
+    "measurement_protocol": {
+      "clock": "time.perf_counter (monotonic, high-resolution)",
+      "warmup_iterations": 10,
+      "timed_repetitions": 30,
+      "batch_sizes": {
+        "single": 1,
+        "fixed": 100,
+        "val": 360
+      }
+    }
+  },
+  "method_aggregates": {
+    "random_search": {
+      "n_seeds": 5,
+      "n_candidate_measurements": 40,
+      "single_sample_latency_ms": {
+        "mean": 0.7096,
+        "std": 1.6384,
+        "median": 0.3275,
+        "p95": 1.5135
+      },
+      "controlled_batch_per_100_ms": {
+        "mean": 0.9146,
+        "std": 1.1202,
+        "median": 0.2426,
+        "p95": 3.1644
+      },
+      "single_to_batch_per_sample_ratio": {
+        "mean": 167.82,
+        "median": 190.5,
+        "p95": 297.81
+      },
+      "pareto_frontier_size": {
+        "mean": 7.8,
+        "std": 2.28
+      },
+      "primary_2d_hypervolume_ref50": {
+        "mean": 49.7085,
+        "std": 0.1584,
+        "values": [
+          49.8361,
+          49.83,
+          49.4454,
+          49.715,
+          49.7158
+        ]
+      },
+      "sensitivity_2d_hypervolume_ref100": {
+        "mean": 99.5696,
+        "std": 0.3284,
+        "values": [
+          99.8361,
+          99.83,
+          99.0289,
+          99.576,
+          99.5768
+        ]
+      }
+    },
+    "bayesian_tpe": {
+      "n_seeds": 5,
+      "n_candidate_measurements": 35,
+      "single_sample_latency_ms": {
+        "mean": 2.0099,
+        "std": 3.5759,
+        "median": 0.4491,
+        "p95": 10.8905
+      },
+      "controlled_batch_per_100_ms": {
+        "mean": 1.3329,
+        "std": 1.4137,
+        "median": 0.6901,
+        "p95": 4.286
+      },
+      "single_to_batch_per_sample_ratio": {
+        "mean": 169.9,
+        "median": 191.85,
+        "p95": 286.67
+      },
+      "pareto_frontier_size": {
+        "mean": 5.8,
+        "std": 0.84
+      },
+      "primary_2d_hypervolume_ref50": {
+        "mean": 48.8321,
+        "std": 0.5722,
+        "values": [
+          48.5087,
+          48.712,
+          49.4417,
+          49.3835,
+          48.1145
+        ]
+      },
+      "sensitivity_2d_hypervolume_ref100": {
+        "mean": 97.8322,
+        "std": 1.1389,
+        "values": [
+          97.1197,
+          97.601,
+          99.0252,
+          98.967,
+          96.448
+        ]
+      }
+    },
+    "optuna_tpe": {
+      "n_seeds": 5,
+      "n_candidate_measurements": 31,
+      "single_sample_latency_ms": {
+        "mean": 0.4173,
+        "std": 0.4129,
+        "median": 0.2796,
+        "p95": 1.0657
+      },
+      "controlled_batch_per_100_ms": {
+        "mean": 1.3039,
+        "std": 1.1092,
+        "median": 1.6446,
+        "p95": 3.0922
+      },
+      "single_to_batch_per_sample_ratio": {
+        "mean": 114.03,
+        "median": 67.49,
+        "p95": 295.78
+      },
+      "pareto_frontier_size": {
+        "mean": 5.0,
+        "std": 2.0
+      },
+      "primary_2d_hypervolume_ref50": {
+        "mean": 49.4977,
+        "std": 0.1691,
+        "values": [
+          49.4241,
+          49.4572,
+          49.6783,
+          49.6549,
+          49.2742
+        ]
+      },
+      "sensitivity_2d_hypervolume_ref100": {
+        "mean": 99.1644,
+        "std": 0.3545,
+        "values": [
+          99.0076,
+          99.0407,
+          99.5393,
+          99.5159,
+          98.7187
+        ]
+      }
+    },
+    "amde_40": {
+      "n_seeds": 5,
+      "n_candidate_measurements": 32,
+      "single_sample_latency_ms": {
+        "mean": 0.5292,
+        "std": 1.0493,
+        "median": 0.3212,
+        "p95": 0.5596
+      },
+      "controlled_batch_per_100_ms": {
+        "mean": 0.9292,
+        "std": 1.045,
+        "median": 0.2566,
+        "p95": 2.5517
+      },
+      "single_to_batch_per_sample_ratio": {
+        "mean": 160.65,
+        "median": 188.93,
+        "p95": 315.05
+      },
+      "pareto_frontier_size": {
+        "mean": 5.6,
+        "std": 1.67
+      },
+      "primary_2d_hypervolume_ref50": {
+        "mean": 49.6074,
+        "std": 0.1719,
+        "values": [
+          49.7082,
+          49.4463,
+          49.7791,
+          49.3994,
+          49.7042
+        ]
+      },
+      "sensitivity_2d_hypervolume_ref100": {
+        "mean": 99.3852,
+        "std": 0.3569,
+        "values": [
+          99.5692,
+          99.0298,
+          99.7791,
+          98.9829,
+          99.5652
+        ]
+      }
+    }
+  },
+  "reference_point_sensitivity_summary": {
+    "ref_5ms": {
+      "threshold_ms": 5,
+      "all_methods_valid": true,
+      "method_means": {
+        "random_search": 4.8335,
+        "bayesian_tpe": 4.732,
+        "optuna_tpe": 4.7977,
+        "amde_40": 4.8074
+      },
+      "invalid_reasons": {}
+    },
+    "ref_10ms": {
+      "threshold_ms": 10,
+      "all_methods_valid": true,
+      "method_means": {
+        "random_search": 9.8196,
+        "bayesian_tpe": 9.632,
+        "optuna_tpe": 9.7644,
+        "amde_40": 9.7852
+      },
+      "invalid_reasons": {}
+    },
+    "ref_20ms": {
+      "threshold_ms": 20,
+      "all_methods_valid": true,
+      "method_means": {
+        "random_search": 19.7918,
+        "bayesian_tpe": 19.432,
+        "optuna_tpe": 19.6977,
+        "amde_40": 19.7408
+      },
+      "invalid_reasons": {}
+    },
+    "ref_50ms": {
+      "threshold_ms": 50,
+      "all_methods_valid": true,
+      "method_means": {
+        "random_search": 49.7085,
+        "bayesian_tpe": 48.8321,
+        "optuna_tpe": 49.4977,
+        "amde_40": 49.6074
+      },
+      "invalid_reasons": {}
+    },
+    "ref_100ms": {
+      "threshold_ms": 100,
+      "all_methods_valid": true,
+      "method_means": {
+        "random_search": 99.5696,
+        "bayesian_tpe": 97.8322,
+        "optuna_tpe": 99.1644,
+        "amde_40": 99.3852
+      },
+      "invalid_reasons": {}
+    }
+  }
+}

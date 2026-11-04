@@ -267,11 +267,15 @@ class AMDE4Engine:
 
                 self.trial_history.append({
                     "trial_id": evaluations_completed,
+                    "candidate": cand,
                     "candidate_hash": c_hash,
+                    "model_family": cand.genome.get("model", {}).get("family", "unknown"),
                     "strategy": chosen_strat_name,
                     "val_score": val_score,
                     "incumbent_score": self.incumbent_score,
                     "train_duration": train_duration,
+                    "inf_latency_ms": inf_latency,
+                    "memory_mb": mem_mb,
                     "rung_id": res.fidelity.rung_id,
                     "status": res.status,
                 })
