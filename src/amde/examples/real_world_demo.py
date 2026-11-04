@@ -325,7 +325,7 @@ def run_optuna_tpe(
 
     def optuna_objective(trial: optuna.Trial) -> float:
         nonlocal incumbent_val, incumbent_cand
-        fam = trial.suggest_categorical("family", ["tree_ensemble", "mlp", "linear", "kernel_ridge"])
+        fam = trial.suggest_categorical("family", ["tree_ensemble", "mlp", "linear", "kernel_svc"])
         prep = {
             "imputer": trial.suggest_categorical("imputer", ["mean", "median", "none"]),
             "scaler": trial.suggest_categorical("scaler", ["standard", "robust", "minmax", "none"]),
@@ -359,7 +359,7 @@ def run_optuna_tpe(
             }
         else:
             model_spec = {
-                "family": "kernel_ridge",
+                "family": "kernel_svc",
                 "alpha": trial.suggest_float("kernel_alpha", 1e-3, 1e2, log=True),
                 "kernel": trial.suggest_categorical("kernel_type", ["rbf", "linear", "poly"]),
                 "gamma": trial.suggest_float("kernel_gamma", 1e-3, 1e1, log=True),

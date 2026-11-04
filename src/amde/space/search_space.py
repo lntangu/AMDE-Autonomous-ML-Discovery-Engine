@@ -28,7 +28,8 @@ from amde.space.parameter import (
 class SearchSpace:
     """Type-safe hierarchical search space for AMDE 4.0."""
 
-    MODEL_FAMILIES = ("tree_ensemble", "mlp", "linear", "kernel_ridge")
+    MODEL_FAMILIES = ("tree_ensemble", "mlp", "linear", "kernel_svc")
+    DEPRECATED_ALIASES = {"kernel_ridge": "kernel_svc"}
     SCALERS = ("standard", "robust", "minmax", "none")
     IMPUTERS = ("mean", "median", "none")
     ACTIVATIONS = ("relu", "tanh", "logistic")
@@ -113,9 +114,9 @@ class SearchSpace:
                 "C": self.linear_params["C"].sample(rng),
                 "penalty": self.linear_params["penalty"].sample(rng),
             }
-        else:  # kernel_ridge
+        else:  # kernel_svc (or legacy kernel_ridge)
             model_spec = {
-                "family": "kernel_ridge",
+                "family": "kernel_svc",
                 "alpha": self.kernel_params["alpha"].sample(rng),
                 "kernel": self.kernel_params["kernel"].sample(rng),
                 "gamma": self.kernel_params["gamma"].sample(rng),
@@ -170,7 +171,7 @@ class SearchSpace:
                 mutated_genome["model"][sub_key] = self.linear_params[sub_key].perturb(
                     mutated_genome["model"][sub_key], rng, scale=scale
                 )
-            else:  # kernel_ridge
+            else:  # kernel_svc or kernel_ridge
                 sub_key = rng.choice(["alpha", "kernel", "gamma"])
                 mutated_genome["model"][sub_key] = self.kernel_params[sub_key].perturb(
                     mutated_genome["model"][sub_key], rng, scale=scale
@@ -223,7 +224,7 @@ class SearchSpace:
         if "preprocessing" not in genome or "model" not in genome:
             return False, "Genome missing 'preprocessing' or 'model' sections"
         fam = genome["model"].get("family")
-        if fam not in self.MODEL_FAMILIES:
+        if fam not in self.MODEL_FAMILIES and fam not in self.DEPRECATED_ALIASES:
             return False, f"Unknown model family: {fam}"
         if fam == "mlp":
             if "dropout" in genome["model"]:

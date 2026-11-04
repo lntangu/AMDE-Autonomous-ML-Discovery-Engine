@@ -20,16 +20,16 @@ Today, we are looking at **AMDE 4.0**—the Autonomous Machine Learning Discover
 ### [0:50 - 1:50] SCENE 2: SYSTEM ARCHITECTURE & EXPERIMENTAL SETUP
 **Visual:**  
 Flowchart diagram of AMDE's discovery pipeline:
-1. `SearchSpace` (Tree Ensembles, MLPs, Linear Models, Kernel Ridge mapped to SVC).
+1. `SearchSpace` (Tree Ensembles, MLPs, Linear Models, `kernel_svc` mapped to SVC).
 2. Data Partitioning (60% Train, 20% Val, 20% Holdout Test).
 3. Candidate Deduplication & Cache.
 4. `ParetoArchive` (Accuracy vs Latency).
 5. `EventLedger` (SHA-256 Chained SQLite).
 
 **Presenter Voiceover:**  
-"AMDE 4.0 focuses on tabular and classical machine learning discovery. Rather than searching over one rigid algorithm, it explores four distinct model families simultaneously: decision trees and gradient boosted ensembles, multi-layer perceptrons, regularized linear models, and kernel methods using Support Vector Classifiers.
+"AMDE 4.0 focuses on tabular and classical machine learning discovery. Rather than searching over one rigid algorithm, it explores four distinct model families simultaneously: decision trees and gradient boosted ensembles, multi-layer perceptrons, regularized linear models, and non-linear kernel support vector classifiers.
 
-For our demonstration benchmark, we used the Optical Recognition of Handwritten Digits dataset—1,797 samples of 8x8 pixel images across 10 balanced digit classes. We evaluated four methods across five preregistered seeds—42, 101, 202, 303, and 404—with a budget of 30 candidate evaluations per campaign.
+For our demonstration benchmark, we used the Optical Recognition of Handwritten Digits dataset—1,797 samples of 8x8 pixel images with integer pixel values from 0 to 16 across 10 balanced digit classes. Normalization occurs strictly in candidate preprocessing pipelines. We evaluated four methods across five preregistered seeds—42, 101, 202, 303, and 404—with a budget of 30 candidate evaluations per campaign.
 
 We enforced strict data boundaries: 60% of data for training, 20% for validation feedback, and a fixed 20% holdout test partition protected by an in-process single-use token gate to prevent accidental leakage during the search loop."
 
@@ -67,13 +67,13 @@ Neither parametric nor non-parametric tests show any statistically significant d
 Display the Accuracy vs. Latency Pareto Frontier plot (`assets/real_world_demo/pareto_frontier_tradeoff.png`) and highlight the hypervolume comparison.
 
 **Presenter Voiceover:**  
-"Where AMDE provides practical value is multi-objective optimization: balancing accuracy against real-world inference latency, measured in milliseconds per 100 samples.
+"Where AMDE provides practical value is multi-objective optimization: balancing accuracy against real-world inference latency, measured under a controlled protocol with 10 warm-ups and 30 repeated timings for both single-sample and batch predictions.
 
-Across campaigns, AMDE maintained an active Pareto frontier of six to seven non-dominated models, spanning from ultra-fast linear models at 0.04 ms per 100 samples to gradient-boosted trees at 99% accuracy.
+Across campaigns, AMDE maintained an active Pareto frontier of non-dominated models, spanning from ultra-fast linear models to gradient-boosted trees at 99% accuracy.
 
-When calculating 2D hypervolume against a reference point of zero accuracy and 50 milliseconds, Random Search actually achieved the highest observed mean: 49.69 versus AMDE's 49.58. Why? Because uniform random search aggressively samples fast linear models, populating the extreme low-latency corners of the space.
+When calculating 2D hypervolume, reference point selection is critical. Because candidate latencies reach up to 20 milliseconds per 100 samples, reference thresholds like 5, 10, or 20 milliseconds are invalid because they fail to bound all non-dominated candidates. Against the valid pre-specified 50 millisecond reference point, Random Search achieved a slightly higher observed mean—49.69 versus AMDE's 49.58—because uniform random search aggressively samples fast linear models, populating the extreme low-latency corners of the space.
 
-We also audited candidate deduplication. All four methods had an equal fit-invocation budget of 30 model fits. But AMDE sampled 38 proposals to filter 8 duplicates, fitting 30 unique configurations. Native TPE did not skip duplicates, fitting only 15 unique configurations within its 30 calls—explaining its lower performance."
+We also audited candidate deduplication. All four methods had an equal fit-invocation budget of 30 model fits. But AMDE sampled 38 proposals to filter 8 duplicates, fitting 30 unique configurations. Native TPE did not skip duplicates, fitting only 15 unique configurations within its 30 calls—explaining its lower performance. Importantly, AMDE does not claim to save more compute than Optuna or Random Search."
 
 ---
 

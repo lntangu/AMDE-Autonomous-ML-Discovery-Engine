@@ -16,21 +16,21 @@ This document presents the audited empirical findings from the real-world demons
 1. **Limited Inferential Power ($N=5$ Seeds):** With only 5 preregistered random seeds on a single fixed data split, this experiment constitutes a **small preliminary demonstration benchmark**. It does **not** establish generalization stability across unseen tasks, nor does it provide sufficient statistical power to detect small effect sizes.
 2. **Absence of Statistically Significant Differences:** Exact sign-flip permutation tests for the two-sided paired Wilcoxon signed-rank statistic across all 5 seeds demonstrate **no statistically significant difference** in generalization accuracy between AMDE 4.0 and Random Search (Holm-adjusted $p = 1.0000$), Optuna TPESampler (Holm-adjusted $p = 1.0000$), or native Bayesian TPE (Holm-adjusted $p = 0.1875$).
 3. **No Statistical Equivalence Claim:** Failure to reject the null hypothesis ($p \ge 0.05$) indicates that the data provides insufficient evidence of a difference; it does **not** prove that AMDE 4.0 is statistically equivalent or non-inferior to Optuna or Random Search. A formal equivalence claim requires preregistering an equivalence margin $[-\delta, +\delta]$ and conducting Two One-Sided Tests (TOST), which was not performed in this preliminary study.
-4. **Pareto Coverage & Hypervolume Realities:** In multi-objective evaluation (minimizing validation loss and inference latency in milliseconds per 100 samples), **Random Search achieved the highest observed mean 2D hypervolume ($49.6891 \pm 0.1570$)**, whereas AMDE 4.0 achieved $49.5788 \pm 0.1755$, Optuna achieved $49.4996 \pm 0.1802$, and native TPE achieved $48.7795 \pm 0.5901$. The difference between AMDE and Random Search is not statistically significant (exact permutation $p = 0.4375$). AMDE does **not** possess superior hypervolume coverage on this benchmark.
-5. **Deduplication Budget Discrepancy:** The AMDE 4.0 engine rejected duplicate proposals ($21.8\%$) and continued sampling until exactly 30 **unique** model configurations were fitted. In contrast, baseline runners executed a fixed loop of 30 iterations without skipping duplicates. Consequently, native Bayesian TPE (which had a 48.7% duplicate proposal rate) executed 30 model fits but only covered $\approx 15.4$ unique configurations, meaning the comparison was not perfectly budget-equivalent in terms of unique candidate explorations.
+4. **Pareto Coverage & Hypervolume Realities:** In multi-objective evaluation (minimizing validation loss and inference latency in milliseconds per 100 samples), **Random Search achieved the highest observed mean 2D hypervolume ($49.7085 \pm 0.1584$ under controlled repeated measurements; $49.6891 \pm 0.1570$ in historical one-shot)**, whereas AMDE 4.0 achieved $49.6074 \pm 0.1719$ ($49.5788 \pm 0.1755$ historical), Optuna achieved $49.4977 \pm 0.1691$ ($49.4996 \pm 0.1802$ historical), and native TPE achieved $48.8321 \pm 0.5722$ ($48.7795 \pm 0.5901$ historical). The difference between AMDE and Random Search is not statistically significant (exact permutation $p = 0.4375$). AMDE does **not** possess superior hypervolume coverage on this benchmark.
+5. **Deduplication Budget Discrepancy:** The AMDE 4.0 engine rejected duplicate proposals ($21.8\%$) and continued sampling until exactly 30 **unique** model configurations were fitted. In contrast, baseline runners executed a fixed loop of 30 iterations without skipping duplicates. Consequently, native Bayesian TPE (which had a 48.7% duplicate proposal rate) executed 30 model fits but only covered $\approx 15.4$ unique configurations. Importantly, AMDE does NOT save compute relative to Optuna or Random Search, as both baselines naturally explored $\approx 30$ unique configurations with near-zero duplicate proposals.
 
 ---
 
 ## 2. Quantitative Results & Comparative Matrix
 
-All values are computed from the full-precision benchmark records (`seed_summary.csv` and `raw_trials.csv`) across seeds `[42, 101, 202, 303, 404]`:
+All values are computed from the full-precision benchmark records (`seed_summary.csv`, `raw_trials.csv`, and `controlled_latency/latency_measurements.csv`) across seeds `[42, 101, 202, 303, 404]`:
 
-| Optimization Method | Mean Best Val Acc ($\pm \sigma$) | Mean Sealed Test Acc ($\pm \sigma$) | Mean Wall-Clock Duration (s) | Duplicate Proposal Rate | Mean Pareto Frontier Size | Mean 2D Hypervolume ($\pm \sigma$) |
+| Optimization Method | Mean Best Val Acc ($\pm \sigma$) | Mean Sealed Test Acc ($\pm \sigma$) | Mean Wall-Clock Duration (s) | Duplicate Proposal Rate | Controlled Pareto Size | Controlled 2D Hypervolume ($r=50\text{ms}$) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Random Search (Method A)** | $0.9972 \pm 0.0034$ | $0.9828 \pm 0.0080$ | $28.91 \pm 15.22$ s | $0.0\%$ | $7.40 \pm 1.82$ | **$49.6891 \pm 0.1570$** |
-| **AMDE Native TPE (Method B1)** | $0.9800 \pm 0.0114$ | $0.9661 \pm 0.0097$ | $55.56 \pm 67.68$ s | $48.7\%$ | $4.60 \pm 1.14$ | $48.7795 \pm 0.5901$ |
-| **Optuna TPESampler (Method B2)** | $0.9933 \pm 0.0037$ | $0.9783 \pm 0.0057$ | $27.18 \pm 23.69$ s | $0.7\%$ | $6.00 \pm 1.00$ | $49.4996 \pm 0.1802$ |
-| **AMDE 4.0 Engine (Method C)** | $0.9956 \pm 0.0037$ | **$0.9811 \pm 0.0023$** | $35.46 \pm 9.90$ s | $21.8\%$ | $6.60 \pm 2.70$ | $49.5788 \pm 0.1755$ |
+| **Random Search (Method A)** | $0.9972 \pm 0.0034$ | $0.9828 \pm 0.0080$ | $28.91 \pm 15.22$ s | $0.0\%$ | $7.80 \pm 2.28$ | **$49.7085 \pm 0.1584$** |
+| **AMDE Native TPE (Method B1)** | $0.9800 \pm 0.0114$ | $0.9661 \pm 0.0097$ | $55.56 \pm 67.68$ s | $48.7\%$ | $5.80 \pm 0.84$ | $48.8321 \pm 0.5722$ |
+| **Optuna TPESampler (Method B2)** | $0.9933 \pm 0.0037$ | $0.9783 \pm 0.0057$ | $27.18 \pm 23.69$ s | $0.7\%$ | $5.00 \pm 2.00$ | $49.4977 \pm 0.1691$ |
+| **AMDE 4.0 Engine (Method C)** | $0.9956 \pm 0.0037$ | **$0.9811 \pm 0.0023$** | $35.46 \pm 9.90$ s | $21.8\%$ | $5.60 \pm 1.67$ | $49.6074 \pm 0.1719$ |
 
 *Note on standard deviations: The reported standard deviations reflect variability across algorithm seeds conditional on the single fixed 3-way data split, NOT variability across independent dataset resamplings.*
 
@@ -70,24 +70,42 @@ The raw paired $t$-test values across full-precision observations are:
 
 ---
 
-## 4. Pareto Objective and Unit Consistency Audit
+## 4. Pareto Objective, Inference Latency Protocol & Hypervolume Audit
 
-### 4.1 Latency Definition & Measurement Protocol
-- **Exact Latency Unit:** **Milliseconds per 100 samples** (`inf_latency_ms`).
-- **Measurement Formula:**
-  $$\text{inf\_latency\_ms} = \left(\frac{t_{\text{predict\_val}}}{\text{len}(X_{\text{val}})}\right) \times 100,000$$
-  where $X_{\text{val}}$ contains 360 samples. Evaluated using a single batch call (`model.predict(X_val)`) without dedicated GPU warm-up cycles.
-- **Distinction of Runtimes:**
-  - *Model fitting runtime:* Wall-clock seconds spent inside `model.fit(X_tr, y_tr)` ($\approx 0.05$s to $4.5$s depending on family).
-  - *Inference latency per 100 samples:* Scaled validation inference time ($\approx 0.03$ ms to $20.0$ ms per 100 samples).
-  - *Total campaign wall-clock:* Full end-to-end duration for 30 candidate evaluations ($\approx 9$s to $164$s per campaign).
+### 4.1 Controlled Repeated Latency Protocol & Unit Consistency
+- **Latency Discrepancy (Single-Sample vs. Batch):** Inferring single-sample latency by dividing batch latency by batch size ($N$) is mathematically and practically invalid. Fixed framework dispatch overhead, cache warmup, and internal array vectorization mean that single-sample inference ($B=1$) takes $100\times$–$200\times$ longer per sample than when executed within a batch of 100 samples.
+- **Controlled Repeated Protocol (`scripts/measure_controlled_latency.py`):**
+  - High-resolution monotonic clock: `time.perf_counter`.
+  - Dedicated warm-up: $\ge 10$ un-timed warmup predictions prior to timing.
+  - Repeated measurements: $\ge 30$ timed repetitions per candidate.
+  - Multi-batch profiling: Independent evaluation of single-sample ($B=1$), fixed batch ($B=100$), and validation batch ($B=360$).
+  - Primary metric: Median latency to suppress cold-start and OS scheduling outliers.
 
-### 4.2 2D vs 3D Hypervolume Scope
+#### Controlled Latency Benchmark Summary (Across 138 Pareto Candidates, 5 Seeds):
+
+| Optimization Method | Single-Sample Median ($B=1$, ms) | Single-Sample Mean $\pm \sigma$ (ms) | Single-Sample p95 (ms) | Controlled Batch Median ($B=100$, ms/100) | Controlled Batch Mean $\pm \sigma$ (ms/100) | Single-to-Batch Ratio (Median) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Random Search** | $0.3275$ ms | $0.7096 \pm 1.6384$ ms | $1.5135$ ms | $0.2426$ ms | $0.9146 \pm 1.1202$ ms | **$190.50\times$** |
+| **Native Bayesian TPE** | $0.4491$ ms | $2.0099 \pm 3.5759$ ms | $10.8905$ ms | $0.6901$ ms | $1.3329 \pm 1.4137$ ms | **$191.85\times$** |
+| **Optuna TPESampler** | $0.2796$ ms | $0.4173 \pm 0.4129$ ms | $1.0657$ ms | $1.6446$ ms | $1.3039 \pm 1.1092$ ms | **$67.49\times$** |
+| **AMDE 4.0 Engine** | $0.3212$ ms | $0.5292 \pm 1.0493$ ms | $0.5596$ ms | $0.2566$ ms | $0.9292 \pm 1.0450$ ms | **$188.93\times$** |
+
+### 4.2 2D Hypervolume & Reference Point Validity Audit
 - **Published Hypervolume:** Strictly a **two-dimensional projection** over Validation Loss ($-\text{accuracy} \in [-1.0, 0.0]$) and Inference Latency ($[0, 50.0]$ ms per 100 samples).
-- **3D Hypervolume:** While the Pareto archive retains peak resident memory (MB) as a third objective, 3D hypervolume was uncalibrated ($0.0$). AMDE makes **zero claim of three-objective hypervolume superiority**.
-- **Reference Point Sensitivity ($r = (0.0, 50.0)$):**
-  - The latency reference point $50.0$ ms per 100 samples safely bounds all evaluated models (maximum observed latency was $20.001$ ms).
-  - Across alternative reference points ($r_{\text{lat}} \in [5.0, 10.0, 20.0, 50.0, 100.0]$ ms), the relative difference between AMDE and Random Search remains $< 0.5\%$, with Random Search retaining equal or higher hypervolume coverage across all tested reference thresholds.
+- **3D Hypervolume Scope:** While peak resident memory (MB) is tracked in the archive, 3D hypervolume is uncalibrated. AMDE makes **zero claim of three-objective hypervolume superiority**.
+- **Reference Point Validity Analysis:**
+  - A reference point $r = (r_{\text{loss}}, r_{\text{lat}})$ is **mathematically valid** if and only if it strictly dominates every candidate on the non-dominated Pareto frontier ($\text{loss} \le r_{\text{loss}}$ and $\text{latency} \le r_{\text{lat}}$).
+  - In historical one-shot measurements, candidate latencies reached up to **$20.001$ ms per 100 samples**. Consequently, thresholds $r_{\text{lat}} \in \{5.0, 10.0, 20.0\}$ ms are **invalid reference points** for the full unclipped search space because candidates lie outside the bounding box.
+  - The pre-specified reference point **$r = (0.0, 50.0)$ ms** is valid and strictly bounds all candidates across all seeds and methods.
+
+#### Recalculated 2D Hypervolume Across All 5 Seeds:
+
+| Reference Point | Random Search | Native Bayesian TPE | Optuna TPESampler | AMDE 4.0 Engine | Validity Status |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Primary $r = (0.0, 50.0\text{ ms})$** | **$49.7085 \pm 0.1584$** | $48.8321 \pm 0.5722$ | $49.4977 \pm 0.1691$ | **$49.6074 \pm 0.1719$** | **VALID** (Bounds all candidates) |
+| **Sensitivity $r = (0.0, 100.0\text{ ms})$** | **$99.5696 \pm 0.3284$** | $97.8322 \pm 1.1389$ | $99.1644 \pm 0.3545$ | **$99.3852 \pm 0.3569$** | **VALID** (Bounds all candidates) |
+
+*Key Conclusion:* Under controlled repeated measurements and valid reference points, Random Search achieves the highest observed 2D hypervolume ($49.7085$), followed closely by AMDE 4.0 ($49.6074$) and Optuna ($49.4977$). AMDE does not hold a statistically significant hypervolume advantage. Blanket claims that method differences remain $<0.5\%$ across invalid lower thresholds are retracted.
 
 ---
 

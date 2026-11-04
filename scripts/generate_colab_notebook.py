@@ -42,10 +42,10 @@ cells.append(nbf.v4.new_markdown_cell("""## 1. What AMDE Does & What It Is Not
 $$\\text{Candidate Generation} \\longrightarrow \\text{Isolated Evaluation} \\longrightarrow \\text{Archive & Ledger} \\longrightarrow \\text{Adaptive Control}$$
 
 ### Core Subsystems
-1. **Hierarchical Typed Search Space:** Discovers pipelines across 4 model families (Decision Trees / Random Forests / Gradient Boosting, Multi-Layer Perceptrons, Linear Models, Kernel Ridge / SVM) and preprocessing stages (scalers, imputers, feature selection).
+1. **Hierarchical Typed Search Space:** Discovers pipelines across 4 model families (Decision Trees / Random Forests / Gradient Boosting, Multi-Layer Perceptrons, Linear Models, Kernel SVC `sklearn.svm.SVC(C=1/alpha)`) and preprocessing stages (scalers, imputers, feature selection).
 2. **Token-Gated Sealed Holdout Test:** Encapsulates the 20% holdout test partition behind a single-use cryptographic token, preventing test-set overfitting and adaptive snooping during search.
 3. **Multi-Objective Pareto Archive:** Simultaneously optimizes predictive accuracy, inference latency (milliseconds), and peak resident memory (MB).
-4. **Candidate Deduplication:** Separates genome identity $H(C)$ from evaluation cache keys $K(E)$, saving 15–25% of redundant model fitting cycles.
+4. **Candidate Deduplication:** Separates genome identity $H(C)$ from evaluation cache keys $K(E)$, preventing redundant model fitting cycles when candidate generators propose identical pipelines.
 5. **Tamper-Evident WAL Evidence Ledger:** Chained SQLite SHA-256 event log recording every proposal, evaluation, and reward.
 
 > **What AMDE is NOT:** AMDE is not an AGI system, not a foundation model generator, not a container sandbox, and not a distributed blockchain. It is an auditable, reproducible research instrument for tabular ML."""))
@@ -59,7 +59,7 @@ IN_COLAB = 'google.colab' in sys.modules
 
 if IN_COLAB:
     print("[Colab Setup] Installing AMDE directly from GitHub release-amde-final commit 72be930...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "optuna", "scikit-learn", "scipy", "matplotlib"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "optuna", "scikit-learn", "scipy", "matplotlib", "pandas"])
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "git+https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git@72be93013907b8296e7918f7c1383cba6bae4cf4"])
     print("[Colab Setup] Installation complete!")
 else:
@@ -100,7 +100,7 @@ print("Core AMDE modules imported successfully!")"""))
 cells.append(nbf.v4.new_markdown_cell("""## 2. Load Dataset & Enforce Zero-Leakage Data Partitioning
 
 We use the **Optical Recognition of Handwritten Digits** dataset (UCI / NIST):
-- **1,797 samples**, **64 numerical features** (normalized 8x8 pixel grayscale values).
+- **1,797 samples**, **64 numerical features** (raw 8x8 pixel grayscale values with integer intensities in the range 0 to 16, unnormalized).
 - **10 balanced target classes** (digits 0 through 9).
 - **Data Partitioning (60% Train, 20% Val, 20% Sealed Test):**
   - **Train ($X_{\\text{train}}$):** 1,077 samples (used strictly for model fitting and preprocessor calibration).
@@ -133,7 +133,7 @@ print(f"  -> Sealed Test Partition: {len(X_test)} samples ({len(X_test)/len(X_ra
 cells.append(nbf.v4.new_markdown_cell("""## 3. Fair Experimental Comparison Protocol
 
 To ensure a scientifically rigorous and fair comparison, all methods are evaluated under **strictly identical conditions**:
-- **Identical Search Space:** Model families (Tree Ensembles, MLP, Linear, SVM/Kernel Ridge) and preprocessing options.
+- **Identical Search Space:** Model families (Tree Ensembles, MLP, Linear, Kernel SVC `sklearn.svm.SVC`) and preprocessing options.
 - **Identical Partitions:** Exactly the same $X_{\\text{train}}$, $X_{\\text{val}}$, and $X_{\\text{test}}$.
 - **Identical Evaluation Pipeline:** Preprocessors fitted strictly on $X_{\\text{train}}$ with zero leakage.
 - **Identical Evaluation Budget:** 20 evaluations per method.
@@ -242,7 +242,7 @@ optuna_t0 = time.perf_counter()
 
 def optuna_obj(trial):
     global optuna_incumbent_score, optuna_incumbent_cand
-    fam = trial.suggest_categorical("family", ["tree_ensemble", "mlp", "linear", "kernel_ridge"])
+    fam = trial.suggest_categorical("family", ["tree_ensemble", "mlp", "linear", "kernel_svc"])
     prep = {
         "imputer": trial.suggest_categorical("imputer", ["mean", "median", "none"]),
         "scaler": trial.suggest_categorical("scaler", ["standard", "robust", "minmax", "none"]),
@@ -275,7 +275,7 @@ def optuna_obj(trial):
         }
     else:
         spec = {
-            "family": "kernel_ridge",
+            "family": "kernel_svc",
             "alpha": trial.suggest_float("kernel_alpha", 1e-3, 1e2, log=True),
             "kernel": trial.suggest_categorical("kernel_type", ["rbf", "linear", "poly"]),
             "gamma": trial.suggest_float("kernel_gamma", 1e-3, 1e1, log=True),
@@ -431,14 +431,16 @@ cells.append(nbf.v4.new_markdown_cell("""## 6. Scientific Interpretation & Manda
 
 ### What the Results Show:
 1. **Accuracy Parity:** Across repeated independent evaluations, AMDE 4.0 achieves validation and test accuracy comparable to well-tuned Bayesian TPE, Optuna, and Random Search on standard tabular tasks. Paired Wilcoxon signed-rank tests ($p \\ge 0.05$) confirm that **no statistically significant accuracy advantage is claimed**.
-2. **Structural Deduplication:** AMDE's genome hash caching avoids redundant training cycles on structurally identical pipelines.
+2. **Candidate Deduplication:** AMDE's genome hash caching filters duplicate pipeline proposals prior to fitting (e.g. 21.9% duplicate proposals filtered on Native TPE; near 0% on Random Search and Optuna), avoiding redundant training cycles when proposal distributions cluster.
 3. **Multi-Objective Trade-Offs:** Rather than returning a single model, AMDE maintains an active Pareto frontier (balancing predictive quality against inference latency and memory footprints), providing practitioners with deployment options suited for edge or throughput-constrained environments.
 4. **Data Isolation Hygiene:** The sealed holdout gate guarantees that test data cannot be accessed during search, eliminating adaptive test snooping.
 
 ---
 
 ## 7. Known Limitations & Scope Boundaries
-- **Tabular Scope:** Designed for classical tabular ML models (Trees, MLPs, Ensembles, Linear/SVM). Not intended for LLMs or large computer vision architectures.
+- **Tabular Scope:** Designed for classical tabular ML models (Trees, MLPs, Ensembles, Linear/Kernel SVC). Not intended for LLMs or large computer vision architectures.
+- **Inference Latency Measurements:** Single-sample latency ($B=1$) differs substantially from batch throughput ($B=100, 360$) due to per-call dispatch overhead. Latency measurements must be benchmarked with repeated warm-up runs.
+- **Pareto Reference Points:** Hypervolume calculations require reference points that strictly dominate all frontier candidates ($r_{\\text{lat}} \\ge 50$ ms).
 - **In-Process Boundary:** Token gating is an in-process procedural check, not an OS-level hypervisor or Docker sandbox.
 - **Local SHA-256 Ledger:** The event ledger uses local cryptographic hashing for auditability, not distributed blockchain consensus.
 

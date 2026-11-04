@@ -1,0 +1,157 @@
+{
+  "method_metrics": {
+    "random_search": {
+      "n_seeds": 5,
+      "val_score": {
+        "mean": 0.99722,
+        "std": 0.0034,
+        "median": 0.99722,
+        "min": 0.99167,
+        "max": 1.0
+      },
+      "test_score": {
+        "mean": 0.98278,
+        "std": 0.00795,
+        "median": 0.98333,
+        "min": 0.97222,
+        "max": 0.99444
+      },
+      "wallclock_seconds": {
+        "mean": 28.91,
+        "std": 15.22
+      },
+      "pareto_size": {
+        "mean": 7.4,
+        "std": 1.82
+      },
+      "duplicate_rate": {
+        "mean": 0.0
+      }
+    },
+    "bayesian_tpe": {
+      "n_seeds": 5,
+      "val_score": {
+        "mean": 0.98,
+        "std": 0.01135,
+        "median": 0.97778,
+        "min": 0.96667,
+        "max": 0.99167
+      },
+      "test_score": {
+        "mean": 0.96611,
+        "std": 0.0097,
+        "median": 0.96667,
+        "min": 0.95278,
+        "max": 0.97778
+      },
+      "wallclock_seconds": {
+        "mean": 55.56,
+        "std": 67.68
+      },
+      "pareto_size": {
+        "mean": 4.6,
+        "std": 1.14
+      },
+      "duplicate_rate": {
+        "mean": 0.4867
+      }
+    },
+    "optuna_tpe": {
+      "n_seeds": 5,
+      "val_score": {
+        "mean": 0.99333,
+        "std": 0.00372,
+        "median": 0.99167,
+        "min": 0.98889,
+        "max": 0.99722
+      },
+      "test_score": {
+        "mean": 0.97833,
+        "std": 0.00569,
+        "median": 0.98056,
+        "min": 0.97222,
+        "max": 0.98333
+      },
+      "wallclock_seconds": {
+        "mean": 27.18,
+        "std": 23.69
+      },
+      "pareto_size": {
+        "mean": 6.0,
+        "std": 1.0
+      },
+      "duplicate_rate": {
+        "mean": 0.0067
+      }
+    },
+    "amde_40": {
+      "n_seeds": 5,
+      "val_score": {
+        "mean": 0.99556,
+        "std": 0.00372,
+        "median": 0.99722,
+        "min": 0.99167,
+        "max": 1.0
+      },
+      "test_score": {
+        "mean": 0.98111,
+        "std": 0.00232,
+        "median": 0.98056,
+        "min": 0.97778,
+        "max": 0.98333
+      },
+      "wallclock_seconds": {
+        "mean": 35.46,
+        "std": 9.9
+      },
+      "pareto_size": {
+        "mean": 6.6,
+        "std": 2.7
+      },
+      "duplicate_rate": {
+        "mean": 0.2178
+      }
+    }
+  },
+  "comparisons_vs_amde40": {
+    "random_search": {
+      "mean_test_diff": -0.00166,
+      "median_test_diff": 0.0,
+      "mean_val_diff": -0.00167,
+      "mean_time_diff_s": 6.55,
+      "n_effective_non_zero_pairs": 4,
+      "wilcoxon_stat": null,
+      "wilcoxon_p_value": 1.0,
+      "paired_t_stat": -0.3986,
+      "paired_t_p_value": 0.7106,
+      "statistically_significant_p05": false,
+      "scientific_conclusion": "No statistically significant difference detected (p >= 0.05)"
+    },
+    "bayesian_tpe": {
+      "mean_test_diff": 0.015,
+      "median_test_diff": 0.01666,
+      "mean_val_diff": 0.01555,
+      "mean_time_diff_s": -20.11,
+      "n_effective_non_zero_pairs": 5,
+      "wilcoxon_stat": 0.0,
+      "wilcoxon_p_value": 0.0625,
+      "paired_t_stat": 3.1943,
+      "paired_t_p_value": 0.0331,
+      "statistically_significant_p05": false,
+      "scientific_conclusion": "No statistically significant difference detected (p >= 0.05)"
+    },
+    "optuna_tpe": {
+      "mean_test_diff": 0.00278,
+      "median_test_diff": -0.00277,
+      "mean_val_diff": 0.00222,
+      "mean_time_diff_s": 8.28,
+      "n_effective_non_zero_pairs": 5,
+      "wilcoxon_stat": 6.0,
+      "wilcoxon_p_value": 0.875,
+      "paired_t_stat": 0.8175,
+      "paired_t_p_value": 0.4596,
+      "statistically_significant_p05": false,
+      "scientific_conclusion": "No statistically significant difference detected (p >= 0.05)"
+    }
+  }
+}

@@ -213,7 +213,7 @@ class TPEStrategy(SearchStrategy):
             log_l += self._gaussian_kde_log_prob(c_val, g_vals, is_log_scale=True)
             log_g += self._gaussian_kde_log_prob(c_val, b_vals, is_log_scale=True)
 
-        elif c_fam == "kernel_ridge":
+        elif c_fam in ("kernel_svc", "kernel_ridge"):
             kern = c_model.get("kernel")
             log_l += self._categorical_log_prob(kern, [m.get("kernel") for m in good_matching], len(self.search_space.KERNELS))
             log_g += self._categorical_log_prob(kern, [m.get("kernel") for m in bad_matching], len(self.search_space.KERNELS))

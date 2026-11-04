@@ -55,10 +55,27 @@ python -m amde.examples.real_world_demo --trials 30 --seeds 5
 Expected execution duration: $\approx 12$ minutes on standard multi-core CPU.
 All raw records are exported to `reports/real_world_demo/latest/`.
 
+### Step 3.1: Run Controlled Repeated Latency Profiler & Pareto Recomputation
+```bash
+python scripts/measure_controlled_latency.py --seeds 42 101 202 303 404 --budget 30
+```
+Measures independent single-sample ($B=1$) and batch ($B=100, 360$) inference timings with 10 warm-ups and 30 timed repetitions using a high-resolution monotonic clock. Validates Pareto reference points across $[5, 10, 20, 50, 100]$ ms and outputs:
+- `reports/real_world_demo/controlled_latency/latency_measurements.csv`
+- `reports/real_world_demo/controlled_latency/pareto_recalculated.json`
+- `reports/real_world_demo/controlled_latency/latency_summary.json`
+- `reports/real_world_demo/controlled_latency/raw_timing_traces.json.gz`
+
 ### Step 4: Run Headless Notebook Execution Test
 ```bash
 python scripts/test_execute_notebook.py
 ```
+Validates that every notebook cell executes without error headlessly.
+
+### Step 5: Run Verification Unit & Regression Tests
+```bash
+python -m pytest tests/unit/test_amde4_benchmark_stats.py tests/unit/test_model_space_kernel_svc.py -v
+```
+Verifies exact permutation Wilcoxon calculations, monotonic Holm adjustments, and `kernel_svc` model-space mapping.
 Expected output:
 ```text
 ALL NOTEBOOK CELLS EXECUTED SUCCESSFULLY WITHOUT ERROR!
