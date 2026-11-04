@@ -3,8 +3,8 @@ message: "If you use this software in your experimental research, please cite it
 authors:
   - name: "AMDE Project Maintainers"
 title: "AMDE: Autonomous Machine Learning Discovery Engine"
-version: 4.0.1
-date-released: 2026-11-02
+version: 4.0.2
+date-released: 2026-11-04
 url: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
 repository-code: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
 license: "MIT"
