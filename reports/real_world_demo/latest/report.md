@@ -22,9 +22,9 @@
 
 | Baseline Comparison | Mean Test Diff ($\Delta$) | Non-Zero Pairs ($N_{\text{eff}}$) | Wilcoxon Statistic ($W$) | Wilcoxon Raw $p$ | Wilcoxon Holm $p$ | Paired $t$ Holm $p$ | Empirical Verdict |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| vs. Random Search (Method A) | -0.0017 | 4 | 4.5 | 1.0000 | 1.0000 | 0.9191 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05) |
-| vs. AMDE Native TPE (Method B1) | +0.0150 | 5 | 0.0 | 0.0625 | 0.1875 | 0.0992 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=0.1875 >= 0.05) |
-| vs. Optuna TPESampler (Method B2) | +0.0028 | 5 | 6.0 | 0.6250 | 1.0000 | 0.9191 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05) |
+| vs. Random Search (Method A) | -0.0017 | 4 | 4.5 | 1.0000 | 1.0000 | 0.9201 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05) |
+| vs. AMDE Native TPE (Method B1) | +0.0150 | 5 | 0.0 | 0.0625 | 0.1875 | 0.0994 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=0.1875 >= 0.05) |
+| vs. Optuna TPESampler (Method B2) | +0.0028 | 5 | 6.0 | 0.6250 | 1.0000 | 0.9201 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05) |
 
 ---
 
@@ -37,3 +37,4 @@
    - **Native Multi-Objective Pareto Frontier:** Automatically tracks accuracy vs. latency vs. memory trade-offs.
    - **Tamper-Evident SHA-256 Provenance:** SQLite WAL ledger persists chained forensic audit trails.
 3. **Hardware Boundaries:** All benchmarks were executed purely on CPU without GPU acceleration.
+

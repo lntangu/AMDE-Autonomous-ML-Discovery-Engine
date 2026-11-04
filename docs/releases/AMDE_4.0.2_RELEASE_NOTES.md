@@ -47,7 +47,7 @@ AMDE 4.0.2 is the final verified public research release of the **Autonomous Mac
 ## 4. Demonstration and Benchmark Summary
 
 - **Benchmark Dataset:** Optical Recognition of Handwritten Digits (`sklearn.datasets.load_digits`): $N=1,797$ samples, 64 integer pixel features in $\{0, \dots, 16\}$, 10 balanced digit classes.
-- **Zero-Leakage Partitioning:** 60% Train (1,077 samples), 20% Validation (360 samples), 20% Sealed Holdout Test (360 samples).
+- **Strict Procedural Partitioning:** 60% Train (1,077 samples), 20% Validation (360 samples), 20% Sealed Holdout Test (360 samples).
 - **Campaign Budget:** 30 candidate evaluations per campaign across 5 preregistered seeds (`[42, 101, 202, 303, 404]`) for 4 methods (20 campaigns total).
 - **Compared Baselines:**
   - Method A: Uniform Random Search

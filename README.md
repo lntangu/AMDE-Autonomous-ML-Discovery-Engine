@@ -49,7 +49,7 @@ AMDE operates an iterative, state-tracked discovery loop:
                       ┌─────────────────────────────┐
                       │    Isolated Evaluation      │
                       │  (Train Fit -> Val Scoring) │
-                      │  (Zero Leakage Preprocess)  │
+                      │  (Isolated Preprocess)      │
                       └─────────────────────────────┘
                                      │
                                      ▼
