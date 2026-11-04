@@ -1,5 +1,5 @@
 # AMDE 4.0 — INSTALLATION & DEPENDENCY GUIDE
-**Distribution Version:** 4.0.1  
+**Distribution Version:** 4.0.2  
 **Python Compatibility:** Python 3.10, 3.11, 3.12, 3.13, 3.14  
 
 ---
@@ -18,14 +18,14 @@ AMDE 4.0 requires standard scientific Python libraries:
 ## 2. Standard Installation
 
 ### 2.1 From Pre-Built Wheel (Recommended)
-Download `amde-4.0.1-py3-none-any.whl` from the GitHub Release assets:
+Download `amde-4.0.2-py3-none-any.whl` from the GitHub Release assets:
 ```bash
-pip install amde-4.0.1-py3-none-any.whl
+pip install amde-4.0.2-py3-none-any.whl
 ```
 
 ### 2.2 From Source Distribution
 ```bash
-pip install amde-4.0.1.tar.gz
+pip install amde-4.0.2.tar.gz
 ```
 
 ### 2.3 From Cloned Source Repository
@@ -39,10 +39,10 @@ pip install .
 
 ## 3. Verifying Installation
 
-Verify that AMDE 4.0.1 is correctly installed:
+Verify that AMDE 4.0.2 is correctly installed:
 ```bash
 python3 -c "import amde; print('AMDE Version:', amde.__version__)"
-# Output: AMDE Version: 4.0.1
+# Output: AMDE Version: 4.0.2
 ```
 
 Run the built-in smoke verification:

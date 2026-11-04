@@ -1,7 +1,7 @@
 # AMDE 4.0 — Empirical Benchmark Methodology & Experimental Design (Audited)
 
-**Distribution Version:** 4.0.1  
-**Target Branch:** `experiment/real-world-evidence-demo`  
+**Distribution Version:** 4.0.2  
+**Canonical Branch:** `release-amde-final`  
 **Experimental Standard:** Honest, Controlled, Reproducible Evaluation  
 
 ---
@@ -16,7 +16,7 @@ Benchmarking in automated machine learning requires strict environmental and pro
 ### Model Family Implementation Details
 - **Tree Ensembles (`tree_ensemble`):** `RandomForestClassifier` and `GradientBoostingClassifier`.
 - **Neural Networks (`mlp`):** `MLPClassifier` with variable hidden layer sizes, activations, and regularizations.
-- **Linear Models (`linear`):** `LogisticRegression` with L1, L2, and ElasticNet penalties.
+- **Linear Models (`linear`):** `LogisticRegression` with L2 or unregularized/none penalty (mapped via `solver="lbfgs"` with `C=1e6`, functioning as very weak L2 regularization rather than literal unregularized optimization).
 - **Kernel Support Vector Classifier (`kernel_svc`):** Implemented via **`sklearn.svm.SVC`** with $C = 1/\alpha$, non-linear kernels (`rbf`, `poly`, `linear`), and kernel parameter $\gamma$, providing multi-class kernel classification. *(Note on naming: Previously labeled `kernel_ridge` in legacy genomes, which was an inaccurate name since scikit-learn does not provide multi-class KernelRidge classification; `kernel_ridge` is retained strictly as a deprecated compatibility alias).*
 
 ### Budget Equivalence Disclosure
@@ -80,7 +80,7 @@ To prevent variance from cold-start caching, OS CPU frequency governor transitio
 
 ### 4.2 Reference Point Validity & Hypervolume Calculation
 In multi-objective optimization, a reference point $r = (r_{\text{loss}}, r_{\text{lat}})$ must **strictly dominate all points** in the non-dominated set to compute a mathematically valid full-frontier hypervolume:
-- **Invalidity of Small Reference Thresholds ($r_{\text{lat}} \in [5, 10, 20]$ ms):** Because non-dominated candidate models (such as deep tree ensembles and non-linear MLPs) exhibit latencies up to $20.001$ ms per 100 samples, reference points at 5, 10, or 20 ms fail to dominate slower frontier points. Calculating hypervolume against these thresholds invalidly clips or ignores valid non-dominated trade-offs.
+- **Reference Point Bounding Nuance:** In historical one-shot trials, candidate latencies reached up to $20.001$ ms per 100 samples, making thresholds $r_{\text{lat}} \in [5, 10, 20]$ ms invalid because candidates lay outside the bounding box. In controlled repeated profiling (10 warm-ups, 30 repetitions), all measured frontier candidates exhibited latencies $\le 4.5231$ ms, meaning thresholds 5, 10, 20, 50, and 100 ms are all mathematically valid bounds for that specific measured subset. However, $r = (0.0\text{ loss}, 50.0\text{ ms})$ remains the primary pre-specified reference point guaranteeing a strict bound across all prospective candidates in the broader space.
 - **Pre-specified Primary Reference Point ($r = (0.0\text{ loss}, 50.0\text{ ms})$):** Chosen a priori based on a defensible practical interactive threshold ($50$ ms per 100 samples). This threshold strictly dominates all discovered frontier points across all methods and seeds.
 - **Sensitivity Analysis ($r = (0.0, 100.0\text{ ms})$):** Documented to inspect frontier stability across valid bounding thresholds. Note that ranking sensitivity exists between 50 ms and 100 ms depending on whether fast linear models or deep ensembles dominate the frontier extremities.
 - **Hypervolume Formula:**

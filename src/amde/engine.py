@@ -54,6 +54,8 @@ from amde.strategy.portfolio import StrategyPortfolio
 class AMDE4Engine:
     """The unified, evidence-first AMDE 4.0 Discovery Engine."""
 
+    # Architectural contract specification version of the discovery engine.
+    # Note: amde.__version__ tracks the top-level Python distribution package (4.0.2).
     VERSION: str = "4.0.0"
 
     def __init__(

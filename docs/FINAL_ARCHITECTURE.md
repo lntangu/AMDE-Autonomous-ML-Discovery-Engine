@@ -1,5 +1,5 @@
 # AMDE 4.0 — FINAL ARCHITECTURE SPECIFICATION
-**Version:** 4.0.1 (Research Release)  
+**Version:** 4.0.2 (Research Release)  
 **Status:** QUALIFIED FOR RESEARCH DISTRIBUTION  
 **Target:** Evidence-Guided Autonomous Machine Learning Discovery Engine  
 

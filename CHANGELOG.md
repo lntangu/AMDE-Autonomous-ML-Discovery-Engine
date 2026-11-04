@@ -2,7 +2,7 @@
 
 ### Core Library Correctness & Hardening (P0 Closure)
 - **Model Space Rectification:** Renamed model family genome from `kernel_ridge` to `kernel_svc` across `SearchSpace`, `StandardEvaluationPipeline`, and `TPEStrategy`, mapping accurately to `sklearn.svm.SVC(C=1/alpha)` for multi-class classification. Preserved `kernel_ridge` as a backwards-compatible alias emitting a `DeprecationWarning`.
-- **Search-Space Phenotype Consistency:** Ensured all active genes in `Candidate` genomes (including MLP hidden layer widths, activations, optimizers, and dropout) directly dictate pipeline construction; added exhaustive regression tests in `tests/unit/test_model_space_kernel_svc.py`.
+- **Search-Space Phenotype Consistency:** Ensured all active genes in `Candidate` genomes (including MLP hidden layer widths, activations, learning rates, and optimizers) directly dictate pipeline construction, while enforcing strict rejection of unsupported genes (such as dropout); added exhaustive regression tests in `tests/unit/test_model_space_kernel_svc.py`.
 - **TPE Feedback History Accumulation:** Fixed `TPEStrategy.record_feedback()` to properly update the empirical observation history, ensuring subsequent candidate proposals mathematically depend on previous evaluations.
 - **Ledger Tamper Evidency Hardening:** Upgraded SQLite WAL `EventLedger` block hashing to incorporate `experiment_id` and previous event block hashes; implemented full-chain verification with adversarial tamper-detection tests.
 - **Pareto Archive Non-Dominated Solutions:** Hardened `ParetoArchive` to preserve exact non-dominated frontiers across validation loss, latency, and peak memory, and implemented out-of-bounds candidate detection for bounding reference points.

@@ -1,6 +1,6 @@
 # AMDE 4.0 — STATISTICAL SIGNIFICANCE & SCIENTIFIC LIMITATIONS
 **Mandatory Scientific Disclosure Document**  
-**Distribution Version:** 4.0.1  
+**Distribution Version:** 4.0.2  
 
 ---
 

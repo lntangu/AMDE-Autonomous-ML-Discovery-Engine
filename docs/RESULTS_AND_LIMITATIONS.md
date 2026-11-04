@@ -1,7 +1,7 @@
 # AMDE 4.0 — Empirical Benchmark Results, Statistical Audit & Technical Limitations (Audited)
 
-**Distribution Version:** 4.0.1  
-**Target Branch:** `experiment/real-world-evidence-demo`  
+**Distribution Version:** 4.0.2  
+**Canonical Branch:** `release-amde-final`  
 **Dataset:** Optical Recognition of Handwritten Digits (`sklearn.datasets.load_digits`, $N=1,797, 8\times 8\text{ grayscale images}, D=64, C=10$)  
 **Experimental Scope:** Small preliminary demonstration benchmark (5 preregistered seeds, 30 candidate evaluation budget per campaign, 20 campaigns total)  
 **Execution Environment:** CPU-only workstation runner (Intel64, 12 threads, 31.8 GB RAM)  
@@ -143,15 +143,14 @@ All four methods operated under an **equal model-fit invocation budget** (exactl
 The model space explores four families:
 1. `tree_ensemble`: `RandomForestClassifier` and `GradientBoostingClassifier`.
 2. `mlp`: `MLPClassifier` with variable hidden layer sizes, activations, and regularizations.
-3. `linear`: `LogisticRegression` with L1, L2, and ElasticNet penalties.
-4. `kernel_ridge`: In `StandardEvaluationPipeline._build_model`, the `"kernel_ridge"` family genome (specifying kernel, $\gamma$, and regularization $\alpha$) is mapped to **`sklearn.svm.SVC`** with $C = 1/\alpha$, providing exact non-linear kernel classification compatible with multi-class accuracy. Zero candidate configuration errors or uncaught exceptions occurred during the 600 evaluations.
+3. `linear`: `LogisticRegression` with L2 or unregularized/none penalty (mapped via `solver="lbfgs"` with `C=1e6`).
+4. `kernel_svc`: In `StandardEvaluationPipeline._build_model`, the `"kernel_svc"` family genome (specifying kernel, $\gamma$, and regularization $\alpha$) is mapped to **`sklearn.svm.SVC`** with $C = 1/\alpha$, providing exact non-linear kernel classification compatible with multi-class accuracy (with `kernel_ridge` preserved as a backwards-compatible alias). Zero candidate configuration errors or uncaught exceptions occurred during the 600 evaluations.
 
 ---
 
 ## 8. Final Source Provenance & Pinning
 
 To prevent confusion between development states:
-- **Tagged Release `v4.0.1`:** Commit `21cd7e28cd51d76b1865387475b7f6eafb039b41`.
-- **Post-Release P0 Correctness Closure:** Commit `72be93013907b8296e7918f7c1383cba6bae4cf4` on branch `release-amde-final`.
-- **Demonstration Worktree Branch:** Branch `experiment/real-world-evidence-demo`.
-- **Google Colab Notebook Pin:** The demonstration notebook (`notebooks/AMDE_Real_World_Demo.ipynb`) explicitly pins commit `72be93013907b8296e7918f7c1383cba6bae4cf4`.
+- **Official Release Tag:** [`v4.0.2`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.2) (Commit `837b399639e37dd012d206ee147360c7eb08a552`).
+- **Canonical Release Branch:** `release-amde-final`.
+- **Google Colab Notebook Pin:** The demonstration notebook (`notebooks/AMDE_Real_World_Demo.ipynb`) pins official release tag `v4.0.2` on branch `release-amde-final`.

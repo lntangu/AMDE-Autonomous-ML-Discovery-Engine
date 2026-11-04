@@ -1,6 +1,6 @@
 # AMDE 4.0 — EMPIRICAL BENCHMARK SUITE RESULTS
 **Evidence Basis:** 250 Preregistered Runs (5 Methods x 10 Datasets x 5 Seeds)  
-**Distribution Version:** 4.0.1  
+**Distribution Version:** 4.0.2  
 
 ---
 

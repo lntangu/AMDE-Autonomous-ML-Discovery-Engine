@@ -1,7 +1,7 @@
 # AMDE 4.0 — Real-World Demonstration & Empirical Benchmark Guide
 
-**Distribution Version:** 4.0.1  
-**Target Branch:** `experiment/real-world-evidence-demo`  
+**Distribution Version:** 4.0.2  
+**Canonical Branch:** `release-amde-final`  
 **Execution Environment:** CPU-only, Python $\ge$ 3.10  
 
 ---

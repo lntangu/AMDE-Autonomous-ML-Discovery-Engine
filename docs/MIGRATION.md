@@ -1,5 +1,5 @@
 # AMDE 4.0 — MIGRATION GUIDE: UPGRADING FROM AMDE 2.x & 3.x
-**Distribution Version:** 4.0.1  
+**Distribution Version:** 4.0.2  
 
 ---
 
@@ -7,7 +7,7 @@
 
 AMDE 4.0 preserves backward compatibility for historical experiment scripts while transitioning to a clean, typed API.
 
-| Aspect | AMDE 2.x / 3.x Legacy | AMDE 4.0.1 Modern |
+| Aspect | AMDE 2.x / 3.x Legacy | AMDE 4.0.2 Modern |
 |---|---|---|
 | **Entry Point** | Monolithic `Orchestrator.run()` | Modular `AMDE4Engine.search()` |
 | **Identity** | Mutable string fingerprints | Cryptographic SHA-256 canonical JSON |
@@ -32,7 +32,7 @@ orch = Orchestrator(config)
 orch.run()
 ```
 
-### Modern AMDE 4.0.1 Pattern:
+### Modern AMDE 4.0.2 Pattern:
 ```python
 from amde import AMDE4Engine, SealedHoldoutTest
 from pathlib import Path

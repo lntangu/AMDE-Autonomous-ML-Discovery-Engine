@@ -21,3 +21,6 @@ build/
 dist/
 .ruff_cache/
 *.egg-info/
+amde_colab_demo_summary.csv
+amde_colab_evidence.json
+amde_colab_evidence.sha256

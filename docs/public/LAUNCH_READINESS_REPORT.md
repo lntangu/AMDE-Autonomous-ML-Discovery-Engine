@@ -37,7 +37,7 @@ All primary readiness gates have been verified:
 
 ### Critical Distribution Distinction
 - **Pre-built Wheel Asset (`v4.0.1`):** The release tag `v4.0.1` represents the immutable historical release tag anchored at commit `0a4176f`. It was preserved intact to prevent tag-rewriting or downstream supply-chain breakage.
-- **Canonical Default Branch (`release-amde-final`):** Contains all subsequent P0 correctness repairs (TPE observation history accumulation, MLP activation/dropout mapping, holdout process clarification, SQLite WAL ledger hashing of `experiment_id`, and Pareto archive exact non-dominated tracking). Users building from source or cloning the repository receive the full P0-hardened codebase.
+- **Canonical Default Branch (`release-amde-final`):** Contains all subsequent P0 correctness repairs (TPE observation history accumulation, MLP activation/optimizer mapping, holdout process clarification, SQLite WAL ledger hashing of `experiment_id`, and Pareto archive exact non-dominated tracking). Users building from source or cloning the repository receive the full P0-hardened codebase.
 
 ---
 

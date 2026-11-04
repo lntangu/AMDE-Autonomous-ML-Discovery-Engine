@@ -45,7 +45,7 @@ class HardwareProfile:
 
         try:
             import torch
-            if torch.cuda.is_available():
+            if hasattr(torch, "cuda") and torch.cuda.is_available():
                 cuda_avail = True
                 gpu_name = torch.cuda.get_device_name(0)
                 gpu_mem_mb = round(torch.cuda.get_device_properties(0).total_memory / (1024.0 * 1024.0), 1)
@@ -53,7 +53,7 @@ class HardwareProfile:
                 compute_cap = f"{major}.{minor}"
                 # Pascal (6.x) and earlier do NOT have Tensor Cores (Volta 7.0+ introduced Tensor Cores)
                 tensor_cores = (major >= 7)
-        except ImportError:
+        except (ImportError, AttributeError, Exception):
             pass
 
         # Concurrency: default to min(4, physical cores) to prevent hyperthreading thrash on 6-core chip
