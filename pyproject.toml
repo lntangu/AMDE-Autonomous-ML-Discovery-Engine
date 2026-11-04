@@ -21,7 +21,7 @@ dependencies = [
 monitoring = ["psutil>=5.9"]
 quantum = ["torch>=2.1", "numpy>=1.26"]
 tabular = ["scikit-learn>=1.5"]
-benchmark = ["optuna>=3.6.0", "matplotlib>=3.7"]
+benchmark = ["optuna>=3.6.0", "matplotlib>=3.7", "pandas>=2.0"]
 dev = ["pytest>=7", "psutil>=5.9", "ruff>=0.5", "coverage>=7", "build>=1.0", "nbformat>=5.9"]
 
 [project.scripts]

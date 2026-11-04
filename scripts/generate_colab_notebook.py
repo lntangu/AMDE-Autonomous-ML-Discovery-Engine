@@ -432,8 +432,14 @@ results_data = [
     },
 ]
 
-df_results = pd.DataFrame(results_data)
-display(df_results)"""))
+try:
+    import pandas as pd
+    df_results = pd.DataFrame(results_data)
+    display(df_results)
+except (ImportError, NameError):
+    print(f"{'Method':<32} {'Val Acc':<10} {'Test Acc':<10} {'Wall-Clock':<12} {'Pareto':<8} {'Dedup':<12}")
+    for r in results_data:
+        print(f"{r['Method']:<32} {r['Val Accuracy']:<10} {r['Sealed Test Acc']:<10} {r['Wall-Clock (s)']:<12} {r['Pareto Size']:<8} {r['Duplicate Rate']:<12}")"""))
 
 # Cell 15: Visualizations
 cells.append(nbf.v4.new_markdown_cell("""## 6. Visualizations: Search Efficiency & Multi-Objective Landscapes"""))
@@ -506,8 +512,14 @@ accelerator = "None / CPU-only"
 colab_status = "NOT VERIFIED (Evaluated via local headless execution test; cloud Colab execution not verified)"
 
 # Export summary CSV
+import csv
 csv_path = "amde_colab_demo_summary.csv"
-df_results.to_csv(csv_path, index=False)
+if results_data:
+    keys = list(results_data[0].keys())
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=keys)
+        writer.writeheader()
+        writer.writerows(results_data)
 csv_digest = hashlib.sha256(open(csv_path, "rb").read()).hexdigest()
 print(f"Artifact saved: {csv_path} (SHA-256: {csv_digest})")
 
