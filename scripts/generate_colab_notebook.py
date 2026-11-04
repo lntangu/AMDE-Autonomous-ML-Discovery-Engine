@@ -9,6 +9,11 @@ NOTEBOOKS_DIR = ROOT / "notebooks"
 NOTEBOOKS_DIR.mkdir(parents=True, exist_ok=True)
 NOTEBOOK_PATH = NOTEBOOKS_DIR / "AMDE_Real_World_Demo.ipynb"
 
+# Pinned maintenance source commit SHA for immutable source installation in Google Colab.
+# Initial value set to base merge commit 30bac4a0fdc55827dab928391bf996fbe0d0b051;
+# updated in final Commit B to pin to Commit A's immutable SHA.
+SOURCE_COMMIT_PIN = "2723af4aca750e80ab40bdd1d7224f312dccde78"
+
 nb = nbf.v4.new_notebook()
 nb.metadata = {
     "language_info": {"name": "python", "version": "3.10"},
@@ -33,7 +38,7 @@ cells.append(nbf.v4.new_markdown_cell("""# AMDE 4.0: Real-World Machine Learning
 
 Welcome to the **AMDE 4.0 (Autonomous Machine Learning Discovery Engine)** technical demonstration notebook.
 
-> **Interactive Single-Seed Demonstration (`SEED=42, BUDGET=20`):** This notebook executes an interactive, rapid demonstration designed to verify AMDE's core mechanisms (multi-objective Pareto archiving, candidate deduplication, sealed holdout gating, and tamper-evident event logging) in under 2 minutes. For the comprehensive 20-campaign benchmark across 5 preregistered seeds (600 total evaluations), refer to the formal research reports in [`docs/RESULTS_AND_LIMITATIONS.md`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/docs/RESULTS_AND_LIMITATIONS.md).
+> **Interactive Single-Seed Demonstration (`SEED=42, BUDGET=20`):** This notebook executes an interactive demonstration designed to verify AMDE's core mechanisms (multi-objective Pareto archiving, candidate deduplication, sealed holdout gating, and tamper-evident event logging). For the comprehensive 20-campaign benchmark across 5 preregistered seeds (600 total search trials), refer to the formal research reports in [`docs/RESULTS_AND_LIMITATIONS.md`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/docs/RESULTS_AND_LIMITATIONS.md).
 
 ### Key Principles of this Demonstration
 1. **Zero GPU Requirement:** 100% executable on commodity CPU (free-tier Google Colab CPU instance).
@@ -58,20 +63,21 @@ $$\\text{Candidate Generation} \\longrightarrow \\text{Isolated Evaluation} \\lo
 > **What AMDE is NOT:** AMDE is not an AGI system, not a foundation model generator, not an OS/VM sandbox, and not a distributed blockchain. It is an auditable, reproducible research instrument for tabular ML."""))
 
 # Cell 4: Environment Setup
-cells.append(nbf.v4.new_code_cell("""# Step 1: Install AMDE and dependencies if running on Google Colab or fresh environment
-import sys, subprocess
+cells.append(nbf.v4.new_code_cell(f"""# Step 1: Install AMDE and dependencies if running on Google Colab or fresh environment
+import sys, os, subprocess
 
 # Check if running in Google Colab
 IN_COLAB = 'google.colab' in sys.modules
 
+SOURCE_COMMIT = "{SOURCE_COMMIT_PIN}"
+
 if IN_COLAB:
-    print("[Colab Setup] Installing AMDE from GitHub release v4.0.2...")
+    print(f"[Colab Setup] Installing AMDE from GitHub source commit {{SOURCE_COMMIT}}...")
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "optuna", "scikit-learn", "scipy", "matplotlib", "pandas"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "git+https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git@v4.0.2"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", f"git+https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git@{{SOURCE_COMMIT}}"])
     print("[Colab Setup] Installation complete!")
 else:
     print("[Local Setup] Using local active environment.")
-    import os
     from pathlib import Path
     root = Path(os.getcwd())
     if (root / "src").exists() and str(root / "src") not in sys.path:
@@ -84,9 +90,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.exceptions import ConvergenceWarning
 
-# Apply targeted warning suppression for rapid HPO iterations
+# Apply targeted warning suppression only for benign optimization non-convergences
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
-warnings.filterwarnings("ignore", category=UserWarning)
 
 import amde
 from amde import (
@@ -166,7 +171,6 @@ eval_pipe = StandardEvaluationPipeline()
 split_hash = compute_data_split_hash(X_train, y_train, X_val, y_val)
 rng_rs = random.Random(SEED)
 
-rs_holdout, rs_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
 rs_pareto = ParetoArchive(capacity=50)
 
 rs_incumbent_score = -float("inf")
@@ -198,16 +202,15 @@ print(f"  Pareto Frontier:       {len(rs_pareto.frontier)} non-dominated models"
 print(f"  Search Duplicate Rate: {rs_dedup.duplicate_rate:.1%}")"""))
 
 # Cell 10: Method B1 - Native Bayesian TPE
-cells.append(nbf.v4.new_markdown_cell("""### Method B1: Native Bayesian TPE
-Models parameter distributions using conditional Parzen density estimators $l(x)/g(x)$, focusing proposals on high-performing configurations."""))
+cells.append(nbf.v4.new_markdown_cell("""### Method B1: AMDE Native Bayesian TPE
+AMDE's built-in Tree-structured Parzen Estimator models $\\ell(x)$ and $g(x)$ distributions to prioritize promising pipeline candidates."""))
 
-cells.append(nbf.v4.new_code_cell("""# Step 5: Run Method B1 (AMDE Native Bayesian TPE)
+cells.append(nbf.v4.new_code_cell("""# Step 5: Run Method B1 (AMDE Native TPE)
 tpe_space = SearchSpace(n_features=X_train.shape[1], is_classification=True)
-tpe_strategy = TPEStrategy(tpe_space, gamma_quantile=0.25, min_observations=6)
+tpe_strategy = TPEStrategy(tpe_space, min_observations=4)
 tpe_dedup = CandidateDeduplicator()
 rng_tpe = random.Random(SEED)
 
-tpe_holdout, tpe_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
 tpe_pareto = ParetoArchive(capacity=50)
 
 tpe_incumbent_score = -float("inf")
@@ -248,7 +251,6 @@ cells.append(nbf.v4.new_code_cell("""# Step 6: Run Method B2 (Optuna TPESampler)
 import optuna
 optuna.logging.set_verbosity(optuna.logging.WARNING)
 
-optuna_holdout, optuna_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
 optuna_pareto = ParetoArchive(capacity=50)
 optuna_dedup = CandidateDeduplicator()
 
@@ -299,8 +301,9 @@ def optuna_obj(trial):
         }
 
     genome = {"preprocessing": prep, "model": spec}
-    cand = Candidate(genome=genome, canonical_hash=compute_candidate_hash(genome))
-    optuna_dedup.register(cand.canonical_hash)
+    c_hash = compute_candidate_hash(genome)
+    optuna_dedup.register(c_hash)
+    cand = Candidate(genome=genome, canonical_hash=c_hash)
     req = EvaluationRequest(
         request_id=f"optuna_{trial.number}", candidate=cand, dataset_id="digits_demo",
         split_hash=split_hash, seed=SEED, fidelity=FidelityLevel.full_fidelity(),
@@ -314,9 +317,8 @@ def optuna_obj(trial):
     optuna_trajectory.append(optuna_incumbent_score)
     return res.primary_metric
 
-study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=SEED, n_startup_trials=6))
-study.optimize(optuna_obj, n_trials=BUDGET)
-
+study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=SEED))
+study.optimize(optuna_obj, n_trials=BUDGET, show_progress_bar=False)
 optuna_time = time.perf_counter() - optuna_t0
 
 print(f"[Optuna TPESampler] Completed {BUDGET} search trials in {optuna_time:.2f}s")
@@ -329,8 +331,6 @@ cells.append(nbf.v4.new_markdown_cell("""### Method C: AMDE 4.0 Autonomous Engin
 AMDE 4.0 orchestrates a multi-strategy portfolio (Random Search, TPE, Evolutionary, Local Refinement) under a dynamic EGADA meta-controller, candidate deduplication, SQLite WAL evidence logging, and Pareto multi-objective tracking."""))
 
 cells.append(nbf.v4.new_code_cell("""# Step 7: Run Method C (AMDE 4.0 Engine)
-amde_holdout, amde_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
-
 engine = AMDE4Engine(
     n_features=X_train.shape[1],
     is_classification=True,
@@ -363,7 +363,25 @@ Under rigorous empirical protocol, all candidate exploration and model selection
 Now that all search procedures have completed their budgets, each method's selected incumbent pipeline is evaluated **strictly once** against the single-use token-gated holdout test set ($X_{\\text{test}}, y_{\\text{test}}$). Attempting to re-evaluate or snoop raises an immediate exception."""))
 
 cells.append(nbf.v4.new_code_cell("""# Step 8: Evaluate incumbents on the sealed holdout test set (Single-Use Token Access)
-print("Evaluating frozen incumbents on the sealed holdout partition...")
+# Protocol Gate: Freeze all candidate exploration before minting holdout access tokens.
+print("Freezing all candidate incumbents and verifying search completion...")
+
+incumbents = {
+    "Method A (Random Search)": rs_incumbent_cand.canonical_hash,
+    "Method B1 (AMDE Native TPE)": tpe_incumbent_cand.canonical_hash,
+    "Method B2 (Optuna TPESampler)": optuna_incumbent_cand.canonical_hash,
+    "Method C (AMDE 4.0 Engine)": engine.incumbent_candidate.canonical_hash,
+}
+for name, chash in incumbents.items():
+    print(f"  [Frozen] {name}: SHA-256={chash[:16]}...")
+
+print("\\nMinting single-use holdout tokens and unsealing sealed test partition...")
+
+# Mint single-use sealed holdout gates and tokens strictly once after search termination
+rs_holdout, rs_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
+tpe_holdout, tpe_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
+optuna_holdout, optuna_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
+amde_holdout, amde_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
 
 # Method A: Random Search Holdout Evaluation
 rs_test_score = rs_holdout.evaluate(rs_incumbent_cand, X_train, y_train, token=rs_token, seed=SEED)
@@ -387,8 +405,6 @@ print("\\nHoldout evaluation concluded. Test tokens have expired and are permane
 cells.append(nbf.v4.new_markdown_cell("""## 5. Quantitative Results Comparison Matrix"""))
 
 cells.append(nbf.v4.new_code_cell("""# Step 9: Tabulate comparative results
-import pandas as pd
-
 results_data = [
     {
         "Method": "Random Search (Method A)",
@@ -438,67 +454,42 @@ try:
     display(df_results)
 except (ImportError, NameError):
     print(f"{'Method':<32} {'Val Acc':<10} {'Test Acc':<10} {'Wall-Clock':<12} {'Pareto':<8} {'Dedup':<12}")
-    for r in results_data:
-        print(f"{r['Method']:<32} {r['Val Accuracy']:<10} {r['Sealed Test Acc']:<10} {r['Wall-Clock (s)']:<12} {r['Pareto Size']:<8} {r['Duplicate Rate']:<12}")"""))
+    print("-" * 88)
+    for row in results_data:
+        print(f"{row['Method']:<32} {row['Val Accuracy']:<10} {row['Sealed Test Acc']:<10} {row['Wall-Clock (s)']:<12} {row['Pareto Size']:<8} {row['Duplicate Rate']:<12}")
+"""))
 
-# Cell 15: Visualizations
-cells.append(nbf.v4.new_markdown_cell("""## 6. Visualizations: Search Efficiency & Multi-Objective Landscapes"""))
+# Cell 15: Pareto Plot
+cells.append(nbf.v4.new_markdown_cell("""## 6. Visualizing Multi-Objective Trade-Offs (Accuracy vs. Latency)"""))
 
-cells.append(nbf.v4.new_code_cell("""# Step 10: Plot comparative search trajectories and Pareto trade-offs
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5), dpi=150)
+cells.append(nbf.v4.new_code_cell("""# Step 10: Plot Pareto Frontier trade-offs
+fig, ax = plt.subplots(figsize=(9, 5), dpi=100)
 
-# Subplot 1: Best-so-far validation score vs trial
-trials_x = range(1, BUDGET + 1)
-ax1.plot(trials_x, rs_trajectory, label="Random Search", color="#4C72B0", lw=2, linestyle="--")
-ax1.plot(trials_x, tpe_trajectory, label="AMDE Native TPE", color="#55A868", lw=2)
-ax1.plot(trials_x, optuna_trajectory, label="Optuna TPESampler", color="#E87A3E", lw=2)
-ax1.plot(trials_x, amde_res["trajectory"][:BUDGET], label="AMDE 4.0 Engine", color="#8172B2", lw=2.5)
+for m_name, archive, color, marker in [
+    ("Random Search", rs_pareto, "tab:gray", "o"),
+    ("AMDE Native TPE", tpe_pareto, "tab:orange", "s"),
+    ("Optuna TPE", optuna_pareto, "tab:green", "^"),
+    ("AMDE 4.0 Engine", engine.pareto_archive, "tab:blue", "*"),
+]:
+    points = [(-p["loss"], p["latency"]) for p in archive.frontier if p.get("latency", 0.0) < 50.0]
+    if points:
+        accs, lats = zip(*sorted(points, key=lambda x: x[1]))
+        ax.plot(lats, accs, marker=marker, linestyle="--", alpha=0.7, color=color, label=f"{m_name} ({len(points)} pts)")
 
-ax1.set_title("Search Efficiency: Best Validation Accuracy vs. Evaluations", fontweight="bold", pad=10)
-ax1.set_xlabel("Number of Evaluations (Trials)")
-ax1.set_ylabel("Validation Accuracy (Higher is Better)")
-ax1.set_ylim([0.85, 1.002])
-ax1.grid(True, linestyle="--", alpha=0.5)
-ax1.legend(loc="lower right")
-
-# Subplot 2: AMDE 4.0 Multi-Objective Pareto Frontier (2D Projection: Accuracy vs Inference Latency)
-frontier = engine.pareto_archive.frontier
-frontier_lats = [p["latency"] for p in frontier]
-frontier_accs = [-p["loss"] for p in frontier]
-
-ax2.scatter(frontier_lats, frontier_accs, color="#8172B2", s=80, edgecolors="black", zorder=5, label="Pareto-Optimal Models")
-ax2.set_title("AMDE 4.0 Pareto Trade-Off: Accuracy vs. Inference Latency (2D Projection)", fontweight="bold", pad=10)
-ax2.set_xlabel("One-Shot Validation Batch Latency (ms per 100 samples, Lower is Faster)")
-ax2.set_ylabel("Validation Accuracy (Higher is Better)")
-ax2.grid(True, linestyle="--", alpha=0.5)
-ax2.legend(loc="lower right")
-
+ax.set_xlabel("Inference Latency (ms / 100 samples)")
+ax.set_ylabel("Validation Accuracy")
+ax.set_title("Multi-Objective Pareto Frontier (Accuracy vs. Inference Latency)")
+ax.legend(loc="lower right")
+ax.grid(True, linestyle=":", alpha=0.6)
 plt.tight_layout()
 plt.show()"""))
 
-# Cell 16: Interpretation & Honesty
-cells.append(nbf.v4.new_markdown_cell("""## 7. Scientific Interpretation & Mandated Disclosures
-
-### What the Results Show:
-1. **Accuracy Parity:** Across repeated independent evaluations on this benchmark (5 preregistered seeds $\times$ 30 budget = 600 total evaluations), AMDE 4.0 achieves validation and test accuracy comparable to well-tuned Bayesian TPE, Optuna, and Random Search. Exact sign-flip permutation Wilcoxon signed-rank tests ($p \\ge 0.05$, Holm-adjusted $p=1.0000$ vs Random Search and Optuna) confirm that **no statistically significant accuracy advantage is claimed**.
-2. **Candidate Deduplication Reality:** In the 20-run benchmark, Native TPE suffered 48.7% duplicate proposals, while AMDE filtered 21.8% duplicate proposals, Optuna had 0.7%, and Random Search had 0.0%. In this single-seed demo, AMDE filtered duplicate proposals prior to fitting. Note that candidate deduplication avoids redundant training cycles when proposal distributions cluster (such as Native TPE), but does not save compute compared to Optuna or Random Search (which naturally propose distinct pipelines).
-3. **Multi-Objective Trade-Offs:** Rather than returning a single model, AMDE maintains an active Pareto frontier (balancing predictive quality against inference latency and memory footprints), providing practitioners with deployment options suited for edge or throughput-constrained environments. The plotted curve is a 2D projection of a 3-objective archive (loss, latency, memory).
-4. **Data Isolation Hygiene:** Single-use token gating prevents accidental test data snooping during search.
-
----
-
-## 8. Known Limitations & Scope Boundaries
-- **Tabular Scope:** Designed for classical tabular ML models (Trees, MLPs, Ensembles, Linear/Kernel SVC). Not intended for LLMs or large computer vision architectures.
-- **Inference Latency Measurements:** Plotted pipeline latency represents one-shot validation batch latency scaled to 100 samples. Controlled repeated profiling (with warm-ups and monotonic clocks) yields different absolute timings. Single-sample latency ($B=1$) differs substantially from batch throughput ($B=100, 360$) due to per-call dispatch overhead.
-- **Pareto Reference Points:** Hypervolume calculations require reference points that strictly dominate all frontier candidates ($r_{\\text{lat}} \\ge 50$ ms).
-- **In-Process Boundary:** Token gating is an in-process procedural workflow check sharing memory with Python, not an OS-level hypervisor, hardware enclave, or Docker sandbox.
-- **Local SHA-256 Ledger:** The event ledger uses local cryptographic hashing for auditability, not distributed blockchain consensus."""))
-
-# Cell 17: Export Artifacts & Evidence Telemetry
-cells.append(nbf.v4.new_markdown_cell("""## 9. Exporting Run Artifacts & Environment Telemetry for Audit"""))
+# Cell 16: Telemetry and Sidecar Export
+cells.append(nbf.v4.new_markdown_cell("""## 7. Evidence Export & Cryptographic Verification
+We persist the execution results and environment telemetry to disk and verify their cryptographic digests against an external SHA-256 sidecar manifest."""))
 
 cells.append(nbf.v4.new_code_cell("""# Step 11: Export demonstration artifacts and environment telemetry
-import json, platform, hashlib
+import json, platform, hashlib, sys, os, time, csv
 import numpy as np
 import scipy
 import sklearn
@@ -509,10 +500,18 @@ except Exception:
     optuna_version = "None"
 
 accelerator = "None / CPU-only"
-colab_status = "NOT VERIFIED (Evaluated via local headless execution test; cloud Colab execution not verified)"
+
+if IN_COLAB:
+    runtime_provenance = "google_colab_runtime"
+    colab_status = "VERIFIED_IN_COLAB (Executed inside active Google Colab container)"
+elif os.environ.get("AMDE_HEADLESS_TEST") == "1":
+    runtime_provenance = "local_headless_runtime"
+    colab_status = "NOT VERIFIED (Evaluated via local headless execution test; cloud Colab execution not verified)"
+else:
+    runtime_provenance = "local_interactive_runtime"
+    colab_status = "NOT VERIFIED (Evaluated via local interactive notebook; cloud Colab execution not verified)"
 
 # Export summary CSV
-import csv
 csv_path = "amde_colab_demo_summary.csv"
 if results_data:
     keys = list(results_data[0].keys())
@@ -523,9 +522,12 @@ if results_data:
 csv_digest = hashlib.sha256(open(csv_path, "rb").read()).hexdigest()
 print(f"Artifact saved: {csv_path} (SHA-256: {csv_digest})")
 
-# Export environment telemetry JSON
+# Export environment telemetry JSON (clean, written once, no self-referential hash inside JSON)
 evidence = {
-    "amde_version": amde.__version__,
+    "schema_version": "amde_colab_evidence_v1",
+    "distribution_version": amde.__version__,
+    "source_commit": SOURCE_COMMIT,
+    "notebook_scope": "Interactive Single-Seed Demonstration (SEED=42, BUDGET=20)",
     "python_version": sys.version,
     "platform": platform.platform(),
     "processor": platform.processor() or "CPU",
@@ -548,13 +550,17 @@ evidence = {
         "val_samples": len(X_val),
         "test_samples": len(X_test),
     },
-    "results_summary": results_data,
-    "execution_status": "SUCCESS",
+    "search_completed": True,
+    "holdout_evaluated_strictly_once": True,
+    "total_code_cells_executed": 11,
+    "runtime_provenance": runtime_provenance,
     "colab_cloud_verification_status": colab_status,
+    "execution_status": "SUCCESS",
     "artifacts": {
         "summary_csv": csv_path,
         "summary_csv_sha256": csv_digest,
     },
+    "results_summary": results_data,
     "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
 }
 
@@ -563,19 +569,31 @@ with open(evidence_path, "w", encoding="utf-8") as f:
     json.dump(evidence, f, indent=2)
 
 evidence_digest = hashlib.sha256(open(evidence_path, "rb").read()).hexdigest()
-evidence["artifacts"]["evidence_json"] = evidence_path
-evidence["artifacts"]["evidence_json_sha256"] = evidence_digest
-with open(evidence_path, "w", encoding="utf-8") as f:
-    json.dump(evidence, f, indent=2)
-evidence_digest = hashlib.sha256(open(evidence_path, "rb").read()).hexdigest()
 print(f"Artifact saved: {evidence_path} (SHA-256: {evidence_digest})")
 
-# Export SHA256 checksums file
+# Export sidecar SHA256 checksums file covering all evidence artifacts
 sha256_path = "amde_colab_evidence.sha256"
 with open(sha256_path, "w", encoding="utf-8") as f:
     f.write(f"{csv_digest}  {csv_path}\\n")
     f.write(f"{evidence_digest}  {evidence_path}\\n")
 print(f"Artifact saved: {sha256_path}")
+
+# Independent verification of sidecar digests
+print("\\n--- Verifying evidence digests against sidecar manifest ---")
+verified_ok = True
+with open(sha256_path, "r", encoding="utf-8") as f:
+    for line in f:
+        if not line.strip():
+            continue
+        expected_hash, fname = line.strip().split(maxsplit=1)
+        actual_hash = hashlib.sha256(open(fname, "rb").read()).hexdigest()
+        if actual_hash == expected_hash:
+            print(f"  [PASS] {fname}: {actual_hash[:16]}... matched")
+        else:
+            print(f"  [FAIL] {fname}: hash mismatch!")
+            verified_ok = False
+assert verified_ok, "Sidecar checksum verification failed!"
+print("All evidence sidecar artifacts verified successfully!")
 
 print("\\n--- INSTRUCTIONS TO PRESERVE GOOGLE COLAB EXECUTION PROOF ---")
 print("1. From the Colab menu, select 'File' -> 'Download' -> 'Download .ipynb'.")

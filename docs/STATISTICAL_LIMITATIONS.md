@@ -2,6 +2,9 @@
 **Mandatory Scientific Disclosure Document**  
 **Distribution Version:** 4.0.2  
 
+> [!NOTE]
+> **Historical Archive Notice:** This document reflects the statistical hypothesis testing of the initial 250-run exploratory benchmark campaign (50 evaluation budget, 10 synthetic/tabular datasets, 5 seeds). It must not be conflated with the subsequent single-dataset real-world demonstration campaign (`load_digits`, 20/30 trials) or the current v4.0.2 maintenance baseline. For exact permutation Wilcoxon tests and Holm-Bonferroni corrections on the real-world demo, refer to `reports/real_world_demo/latest/report.md` and `docs/CLAIMS_LEDGER.md`.  
+
 ---
 
 ## 1. Executive Statistical Disclosure

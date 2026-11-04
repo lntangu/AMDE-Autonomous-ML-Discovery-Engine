@@ -115,43 +115,58 @@
   },
   "comparisons_vs_amde40": {
     "random_search": {
+      "total_pairs": 5,
+      "n_effective_non_zero_pairs": 4,
       "mean_test_diff": -0.00166,
       "median_test_diff": 0.0,
       "mean_val_diff": -0.00167,
       "mean_time_diff_s": 6.55,
-      "n_effective_non_zero_pairs": 4,
-      "wilcoxon_stat": null,
+      "wilcoxon_stat": 4.5,
+      "wilcoxon_p_value_raw": 1.0,
+      "wilcoxon_p_value_holm": 1.0,
       "wilcoxon_p_value": 1.0,
       "paired_t_stat": -0.3986,
-      "paired_t_p_value": 0.7106,
+      "paired_t_p_value_raw": 0.71057,
+      "paired_t_p_value_holm": 0.9191,
+      "paired_t_p_value": 0.9191,
       "statistically_significant_p05": false,
-      "scientific_conclusion": "No statistically significant difference detected (p >= 0.05)"
+      "scientific_conclusion": "No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05)"
     },
     "bayesian_tpe": {
+      "total_pairs": 5,
+      "n_effective_non_zero_pairs": 5,
       "mean_test_diff": 0.015,
       "median_test_diff": 0.01666,
       "mean_val_diff": 0.01555,
       "mean_time_diff_s": -20.11,
-      "n_effective_non_zero_pairs": 5,
       "wilcoxon_stat": 0.0,
-      "wilcoxon_p_value": 0.0625,
+      "wilcoxon_p_value_raw": 0.0625,
+      "wilcoxon_p_value_holm": 0.1875,
+      "wilcoxon_p_value": 0.1875,
       "paired_t_stat": 3.1943,
-      "paired_t_p_value": 0.0331,
+      "paired_t_p_value_raw": 0.03308,
+      "paired_t_p_value_holm": 0.09924,
+      "paired_t_p_value": 0.09924,
       "statistically_significant_p05": false,
-      "scientific_conclusion": "No statistically significant difference detected (p >= 0.05)"
+      "scientific_conclusion": "No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=0.1875 >= 0.05)"
     },
     "optuna_tpe": {
+      "total_pairs": 5,
+      "n_effective_non_zero_pairs": 5,
       "mean_test_diff": 0.00278,
       "median_test_diff": -0.00277,
       "mean_val_diff": 0.00222,
       "mean_time_diff_s": 8.28,
-      "n_effective_non_zero_pairs": 5,
       "wilcoxon_stat": 6.0,
-      "wilcoxon_p_value": 0.875,
+      "wilcoxon_p_value_raw": 0.625,
+      "wilcoxon_p_value_holm": 1.0,
+      "wilcoxon_p_value": 1.0,
       "paired_t_stat": 0.8175,
-      "paired_t_p_value": 0.4596,
+      "paired_t_p_value_raw": 0.45955,
+      "paired_t_p_value_holm": 0.9191,
+      "paired_t_p_value": 0.9191,
       "statistically_significant_p05": false,
-      "scientific_conclusion": "No statistically significant difference detected (p >= 0.05)"
+      "scientific_conclusion": "No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05)"
     }
   }
 }

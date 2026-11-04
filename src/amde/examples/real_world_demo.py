@@ -508,11 +508,85 @@ def run_amde_40(
     return summary, trials
 
 
+def exact_sign_flip_wilcoxon(diffs: np.ndarray, n_test: int = 360) -> dict[str, Any]:
+    """Computes exact two-sided Wilcoxon signed-rank test via exhaustive sign-flip permutation.
+
+    Handles tied ranks via average ranks, drops zeros to form effective sample size N_eff,
+    and enumerates all 2^N_eff permutations.
+    """
+    from scipy import stats
+    import itertools
+
+    # Reconstruct discrete fractional differences on n_test holdout samples
+    # to prevent 5-decimal floating point rounding artifacts from breaking ties.
+    int_diffs = np.round(diffs * n_test).astype(int)
+    non_zero_mask = int_diffs != 0
+    non_zero_int = int_diffs[non_zero_mask]
+    n_eff = len(non_zero_int)
+
+    if n_eff == 0:
+        return {
+            "w_stat": 0.0,
+            "p_value_raw": 1.0,
+            "n_effective_non_zero_pairs": 0,
+            "n_permutations": 1,
+            "ranks": [],
+            "w_plus": 0.0,
+            "w_minus": 0.0,
+        }
+
+    abs_int = np.abs(non_zero_int)
+    ranks = stats.rankdata(abs_int)
+    total_rank_sum = float(np.sum(ranks))
+
+    w_plus = float(np.sum(ranks[non_zero_int > 0]))
+    w_minus = float(np.sum(ranks[non_zero_int < 0]))
+    w_obs = min(w_plus, w_minus)
+
+    signs_product = list(itertools.product([-1, 1], repeat=n_eff))
+    n_perms = len(signs_product)
+    count_as_or_more_extreme = 0
+
+    for signs in signs_product:
+        perm_w_plus = sum(r for r, s in zip(ranks, signs) if s > 0)
+        perm_w_minus = total_rank_sum - perm_w_plus
+        perm_w = min(perm_w_plus, perm_w_minus)
+        if perm_w <= w_obs + 1e-9:
+            count_as_or_more_extreme += 1
+
+    p_val = count_as_or_more_extreme / n_perms
+    return {
+        "w_stat": float(w_obs),
+        "p_value_raw": float(p_val),
+        "n_effective_non_zero_pairs": n_eff,
+        "n_permutations": n_perms,
+        "ranks": [float(r) for r in ranks],
+        "w_plus": float(w_plus),
+        "w_minus": float(w_minus),
+    }
+
+
+def monotonic_holm_adjust(p_values: list[float]) -> list[float]:
+    """Computes monotonic Holm-Bonferroni step-down adjusted p-values."""
+    m = len(p_values)
+    indexed = sorted(enumerate(p_values), key=lambda x: x[1])
+    adjusted = [0.0] * m
+    running_max = 0.0
+
+    for rank, (orig_idx, p) in enumerate(indexed):
+        multiplier = m - rank
+        adj_p = min(1.0, multiplier * p)
+        running_max = max(running_max, adj_p)
+        adjusted[orig_idx] = running_max
+
+    return adjusted
+
+
 def compute_statistical_tests(
     summaries: list[dict[str, Any]],
     methods: list[str],
 ) -> dict[str, Any]:
-    """Computes rigorous parametric and non-parametric statistical comparisons."""
+    """Computes rigorous parametric and non-parametric statistical comparisons with exact permutation."""
     from scipy import stats
 
     by_method: dict[str, list[dict[str, Any]]] = {m: [] for m in methods}
@@ -561,54 +635,86 @@ def compute_statistical_tests(
             },
         }
 
-    # Paired comparisons against AMDE 4.0
-    amde_runs = by_method.get("amde_40", [])
-    if amde_runs:
-        amde_test = np.array([r["sealed_test_score"] for r in amde_runs])
-        amde_val = np.array([r["best_val_score"] for r in amde_runs])
-        amde_time = np.array([r["wallclock_seconds"] for r in amde_runs])
+    # Paired comparisons against AMDE 4.0 matching explicitly by seed
+    amde_runs_by_seed = {r["seed"]: r for r in summaries if r.get("method") == "amde_40"}
+    if amde_runs_by_seed:
+        baselines = [m for m in methods if m != "amde_40"]
+        wilcoxon_raw_ps: list[float] = []
+        ttest_raw_ps: list[float] = []
+        comp_data_list: list[dict[str, Any]] = []
 
-        for baseline in [m for m in methods if m != "amde_40"]:
-            b_runs = by_method.get(baseline, [])
-            if len(b_runs) != len(amde_runs):
+        for baseline in baselines:
+            b_runs_by_seed = {r["seed"]: r for r in summaries if r.get("method") == baseline}
+            common_seeds = sorted(set(amde_runs_by_seed.keys()) & set(b_runs_by_seed.keys()))
+            if not common_seeds:
                 continue
 
-            b_test = np.array([r["sealed_test_score"] for r in b_runs])
-            b_val = np.array([r["best_val_score"] for r in b_runs])
-            b_time = np.array([r["wallclock_seconds"] for r in b_runs])
+            amde_test = np.array([amde_runs_by_seed[s]["sealed_test_score"] for s in common_seeds])
+            b_test = np.array([b_runs_by_seed[s]["sealed_test_score"] for s in common_seeds])
+            amde_val = np.array([amde_runs_by_seed[s]["best_val_score"] for s in common_seeds])
+            b_val = np.array([b_runs_by_seed[s]["best_val_score"] for s in common_seeds])
+            amde_time = np.array([amde_runs_by_seed[s]["wallclock_seconds"] for s in common_seeds])
+            b_time = np.array([b_runs_by_seed[s]["wallclock_seconds"] for s in common_seeds])
 
             diff_test = amde_test - b_test
             diff_val = amde_val - b_val
             diff_time = amde_time - b_time
 
-            # Wilcoxon signed-rank test on test score
-            non_zero_diffs = diff_test[diff_test != 0]
-            n_eff = len(non_zero_diffs)
-
-            if n_eff >= 5:
-                w_stat, p_val = stats.wilcoxon(amde_test, b_test, zero_method="wilcox")
-                w_stat, p_val = float(w_stat), float(p_val)
-            else:
-                w_stat, p_val = None, 1.0
+            # Exact Wilcoxon signed-rank permutation test on holdout test differences
+            w_res = exact_sign_flip_wilcoxon(diff_test, n_test=360)
 
             # Paired t-test
             t_stat, t_pval = stats.ttest_rel(amde_test, b_test)
 
-            results["comparisons_vs_amde40"][baseline] = {
+            wilcoxon_raw_ps.append(w_res["p_value_raw"])
+            ttest_raw_ps.append(float(t_pval))
+
+            comp_data = {
+                "baseline": baseline,
+                "seeds": common_seeds,
+                "total_pairs": len(common_seeds),
                 "mean_test_diff": round(float(np.mean(diff_test)), 5),
                 "median_test_diff": round(float(np.median(diff_test)), 5),
                 "mean_val_diff": round(float(np.mean(diff_val)), 5),
                 "mean_time_diff_s": round(float(np.mean(diff_time)), 2),
-                "n_effective_non_zero_pairs": n_eff,
-                "wilcoxon_stat": w_stat,
-                "wilcoxon_p_value": p_val,
+                "n_effective_non_zero_pairs": w_res["n_effective_non_zero_pairs"],
+                "wilcoxon_stat": w_res["w_stat"],
+                "wilcoxon_p_value_raw": round(w_res["p_value_raw"], 5),
                 "paired_t_stat": round(float(t_stat), 4),
-                "paired_t_p_value": round(float(t_pval), 4),
-                "statistically_significant_p05": bool(p_val is not None and p_val < 0.05),
+                "paired_t_p_value_raw": round(float(t_pval), 5),
+                "ranks": w_res["ranks"],
+            }
+            comp_data_list.append(comp_data)
+
+        # Apply Holm-Bonferroni step-down correction across all pairwise comparisons
+        wilcoxon_holm_ps = monotonic_holm_adjust(wilcoxon_raw_ps)
+        ttest_holm_ps = monotonic_holm_adjust(ttest_raw_ps)
+
+        for idx, comp_data in enumerate(comp_data_list):
+            baseline = comp_data["baseline"]
+            w_holm = wilcoxon_holm_ps[idx]
+            t_holm = ttest_holm_ps[idx]
+
+            results["comparisons_vs_amde40"][baseline] = {
+                "total_pairs": comp_data["total_pairs"],
+                "n_effective_non_zero_pairs": comp_data["n_effective_non_zero_pairs"],
+                "mean_test_diff": comp_data["mean_test_diff"],
+                "median_test_diff": comp_data["median_test_diff"],
+                "mean_val_diff": comp_data["mean_val_diff"],
+                "mean_time_diff_s": comp_data["mean_time_diff_s"],
+                "wilcoxon_stat": comp_data["wilcoxon_stat"],
+                "wilcoxon_p_value_raw": comp_data["wilcoxon_p_value_raw"],
+                "wilcoxon_p_value_holm": round(w_holm, 5),
+                "wilcoxon_p_value": round(w_holm, 5),  # Compatibility key
+                "paired_t_stat": comp_data["paired_t_stat"],
+                "paired_t_p_value_raw": comp_data["paired_t_p_value_raw"],
+                "paired_t_p_value_holm": round(t_holm, 5),
+                "paired_t_p_value": round(t_holm, 5),  # Compatibility key
+                "statistically_significant_p05": bool(w_holm < 0.05),
                 "scientific_conclusion": (
-                    "No statistically significant difference detected (p >= 0.05)"
-                    if (p_val is None or p_val >= 0.05)
-                    else "Statistically significant difference detected (p < 0.05)"
+                    f"No statistically significant difference detected under family-wise error rate control (Holm-adjusted p={w_holm:.4f} >= 0.05)"
+                    if w_holm >= 0.05
+                    else f"Statistically significant difference detected (Holm-adjusted p={w_holm:.4f} < 0.05)"
                 ),
             }
 
@@ -904,8 +1010,8 @@ def generate_markdown_report(
         "",
         "## 2. Statistical Significance Analysis (vs. AMDE 4.0)",
         "",
-        r"| Baseline Comparison | Mean Test Diff ($\Delta$) | Non-Zero Pairs ($N_{\text{eff}}$) | Wilcoxon Statistic ($W$) | Wilcoxon $p$-value | Paired $t$ $p$-value | Empirical Verdict |",
-        "| :--- | :---: | :---: | :---: | :---: | :---: | :--- |",
+        r"| Baseline Comparison | Mean Test Diff ($\Delta$) | Non-Zero Pairs ($N_{\text{eff}}$) | Wilcoxon Statistic ($W$) | Wilcoxon Raw $p$ | Wilcoxon Holm $p$ | Paired $t$ Holm $p$ | Empirical Verdict |",
+        "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |",
     ])
 
     for base, c in comparisons.items():
@@ -913,10 +1019,11 @@ def generate_markdown_report(
         d_val = c["mean_test_diff"]
         n_eff = c["n_effective_non_zero_pairs"]
         w_s = f"{c['wilcoxon_stat']:.1f}" if c["wilcoxon_stat"] is not None else "N/A"
-        w_p = f"{c['wilcoxon_p_value']:.4f}"
-        t_p = f"{c['paired_t_p_value']:.4f}"
+        w_p_raw = f"{c['wilcoxon_p_value_raw']:.4f}"
+        w_p_holm = f"{c['wilcoxon_p_value_holm']:.4f}"
+        t_p_holm = f"{c['paired_t_p_value_holm']:.4f}"
         verd = c["scientific_conclusion"]
-        lines.append(f"| vs. {disp} | {d_val:+.4f} | {n_eff} | {w_s} | {w_p} | {t_p} | {verd} |")
+        lines.append(f"| vs. {disp} | {d_val:+.4f} | {n_eff} | {w_s} | {w_p_raw} | {w_p_holm} | {t_p_holm} | {verd} |")
 
     lines.extend([
         "",
@@ -924,12 +1031,12 @@ def generate_markdown_report(
         "",
         "## 3. Scientific Disclosures & Limitations",
         "",
-        "1. **Accuracy Equivalence:** Consistent with theoretical expectations and previous P0 confirmatory audits, AMDE 4.0 demonstrates predictive accuracy comparable to Bayesian TPE, Optuna, and Random Search on standard tabular benchmarks ($p \\ge 0.05$). No claim of superior predictive accuracy is made.",
+        "1. **Absence of Statistically Significant Differences:** Consistent with theoretical expectations and previous P0 confirmatory audits, AMDE 4.0 demonstrates predictive accuracy comparable to Bayesian TPE, Optuna, and Random Search on standard tabular benchmarks ($p \\ge 0.05$ under Holm-Bonferroni correction). No claim of superior predictive accuracy or statistical equivalence is made.",
         "2. **Distinct Architectural Merits:** AMDE's verified advantages lie in:",
-        "   - **Automated Search Deduplication:** Filters redundant candidate evaluations, preventing wasted model fitting cycles.",
-        "   - **Strict Holdout Data Isolation:** Cryptographically token-gated single-use test evaluation prevents adaptive leakage.",
+        "   - **Automated Search Deduplication:** Filters redundant candidate proposals, avoiding repeated model fitting cycles.",
+        "   - **Strict Holdout Data Isolation:** In-process single-use token-gated holdout evaluation prevents in-session adaptive leakage.",
         "   - **Native Multi-Objective Pareto Frontier:** Automatically tracks accuracy vs. latency vs. memory trade-offs.",
-        "   - **Tamper-Evident SHA-256 Provenance:** SQLite WAL ledger persists immutable forensic audit trails.",
+        "   - **Tamper-Evident SHA-256 Provenance:** SQLite WAL ledger persists chained forensic audit trails.",
         "3. **Hardware Boundaries:** All benchmarks were executed purely on CPU without GPU acceleration.",
         "",
     ])

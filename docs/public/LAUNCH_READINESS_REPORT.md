@@ -9,6 +9,9 @@
 **Active Working Branch:** `docs/public-research-launch`  
 **Launch Readiness Verdict:** **`READY_WITH_DISCLOSED_LIMITATIONS`**
 
+> [!NOTE]
+> **Historical Archive Notice:** This readiness report reflects the audit status of the earlier `v4.0.1` release and P0 repair baseline (commit `72be93013907b8296e7918f7c1383cba6bae4cf4`). It must not be conflated with the subsequent release `v4.0.2` (anchor commit `837b399639e37dd012d206ee147360c7eb08a552`), the real-world demonstration benchmark (`load_digits`), or current maintenance reconciliations. For final release and closure audit evidence, see `docs/FINAL_PROJECT_CLOSURE_REPORT.md` and `docs/AMDE_4.0.2_FINAL_CONSISTENCY_AUDIT.md`.
+
 ---
 
 ## 1. Executive Summary & Verification Verdict
