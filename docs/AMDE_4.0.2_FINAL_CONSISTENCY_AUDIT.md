@@ -6,8 +6,8 @@
 **Canonical Default Branch:** `release-amde-final`  
 **Official Release Tag:** [`v4.0.2`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.2)  
 **Release Anchor Commit:** `837b399639e37dd012d206ee147360c7eb08a552`  
-**Base Canonical Merge HEAD:** `30bac4a0fdc55827dab928391bf996fbe0d0b051`  
-**Maintenance Working Branch:** `maintenance/amde-4.0.2-evidence-reconciliation`  
+**Base Canonical Merge HEAD:** `2c88858dbffaa57b1129994c5e3155896894c1db`  
+**Maintenance Working Branch:** `maintenance/amde-4.0.2-final-consistency-repair`  
 **Audit Date:** 2026-11-04  
 **Audit Status:** **`FINAL_CLOSURE_READY_PENDING_COLAB`**
 
@@ -32,8 +32,8 @@ The mandate of this final maintenance phase is strictly confined to **reconcilia
 | :--- | :--- | :--- |
 | **Canonical Branch** | `release-amde-final` | Protected default repository branch |
 | **Official Release Tag** | `v4.0.2` (`837b399639e37dd012d206ee147360c7eb08a552`) | Immutable release anchor; strictly preserved without re-tagging |
-| **Prior Maintenance PR** | PR #7 (`30bac4a0fdc55827dab928391bf996fbe0d0b051`) | Merged maintenance audit commit forming the base of this final reconciliation |
-| **Current Reconciliation** | `maintenance/amde-4.0.2-evidence-reconciliation` | Final consistency reconciliation branch targeting `release-amde-final` via PR |
+| **Prior Maintenance PR** | PR #8 (`2c88858dbffaa57b1129994c5e3155896894c1db`) | Merged maintenance audit commit forming the base of this final reconciliation |
+| **Current Reconciliation** | `maintenance/amde-4.0.2-final-consistency-repair` | Final consistency repair branch targeting `release-amde-final` via PR |
 
 ---
 
@@ -49,56 +49,70 @@ The empirical comparison is based on the preregistered 5-seed benchmark campaign
 All candidate models were trained strictly on $X_{\text{train}}$ ($1,077$ samples), validated on $X_{\text{val}}$ ($360$ samples), and their selected incumbent was evaluated strictly once on the sealed holdout test partition $X_{\text{test}}$ ($360$ samples).
 
 ### 3.2 Discrete Test Accuracy Differences ($N=360$)
-Because the holdout test partition consists of exactly 360 samples, all accuracy scores are integer fractions $K/360$. Float differences in `seed_summary.csv` were reconstructed to exact discrete steps ($1/360 \approx 0.002778$) to prevent arbitrary floating-point rounding from distorting tied rank calculations.
+Because the holdout test partition consists of exactly 360 samples, all accuracy scores are integer fractions $K/360$. To eliminate 5-decimal floating-point rounding artifacts and unify descriptive metrics with non-parametric permutation tests, all test scores are reconstructed directly from canonical benchmark records (`reports/real_world_demo/latest/seed_summary.csv`):
 
 | Seed | AMDE Test Acc | Random Search | Diff (A) | Optuna TPE | Diff (B2) | Native TPE | Diff (B1) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **42** | 0.98056 (353/360) | 0.98333 (354/360) | $-1/360$ | 0.97778 (352/360) | $+1/360$ | 0.97778 (352/360) | $+1/360$ |
-| **101** | 0.98056 (353/360) | 0.98333 (354/360) | $-1/360$ | 0.98333 (354/360) | $-1/360$ | 0.95278 (343/360) | $+10/360$ |
-| **202** | 0.98333 (354/360) | 0.98333 (354/360) | $0/360$ | 0.97778 (352/360) | $+2/360$ | 0.97500 (351/360) | $+3/360$ |
-| **303** | 0.98333 (354/360) | 0.97500 (351/360) | $+3/360$ | 0.98056 (353/360) | $+1/360$ | 0.96389 (347/360) | $+7/360$ |
-| **404** | 0.97778 (352/360) | 0.98889 (356/360) | $-4/360$ | 0.97222 (350/360) | $+2/360$ | 0.96111 (346/360) | $+6/360$ |
+| **42** | 0.98333 (354/360) | 0.98056 (353/360) | $+1/360$ | 0.97222 (350/360) | $+4/360$ | 0.95278 (343/360) | $+11/360$ |
+| **101** | 0.97778 (352/360) | 0.99444 (358/360) | $-6/360$ | 0.98056 (353/360) | $-1/360$ | 0.96111 (346/360) | $+6/360$ |
+| **202** | 0.98056 (353/360) | 0.97222 (350/360) | $+3/360$ | 0.98333 (354/360) | $-1/360$ | 0.97222 (350/360) | $+3/360$ |
+| **303** | 0.98056 (353/360) | 0.98333 (354/360) | $-1/360$ | 0.98333 (354/360) | $-1/360$ | 0.97778 (352/360) | $+1/360$ |
+| **404** | 0.98333 (354/360) | 0.98333 (354/360) | $0/360$ | 0.97222 (350/360) | $+4/360$ | 0.96667 (348/360) | $+6/360$ |
+
+The resulting paired difference vectors (AMDE $-$ baseline) are:
+- **vs. Random Search:** $[+1, -6, +3, -1, 0] / 360$ (mean diff: $-0.00167$)
+- **vs. Optuna TPE:** $[+4, -1, -1, -1, +4] / 360$ (mean diff: $+0.00278$)
+- **vs. Native TPE:** $[+11, +6, +3, +1, +6] / 360$ (mean diff: $+0.01500$)
 
 ### 3.3 Exhaustive Permutation Wilcoxon Test Execution
-For small sample sizes ($N \le 5$), asymptotic normal approximations are invalid. When ties or zeros are present, standard rank distributions shift. AMDE uses exact exhaustive sign-flip enumeration ($2^{N_{\text{eff}}}$ permutations) evaluating the exact probability mass under the sharp null hypothesis of zero median difference:
+For small sample sizes ($N \le 5$), asymptotic normal approximations are invalid. Under the sharp null hypothesis, the distribution of paired differences is assumed to be symmetric about zero (sign-exchangeable conditional on absolute ranks). Pairs with zero difference are dropped per standard Wilcoxon-Pratt conventions, reducing the sample size to $N_{\text{eff}}$. Tied absolute differences receive average ranks, and exact two-sided $p$-values are computed by enumerating all $2^{N_{\text{eff}}}$ sign permutations:
 
 1. **AMDE vs Random Search:**
-   - Raw differences: $[-1, -1, 0, +3, -4]/360$
+   - Raw differences: $[+1, -6, +3, -1, 0]/360$
    - Zero differences: 1 ($N_{\text{eff}} = 4$, $2^4 = 16$ permutations)
-   - Absolute non-zero differences: $[1, 1, 3, 4]/360$
-   - Tied ranks: ranks 1 and 2 tied at 1/360 $\rightarrow$ average rank 1.5 each; rank 3 = 3.0; rank 4 = 4.0
-   - Signed ranks: $-1.5, -1.5, +3.0, -4.0$
-   - Sum of positive ranks: $W^+ = 3.0$; sum of negative ranks: $W^- = 7.0$
-   - Test statistic: $W = 4.5$ (or $W^+ = 3.0$)
-   - Exact two-sided permutation $p$-value: **`1.0000`**
+   - Absolute non-zero differences: $[1, 6, 3, 1]/360$
+   - Tied ranks: two 1s tied at ranks 1, 2 $\rightarrow$ average rank 1.5 each; rank 3 = 3.0; rank 4 = 4.0
+   - Signed ranks: $+1.5, -4.0, +3.0, -1.5$
+   - Sum of positive ranks: $W^+ = 4.5$; sum of negative ranks: $W^- = 5.5$
+   - Test statistic: $W = \min(W^+, W^-) = 4.5$
+   - Exact two-sided permutation $p$-value: $16 / 16 =$ **`1.0000`**
    - Holm-Bonferroni adjusted $p$-value: **`1.0000`**
+   - Paired $t$-test ($N=5$ on discrete diffs): $t = -0.3991$, raw $p = 0.71020$, Holm $p = 0.92010$
 
 2. **AMDE vs Optuna TPESampler:**
-   - Raw differences: $[+1, -1, +2, +1, +2]/360$
+   - Raw differences: $[+4, -1, -1, -1, +4]/360$
    - Zero differences: 0 ($N_{\text{eff}} = 5$, $2^5 = 32$ permutations)
-   - Absolute differences: $[1, 1, 1, 2, 2]/360$
-   - Tied ranks: three 1s tied at ranks 1, 2, 3 $\rightarrow$ average rank 2.0 each; two 2s tied at ranks 4, 5 $\rightarrow$ average rank 4.5 each
-   - Positive ranks: $+2.0, +2.0, +4.5, +4.5$; negative rank: $-2.0$
-   - Test statistic: $W = 6.0$
-   - Exact two-sided permutation $p$-value: **`0.6250`**
+   - Absolute differences: $[4, 1, 1, 1, 4]/360$
+   - Tied ranks: three 1s tied at ranks 1, 2, 3 $\rightarrow$ average rank 2.0 each; two 4s tied at ranks 4, 5 $\rightarrow$ average rank 4.5 each
+   - Signed ranks: $+4.5, -2.0, -2.0, -2.0, +4.5$
+   - Sum of positive ranks: $W^+ = 9.0$; sum of negative ranks: $W^- = 6.0$
+   - Test statistic: $W = \min(W^+, W^-) = 6.0$
+   - Exact two-sided permutation $p$-value: $20 / 32 =$ **`0.6250`**
    - Holm-Bonferroni adjusted $p$-value: **`1.0000`**
+   - Paired $t$-test ($N=5$ on discrete diffs): $t = 0.8165$, raw $p = 0.46005$, Holm $p = 0.92010$
 
 3. **AMDE vs AMDE Native TPE:**
-   - Raw differences: $[+1, +10, +3, +7, +6]/360$
+   - Raw differences: $[+11, +6, +3, +1, +6]/360$
    - Zero differences: 0 ($N_{\text{eff}} = 5$, $2^5 = 32$ permutations)
-   - Absolute differences: $[1, 3, 6, 7, 10]/360$ (strictly positive, zero ties)
-   - Test statistic: $W = 0.0$ ($W^- = 0.0$)
-   - Exact two-sided permutation $p$-value: $2 \times \frac{1}{32} = \frac{2}{32} =$ **`0.0625`**
+   - Absolute differences: $[11, 6, 3, 1, 6]/360$
+   - Tied ranks: 1 is rank 1.0; 3 is rank 2.0; two 6s tied at ranks 3, 4 $\rightarrow$ average rank 3.5 each; 11 is rank 5.0
+   - Signed ranks: $+5.0, +3.5, +2.0, +1.0, +3.5$ (strictly positive)
+   - Sum of positive ranks: $W^+ = 15.0$; sum of negative ranks: $W^- = 0.0$
+   - Test statistic: $W = \min(W^+, W^-) = 0.0$
+   - Exact two-sided permutation $p$-value: $2 / 32 =$ **`0.0625`**
    - Holm-Bonferroni adjusted $p$-value: $\min(1.0, 0.0625 \times 3) =$ **`0.1875`**
+   - Paired $t$-test ($N=5$ on discrete diffs): $t = 3.1931$, raw $p = 0.03312$, Holm $p = 0.09936$
 
-### 3.4 Multiplicity Control & Statistical Conclusion
-Applying monotonic step-down Holm-Bonferroni adjustment across the family of 3 hypotheses ($\alpha = 0.05$):
-- Ranked raw $p$-values: $p_{(1)} = 0.0625$ (vs Native TPE), $p_{(2)} = 0.6250$ (vs Optuna), $p_{(3)} = 1.0000$ (vs Random Search).
+### 3.4 Multiplicity Control, Distributional Conditions & Methodological Limitations
+Applying monotonic step-down Holm-Bonferroni adjustment across the family of 3 pairwise comparisons ($\alpha = 0.05$):
+- Ranked raw Wilcoxon $p$-values: $p_{(1)} = 0.0625$ (vs Native TPE), $p_{(2)} = 0.6250$ (vs Optuna), $p_{(3)} = 1.0000$ (vs Random Search).
 - Multipliers: $k_1 = 3$, $k_2 = 2$, $k_3 = 1$.
-- Adjusted $p$-values: $p^{\text{adj}}_{(1)} = 0.1875$, $p^{\text{adj}}_{(2)} = 1.0000$, $p^{\text{adj}}_{(3)} = 1.0000$.
+- Adjusted Wilcoxon $p$-values: $p^{\text{adj}}_{(1)} = 0.1875$, $p^{\text{adj}}_{(2)} = 1.0000$, $p^{\text{adj}}_{(3)} = 1.0000$.
 
-**Formal Statistical Finding:**  
-Under the tested benchmark conditions ($N=5$ seeds, budget 30), **no statistically significant difference in predictive accuracy is detected between AMDE 4.0 and any baseline ($p^{\text{adj}} \ge 0.05$).** AMDE makes no claim of AutoML predictive superiority over standard baselines.
+**Methodological Limitations and Distributional Conditions:**
+1. **Exchangeability / Symmetry Assumption:** The exact permutation distribution relies on the assumption of sign-exchangeability (or symmetry about zero of the paired difference distribution) under the sharp null hypothesis, not merely that the population median difference is zero.
+2. **Failure to Reject H0 Does Not Imply Equivalence:** A failure to detect statistically significant differences ($p^{\text{adj}} \ge 0.05$) cannot be interpreted as empirical proof of equivalence. Under $N=5$ seeds, power is constrained; the test simply confirms that the observed empirical data do not provide sufficient statistical evidence to reject the null hypothesis of no difference under family-wise error rate control.
+3. **Restricted Domain Boundaries:** These results represent 5 random seeds on a single dataset (`digits`) under a single fixed train/validation/test partition with an evaluation budget of 30 trials per campaign. No generalization across arbitrary tabular distributions or unconstrained budgets is claimed.
 
 ---
 
@@ -148,7 +162,7 @@ AMDE enforces an in-process procedural barrier (`SealedHoldoutTest`) to prevent 
 ```
 
 **Architectural Demarcation:**
-This mechanism is an **in-process workflow gate** designed to prevent accidental programmer error and automated overfitting to test data. It does **not** constitute an OS-level hypervisor boundary, a cryptographic zero-knowledge proof, or an adversarial secure sandbox.
+This mechanism is an **in-process workflow gate** designed to prevent accidental repeated holdout evaluation within the designed workflow and automated test-set overfitting. It does **not** constitute an OS-level security boundary or memory hypervisor, does not protect against deliberate user code tampering, and cannot eliminate adaptive contamination across independent experiments.
 
 ---
 
@@ -171,7 +185,7 @@ The repository manifest `SHA256SUMS.txt` has been expanded to cover **100% of no
 | **Gate B** | Exact Non-Parametric Statistics | Exhaustive sign-flip permutation Wilcoxon & Holm correction | `test_amde4_benchmark_stats.py`, `statistical_analysis.json` | **`PASS`** |
 | **Gate C** | Reproducible Colab Demo & Holdout Gating | Headless 11/11 cell execution; freeze before unseal | `scripts/test_execute_notebook.py` | **`PASS`** |
 | **Gate D** | Complete Checksum Manifest | 535/535 files verified | `scripts/verify_manifest.py`, `test_manifest_completeness.py` | **`PASS`** |
-| **Gate E** | Full Unit & Regression Test Suite | 303 discovered tests passing with zero errors | `python3 -m unittest discover tests/unit` | **`PASS`** |
+| **Gate E** | Full Unit & Regression Test Suite | 307 discovered tests (Ubuntu: 305 passed, 2 skipped; Windows: 307 passed; 14/14 integration) | `python3 -m unittest discover tests/unit` | **`PASS`** |
 | **Gate F** | Cross-Platform CI Multi-Platform Matrix | 6/6 jobs green (Linux & Windows, Python 3.10 & 3.14) | GitHub Actions CI Run | **`PASS`** |
 | **Gate G** | Independent Google Colab Cloud Verification | Real Google Colab cloud execution by repository owner | Pending owner execution; reserved exclusively for human auditor | **`NOT YET EXECUTED`** |
 

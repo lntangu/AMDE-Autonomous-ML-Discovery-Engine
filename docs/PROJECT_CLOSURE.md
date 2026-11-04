@@ -12,7 +12,7 @@
 ## 1. Project Purpose
 
 AMDE was initiated to investigate automated machine learning pipeline search through the lens of **reproducibility, scientific auditing, multi-objective optimization, and strict data boundary enforcement**. Rather than viewing AutoML as an opaque optimization algorithm, AMDE approached it as an experimental software instrument requiring:
-- Deterministic data partitioning with zero leakage.
+- Deterministic data partitioning with strict in-process preprocessor isolation.
 - Single-use token gating on holdout partitions.
 - Append-only, tamper-evident cryptographic event logging.
 - Simultaneous optimization of predictive accuracy, inference latency, and memory footprints.

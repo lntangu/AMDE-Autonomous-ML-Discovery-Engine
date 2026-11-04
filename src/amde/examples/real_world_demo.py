@@ -511,8 +511,11 @@ def run_amde_40(
 def exact_sign_flip_wilcoxon(diffs: np.ndarray, n_test: int = 360) -> dict[str, Any]:
     """Computes exact two-sided Wilcoxon signed-rank test via exhaustive sign-flip permutation.
 
-    Handles tied ranks via average ranks, drops zeros to form effective sample size N_eff,
-    and enumerates all 2^N_eff permutations.
+    Under the sharp null hypothesis, the distribution of paired differences is assumed to be
+    symmetric about zero (or sign-exchangeable conditional on absolute ranks).
+    Tied absolute differences are assigned average ranks. Pairs with zero difference are dropped
+    per standard Wilcoxon-Pratt conventions, reducing the effective sample size to N_eff.
+    The exact permutation distribution enumerates all 2^N_eff sign assignments.
     """
     from scipy import stats
     import itertools
@@ -656,15 +659,19 @@ def compute_statistical_tests(
             amde_time = np.array([amde_runs_by_seed[s]["wallclock_seconds"] for s in common_seeds])
             b_time = np.array([b_runs_by_seed[s]["wallclock_seconds"] for s in common_seeds])
 
-            diff_test = amde_test - b_test
+            # Reconstruct discrete integer difference in correct predictions over 360 holdout samples
+            # to unify both descriptive difference metrics (mean, median) and statistical tests (Wilcoxon, t-test).
+            int_diff_test = np.round((amde_test - b_test) * 360).astype(int)
+            diff_test_discrete = int_diff_test / 360.0
+
             diff_val = amde_val - b_val
             diff_time = amde_time - b_time
 
-            # Exact Wilcoxon signed-rank permutation test on holdout test differences
-            w_res = exact_sign_flip_wilcoxon(diff_test, n_test=360)
+            # Exact Wilcoxon signed-rank permutation test on discrete holdout test differences
+            w_res = exact_sign_flip_wilcoxon(diff_test_discrete, n_test=360)
 
-            # Paired t-test
-            t_stat, t_pval = stats.ttest_rel(amde_test, b_test)
+            # Paired t-test evaluated directly on unified discrete difference basis
+            t_stat, t_pval = stats.ttest_1samp(diff_test_discrete, 0.0)
 
             wilcoxon_raw_ps.append(w_res["p_value_raw"])
             ttest_raw_ps.append(float(t_pval))
@@ -673,8 +680,8 @@ def compute_statistical_tests(
                 "baseline": baseline,
                 "seeds": common_seeds,
                 "total_pairs": len(common_seeds),
-                "mean_test_diff": round(float(np.mean(diff_test)), 5),
-                "median_test_diff": round(float(np.median(diff_test)), 5),
+                "mean_test_diff": round(float(np.mean(diff_test_discrete)), 5),
+                "median_test_diff": round(float(np.median(diff_test_discrete)), 5),
                 "mean_val_diff": round(float(np.mean(diff_val)), 5),
                 "mean_time_diff_s": round(float(np.mean(diff_time)), 2),
                 "n_effective_non_zero_pairs": w_res["n_effective_non_zero_pairs"],

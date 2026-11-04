@@ -73,13 +73,13 @@ class BenchmarkStatisticalRegressionTests(unittest.TestCase):
         self.assertAlmostEqual(adj_p[0], 1.0, places=5)
 
     def test_monotonic_holm_paired_t_tests(self):
-        # Raw p-values: [Native TPE: 0.03308, Optuna: 0.45955, Random Search: 0.71057]
-        raw_p = [0.03308, 0.45955, 0.71057]
+        # Raw p-values: [Native TPE: 0.03312, Optuna: 0.46005, Random Search: 0.71020]
+        raw_p = [0.03312, 0.46005, 0.71020]
         adj_p = monotonic_holm_adjust(raw_p)
 
-        self.assertAlmostEqual(adj_p[0], 0.09924, places=4)
-        self.assertAlmostEqual(adj_p[1], 0.91910, places=4)
-        self.assertAlmostEqual(adj_p[2], 0.91910, places=4)
+        self.assertAlmostEqual(adj_p[0], 0.09936, places=4)
+        self.assertAlmostEqual(adj_p[1], 0.92010, places=4)
+        self.assertAlmostEqual(adj_p[2], 0.92010, places=4)
 
         # Monotonicity check
         self.assertLessEqual(adj_p[0], adj_p[1])
@@ -88,6 +88,49 @@ class BenchmarkStatisticalRegressionTests(unittest.TestCase):
         # No comparison is significant at alpha=0.05
         for p in adj_p:
             self.assertGreaterEqual(p, 0.05)
+
+    def test_mean_and_wilcoxon_share_identical_discrete_basis(self):
+        """Regression test ensuring descriptive mean/median and exact Wilcoxon use the identical discrete basis."""
+        summary_path = Path("reports/real_world_demo/latest/seed_summary.csv")
+        if not summary_path.exists():
+            self.skipTest("Canonical summary file not found in working tree")
+
+        with summary_path.open(encoding="utf-8") as f:
+            summaries = list(csv.DictReader(f))
+        for s in summaries:
+            s["best_val_score"] = float(s["best_val_score"])
+            s["sealed_test_score"] = float(s["sealed_test_score"])
+            s["wallclock_seconds"] = float(s["wallclock_seconds"])
+            s["pareto_size"] = int(s["pareto_size"]) if s.get("pareto_size") else 0
+            s["duplicate_rate"] = float(s["duplicate_rate"]) if s.get("duplicate_rate") else 0.0
+            s["seed"] = int(s["seed"])
+
+        methods = ["random_search", "bayesian_tpe", "optuna_tpe", "amde_40"]
+        recomputed = compute_statistical_tests(summaries, methods)
+
+        amde_by_seed = {r["seed"]: r["sealed_test_score"] for r in summaries if r["method"] == "amde_40"}
+
+        for b in ["random_search", "bayesian_tpe", "optuna_tpe"]:
+            b_by_seed = {r["seed"]: r["sealed_test_score"] for r in summaries if r["method"] == b}
+            common = sorted(set(amde_by_seed.keys()) & set(b_by_seed.keys()))
+            amde_arr = np.array([amde_by_seed[s] for s in common])
+            b_arr = np.array([b_by_seed[s] for s in common])
+
+            # Reconstructed ground-truth discrete vector
+            int_diff = np.round((amde_arr - b_arr) * 360).astype(int)
+            discrete_diff = int_diff / 360.0
+
+            comp = recomputed["comparisons_vs_amde40"][b]
+
+            # Descriptive metrics must match discrete basis exactly
+            self.assertEqual(comp["mean_test_diff"], round(float(np.mean(discrete_diff)), 5))
+            self.assertEqual(comp["median_test_diff"], round(float(np.median(discrete_diff)), 5))
+
+            # Wilcoxon must be derived from the exact same discrete diffs
+            direct_w = exact_sign_flip_wilcoxon(discrete_diff, n_test=360)
+            self.assertEqual(comp["wilcoxon_stat"], direct_w["w_stat"])
+            self.assertEqual(comp["wilcoxon_p_value_raw"], round(direct_w["p_value_raw"], 5))
+            self.assertEqual(comp["n_effective_non_zero_pairs"], direct_w["n_effective_non_zero_pairs"])
 
     def test_production_does_not_call_scipy_wilcoxon(self):
         """Ensures compute_statistical_tests does not use scipy.stats.wilcoxon default."""

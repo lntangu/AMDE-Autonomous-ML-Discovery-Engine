@@ -17,7 +17,7 @@ The **Autonomous Machine Learning Discovery Engine (AMDE)** project was develope
 In traditional AutoML frameworks, optimization often operates without strict isolation between validation feedback and test evaluations, leading to adaptive data snooping and inflated benchmark claims. Furthermore, single-objective optimization often yields cumbersome, over-parameterized models that are unsuitable for resource-constrained or latency-critical deployment environments.
 
 AMDE addresses these systemic challenges through four core principles:
-1. **Procedural Holdout Isolation:** Enforcing single-use cryptographic token gating on test partitions to eliminate iterative leakage.
+1. **Procedural Holdout Isolation:** Enforcing in-process single-use token gating on test partitions to prevent accidental repeated evaluation within the search workflow.
 2. **Multi-Objective Trade-Off Optimization:** Native tracking of non-dominated Pareto frontiers balancing predictive accuracy against inference latency and memory footprint.
 3. **Forensic Auditability:** Recording every candidate generation, mutation, evaluation request, and metric in an append-only, tamper-evident SQLite Write-Ahead Logging (WAL) ledger protected by continuous SHA-256 block hash chaining.
 4. **Principled Empirical Reporting:** Enforcing exact non-parametric statistical hypothesis testing (exhaustive sign-flip permutation Wilcoxon signed-rank tests) and transparent disclosure of negative results and parity.
@@ -123,7 +123,7 @@ AMDE 4.0.2 was benchmarked on the Optical Recognition of Handwritten Digits data
 
 ## F. Test and CI Evidence
 
-- **Unit & Regression Tests:** 303/303 unit tests discovered and passing across all suites (`tests/unit/`, including `test_model_space_kernel_svc.py`, `test_amde4_benchmark_stats.py`, and `test_manifest_completeness.py`).
+- **Unit & Regression Tests:** 307 unit tests discovered across all suites (Ubuntu Python 3.10 & 3.14: 305 passed, 0 failures, 0 errors, 2 skipped; Windows Python 3.10 & 3.14: 307 passed, 0 failures, 0 errors, 0 skipped; 14/14 integration tests passed).
 - **Interactive Notebook Execution:** All 11 code cells validated headlessly without error via `scripts/test_execute_notebook.py`.
 - **Manifest Checksum Verification:** 535/535 SHA-256 entries verified covering 100% of non-manifest Git-tracked files via `scripts/verify_manifest.py`.
 - **Cross-Platform Matrix:** CI workflow configured and verified for Ubuntu Linux and Windows across Python 3.10 through 3.14 across 6 CI workflow jobs.
