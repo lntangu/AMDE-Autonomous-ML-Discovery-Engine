@@ -32,7 +32,7 @@ AMDE 4.0.2 is the final verified public research release of the **Autonomous Mac
    - Retained `kernel_ridge` as a deprecated backwards-compatible alias emitting a `DeprecationWarning`.
    - Verified by test suite `tests/unit/test_model_space_kernel_svc.py`.
 2. **Search-Space Phenotype Consistency:**
-   - Ensured all active genes in `Candidate` genomes (MLP hidden widths, activations, optimizers, dropout, and regularizers) directly influence model construction.
+   - Ensured all active genes in `Candidate` genomes (MLP hidden widths, activations, learning rates, optimizers, and regularization penalties) directly influence model construction, while rejecting invalid or unsupported genes (such as dropout in linear/MLP models).
 3. **TPE Feedback History Accumulation:**
    - Fixed `TPEStrategy.record_feedback()` to properly update the empirical observation history, ensuring that subsequent proposals depend mathematically on previous evaluation scores.
 4. **Ledger Tamper Evidency Hardening:**
@@ -144,7 +144,7 @@ The release distribution includes a complete SHA-256 manifest:
 ```bash
 python scripts/verify_manifest.py
 ```
-*Expected output: PASS: 251/251 SHA-256 entries verified.*
+*Expected output: PASS: 254/254 SHA-256 entries verified.*
 
 ---
 

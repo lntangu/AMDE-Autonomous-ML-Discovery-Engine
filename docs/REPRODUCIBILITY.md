@@ -45,7 +45,7 @@ python3 scripts/verify_manifest.py
 ```
 Expected output:
 ```text
-PASS: 251/251 SHA-256 entries verified
+PASS: 254/254 SHA-256 entries verified
 ```
 
 ### Step 3: Run Full Benchmark Suite (20 Campaigns)

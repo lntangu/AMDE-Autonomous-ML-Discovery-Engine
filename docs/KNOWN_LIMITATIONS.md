@@ -16,8 +16,7 @@
 
 3. **No Hypervolume Dominance & Reference Point Validity:**
    Random Search achieved equal or higher mean 2D hypervolume than AMDE 4.0 because uniform random sampling populates extreme low-latency regions more aggressively. AMDE does **not** possess statistically superior hypervolume coverage.
-   - **Reference Point Constraint:** Reference thresholds $r_{\text{lat}} \in [5, 10, 20]$ ms are mathematically invalid for the full frontier because observed candidate latencies reach up to $20.001$ ms per 100 samples, violating the requirement that reference points must strictly dominate all non-dominated candidates.
-   - **Valid Primary Reference Point:** $r = (0.0\text{ loss}, 50.0\text{ ms})$ is pre-specified as the primary valid bound, with $100.0$ ms retained for sensitivity analysis. Ranking sensitivity between methods exists depending on whether 50 ms or 100 ms is evaluated.
+   - **Reference Point Constraint & Distinction:** In historical one-shot trials, candidate latencies reached up to $20.001$ ms per 100 samples, rendering reference thresholds $r_{\text{lat}} \in [5, 10, 20]$ ms mathematically invalid because candidates exceeded the bounds. In controlled repeated profiling, all measured frontier candidates had latencies $\le 4.5231$ ms, rendering 5, 10, 20, 50, and 100 ms valid bounds for that profiled set. To maintain consistency and strictly bound all prospective candidates in the unclipped space, $r = (0.0\text{ loss}, 50.0\text{ ms})$ is pre-specified as the primary valid bound, with $100.0$ ms retained for sensitivity analysis. Ranking sensitivity between methods exists depending on whether 50 ms or 100 ms is evaluated.
    - **Dimensionality:** Published hypervolume is strictly a 2D projection; 3D hypervolume was uncalibrated ($0.0$).
 
 4. **Inference Latency Measurement Protocol Realities:**

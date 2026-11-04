@@ -67,9 +67,9 @@ The final released system (AMDE 4.0.2) is built entirely on standard Python libr
 ### Architectural Subsystems:
 1. **Search Engine & Phenotype Mapping (`amde.space`):** Validated typed genomes mapping directly to scikit-learn estimators without dead genes or silent fallbacks.
 2. **Evaluation & Deduplication (`amde.evaluation`):** Strict preprocessor calibration on `X_train`, timeout protection, and hash-based candidate deduplication.
-3. **Holdout Gate (`amde.evaluation.holdout`):** Single-use cryptographic token-gated holdout evaluation.
-4. **Pareto Archive (`amde.archive`):** Exact multi-objective non-dominated tracking across validation loss, latency, and memory.
-5. **Evidence Ledger (`amde.ledger`):** SQLite WAL event logging with SHA-256 chaining incorporating `experiment_id`.
+3. **Holdout Gate (`amde.evaluation.sealed`):** Single-use in-process cryptographic token-gated holdout evaluation.
+4. **Pareto Archive (`amde.archive.pareto`):** Multi-objective non-dominated tracking across validation loss, latency, and memory (defaults to capacity=64 with NSGA-II crowding-distance pruning; capacity=None maintains exact unbounded frontier).
+5. **Evidence Ledger (`amde.ledger.event_ledger`):** SQLite WAL event logging with SHA-256 chaining incorporating `experiment_id`.
 
 ---
 
@@ -124,8 +124,8 @@ AMDE 4.0.2 was benchmarked on the Optical Recognition of Handwritten Digits data
 ## F. Test and CI Evidence
 
 - **Unit & Regression Tests:** 10/10 passing in dedicated suites (`test_model_space_kernel_svc.py`, `test_amde4_benchmark_stats.py`).
-- **Interactive Notebook Execution:** All 10 code cells validated headlessly without error via `scripts/test_execute_notebook.py`.
-- **Manifest Checksum Verification:** 251/251 SHA-256 entries verified via `scripts/verify_manifest.py`.
+- **Interactive Notebook Execution:** All 11 code cells validated headlessly without error via `scripts/test_execute_notebook.py`.
+- **Manifest Checksum Verification:** 254/254 SHA-256 entries verified via `scripts/verify_manifest.py`.
 - **Cross-Platform Matrix:** CI workflow configured and verified for Ubuntu Linux and Windows across Python 3.10 through 3.14.
 
 ---

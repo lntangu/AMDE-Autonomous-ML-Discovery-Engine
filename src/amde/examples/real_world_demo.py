@@ -966,6 +966,8 @@ def run_full_benchmark(
     methods = ["random_search", "bayesian_tpe"]
     if OPTUNA_AVAILABLE:
         methods.append("optuna_tpe")
+    else:
+        print("[Notice] Optuna is not installed; skipping Method B2 (Optuna TPESampler). Install with `pip install -e '.[benchmark]'` or `pip install optuna`.")
     methods.append("amde_40")
 
     total_runs = len(methods) * len(seeds)

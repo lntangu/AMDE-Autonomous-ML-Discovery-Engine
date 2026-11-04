@@ -15,12 +15,12 @@
 
 AMDE automates the search, evaluation, and selection of machine learning pipelines for tabular datasets. Rather than functioning as a black-box optimizer that returns a single model, AMDE:
 - Simultaneously optimizes predictive accuracy, inference latency (milliseconds), and peak resident memory (MB) to construct a non-dominated Pareto trade-off frontier.
-- Protects the 20% holdout test partition behind a single-use token gate to prevent adaptive test-set snooping during search.
+- Protects the 20% holdout test partition behind a single-use token-gated workflow barrier to prevent accidental test-set snooping during search.
 - Discovers configurations across four distinct model families (`tree_ensemble`, `mlp`, `linear`, and `kernel_svc`) and preprocessing stages.
 - Logs every proposal, mutation, fit, and metric in an append-only, tamper-evident SQLite Write-Ahead Logging (WAL) event ledger with SHA-256 block hashing.
 - Caches and deduplicates candidate genomes to prevent redundant training of identical model structures.
 
-> **Scope Boundary:** AMDE is designed for classical tabular datasets and standard CPU environments. It is **not** an AGI system, not a deep learning foundation model generator, not a container hypervisor, and not a distributed blockchain.
+> **Scope Boundary & Boundary Disclosures:** AMDE is designed for classical tabular datasets and standard CPU environments. It is **not** an AGI system, not a deep learning foundation model generator, not an OS/VM sandbox, and not a distributed blockchain. The sealed holdout gate is an **in-process Python workflow check** sharing memory space with the search runner; it does not provide OS-level or hardware-enclave process isolation, and cannot prevent information leakage if the user runs multiple independent search sessions against the same test partition.
 
 ---
 
@@ -88,13 +88,13 @@ AMDE decouples the pipeline discovery lifecycle into five modular components:
 1. **`amde.space.search_space.SearchSpace`:** Defines typed hierarchical genomes spanning:
    - Tree Ensembles (`RandomForestClassifier`, `GradientBoostingClassifier`).
    - Multi-Layer Perceptrons (`MLPClassifier` with hidden dimensions, activations, regularization, and optimizers).
-   - Linear Models (`LogisticRegression` with L1, L2, or ElasticNet penalties).
+   - Linear Models (`LogisticRegression` with L2 or unregularized/none penalty mapped via `solver="lbfgs"`).
    - Kernel Support Vector Classifiers (`kernel_svc` mapped to `sklearn.svm.SVC(C=1/alpha)`; `kernel_ridge` is retained as a deprecated alias).
    - Preprocessing stages (imputers, scalers, feature selectors) calibrated strictly on `X_train`.
 2. **`amde.evaluation.pipeline.StandardEvaluationPipeline`:** Executes pipeline fitting and validation under timeout controls and memory monitoring with strict data isolation.
-3. **`amde.evaluation.holdout.SealedHoldoutTest`:** Encapsulates the holdout test partition behind a cryptographic token, raising an exception if accessed more than once.
-4. **`amde.archive.pareto.ParetoArchive`:** Maintains exact non-dominated Pareto candidates across validation loss, batch inference latency, and memory footprints.
-5. **`amde.ledger.database.EventLedger`:** An SQLite WAL database recording every mutation, evaluation request, and reward with chained SHA-256 hashes incorporating `experiment_id`.
+3. **`amde.evaluation.sealed.SealedHoldoutTest`:** Single-use in-process holdout workflow gate encapsulating the holdout test partition behind a cryptographic token, raising an exception if accessed more than once in the same session.
+4. **`amde.archive.pareto.ParetoArchive`:** Maintains non-dominated Pareto candidates across validation loss, batch inference latency, and memory footprints. `AMDE4Engine` defaults to `capacity=64` with NSGA-II crowding-distance pruning; `capacity=None` maintains an exact unconstrained frontier.
+5. **`amde.ledger.event_ledger.EventLedger`:** An SQLite WAL database recording every mutation, evaluation request, and reward with chained SHA-256 hashes incorporating `experiment_id`.
 
 ---
 
@@ -105,7 +105,7 @@ To ensure scientific clarity, capabilities are categorized by verification statu
 | Capability Tier | Description | Status |
 | :--- | :--- | :---: |
 | **Verified by Automated Tests** | Multi-model family pipeline construction (`tree_ensemble`, `mlp`, `linear`, `kernel_svc`) | **VERIFIED** |
-| **Verified by Automated Tests** | Single-use token gating on holdout test partition | **VERIFIED** |
+| **Verified by Automated Tests** | Single-use in-process token gating on holdout test partition | **VERIFIED** |
 | **Verified by Automated Tests** | Tamper-evident SHA-256 SQLite WAL event ledger integrity | **VERIFIED** |
 | **Verified by Automated Tests** | Non-dominated Pareto frontier tracking and 2D hypervolume calculation | **VERIFIED** |
 | **Verified by Automated Tests** | Cross-platform compatibility on Ubuntu Linux and Windows across Python 3.10–3.14 | **VERIFIED** |
@@ -132,6 +132,9 @@ cd AMDE-Autonomous-ML-Discovery-Engine
 
 # Install in editable mode with development dependencies
 pip install -e ".[dev,tabular]"
+
+# Optional: Install benchmarking baselines (including Optuna and plotting tools)
+pip install -e ".[benchmark]"
 ```
 
 ### From Release Distribution Wheel
@@ -142,7 +145,7 @@ pip install https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/relea
 
 ---
 
-## 6. Quickstart (CPU, < 10 Seconds)
+## 6. Quickstart (CPU)
 
 ```python
 from sklearn.datasets import load_breast_cancer
@@ -176,7 +179,7 @@ print(f"Ledger SHA-256 Hash:  {results['ledger_sha256'][:16]}...")
 
 A self-contained, reproducible benchmark demonstration comparing AMDE 4.0 against **Random Search**, **Native Bayesian TPE**, and **Optuna TPESampler** is included in the repository:
 
-- **Script:** `python -m amde.examples.real_world_demo --budget 30`
+- **Script:** `python -m amde.examples.real_world_demo --trials 30 --seeds 5` (or `--quick` for a rapid 10-trial single-seed run)
 - **Jupyter Notebook:** [`notebooks/AMDE_Real_World_Demo.ipynb`](notebooks/AMDE_Real_World_Demo.ipynb)
 - **Controlled Latency Profiler:** `python scripts/measure_controlled_latency.py`
 
@@ -207,7 +210,7 @@ Across 20 independent campaigns (5 preregistered seeds $\times$ 4 methods, 30 ca
 1. **No Statistically Significant Difference:** Exact sign-flip permutation Wilcoxon signed-rank tests confirm no statistically significant difference in generalization accuracy between AMDE 4.0 and Random Search (adjusted $p = 1.0000$), Optuna (adjusted $p = 1.0000$), or Native TPE (adjusted $p = 0.1875$).
 2. **No Superiority Claims:** AMDE does **not** claim higher predictive accuracy or higher 2D hypervolume than Random Search or Optuna on this benchmark.
 3. **Single-Sample vs Batch Latency:** Single-sample inference ($B=1$, median $\approx 0.32$ ms) is **$67\times$ to $191\times$ slower per sample** than batch inference ($B=100$, median $\approx 0.24$–$1.64$ ms per 100 samples) due to Python/C dispatch overhead. Dividing batch latency by $N$ is invalid.
-4. **Reference Point Validity:** Bounding thresholds $r_{\text{lat}} \in \{5, 10, 20\}$ ms are mathematically invalid for the full space because candidate latencies reach up to $20.001$ ms per 100 samples. The pre-specified reference point $r = (0.0, 50.0)$ ms strictly bounds all frontier points.
+4. **Reference Point Validity:** Bounding thresholds $r_{\text{lat}} \in \{5, 10, 20\}$ ms were invalid for the historical one-shot candidate space because candidate latencies reached up to $20.001$ ms per 100 samples. In controlled repeated profiling, all measured frontier candidates had latency $\le 4.5231$ ms, making 5, 10, 20, 50, and 100 ms all mathematically valid reference points for that profiled frontier; $r = (0.0, 50.0)$ ms remains the primary pre-specified reference point guaranteeing a strict bound across all prospective candidates.
 5. **Deduplication Reality:** AMDE sampled $\approx 38.4$ proposals to fit 30 distinct configurations, filtering $8.4$ duplicate proposals ($21.8\%$). While this avoided redundant fitting compared to Native TPE (which suffered 48.7% duplicates), AMDE does not save compute compared to Optuna or Random Search (which naturally explored $\approx 30$ unique configurations).
 
 <p align="center">

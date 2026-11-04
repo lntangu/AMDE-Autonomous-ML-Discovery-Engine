@@ -30,11 +30,11 @@ The final released architecture (AMDE 4.0.2) consists of five decoupled, verifie
 2. **`amde.evaluation.pipeline.StandardEvaluationPipeline`:**
    - Isolated model fitting and validation with strict timeout enforcement (`SIGALRM` on POSIX, polling fallback on Windows).
    - Candidate deduplication via SHA-256 genome hashing (`amde.core.identity.compute_candidate_hash`).
-3. **`amde.evaluation.holdout.SealedHoldoutTest`:**
-   - Cryptographically token-gated holdout evaluation. Single-use token invalidation prevents automated search loops from iteratively snooping on test data.
+3. **`amde.evaluation.sealed.SealedHoldoutTest`:**
+   - Single-use in-process token-gated holdout evaluation. Single-use token invalidation prevents automated search loops from iteratively snooping on test data.
 4. **`amde.archive.pareto.ParetoArchive`:**
-   - Non-dominated Pareto frontier tracking across validation loss, inference latency, and memory footprint with exact 2D hypervolume computation.
-5. **`amde.ledger.database.EventLedger`:**
+   - Non-dominated Pareto frontier tracking across validation loss, inference latency, and memory footprint with exact 2D hypervolume computation (`AMDE4Engine` defaults to `capacity=64` with crowding-distance pruning; `capacity=None` retains unconstrained exact frontier).
+5. **`amde.ledger.event_ledger.EventLedger`:**
    - Local SQLite Write-Ahead Logging (WAL) ledger recording proposals, evaluations, and rewards with a continuous SHA-256 block hash chain incorporating `experiment_id`.
 
 ---

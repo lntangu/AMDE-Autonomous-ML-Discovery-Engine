@@ -53,6 +53,8 @@ def _isolated_worker_entry(pipe, pipeline_inst, req, X_tr, y_tr, X_v, y_v):
 class StandardEvaluationPipeline:
     """Production evaluation pipeline guaranteeing strict data isolation and resource tracking."""
 
+    # Evaluator protocol specification version (hardened in 4.0.1 for out-of-process isolation).
+    # Note: amde.__version__ tracks the top-level Python distribution package (4.0.2).
     VERSION: str = "4.0.1"
 
     @staticmethod
