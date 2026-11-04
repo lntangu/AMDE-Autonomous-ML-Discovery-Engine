@@ -1,7 +1,7 @@
 # AMDE 4.0 — Reproducibility Protocol & Verification Guide (Audited)
 
-**Distribution Version:** 4.0.1  
-**Target Branch:** `experiment/real-world-evidence-demo`  
+**Distribution Version:** 4.0.2  
+**Canonical Branch:** `release-amde-final`  
 **Standard:** Open, Transparent, Verifiable Machine Learning Science  
 
 ---
@@ -22,9 +22,8 @@ To ensure complete transparency regarding what was tested and verified:
 
 A clear distinction must be maintained between released artifacts and development branches:
 
-- **Tagged Release `v4.0.1`:** Commit `21cd7e28cd51d76b1865387475b7f6eafb039b41` (`release: finalize and harden AMDE research distribution`).
-- **Post-Release P0 Correctness Baseline:** Merged into `release-amde-final` via PR #4 at commit `72be93013907b8296e7918f7c1383cba6bae4cf4`.
-- **Demonstration Worktree Branch:** `experiment/real-world-evidence-demo`. Contains the real-world benchmark engine, publication assets, and Colab demonstration notebook. Pinned to core commit `72be93013907b8296e7918f7c1383cba6bae4cf4`.
+- **Official Release Tag:** [`v4.0.2`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.2) (Commit `837b399639e37dd012d206ee147360c7eb08a552`).
+- **Canonical Release Branch:** `release-amde-final`. Contains the verified core engine, real-world benchmark suite, publication assets, and Colab demonstration notebook.
 
 ---
 

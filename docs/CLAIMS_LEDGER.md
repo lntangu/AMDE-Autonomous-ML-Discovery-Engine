@@ -1,7 +1,7 @@
 # AMDE 4.0 — Research Claims & Evidentiary Ledger (Audited)
 
-**Distribution Version:** 4.0.1  
-**Target Branch:** `experiment/real-world-evidence-demo`  
+**Distribution Version:** 4.0.2  
+**Canonical Branch:** `release-amde-final`  
 **Governing Standard:** Strict Empirical Verification & Forensic Demarcation  
 
 ---

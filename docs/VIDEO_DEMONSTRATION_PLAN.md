@@ -1,7 +1,7 @@
 # AMDE 4.0 — Video Demonstration Plan & Production Guide (Audited)
 
-**Distribution Version:** 4.0.1  
-**Target Branch:** `experiment/real-world-evidence-demo`  
+**Distribution Version:** 4.0.2  
+**Canonical Branch:** `release-amde-final`  
 **Governing Standard:** `docs/CLAIMS_LEDGER.md` (Forensic accuracy, zero hyperbole)  
 
 ---

@@ -4,8 +4,8 @@
 **Distribution Version:** 4.0.2  
 **Target Git Worktree:** `AMDE_Worktree_v400`  
 **Canonical Branch:** `release-amde-final`  
-**Intended Release Tag:** `v4.0.2`  
-**Closure Status:** **FINAL_RESEARCH_RELEASE_QUALIFIED**  
+**Official Release Tag:** [`v4.0.2`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.2)  
+**Closure Status:** **FINAL_PROJECT_CLOSURE_COMPLETE**  
 **Development Lifecycle Phase:** **Active Feature Development Concluded**  
 
 ---
@@ -87,7 +87,7 @@ AMDE 4.0.2 was benchmarked on the Optical Recognition of Handwritten Digits data
 | **Controlled 2D Hypervolume ($r=50\text{ms}$)** | **$49.7085 \pm 0.1584$** | $48.8321 \pm 0.5722$ | $49.4977 \pm 0.1691$ | **$49.6074 \pm 0.1719$** |
 
 ### What the Evidence Establishes:
-1. **Statistical Parity:** Exact sign-flip permutation Wilcoxon signed-rank tests show no statistically significant difference in predictive accuracy between AMDE 4.0 and Random Search (adjusted $p=1.0000$), Optuna (adjusted $p=1.0000$), or Native TPE (adjusted $p=0.1875$).
+1. **Absence of Statistically Significant Differences:** Exact sign-flip permutation Wilcoxon signed-rank tests show no statistically significant difference in predictive accuracy between AMDE 4.0 and Random Search (adjusted $p=1.0000$), Optuna (adjusted $p=1.0000$), or Native TPE (adjusted $p=0.1875$).
 2. **Single-Sample vs Batch Latency:** Single-sample inference is $67\times$ to $191\times$ slower per sample than batch inference due to per-call dispatch overhead. Dividing batch latency by $N$ is invalid.
 3. **Reference Point Validity:** Thresholds $5, 10, 20$ ms are invalid bounding points for the full search space because candidate latencies reach $20.001$ ms. Reference point $r=(0.0, 50.0)$ ms strictly bounds all frontier candidates.
 4. **Deduplication Reality:** AMDE's genome hash cache avoided redundant fitting compared to Native TPE (which proposed 48.7% duplicates), but did not save compute relative to Optuna or Random Search (which naturally explored $\approx 30$ unique configurations).

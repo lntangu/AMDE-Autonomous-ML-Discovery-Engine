@@ -70,7 +70,12 @@ if IN_COLAB:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "git+https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git@v4.0.2"])
     print("[Colab Setup] Installation complete!")
 else:
-    print("[Local Setup] Using local active environment.")"""))
+    print("[Local Setup] Using local active environment.")
+    import os
+    from pathlib import Path
+    root = Path(os.getcwd())
+    if (root / "src").exists() and str(root / "src") not in sys.path:
+        sys.path.insert(0, str(root / "src"))"""))
 
 # Cell 5: Imports & Targeted Warnings
 cells.append(nbf.v4.new_code_cell("""# Step 2: Import core libraries and AMDE modules
@@ -156,6 +161,7 @@ cells.append(nbf.v4.new_code_cell("""# Step 4: Run Method A (Random Search)
 BUDGET = 20
 rs_space = SearchSpace(n_features=X_train.shape[1], is_classification=True)
 rs_strategy = RandomSearchStrategy(rs_space)
+rs_dedup = CandidateDeduplicator()
 eval_pipe = StandardEvaluationPipeline()
 split_hash = compute_data_split_hash(X_train, y_train, X_val, y_val)
 rng_rs = random.Random(SEED)
@@ -171,6 +177,7 @@ rs_t0 = time.perf_counter()
 for trial in range(1, BUDGET + 1):
     props = rs_strategy.propose(n=1, rng=rng_rs, archives={}, budget_fraction=trial/BUDGET, generation=trial)
     cand = props[0]
+    rs_dedup.register(cand.canonical_hash)
     req = EvaluationRequest(
         request_id=f"rs_{trial}", candidate=cand, dataset_id="digits_demo",
         split_hash=split_hash, seed=SEED, fidelity=FidelityLevel.full_fidelity(),
@@ -186,8 +193,9 @@ for trial in range(1, BUDGET + 1):
 rs_time = time.perf_counter() - rs_t0
 
 print(f"[Random Search] Completed {BUDGET} search trials in {rs_time:.2f}s")
-print(f"  Best Val Accuracy:  {rs_incumbent_score:.4f}")
-print(f"  Pareto Frontier:    {len(rs_pareto.frontier)} non-dominated models")"""))
+print(f"  Best Val Accuracy:     {rs_incumbent_score:.4f}")
+print(f"  Pareto Frontier:       {len(rs_pareto.frontier)} non-dominated models")
+print(f"  Search Duplicate Rate: {rs_dedup.duplicate_rate:.1%}")"""))
 
 # Cell 10: Method B1 - Native Bayesian TPE
 cells.append(nbf.v4.new_markdown_cell("""### Method B1: Native Bayesian TPE
@@ -196,6 +204,7 @@ Models parameter distributions using conditional Parzen density estimators $l(x)
 cells.append(nbf.v4.new_code_cell("""# Step 5: Run Method B1 (AMDE Native Bayesian TPE)
 tpe_space = SearchSpace(n_features=X_train.shape[1], is_classification=True)
 tpe_strategy = TPEStrategy(tpe_space, gamma_quantile=0.25, min_observations=6)
+tpe_dedup = CandidateDeduplicator()
 rng_tpe = random.Random(SEED)
 
 tpe_holdout, tpe_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
@@ -209,6 +218,7 @@ tpe_t0 = time.perf_counter()
 for trial in range(1, BUDGET + 1):
     props = tpe_strategy.propose(n=1, rng=rng_tpe, archives={}, budget_fraction=trial/BUDGET, generation=trial)
     cand = props[0]
+    tpe_dedup.register(cand.canonical_hash)
     req = EvaluationRequest(
         request_id=f"tpe_{trial}", candidate=cand, dataset_id="digits_demo",
         split_hash=split_hash, seed=SEED, fidelity=FidelityLevel.full_fidelity(),
@@ -226,8 +236,9 @@ for trial in range(1, BUDGET + 1):
 tpe_time = time.perf_counter() - tpe_t0
 
 print(f"[AMDE Native TPE] Completed {BUDGET} search trials in {tpe_time:.2f}s")
-print(f"  Best Val Accuracy:  {tpe_incumbent_score:.4f}")
-print(f"  Pareto Frontier:    {len(tpe_pareto.frontier)} non-dominated models")"""))
+print(f"  Best Val Accuracy:     {tpe_incumbent_score:.4f}")
+print(f"  Pareto Frontier:       {len(tpe_pareto.frontier)} non-dominated models")
+print(f"  Search Duplicate Rate: {tpe_dedup.duplicate_rate:.1%}")"""))
 
 # Cell 11: Method B2 - Optuna TPESampler
 cells.append(nbf.v4.new_markdown_cell("""### Method B2: Optuna TPESampler (Industry Standard)
@@ -239,6 +250,7 @@ optuna.logging.set_verbosity(optuna.logging.WARNING)
 
 optuna_holdout, optuna_token = create_sealed_holdout(X_test, y_test, dataset_name="digits_demo")
 optuna_pareto = ParetoArchive(capacity=50)
+optuna_dedup = CandidateDeduplicator()
 
 optuna_incumbent_score = -float("inf")
 optuna_incumbent_cand = None
@@ -288,6 +300,7 @@ def optuna_obj(trial):
 
     genome = {"preprocessing": prep, "model": spec}
     cand = Candidate(genome=genome, canonical_hash=compute_candidate_hash(genome))
+    optuna_dedup.register(cand.canonical_hash)
     req = EvaluationRequest(
         request_id=f"optuna_{trial.number}", candidate=cand, dataset_id="digits_demo",
         split_hash=split_hash, seed=SEED, fidelity=FidelityLevel.full_fidelity(),
@@ -307,8 +320,9 @@ study.optimize(optuna_obj, n_trials=BUDGET)
 optuna_time = time.perf_counter() - optuna_t0
 
 print(f"[Optuna TPESampler] Completed {BUDGET} search trials in {optuna_time:.2f}s")
-print(f"  Best Val Accuracy:  {optuna_incumbent_score:.4f}")
-print(f"  Pareto Frontier:    {len(optuna_pareto.frontier)} non-dominated models")"""))
+print(f"  Best Val Accuracy:     {optuna_incumbent_score:.4f}")
+print(f"  Pareto Frontier:       {len(optuna_pareto.frontier)} non-dominated models")
+print(f"  Search Duplicate Rate: {optuna_dedup.duplicate_rate:.1%}")"""))
 
 # Cell 12: Method C - AMDE 4.0
 cells.append(nbf.v4.new_markdown_cell("""### Method C: AMDE 4.0 Autonomous Engine
@@ -338,7 +352,8 @@ print(f"  Best Val Accuracy:    {amde_res['incumbent_score']:.4f}")
 print(f"  Pareto Frontier Size: {amde_res['pareto_size']} non-dominated models")
 print(f"  2D Hypervolume:       {amde_res['hypervolume_2d']:.4f}")
 print(f"  Search Duplicate Rate:{amde_res['duplicate_rate']:.1%}")
-print(f"  Ledger SHA-256 Hash:  {amde_res['ledger_sha256'][:16]}...")"""))
+print(f"  Ledger SHA-256 Hash:  {amde_res['ledger_sha256'][:16]}...")
+"""))
 
 # Cell 13: Holdout Evaluation Protocol
 cells.append(nbf.v4.new_markdown_cell("""## 4. Phase 2 — Strict Sealed Holdout Unsealing & Generalization Test
@@ -381,7 +396,7 @@ results_data = [
         "Sealed Test Acc": f"{rs_test_score:.4f}",
         "Wall-Clock (s)": f"{rs_time:.2f}",
         "Pareto Size": len(rs_pareto.frontier),
-        "Deduplication": "No (0.0%)",
+        "Duplicate Rate": f"{rs_dedup.duplicate_rate:.1%}",
         "Evidence Ledger": "No",
         "Holdout Gating": "Yes (Wrapped)",
     },
@@ -391,7 +406,7 @@ results_data = [
         "Sealed Test Acc": f"{tpe_test_score:.4f}",
         "Wall-Clock (s)": f"{tpe_time:.2f}",
         "Pareto Size": len(tpe_pareto.frontier),
-        "Deduplication": "No (0.0%)",
+        "Duplicate Rate": f"{tpe_dedup.duplicate_rate:.1%}",
         "Evidence Ledger": "No",
         "Holdout Gating": "Yes (Wrapped)",
     },
@@ -401,7 +416,7 @@ results_data = [
         "Sealed Test Acc": f"{optuna_test_score:.4f}",
         "Wall-Clock (s)": f"{optuna_time:.2f}",
         "Pareto Size": len(optuna_pareto.frontier),
-        "Deduplication": "No (0.0%)",
+        "Duplicate Rate": f"{optuna_dedup.duplicate_rate:.1%}",
         "Evidence Ledger": "No",
         "Holdout Gating": "Yes (Wrapped)",
     },
@@ -411,7 +426,7 @@ results_data = [
         "Sealed Test Acc": f"{amde_test_score:.4f}",
         "Wall-Clock (s)": f"{amde_time:.2f}",
         "Pareto Size": amde_res['pareto_size'],
-        "Deduplication": f"Yes ({amde_res['duplicate_rate']:.1%})",
+        "Duplicate Rate": f"{amde_res['duplicate_rate']:.1%}",
         "Evidence Ledger": "Yes (SHA-256)",
         "Holdout Gating": "Yes (Token-Gated)",
     },
@@ -478,6 +493,17 @@ cells.append(nbf.v4.new_markdown_cell("""## 9. Exporting Run Artifacts & Environ
 
 cells.append(nbf.v4.new_code_cell("""# Step 11: Export demonstration artifacts and environment telemetry
 import json, platform, hashlib
+import numpy as np
+import scipy
+import sklearn
+try:
+    import optuna
+    optuna_version = optuna.__version__
+except Exception:
+    optuna_version = "None"
+
+accelerator = "None / CPU-only"
+colab_status = "NOT VERIFIED (Evaluated via local headless execution test; cloud Colab execution not verified)"
 
 # Export summary CSV
 csv_path = "amde_colab_demo_summary.csv"
@@ -492,6 +518,13 @@ evidence = {
     "platform": platform.platform(),
     "processor": platform.processor() or "CPU",
     "cpu_count_logical": os.cpu_count(),
+    "accelerator": accelerator,
+    "library_versions": {
+        "numpy": np.__version__,
+        "scipy": scipy.__version__,
+        "scikit-learn": sklearn.__version__,
+        "optuna": optuna_version,
+    },
     "seed": SEED,
     "budget": BUDGET,
     "dataset": {
@@ -504,6 +537,8 @@ evidence = {
         "test_samples": len(X_test),
     },
     "results_summary": results_data,
+    "execution_status": "SUCCESS",
+    "colab_cloud_verification_status": colab_status,
     "artifacts": {
         "summary_csv": csv_path,
         "summary_csv_sha256": csv_digest,
@@ -516,8 +551,27 @@ with open(evidence_path, "w", encoding="utf-8") as f:
     json.dump(evidence, f, indent=2)
 
 evidence_digest = hashlib.sha256(open(evidence_path, "rb").read()).hexdigest()
+evidence["artifacts"]["evidence_json"] = evidence_path
+evidence["artifacts"]["evidence_json_sha256"] = evidence_digest
+with open(evidence_path, "w", encoding="utf-8") as f:
+    json.dump(evidence, f, indent=2)
+evidence_digest = hashlib.sha256(open(evidence_path, "rb").read()).hexdigest()
 print(f"Artifact saved: {evidence_path} (SHA-256: {evidence_digest})")
-print("\\nVerification complete! Both artifacts are ready for audit in the Colab Files tab.")"""))
+
+# Export SHA256 checksums file
+sha256_path = "amde_colab_evidence.sha256"
+with open(sha256_path, "w", encoding="utf-8") as f:
+    f.write(f"{csv_digest}  {csv_path}\\n")
+    f.write(f"{evidence_digest}  {evidence_path}\\n")
+print(f"Artifact saved: {sha256_path}")
+
+print("\\n--- INSTRUCTIONS TO PRESERVE GOOGLE COLAB EXECUTION PROOF ---")
+print("1. From the Colab menu, select 'File' -> 'Download' -> 'Download .ipynb'.")
+print("2. In the left sidebar 'Files' panel, download:")
+print("   - amde_colab_demo_summary.csv")
+print("   - amde_colab_evidence.json")
+print("   - amde_colab_evidence.sha256")
+print("-------------------------------------------------------------")"""))
 
 nb.cells = cells
 

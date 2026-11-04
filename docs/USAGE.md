@@ -1,5 +1,5 @@
 # AMDE 4.0 — DEVELOPER & RESEARCHER USAGE GUIDE
-**Distribution Version:** 4.0.1  
+**Distribution Version:** 4.0.2  
 
 ---
 

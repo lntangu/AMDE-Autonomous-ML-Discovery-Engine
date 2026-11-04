@@ -1,7 +1,7 @@
 # AMDE 4.0 — Empirical Benchmark Methodology & Experimental Design (Audited)
 
-**Distribution Version:** 4.0.1  
-**Target Branch:** `experiment/real-world-evidence-demo`  
+**Distribution Version:** 4.0.2  
+**Canonical Branch:** `release-amde-final`  
 **Experimental Standard:** Honest, Controlled, Reproducible Evaluation  
 
 ---
@@ -16,7 +16,7 @@ Benchmarking in automated machine learning requires strict environmental and pro
 ### Model Family Implementation Details
 - **Tree Ensembles (`tree_ensemble`):** `RandomForestClassifier` and `GradientBoostingClassifier`.
 - **Neural Networks (`mlp`):** `MLPClassifier` with variable hidden layer sizes, activations, and regularizations.
-- **Linear Models (`linear`):** `LogisticRegression` with L1, L2, and ElasticNet penalties.
+- **Linear Models (`linear`):** `LogisticRegression` with L2 or unregularized/none penalty (mapped via `solver="lbfgs"` with `C=1e6`, functioning as very weak L2 regularization rather than literal unregularized optimization).
 - **Kernel Support Vector Classifier (`kernel_svc`):** Implemented via **`sklearn.svm.SVC`** with $C = 1/\alpha$, non-linear kernels (`rbf`, `poly`, `linear`), and kernel parameter $\gamma$, providing multi-class kernel classification. *(Note on naming: Previously labeled `kernel_ridge` in legacy genomes, which was an inaccurate name since scikit-learn does not provide multi-class KernelRidge classification; `kernel_ridge` is retained strictly as a deprecated compatibility alias).*
 
 ### Budget Equivalence Disclosure

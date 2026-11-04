@@ -1,6 +1,7 @@
 """Headless validation test runner for AMDE_Real_World_Demo.ipynb."""
 
 import json
+import sys
 from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")  # Non-interactive headless backend
@@ -10,6 +11,8 @@ plt.ioff()
 import nbformat as nbf
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
 NOTEBOOK_PATH = ROOT / "notebooks" / "AMDE_Real_World_Demo.ipynb"
 
 def test_notebook():
