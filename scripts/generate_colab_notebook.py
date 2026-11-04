@@ -12,7 +12,7 @@ NOTEBOOK_PATH = NOTEBOOKS_DIR / "AMDE_Real_World_Demo.ipynb"
 # Pinned maintenance source commit SHA for immutable source installation in Google Colab.
 # Initial value set to base merge commit 30bac4a0fdc55827dab928391bf996fbe0d0b051;
 # updated in final Commit B to pin to Commit A's immutable SHA.
-SOURCE_COMMIT_PIN = "30bac4a0fdc55827dab928391bf996fbe0d0b051"
+SOURCE_COMMIT_PIN = "2723af4aca750e80ab40bdd1d7224f312dccde78"
 
 nb = nbf.v4.new_notebook()
 nb.metadata = {
