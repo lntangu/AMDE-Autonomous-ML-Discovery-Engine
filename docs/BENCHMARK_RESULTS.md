@@ -2,6 +2,9 @@
 **Evidence Basis:** 250 Preregistered Runs (5 Methods x 10 Datasets x 5 Seeds)  
 **Distribution Version:** 4.0.2  
 
+> [!NOTE]
+> **Historical Archive Notice:** This document reflects the empirical findings of the initial exploratory benchmark campaign (50 evaluation budget, 10 synthetic/tabular datasets, 5 seeds). It must not be conflated with the subsequent single-dataset real-world demonstration campaign (`load_digits`, 20/30 trials) or the current v4.0.2 maintenance baseline. For real-world demonstration metrics and non-parametric statistical reconciliations, refer to `reports/real_world_demo/latest/report.md` and `docs/CLAIMS_LEDGER.md`.  
+
 ---
 
 ## 1. Benchmark Protocol Overview

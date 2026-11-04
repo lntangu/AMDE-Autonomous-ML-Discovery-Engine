@@ -5,7 +5,7 @@
 **Target Git Worktree:** `AMDE_Worktree_v400`  
 **Canonical Branch:** `release-amde-final`  
 **Official Release Tag:** [`v4.0.2`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.2)  
-**Closure Status:** **FINAL_PROJECT_CLOSURE_COMPLETE**  
+**Closure Status:** **`FINAL_CLOSURE_READY_PENDING_COLAB`** (Automated maintenance and verification concluded; pending external Google Colab cloud execution by repository maintainer)  
 **Development Lifecycle Phase:** **Active Feature Development Concluded**  
 
 ---
@@ -123,10 +123,10 @@ AMDE 4.0.2 was benchmarked on the Optical Recognition of Handwritten Digits data
 
 ## F. Test and CI Evidence
 
-- **Unit & Regression Tests:** 10/10 passing in dedicated suites (`test_model_space_kernel_svc.py`, `test_amde4_benchmark_stats.py`).
+- **Unit & Regression Tests:** 303/303 unit tests discovered and passing across all suites (`tests/unit/`, including `test_model_space_kernel_svc.py`, `test_amde4_benchmark_stats.py`, and `test_manifest_completeness.py`).
 - **Interactive Notebook Execution:** All 11 code cells validated headlessly without error via `scripts/test_execute_notebook.py`.
-- **Manifest Checksum Verification:** 254/254 SHA-256 entries verified via `scripts/verify_manifest.py`.
-- **Cross-Platform Matrix:** CI workflow configured and verified for Ubuntu Linux and Windows across Python 3.10 through 3.14.
+- **Manifest Checksum Verification:** 535/535 SHA-256 entries verified covering 100% of non-manifest Git-tracked files via `scripts/verify_manifest.py`.
+- **Cross-Platform Matrix:** CI workflow configured and verified for Ubuntu Linux and Windows across Python 3.10 through 3.14 across 6 CI workflow jobs.
 
 ---
 

@@ -20,20 +20,20 @@
 
 ## 2. Statistical Significance Analysis (vs. AMDE 4.0)
 
-| Baseline Comparison | Mean Test Diff ($\Delta$) | Non-Zero Pairs ($N_{\text{eff}}$) | Wilcoxon Statistic ($W$) | Wilcoxon $p$-value | Paired $t$ $p$-value | Empirical Verdict |
-| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| vs. Random Search (Method A) | -0.0017 | 4 | N/A | 1.0000 | 0.7106 | No statistically significant difference detected (p >= 0.05) |
-| vs. AMDE Native TPE (Method B1) | +0.0150 | 5 | 0.0 | 0.0625 | 0.0331 | No statistically significant difference detected (p >= 0.05) |
-| vs. Optuna TPESampler (Method B2) | +0.0028 | 5 | 6.0 | 0.8750 | 0.4596 | No statistically significant difference detected (p >= 0.05) |
+| Baseline Comparison | Mean Test Diff ($\Delta$) | Non-Zero Pairs ($N_{\text{eff}}$) | Wilcoxon Statistic ($W$) | Wilcoxon Raw $p$ | Wilcoxon Holm $p$ | Paired $t$ Holm $p$ | Empirical Verdict |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| vs. Random Search (Method A) | -0.0017 | 4 | 4.5 | 1.0000 | 1.0000 | 0.9191 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05) |
+| vs. AMDE Native TPE (Method B1) | +0.0150 | 5 | 0.0 | 0.0625 | 0.1875 | 0.0992 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=0.1875 >= 0.05) |
+| vs. Optuna TPESampler (Method B2) | +0.0028 | 5 | 6.0 | 0.6250 | 1.0000 | 0.9191 | No statistically significant difference detected under family-wise error rate control (Holm-adjusted p=1.0000 >= 0.05) |
 
 ---
 
 ## 3. Scientific Disclosures & Limitations
 
-1. **Accuracy Equivalence:** Consistent with theoretical expectations and previous P0 confirmatory audits, AMDE 4.0 demonstrates predictive accuracy comparable to Bayesian TPE, Optuna, and Random Search on standard tabular benchmarks ($p \ge 0.05$). No claim of superior predictive accuracy is made.
+1. **Absence of Statistically Significant Differences:** Consistent with theoretical expectations and previous P0 confirmatory audits, AMDE 4.0 demonstrates predictive accuracy comparable to Bayesian TPE, Optuna, and Random Search on standard tabular benchmarks ($p \ge 0.05$ under Holm-Bonferroni correction). No claim of superior predictive accuracy or statistical equivalence is made.
 2. **Distinct Architectural Merits:** AMDE's verified advantages lie in:
-   - **Automated Search Deduplication:** Filters redundant candidate evaluations, preventing wasted model fitting cycles.
-   - **Strict Holdout Data Isolation:** Cryptographically token-gated single-use test evaluation prevents adaptive leakage.
+   - **Automated Search Deduplication:** Filters redundant candidate proposals, avoiding repeated model fitting cycles.
+   - **Strict Holdout Data Isolation:** In-process single-use token-gated holdout evaluation prevents in-session adaptive leakage.
    - **Native Multi-Objective Pareto Frontier:** Automatically tracks accuracy vs. latency vs. memory trade-offs.
-   - **Tamper-Evident SHA-256 Provenance:** SQLite WAL ledger persists immutable forensic audit trails.
+   - **Tamper-Evident SHA-256 Provenance:** SQLite WAL ledger persists chained forensic audit trails.
 3. **Hardware Boundaries:** All benchmarks were executed purely on CPU without GPU acceleration.
