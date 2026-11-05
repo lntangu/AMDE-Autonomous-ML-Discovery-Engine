@@ -123,7 +123,7 @@ AMDE 4.0.2 was benchmarked on the Optical Recognition of Handwritten Digits data
 
 ## F. Test and CI Evidence
 
-- **Unit & Regression Tests:** 307 unit tests discovered across all suites (Ubuntu Python 3.10 & 3.14: 305 passed, 0 failures, 0 errors, 2 skipped; Windows Python 3.10 & 3.14: 307 passed, 0 failures, 0 errors, 0 skipped; 14/14 integration tests passed).
+- **Unit & Regression Tests:** 308 unit tests discovered across all suites (Ubuntu Python 3.10 & 3.14: 306 passed, 0 failures, 0 errors, 2 skipped; Windows Python 3.10 & 3.14: 308 passed, 0 failures, 0 errors, 0 skipped; 14/14 integration tests passed).
 - **Interactive Notebook Execution:** All 11 code cells validated headlessly without error via `scripts/test_execute_notebook.py`.
 - **Manifest Checksum Verification:** 535/535 SHA-256 entries verified covering 100% of non-manifest Git-tracked files via `scripts/verify_manifest.py`.
 - **Cross-Platform Matrix:** CI workflow configured and verified for Ubuntu Linux and Windows across Python 3.10 through 3.14 across 6 CI workflow jobs.

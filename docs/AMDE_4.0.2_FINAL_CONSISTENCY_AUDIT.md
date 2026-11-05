@@ -185,7 +185,7 @@ The repository manifest `SHA256SUMS.txt` has been expanded to cover **100% of no
 | **Gate B** | Exact Non-Parametric Statistics | Exhaustive sign-flip permutation Wilcoxon & Holm correction | `test_amde4_benchmark_stats.py`, `statistical_analysis.json` | **`PASS`** |
 | **Gate C** | Reproducible Colab Demo & Holdout Gating | Headless 11/11 cell execution; freeze before unseal | `scripts/test_execute_notebook.py` | **`PASS`** |
 | **Gate D** | Complete Checksum Manifest | 535/535 files verified | `scripts/verify_manifest.py`, `test_manifest_completeness.py` | **`PASS`** |
-| **Gate E** | Full Unit & Regression Test Suite | 307 discovered tests (Ubuntu: 305 passed, 2 skipped; Windows: 307 passed; 14/14 integration) | `python3 -m unittest discover tests/unit` | **`PASS`** |
+| **Gate E** | Full Unit & Regression Test Suite | 308 discovered tests (Ubuntu: 306 passed, 2 skipped; Windows: 308 passed; 14/14 integration) | `python3 -m unittest discover tests/unit` | **`PASS`** |
 | **Gate F** | Cross-Platform CI Multi-Platform Matrix | 6/6 jobs green (Linux & Windows, Python 3.10 & 3.14) | GitHub Actions CI Run | **`PASS`** |
 | **Gate G** | Independent Google Colab Cloud Verification | Real Google Colab cloud execution by repository owner | Pending owner execution; reserved exclusively for human auditor | **`NOT YET EXECUTED`** |
 
