@@ -247,7 +247,7 @@ class StandardEvaluationPipeline:
                 X_tr = X_train
                 y_tr = y_train
 
-            # 3 & 4. Preprocessing fitted STRICTLY on X_tr (Zero Leakage)
+            # 3 & 4. Preprocessing fitted STRICTLY on X_tr (Isolated Preprocess)
             X_tr_proc, X_val_proc = self._preprocess(genome.get("preprocessing", {}), X_tr, y_tr, X_val)
 
             # 5. Model Construction
