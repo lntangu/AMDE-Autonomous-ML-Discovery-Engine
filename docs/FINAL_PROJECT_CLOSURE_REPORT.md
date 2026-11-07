@@ -5,7 +5,7 @@
 **Target Git Worktree:** `AMDE_Worktree_v400`  
 **Canonical Branch:** `release-amde-final`  
 **Official Release Tag:** [`v4.0.2`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v4.0.2)  
-**Closure Status:** **`FINAL_CLOSURE_READY_PENDING_COLAB`** (Automated maintenance and verification concluded; pending external Google Colab cloud execution by repository maintainer)  
+**Closure Status:** **`FINAL_PROJECT_CLOSURE_COMPLETE`** (All verification gates A–G fully satisfied; Google Colab cloud execution confirmed by repository maintainer)  
 **Development Lifecycle Phase:** **Active Feature Development Concluded**  
 
 ---
@@ -125,6 +125,7 @@ AMDE 4.0.2 was benchmarked on the Optical Recognition of Handwritten Digits data
 
 - **Unit & Regression Tests:** 308 unit tests discovered across all suites (Ubuntu Python 3.10 & 3.14: 306 passed, 0 failures, 0 errors, 2 skipped; Windows Python 3.10 & 3.14: 308 passed, 0 failures, 0 errors, 0 skipped; 14/14 integration tests passed).
 - **Interactive Notebook Execution:** All 11 code cells validated headlessly without error via `scripts/test_execute_notebook.py`.
+- **Cloud Colab Verification (Gate G):** Fully executed in a live Google Colab environment by repository maintainer (commit `2cbf92e`); all 11 code cells executed to completion without error; holdout test unsealed and token permanently locked; Pareto frontier visual rendered; evidence sidecars generated and verified.
 - **Manifest Checksum Verification:** 535/535 SHA-256 entries verified covering 100% of non-manifest Git-tracked files via `scripts/verify_manifest.py`.
 - **Cross-Platform Matrix:** CI workflow configured and verified for Ubuntu Linux and Windows across Python 3.10 through 3.14 across 6 CI workflow jobs.
 
@@ -133,6 +134,8 @@ AMDE 4.0.2 was benchmarked on the Optical Recognition of Handwritten Digits data
 ## G. Closure Declaration
 
 **Active feature development for AMDE is formally and permanently concluded.**
+
+**Final Project Closure Status:** **`FINAL_PROJECT_CLOSURE_COMPLETE`**
 
 The system has achieved its defined research goals: establishing an auditable, reproducible, multi-objective AutoML architecture with sealed holdout protection and tamper-evident event logging.
 

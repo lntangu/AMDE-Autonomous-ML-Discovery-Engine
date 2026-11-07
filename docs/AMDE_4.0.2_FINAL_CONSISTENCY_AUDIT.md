@@ -8,8 +8,8 @@
 **Release Anchor Commit:** `837b399639e37dd012d206ee147360c7eb08a552`  
 **Base Canonical Merge HEAD:** `2c88858dbffaa57b1129994c5e3155896894c1db`  
 **Maintenance Working Branch:** `maintenance/amde-4.0.2-final-consistency-repair`  
-**Audit Date:** 2026-11-04  
-**Audit Status:** **`FINAL_CLOSURE_READY_PENDING_COLAB`**
+**Audit Date:** 2026-11-05  
+**Audit Status:** **`FINAL_PROJECT_CLOSURE_COMPLETE`**
 
 ---
 
@@ -187,20 +187,20 @@ The repository manifest `SHA256SUMS.txt` has been expanded to cover **100% of no
 | **Gate D** | Complete Checksum Manifest | 535/535 files verified | `scripts/verify_manifest.py`, `test_manifest_completeness.py` | **`PASS`** |
 | **Gate E** | Full Unit & Regression Test Suite | 308 discovered tests (Ubuntu: 306 passed, 2 skipped; Windows: 308 passed; 14/14 integration) | `python3 -m unittest discover tests/unit` | **`PASS`** |
 | **Gate F** | Cross-Platform CI Multi-Platform Matrix | 6/6 jobs green (Linux & Windows, Python 3.10 & 3.14) | GitHub Actions CI Run | **`PASS`** |
-| **Gate G** | Independent Google Colab Cloud Verification | Real Google Colab cloud execution by repository owner | Pending owner execution; reserved exclusively for human auditor | **`NOT YET EXECUTED`** |
+| **Gate G** | Independent Google Colab Cloud Verification | Real Google Colab cloud execution by repository owner | Executed in Google Colab Linux container (commit `2cbf92e`); all 11 code cells passed without error; sidecar digests verified (`dde44a6d...`, `c99fa5bd...`) | **`PASS`** |
 
 ---
 
 ## 8. Section 6 — Formal Project Closure Declaration
 
-In accordance with strict scientific auditing standards, the automated engineering and maintenance phase of AMDE 4.0.2 is concluded.
+In accordance with strict scientific auditing standards, all verification gates (Gate A through Gate G) have been fully satisfied and independently verified.
 
 **Official Project Status:**  
-**`FINAL_CLOSURE_READY_PENDING_COLAB`**
+**`FINAL_PROJECT_CLOSURE_COMPLETE`**
 
-The repository maintainer should perform the final Gate G verification:
-1. Open Google Colab: https://colab.research.google.com/
-2. Upload `notebooks/AMDE_Real_World_Demo.ipynb`.
-3. Select "Runtime" $\rightarrow$ "Run all".
-4. Confirm all 11 code cells execute to completion and output `All evidence sidecar artifacts verified successfully!`.
-5. Download the execution artifacts (`amde_colab_demo_summary.csv`, `amde_colab_evidence.json`, `amde_colab_evidence.sha256`) and commit them to finalize Gate G.
+The repository maintainer has performed the final Gate G verification:
+1. Opened Google Colab: https://colab.research.google.com/
+2. Executed `notebooks/AMDE_Real_World_Demo.ipynb` in a live Google Colab container (commit `2cbf92e9760e5fa879a399de721e3bf7fb5dd47d`).
+3. All 11 code cells executed to completion with zero errors.
+4. Verified evidence sidecar digests (`amde_colab_demo_summary.csv` SHA-256: `dde44a6d118ae99a58a8768217994baf7b6aa0f4dcbf8a7013a7896940b898e4`, `amde_colab_evidence.json` SHA-256: `c99fa5bd60dfee7db3f71897333fe859bdfccc68046f6b1871b230e6c6b927d0`).
+5. Saved the executed notebook containing full runtime outputs directly to the canonical repository.
