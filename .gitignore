@@ -24,3 +24,5 @@ dist/
 amde_colab_demo_summary.csv
 amde_colab_evidence.json
 amde_colab_evidence.sha256
+data/openml_cc18_cache/
+results/
