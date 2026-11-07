@@ -25,4 +25,7 @@ amde_colab_demo_summary.csv
 amde_colab_evidence.json
 amde_colab_evidence.sha256
 data/openml_cc18_cache/
-results/
+results/*
+!results/openml_cc18_master_results.csv
+*.zip
+github-recovery-codes.txt

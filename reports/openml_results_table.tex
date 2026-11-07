@@ -3,16 +3,16 @@
 \begin{table*}[t]
 \centering
 \small
-\caption{\textbf{OpenML-CC18 Benchmark Comparison.} Multi-objective evaluation of AMDE 4.1 against industry AutoML baselines across 18 datasets under identical time budgets ($T=60\text{s}$). Statistically significant superiorities ($p < 0.05$) are determined via two-sided Wilcoxon signed-rank tests.}
+\caption{\textbf{OpenML-CC18 Benchmark Comparison.} Multi-objective evaluation of AMDE 4.1 against industry AutoML baselines across 5 diverse non-trivial datasets under identical time budgets ($T=60\text{s}$). Statistically significant superiorities ($p < 0.05$) are determined via two-sided Wilcoxon signed-rank tests.}
 \label{tab:openml_cc18_results}
 \vspace{0.5em}
 \begin{tabular}{l ccc c c}
 \toprule
-\textbf{Framework} & \textbf{Avg.\ Rank ($\downarrow$)} & \textbf{Test Accuracy ($\uparrow$)} & \textbf{Win / Tie / Loss} & \textbf{Wilcoxon $p$-value} & \textbf{Wall-clock (s)} \\
+\textbf{Framework} & \textbf{Avg.\ Rank ($\downarrow$)} & \textbf{Test Accuracy ($\uparrow$)} & \textbf{AMDE Record (W / T / L)} & \textbf{Wilcoxon $p$-value} & \textbf{Wall-clock (s)} \\
 \midrule
-\textbf{AMDE 4.1 (Ours)} & \textbf{1.42} & \textbf{86.96\% $\pm$ 12.44\%} & --- & --- & 447.0s \\
-Optuna TPE & 2.11 & 71.72\% $\pm$ 35.27\% & 13 / 1 / 4 & \textbf{0.0150}* & 326.3s \\
-FLAML & 2.47 & 81.79\% $\pm$ 13.56\% & 15 / 0 / 3 & \textbf{0.0013}* & 371.1s \\
+Optuna TPE & \textbf{1.60} & 83.72\% $\pm$ 6.36\% & 2 / 0 / 3 & 1.0000 & 85.4s \\
+\textbf{AMDE 4.1 (Ours)} & 1.80 & \textbf{84.33\% $\pm$ 4.65\%} & --- & --- & 86.5s \\
+FLAML & 2.60 & 79.66\% $\pm$ 8.18\% & 4 / 0 / 1 & 0.1875 & 75.7s \\
 \bottomrule
 \end{tabular}
 \end{table*}

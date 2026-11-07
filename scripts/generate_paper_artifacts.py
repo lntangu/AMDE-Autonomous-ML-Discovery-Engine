@@ -174,12 +174,12 @@ def format_latex_paper_table(metrics: dict[str, Any]) -> str:
         r"\begin{table*}[t]",
         r"\centering",
         r"\small",
-        r"\caption{\textbf{OpenML-CC18 Benchmark Comparison.} Multi-objective evaluation of AMDE 4.1 against industry AutoML baselines across " + str(n_ds) + r" datasets under identical time budgets ($T=60\text{s}$). Statistically significant superiorities ($p < 0.05$) are determined via two-sided Wilcoxon signed-rank tests.}",
+        r"\caption{\textbf{OpenML-CC18 Benchmark Comparison.} Multi-objective evaluation of AMDE 4.1 against industry AutoML baselines across " + str(n_ds) + r" diverse non-trivial datasets under identical time budgets ($T=60\text{s}$). Statistically significant superiorities ($p < 0.05$) are determined via two-sided Wilcoxon signed-rank tests.}",
         r"\label{tab:openml_cc18_results}",
         r"\vspace{0.5em}",
         r"\begin{tabular}{l ccc c c}",
         r"\toprule",
-        r"\textbf{Framework} & \textbf{Avg.\ Rank ($\downarrow$)} & \textbf{Test Accuracy ($\uparrow$)} & \textbf{Win / Tie / Loss} & \textbf{Wilcoxon $p$-value} & \textbf{Wall-clock (s)} \\",
+        r"\textbf{Framework} & \textbf{Avg.\ Rank ($\downarrow$)} & \textbf{Test Accuracy ($\uparrow$)} & \textbf{AMDE Record (W / T / L)} & \textbf{Wilcoxon $p$-value} & \textbf{Wall-clock (s)} \\",
         r"\midrule",
     ]
 

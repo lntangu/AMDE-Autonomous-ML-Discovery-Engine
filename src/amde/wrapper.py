@@ -81,7 +81,7 @@ class _FittedAMDEPipeline:
         return proba
 
 
-class AMDEClassifier(BaseEstimator, ClassifierMixin):
+class AMDEClassifier(ClassifierMixin, BaseEstimator):
     """Production-grade Scikit-Learn compatible AutoML Classifier powered by AMDE 4.1.
 
     Parameters
@@ -121,6 +121,8 @@ class AMDEClassifier(BaseEstimator, ClassifierMixin):
     >>> clf.score(X, y) > 0.90
     True
     """
+
+    _estimator_type = "classifier"
 
     def __init__(
         self,

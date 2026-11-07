@@ -115,7 +115,11 @@ def load_cached_openml_dataset(
 
     from sklearn.datasets import fetch_openml
     print(f"[*] Fetching dataset {data_id} from OpenML API...")
-    data = fetch_openml(data_id=data_id, as_frame=True, parser="auto")
+    try:
+        data = fetch_openml(data_id=data_id, as_frame=True, parser="auto")
+    except Exception as fetch_exc:
+        print(f"[!] Warning: parser='auto' failed ({fetch_exc}). Falling back to parser='liac-arff'...")
+        data = fetch_openml(data_id=data_id, as_frame=True, parser="liac-arff")
     df = data.frame
     dataset_name = data.details.get("name", f"openml_{data_id}") if hasattr(data, "details") else f"openml_{data_id}"
     target_col = data.target_names[0] if (hasattr(data, "target_names") and data.target_names) else df.columns[-1]
