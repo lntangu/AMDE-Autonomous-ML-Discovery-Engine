@@ -70,6 +70,7 @@ OPENML_CC18_DATASET_IDS = [
 
 DEFAULT_CACHE_DIR = ROOT / "data" / "openml_cc18_cache"
 DEFAULT_OUTPUT_CSV = ROOT / "results" / "openml_cc18_master_results.csv"
+DEFAULT_CONVERGENCE_CSV = ROOT / "results" / "convergence_history.csv"
 
 
 def get_openml_cc18_dataset_ids(suite_id: int = 99) -> list[int]:
@@ -190,6 +191,13 @@ def _run_amde_worker(
         val_acc = float(getattr(clf, "best_val_score_", test_acc))
         incumbent_family = clf.incumbent_candidate_.genome["model"]["family"] if hasattr(clf, "incumbent_candidate_") and clf.incumbent_candidate_ else "unknown"
 
+        trajectory = []
+        if hasattr(clf, "search_history_") and clf.search_history_:
+            for item in clf.search_history_:
+                el = item.get("elapsed_seconds", 0.0)
+                inc = item.get("incumbent_score", 0.0)
+                trajectory.append({"time": el, "score": round(inc, 5)})
+
         res_queue.put({
             "status": "completed",
             "test_accuracy": round(test_acc, 5),
@@ -198,6 +206,7 @@ def _run_amde_worker(
             "peak_memory_mb": rss_peak,
             "extra_info": f"incumbent={incumbent_family}",
             "error_message": "",
+            "trajectory": trajectory,
         })
     except Exception as exc:
         res_queue.put({
@@ -239,9 +248,11 @@ def _run_optuna_worker(
         split_hash = compute_data_split_hash(X_train, y_train, X_val, y_val)
         best_cand: Optional[Candidate] = None
         best_val: float = -float("inf")
+        trajectory: list[dict[str, Any]] = []
+        t0 = time.perf_counter()
 
         def objective(trial: optuna.Trial) -> float:
-            nonlocal best_cand, best_val
+            nonlocal best_cand, best_val, trajectory
             fam = trial.suggest_categorical("family", ["tree_ensemble", "lgbm", "mlp", "linear", "kernel_svc"])
             prep = {
                 "imputer": trial.suggest_categorical("imputer", ["mean", "median", "none"]),
@@ -307,10 +318,10 @@ def _run_optuna_worker(
             if val_score > best_val:
                 best_val = val_score
                 best_cand = cand
+            trajectory.append({"time": round(time.perf_counter() - t0, 3), "score": round(best_val, 5)})
             return val_score
 
         rss_start = measure_peak_rss_mb()
-        t0 = time.perf_counter()
         sampler = optuna.samplers.TPESampler(seed=seed)
         study = optuna.create_study(direction="maximize", sampler=sampler)
         study.optimize(objective, timeout=time_budget)
@@ -341,6 +352,7 @@ def _run_optuna_worker(
             "peak_memory_mb": rss_peak,
             "extra_info": f"trials={len(study.trials)}",
             "error_message": "",
+            "trajectory": trajectory,
         })
     except Exception as exc:
         res_queue.put({
@@ -388,6 +400,12 @@ def _run_flaml_worker(
         test_acc = float(accuracy_score(y_test, y_pred))
         val_acc = float(1.0 - automl.best_loss) if hasattr(automl, "best_loss") else test_acc
 
+        trajectory = []
+        if hasattr(automl, "time_history") and hasattr(automl, "best_loss_per_iter"):
+            for t_hist, l_hist in zip(automl.time_history, automl.best_loss_per_iter):
+                acc = round(float(1.0 - l_hist), 5)
+                trajectory.append({"time": round(float(t_hist), 3), "score": acc})
+
         res_queue.put({
             "status": "completed",
             "test_accuracy": round(test_acc, 5),
@@ -396,6 +414,7 @@ def _run_flaml_worker(
             "peak_memory_mb": rss_peak,
             "extra_info": f"best_estimator={automl.best_estimator}",
             "error_message": "",
+            "trajectory": trajectory,
         })
     except ImportError:
         res_queue.put({
@@ -481,8 +500,8 @@ def execute_method_with_timeout(
         }
 
 
-def read_completed_runs(csv_path: Path) -> set[tuple[int, str, int]]:
-    """Reads existing master CSV to identify completed (data_id, method, seed) triplets."""
+def read_completed_runs(csv_path: Path) -> set[tuple[int, str, int, int]]:
+    """Reads existing master CSV to identify completed (data_id, method, seed, time_budget) tuples."""
     if not csv_path.exists():
         return set()
     completed = set()
@@ -495,7 +514,8 @@ def read_completed_runs(csv_path: Path) -> set[tuple[int, str, int]]:
                         did = int(row["dataset_id"])
                         m = str(row["method"]).lower()
                         s = int(row["seed"])
-                        completed.add((did, m, s))
+                        tb = int(float(row.get("time_budget_s", 60)))
+                        completed.add((did, m, s, tb))
                     except Exception:
                         pass
     except Exception:
@@ -527,16 +547,57 @@ def append_master_result(csv_path: Path, row: dict[str, Any], lock: Optional[thr
         _do_write()
 
 
+def append_convergence_history(
+    csv_path: Path,
+    dataset_id: int,
+    dataset_name: str,
+    method: str,
+    seed: int,
+    time_budget: int,
+    final_test_accuracy: float,
+    trajectory: list[dict[str, Any]],
+    lock: Optional[threading.Lock] = None,
+) -> None:
+    """Appends trajectory points atomically to convergence history CSV."""
+    if not trajectory:
+        return
+
+    def _do_write() -> None:
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        file_exists = csv_path.exists()
+        with open(csv_path, "a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                writer.writerow([
+                    "dataset_id", "dataset_name", "method", "seed",
+                    "time_budget_s", "elapsed_seconds", "incumbent_score", "final_test_accuracy"
+                ])
+            for pt in trajectory:
+                writer.writerow([
+                    dataset_id, dataset_name, method, seed,
+                    time_budget, pt.get("time", 0.0), pt.get("score", 0.0), final_test_accuracy
+                ])
+            f.flush()
+
+    if lock is not None:
+        with lock:
+            _do_write()
+    else:
+        _do_write()
+
+
 def run_benchmark_suite(
     suite_id: int = 99,
     dataset_ids: Optional[list[int]] = None,
     methods: Optional[list[str]] = None,
     seeds: Optional[list[int]] = None,
     time_budget: int = 60,
+    time_budgets: Optional[list[int]] = None,
     timeout_per_dataset: int = 3600,
     n_workers: int = 1,
     cache_dir: Path = DEFAULT_CACHE_DIR,
     output_csv: Path = DEFAULT_OUTPUT_CSV,
+    convergence_csv: Path = DEFAULT_CONVERGENCE_CSV,
     resume: bool = True,
     dry_run: bool = False,
 ) -> None:
@@ -544,6 +605,7 @@ def run_benchmark_suite(
     all_dataset_ids = dataset_ids or get_openml_cc18_dataset_ids(suite_id)
     eval_methods = [m.lower() for m in (methods or ["amde", "optuna", "flaml"])]
     eval_seeds = seeds or [42]
+    eval_budgets = time_budgets or [time_budget]
 
     completed_runs = read_completed_runs(output_csv) if resume else set()
 
@@ -554,11 +616,12 @@ def run_benchmark_suite(
     print(f"Total Datasets:      {len(all_dataset_ids)}")
     print(f"Evaluation Methods:  {eval_methods}")
     print(f"Seeds:               {eval_seeds}")
-    print(f"Time Budget / Model: {time_budget}s")
+    print(f"Time Budgets:        {eval_budgets}s")
     print(f"Hard Process Timeout:{timeout_per_dataset}s")
     print(f"Multiprocessing Pool:{n_workers} worker(s) {'[PARALLEL POOL ACTIVE]' if n_workers > 1 else '[SEQUENTIAL]'}")
     print(f"Cache Directory:     {cache_dir}")
     print(f"Master Results CSV:  {output_csv}")
+    print(f"Convergence Log CSV: {convergence_csv}")
     print(f"Resumption Active:   {resume} ({len(completed_runs)} existing completed runs)")
     print("=" * 76)
 
@@ -577,15 +640,16 @@ def run_benchmark_suite(
                 print(f"[!] Error loading dataset {did}: {exc}. Skipping...")
                 for m in eval_methods:
                     for s in eval_seeds:
-                        append_master_result(output_csv, {
-                            "dataset_id": did, "dataset_name": f"openml_{did}",
-                            "n_samples": 0, "n_features": 0, "n_classes": 0,
-                            "method": m, "seed": s, "time_budget_s": time_budget,
-                            "test_accuracy": 0.0, "val_accuracy": 0.0,
-                            "wallclock_seconds": 0.0, "peak_memory_mb": 0.0,
-                            "status": "dataset_fetch_error",
-                            "extra_info": "", "error_message": str(exc),
-                        })
+                        for tb in eval_budgets:
+                            append_master_result(output_csv, {
+                                "dataset_id": did, "dataset_name": f"openml_{did}",
+                                "n_samples": 0, "n_features": 0, "n_classes": 0,
+                                "method": m, "seed": s, "time_budget_s": tb,
+                                "test_accuracy": 0.0, "val_accuracy": 0.0,
+                                "wallclock_seconds": 0.0, "peak_memory_mb": 0.0,
+                                "status": "dataset_fetch_error",
+                                "extra_info": "", "error_message": str(exc),
+                            })
                 continue
 
             if dry_run:
@@ -605,47 +669,59 @@ def run_benchmark_suite(
                     )
 
                 for method in eval_methods:
-                    run_key = (did, method, seed)
-                    if resume and run_key in completed_runs:
-                        print(f"    -> [SKIPPED - ALREADY COMPLETED] Method='{method}' Seed={seed}")
-                        continue
+                    for tb in eval_budgets:
+                        run_key = (did, method, seed, tb)
+                        if resume and run_key in completed_runs:
+                            print(f"    -> [SKIPPED - ALREADY COMPLETED] Method='{method}' Seed={seed} Budget={tb}s")
+                            continue
 
-                    print(f"    -> Running method='{method}' seed={seed} (budget={time_budget}s)...", end=" ", flush=True)
-                    t_exec_start = time.perf_counter()
+                        print(f"    -> Running method='{method}' seed={seed} (budget={tb}s)...", end=" ", flush=True)
+                        t_exec_start = time.perf_counter()
 
-                    res = execute_method_with_timeout(
-                        method_name=method,
-                        X_dev=X_dev,
-                        y_dev=y_dev,
-                        X_test=X_test,
-                        y_test=y_test,
-                        time_budget=time_budget,
-                        seed=seed,
-                        timeout_seconds=timeout_per_dataset,
-                    )
+                        res = execute_method_with_timeout(
+                            method_name=method,
+                            X_dev=X_dev,
+                            y_dev=y_dev,
+                            X_test=X_test,
+                            y_test=y_test,
+                            time_budget=tb,
+                            seed=seed,
+                            timeout_seconds=timeout_per_dataset,
+                        )
 
-                    elapsed = time.perf_counter() - t_exec_start
-                    row_record = {
-                        "dataset_id": did,
-                        "dataset_name": dname,
-                        "n_samples": n_samples,
-                        "n_features": n_features,
-                        "n_classes": n_classes,
-                        "method": method,
-                        "seed": seed,
-                        "time_budget_s": time_budget,
-                        "test_accuracy": res.get("test_accuracy", 0.0),
-                        "val_accuracy": res.get("val_accuracy", 0.0),
-                        "wallclock_seconds": res.get("wallclock_seconds", elapsed),
-                        "peak_memory_mb": res.get("peak_memory_mb", 0.0),
-                        "status": res.get("status", "unknown"),
-                        "extra_info": res.get("extra_info", ""),
-                        "error_message": res.get("error_message", ""),
-                    }
-                    append_master_result(output_csv, row_record)
-                    completed_runs.add(run_key)
+                        elapsed = time.perf_counter() - t_exec_start
+                        row_record = {
+                            "dataset_id": did,
+                            "dataset_name": dname,
+                            "n_samples": n_samples,
+                            "n_features": n_features,
+                            "n_classes": n_classes,
+                            "method": method,
+                            "seed": seed,
+                            "time_budget_s": tb,
+                            "test_accuracy": res.get("test_accuracy", 0.0),
+                            "val_accuracy": res.get("val_accuracy", 0.0),
+                            "wallclock_seconds": res.get("wallclock_seconds", elapsed),
+                            "peak_memory_mb": res.get("peak_memory_mb", 0.0),
+                            "status": res.get("status", "unknown"),
+                            "extra_info": res.get("extra_info", ""),
+                            "error_message": res.get("error_message", ""),
+                        }
+                        append_master_result(output_csv, row_record)
+                        if res.get("trajectory"):
+                            append_convergence_history(
+                                convergence_csv,
+                                did,
+                                dname,
+                                method,
+                                seed,
+                                tb,
+                                row_record["test_accuracy"],
+                                res["trajectory"],
+                            )
+                        completed_runs.add(run_key)
 
-                    print(f"DONE [{res['status'].upper()}] in {row_record['wallclock_seconds']:.1f}s | Test Acc: {row_record['test_accuracy']:.4f}")
+                        print(f"DONE [{res['status'].upper()}] in {row_record['wallclock_seconds']:.1f}s | Test Acc: {row_record['test_accuracy']:.4f}")
 
     # -------------------------------------------------------------------------
     # Mode 2: Parallel Multiprocessing Pool (n_workers > 1)
@@ -671,31 +747,34 @@ def run_benchmark_suite(
 
                 for seed in eval_seeds:
                     for method in eval_methods:
-                        run_key = (did, method, seed)
-                        if resume and run_key in completed_runs:
-                            continue
-                        tasks_to_run.append({
-                            "dataset_id": did,
-                            "dataset_name": dname,
-                            "n_samples": n_samples,
-                            "n_features": n_features,
-                            "n_classes": n_classes,
-                            "method": method,
-                            "seed": seed,
-                        })
+                        for tb in eval_budgets:
+                            run_key = (did, method, seed, tb)
+                            if resume and run_key in completed_runs:
+                                continue
+                            tasks_to_run.append({
+                                "dataset_id": did,
+                                "dataset_name": dname,
+                                "n_samples": n_samples,
+                                "n_features": n_features,
+                                "n_classes": n_classes,
+                                "method": method,
+                                "seed": seed,
+                                "time_budget": tb,
+                            })
             except Exception as exc:
                 print(f"[!] Error preparing dataset {did}: {exc}. Logging error rows...")
                 for m in eval_methods:
                     for s in eval_seeds:
-                        append_master_result(output_csv, {
-                            "dataset_id": did, "dataset_name": f"openml_{did}",
-                            "n_samples": 0, "n_features": 0, "n_classes": 0,
-                            "method": m, "seed": s, "time_budget_s": time_budget,
-                            "test_accuracy": 0.0, "val_accuracy": 0.0,
-                            "wallclock_seconds": 0.0, "peak_memory_mb": 0.0,
-                            "status": "dataset_fetch_error",
-                            "extra_info": "", "error_message": str(exc),
-                        }, lock=csv_lock)
+                        for tb in eval_budgets:
+                            append_master_result(output_csv, {
+                                "dataset_id": did, "dataset_name": f"openml_{did}",
+                                "n_samples": 0, "n_features": 0, "n_classes": 0,
+                                "method": m, "seed": s, "time_budget_s": tb,
+                                "test_accuracy": 0.0, "val_accuracy": 0.0,
+                                "wallclock_seconds": 0.0, "peak_memory_mb": 0.0,
+                                "status": "dataset_fetch_error",
+                                "extra_info": "", "error_message": str(exc),
+                            }, lock=csv_lock)
 
         if dry_run:
             print("\n[Dry-run] All datasets validated successfully. Exiting.")
@@ -716,6 +795,7 @@ def run_benchmark_suite(
             dname = task["dataset_name"]
             method = task["method"]
             seed = task["seed"]
+            tb = task["time_budget"]
 
             with cache_lock:
                 X, y, _ = dataset_cache[did]
@@ -731,7 +811,7 @@ def run_benchmark_suite(
                 )
 
             with csv_lock:
-                print(f"  [START] [did={did:04d} | {dname[:16]:<16}] Method={method:<7} Seed={seed} (Budget={time_budget}s)...")
+                print(f"  [START] [did={did:04d} | {dname[:16]:<16}] Method={method:<7} Seed={seed} (Budget={tb}s)...")
 
             t_exec_start = time.perf_counter()
             res = execute_method_with_timeout(
@@ -740,7 +820,7 @@ def run_benchmark_suite(
                 y_dev=y_dev,
                 X_test=X_test,
                 y_test=y_test,
-                time_budget=time_budget,
+                time_budget=tb,
                 seed=seed,
                 timeout_seconds=timeout_per_dataset,
             )
@@ -754,7 +834,7 @@ def run_benchmark_suite(
                 "n_classes": task["n_classes"],
                 "method": method,
                 "seed": seed,
-                "time_budget_s": time_budget,
+                "time_budget_s": tb,
                 "test_accuracy": res.get("test_accuracy", 0.0),
                 "val_accuracy": res.get("val_accuracy", 0.0),
                 "wallclock_seconds": res.get("wallclock_seconds", elapsed),
@@ -767,6 +847,18 @@ def run_benchmark_suite(
             with csv_lock:
                 completed_counter += 1
                 append_master_result(output_csv, row_record, lock=None)
+                if res.get("trajectory"):
+                    append_convergence_history(
+                        convergence_csv,
+                        did,
+                        dname,
+                        method,
+                        seed,
+                        tb,
+                        row_record["test_accuracy"],
+                        res["trajectory"],
+                        lock=None,
+                    )
                 print(
                     f"  [{completed_counter:03d}/{total_tasks:03d} DONE] "
                     f"[did={did:04d} | {dname[:16]:<16}] Method={method:<7} "
@@ -788,6 +880,7 @@ def run_benchmark_suite(
     print("\n" + "=" * 76)
     print(f"  OPENML-CC18 BENCHMARK CAMPAIGN FINISHED!")
     print(f"  Master Results logged to: {output_csv}")
+    print(f"  Convergence Logged to:    {convergence_csv}")
     print("=" * 76)
 
 
@@ -798,12 +891,14 @@ def main() -> None:
     parser.add_argument("--max-datasets", type=int, default=None, help="Maximum number of datasets to evaluate")
     parser.add_argument("--methods", type=str, default="amde,optuna,flaml", help="Comma-separated methods (amde,optuna,flaml)")
     parser.add_argument("--seeds", type=str, default="42", help="Comma-separated seeds (e.g., '42,101')")
-    parser.add_argument("--time-budget", type=int, default=60, help="Per-method search budget in seconds (default: 60)")
+    parser.add_argument("--time-budget", type=str, default="60", help="Per-method search budget in seconds (single int or comma-separated list)")
+    parser.add_argument("--time-budgets", type=str, default=None, help="Comma-separated time budgets in seconds (e.g., '60,300,600')")
     parser.add_argument("--timeout-per-dataset", type=int, default=3600, help="Hard process timeout in seconds (default: 3600)")
     parser.add_argument("--n-workers", type=int, default=1, help="Number of concurrent worker processes for parallel suite execution (default: 1)")
     parser.add_argument("--parallel", action="store_true", help="Enable parallel pool using available CPU cores (max(1, cpu_count - 1))")
     parser.add_argument("--cache-dir", type=str, default=str(DEFAULT_CACHE_DIR), help="Directory to cache datasets as Parquet")
     parser.add_argument("--output", type=str, default=str(DEFAULT_OUTPUT_CSV), help="Master CSV results output path")
+    parser.add_argument("--convergence-log", type=str, default=str(DEFAULT_CONVERGENCE_CSV), help="Output path for evaluation convergence trajectory history")
     parser.add_argument("--no-resume", action="store_true", help="Do not skip previously completed runs")
     parser.add_argument("--dry-run", action="store_true", help="Validate dataset download & parsing without training")
     args = parser.parse_args()
@@ -815,6 +910,16 @@ def main() -> None:
     method_list = [m.strip() for m in args.methods.split(",") if m.strip()]
     seed_list = [int(s.strip()) for s in args.seeds.split(",") if s.strip().isdigit()]
 
+    raw_budgets = args.time_budgets or args.time_budget
+    if isinstance(raw_budgets, str) and "," in raw_budgets:
+        budget_list = [int(b.strip()) for b in raw_budgets.split(",") if b.strip().isdigit()]
+    elif isinstance(raw_budgets, str) and raw_budgets.strip().isdigit():
+        budget_list = [int(raw_budgets.strip())]
+    elif isinstance(raw_budgets, int):
+        budget_list = [raw_budgets]
+    else:
+        budget_list = [60]
+
     n_workers = args.n_workers
     if args.parallel and n_workers == 1:
         cpu_cnt = os.cpu_count() or 2
@@ -825,11 +930,13 @@ def main() -> None:
         dataset_ids=custom_dids,
         methods=method_list,
         seeds=seed_list,
-        time_budget=args.time_budget,
+        time_budget=budget_list[0] if budget_list else 60,
+        time_budgets=budget_list,
         timeout_per_dataset=args.timeout_per_dataset,
         n_workers=n_workers,
         cache_dir=Path(args.cache_dir),
         output_csv=Path(args.output),
+        convergence_csv=Path(args.convergence_log),
         resume=not args.no_resume,
         dry_run=args.dry_run,
     )

@@ -61,6 +61,7 @@ jobs:
         run: |
           python -m venv clean_env
           clean_env/bin/python -m pip install --upgrade pip
-          clean_env/bin/python -m pip install dist/amde-4.0.2-py3-none-any.whl
-          clean_env/bin/python -c "import amde; print('AMDE version:', amde.__version__); assert amde.__version__ == '4.0.2'"
+          WHL_FILE=$(ls dist/*.whl | head -n 1)
+          clean_env/bin/python -m pip install "$WHL_FILE"
+          clean_env/bin/python -c "import amde; print('AMDE version:', amde.__version__); assert amde.__version__ == '4.1.0'"
           clean_env/bin/python -c "from amde import SearchSpace, AMDE4Engine; s = SearchSpace(); e = AMDE4Engine(); print('Clean package smoke test PASSED')"

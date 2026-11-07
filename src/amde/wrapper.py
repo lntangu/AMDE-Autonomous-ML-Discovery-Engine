@@ -212,8 +212,8 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
             enable_controller=self.enable_controller,
         )
 
-        budget = self.max_evaluations if self.max_evaluations is not None else 100
         timeout_s = float(self.time_budget) if self.time_budget is not None else 300.0
+        budget = self.max_evaluations if self.max_evaluations is not None else max(100, int(timeout_s * 5))
 
         if self.verbose > 0:
             print(f"[AMDEClassifier] Starting AutoML search (time_budget={timeout_s}s, max_evals={budget})...")

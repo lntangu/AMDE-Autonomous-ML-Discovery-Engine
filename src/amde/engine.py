@@ -287,6 +287,7 @@ class AMDE4Engine:
 
                 self.trial_history.append({
                     "trial_id": evaluations_completed,
+                    "elapsed_seconds": round(time.perf_counter() - start_t, 3),
                     "candidate": cand,
                     "candidate_hash": c_hash,
                     "model_family": cand.genome.get("model", {}).get("family", "unknown"),

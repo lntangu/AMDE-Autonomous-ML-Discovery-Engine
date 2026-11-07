@@ -1,0 +1,78 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test-and-build:
+    name: Test and Build Distribution
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure Git line endings
+        run: git config --global core.autocrlf false
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install build and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,tabular,benchmark]"
+          python -m pip install build twine
+
+      - name: Run unit test suite
+        run: |
+          python -m pytest tests/unit
+
+      - name: Verify SHA256 release manifest
+        run: |
+          python scripts/verify_manifest.py
+
+      - name: Build wheel and sdist
+        run: |
+          python -m build
+
+      - name: Verify package distributions with twine
+        run: |
+          python -m twine check dist/*
+
+      - name: Store distribution artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pypi-artifacts
+          path: dist/
+          retention-days: 5
+
+  publish:
+    name: Publish package to PyPI (Trusted Publishing OIDC)
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/amde-automl
+    permissions:
+      id-token: write
+    steps:
+      - name: Download distribution artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: pypi-artifacts
+          path: dist/
+
+      - name: Publish package distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
+          verbose: true

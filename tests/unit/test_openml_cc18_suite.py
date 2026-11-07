@@ -26,6 +26,7 @@ from scripts.generate_paper_artifacts import (
     compute_academic_metrics,
     format_latex_paper_table,
     generate_synthetic_demo_records,
+    plot_convergence_curve,
 )
 
 
@@ -65,8 +66,8 @@ class OpenMLCC18SuiteTests(unittest.TestCase):
             self.assertTrue(csv_path.exists())
 
             completed = read_completed_runs(csv_path)
-            self.assertIn((31, "amde", 42), completed)
-            self.assertNotIn((31, "optuna", 42), completed)
+            self.assertIn((31, "amde", 42, 60), completed)
+            self.assertNotIn((31, "optuna", 42, 60), completed)
 
     def test_academic_metrics_and_latex_table(self) -> None:
         """Verifies calculation of Average Rank, W/T/L, and LaTeX table synthesis."""
@@ -98,6 +99,24 @@ class OpenMLCC18SuiteTests(unittest.TestCase):
         self.assertIn(r"\textbf{AMDE 4.1 (Ours)}", latex_str)
         self.assertIn(r"\toprule", latex_str)
         self.assertIn(r"\bottomrule", latex_str)
+
+    def test_convergence_curve_plotter(self) -> None:
+        """Verifies generation of publication-quality convergence curve plots (PDF & PNG)."""
+        demo_df = generate_synthetic_demo_records()
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            pdf_path = Path(tmp_dir) / "test_convergence.pdf"
+            png_path = Path(tmp_dir) / "test_convergence.png"
+            p_pdf, p_png = plot_convergence_curve(
+                master_df=demo_df,
+                convergence_df=None,
+                dataset_name_or_id="adult",
+                output_pdf_path=pdf_path,
+                output_png_path=png_path,
+            )
+            self.assertTrue(p_pdf.exists())
+            self.assertTrue(p_png.exists())
+            self.assertGreater(p_pdf.stat().st_size, 1000)
+            self.assertGreater(p_png.stat().st_size, 1000)
 
     def test_parallel_suite_execution(self) -> None:
         """Verifies parallel multiprocessing pool execution across workers."""
