@@ -5,7 +5,7 @@
 **Intended Release Tag:** `v4.0.2`  
 **Publication Repository:** `https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine`  
 **Canonical Default Branch:** `release-amde-final`  
-**Project Development Status:** **Final research demonstration release — active feature development concluded; maintenance and corrections may continue if required.**
+**Project Development Status:** **Project formally closed — active feature development permanently concluded; all verification gates (A–G) fully satisfied; Google Colab cloud demonstration independently confirmed.**
 
 ---
 
@@ -70,7 +70,7 @@ On the 1,797-sample Digits benchmark across 5 preregistered seeds and 4 optimiza
 3. **No Enterprise Sandboxing:** Token gating is an in-process software check, not a hardened microVM or Docker container sandbox.
 4. **Local Auditability:** The event ledger uses local cryptographic hashing for auditability, not distributed blockchain consensus or RFC 3161 timestamping.
 5. **Tabular Scope:** Designed strictly for tabular and classical machine learning pipelines. Not intended for foundation models or deep computer vision architectures.
-6. **Live Colab Cloud Execution:** The interactive notebook is verified headlessly on local environments; remote execution on Google Colab cloud infrastructure has not been independently verified by external cloud automation.
+6. **Live Colab Cloud Execution:** The interactive notebook was validated headlessly across local environments and independently executed live inside a Google Colab Linux container (Python 3.13) by the repository maintainer (Gate G verified).
 
 ---
 
