@@ -1,0 +1,13 @@
+{
+  "campaign_id": "amde2_calib_002",
+  "heartbeat_at": "2026-10-31T03:53:01.757Z",
+  "manager_pid": null,
+  "manager_restart_count": 0,
+  "manager_restart_times_epoch": [],
+  "manager_started_at": "2026-10-31T03:52:25.103Z",
+  "note": "user requested stop; manager and orphan workers are confirmed exited",
+  "pid": 10904,
+  "schema_version": "amde2-guardian-v1",
+  "status": "stopped",
+  "updated_at": "2026-10-31T03:53:01.757Z"
+}

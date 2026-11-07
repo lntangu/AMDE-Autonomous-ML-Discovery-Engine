@@ -1,0 +1,2 @@
+round,run_id,seed,status,generations,trials,best_candidate,best_score,protocol_hash,started_at,ended_at
+0,amde2six002_classical_r00000,1118039208,failed,,,,,f7b5d1a44583f59d16f99c9b8274bad8d71f325326c349c9c4f70956a5d5eb75,2026-10-31T02:51:44.976Z,2026-10-31T02:57:10.310Z

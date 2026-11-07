@@ -1,0 +1,8 @@
+﻿{
+    "campaign_id":  "amde2six002",
+    "duration_hours":  6,
+    "started_at":  "2026-10-31T09:51:45.1941175+07:00",
+    "planned_stop_at":  "2026-10-31T15:51:45.2031579+07:00",
+    "timer_pid":  4632,
+    "timer_mode":  "detached_hidden_powershell"
+}

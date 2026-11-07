@@ -1,0 +1,5 @@
+{
+  "campaign_id": "amde2_calib_001",
+  "reason": "FATAL data integrity failure in classical worker (exit code 4): corrupted ledger, checkpoint, or schema violation",
+  "requested_at": "2026-10-31T03:46:51.938Z"
+}

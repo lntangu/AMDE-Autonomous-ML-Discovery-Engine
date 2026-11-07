@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-31T10:04:37.470Z",
+  "cpu_percent": 51.5,
+  "disk_free_gb": 40.193,
+  "disk_total_gb": 475.724,
+  "gpu": {
+    "memory_free_mb": 3769.0,
+    "memory_total_mb": 4096.0,
+    "name": "Quadro P2000",
+    "temperature_c": 62.0,
+    "utilization_percent": 6.0
+  },
+  "memory_available_gb": 15.404,
+  "memory_total_gb": 31.782
+}

@@ -1,0 +1,2 @@
+round,run_id,seed,status,generations,trials,best_candidate,best_score,protocol_hash,started_at,ended_at
+0,amde2_calib_001_classical_r00000,1436416999,failed,0,0,2571076a0393502db537f29fd686dd8a2b42da1bcf6d329a4b6f118523246594,,70f8456adf1044deab7e0e2fdfa71915882d502b472bee80fd584568caf4d620,2026-10-31T03:45:26.188Z,2026-10-31T03:46:51.439Z

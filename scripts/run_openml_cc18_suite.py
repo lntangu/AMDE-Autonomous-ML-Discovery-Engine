@@ -116,11 +116,13 @@ def load_cached_openml_dataset(
 
     from sklearn.datasets import fetch_openml
     print(f"[*] Fetching dataset {data_id} from OpenML API...")
-    try:
-        data = fetch_openml(data_id=data_id, as_frame=True, parser="auto")
-    except Exception as fetch_exc:
-        print(f"[!] Warning: parser='auto' failed ({fetch_exc}). Falling back to parser='liac-arff'...")
-        data = fetch_openml(data_id=data_id, as_frame=True, parser="liac-arff")
+    import warnings
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=FutureWarning)
+        try:
+            data = fetch_openml(data_id=data_id, as_frame=True, parser="auto")
+        except Exception:
+            data = fetch_openml(data_id=data_id, as_frame=True, parser="liac-arff")
     df = data.frame
     dataset_name = data.details.get("name", f"openml_{data_id}") if hasattr(data, "details") else f"openml_{data_id}"
     target_col = data.target_names[0] if (hasattr(data, "target_names") and data.target_names) else df.columns[-1]
@@ -165,15 +167,15 @@ def _run_amde_worker(
     y_test: np.ndarray,
     time_budget: int,
     seed: int,
-    res_queue: mp.Queue,
-) -> None:
+    res_queue: Optional[mp.Queue] = None,
+) -> dict[str, Any]:
     """Executes AMDEClassifier in an isolated process."""
     warnings.filterwarnings("ignore")
+    t0 = time.perf_counter()
     try:
         from amde.wrapper import AMDEClassifier
 
         rss_start = measure_peak_rss_mb()
-        t0 = time.perf_counter()
 
         clf = AMDEClassifier(
             time_budget=time_budget,
@@ -198,7 +200,7 @@ def _run_amde_worker(
                 inc = item.get("incumbent_score", 0.0)
                 trajectory.append({"time": el, "score": round(inc, 5)})
 
-        res_queue.put({
+        result = {
             "status": "completed",
             "test_accuracy": round(test_acc, 5),
             "val_accuracy": round(val_acc, 5),
@@ -207,17 +209,27 @@ def _run_amde_worker(
             "extra_info": f"incumbent={incumbent_family}",
             "error_message": "",
             "trajectory": trajectory,
-        })
+        }
+        if res_queue is not None:
+            res_queue.put(result)
+        return result
     except Exception as exc:
-        res_queue.put({
+        import traceback
+        traceback.print_exc()
+        duration = round(time.perf_counter() - t0, 3)
+        print(f"[!] FATAL: AMDE worker crashed with error: {exc}", file=sys.stderr)
+        err_res = {
             "status": "failed",
             "test_accuracy": 0.0,
             "val_accuracy": 0.0,
-            "wallclock_seconds": 0.0,
+            "wallclock_seconds": duration,
             "peak_memory_mb": 0.0,
             "extra_info": "",
             "error_message": f"{type(exc).__name__}: {str(exc)}",
-        })
+        }
+        if res_queue is not None:
+            res_queue.put(err_res)
+        return err_res
 
 
 def _run_optuna_worker(
@@ -344,7 +356,7 @@ def _run_optuna_worker(
         else:
             test_acc = 0.0
 
-        res_queue.put({
+        result = {
             "status": "completed",
             "test_accuracy": round(test_acc, 5),
             "val_accuracy": round(best_val, 5),
@@ -353,17 +365,27 @@ def _run_optuna_worker(
             "extra_info": f"trials={len(study.trials)}",
             "error_message": "",
             "trajectory": trajectory,
-        })
+        }
+        if res_queue is not None:
+            res_queue.put(result)
+        return result
     except Exception as exc:
-        res_queue.put({
+        import traceback
+        traceback.print_exc()
+        duration = round(time.perf_counter() - t0, 3)
+        print(f"[!] FATAL: Optuna worker crashed with error: {exc}", file=sys.stderr)
+        err_res = {
             "status": "failed",
             "test_accuracy": 0.0,
             "val_accuracy": 0.0,
-            "wallclock_seconds": 0.0,
+            "wallclock_seconds": duration,
             "peak_memory_mb": 0.0,
             "extra_info": "",
             "error_message": f"{type(exc).__name__}: {str(exc)}",
-        })
+        }
+        if res_queue is not None:
+            res_queue.put(err_res)
+        return err_res
 
 
 def _run_flaml_worker(
@@ -373,17 +395,22 @@ def _run_flaml_worker(
     y_test: np.ndarray,
     time_budget: int,
     seed: int,
-    res_queue: mp.Queue,
-) -> None:
-    """Executes FLAML baseline in an isolated process."""
+    res_queue: Optional[mp.Queue] = None,
+) -> dict[str, Any]:
+    """Executes FLAML baseline in an isolated worker process."""
     warnings.filterwarnings("ignore")
     _preload_openmp()
+    t0 = time.perf_counter()
     try:
-        from flaml import AutoML
+        try:
+            from flaml import AutoML
+        except ImportError:
+            print("[*] flaml not detected; installing flaml package...", flush=True)
+            import subprocess
+            subprocess.run([sys.executable, "-m", "pip", "install", "flaml"], check=True)
+            from flaml import AutoML
 
         rss_start = measure_peak_rss_mb()
-        t0 = time.perf_counter()
-
         automl = AutoML()
         automl_settings = {
             "time_budget": time_budget,
@@ -406,7 +433,7 @@ def _run_flaml_worker(
                 acc = round(float(1.0 - l_hist), 5)
                 trajectory.append({"time": round(float(t_hist), 3), "score": acc})
 
-        res_queue.put({
+        result = {
             "status": "completed",
             "test_accuracy": round(test_acc, 5),
             "val_accuracy": round(val_acc, 5),
@@ -415,27 +442,27 @@ def _run_flaml_worker(
             "extra_info": f"best_estimator={automl.best_estimator}",
             "error_message": "",
             "trajectory": trajectory,
-        })
-    except ImportError:
-        res_queue.put({
-            "status": "skipped",
-            "test_accuracy": 0.0,
-            "val_accuracy": 0.0,
-            "wallclock_seconds": 0.0,
-            "peak_memory_mb": 0.0,
-            "extra_info": "flaml not installed",
-            "error_message": "flaml not installed",
-        })
+        }
+        if res_queue is not None:
+            res_queue.put(result)
+        return result
     except Exception as exc:
-        res_queue.put({
+        import traceback
+        traceback.print_exc()
+        duration = round(time.perf_counter() - t0, 3)
+        print(f"[!] FATAL: FLAML worker crashed with error: {exc}", file=sys.stderr)
+        err_res = {
             "status": "failed",
             "test_accuracy": 0.0,
             "val_accuracy": 0.0,
-            "wallclock_seconds": 0.0,
+            "wallclock_seconds": duration,
             "peak_memory_mb": 0.0,
             "extra_info": "",
             "error_message": f"{type(exc).__name__}: {str(exc)}",
-        })
+        }
+        if res_queue is not None:
+            res_queue.put(err_res)
+        return err_res
 
 
 def execute_method_with_timeout(
@@ -447,57 +474,17 @@ def execute_method_with_timeout(
     time_budget: int,
     seed: int,
     timeout_seconds: int = 3600,
+    res_queue: Optional[mp.Queue] = None,
 ) -> dict[str, Any]:
-    """Runs a method worker inside a separate Process with a hard timeout and process cleanup."""
-    res_queue = mp.Queue()
-
+    """Runs a method worker directly within the pool worker process with full traceback logging on failure."""
     if method_name.lower() == "amde":
-        target = _run_amde_worker
+        return _run_amde_worker(X_dev, y_dev, X_test, y_test, time_budget, seed, res_queue=res_queue)
     elif method_name.lower() == "optuna":
-        target = _run_optuna_worker
+        return _run_optuna_worker(X_dev, y_dev, X_test, y_test, time_budget, seed, res_queue=res_queue)
     elif method_name.lower() == "flaml":
-        target = _run_flaml_worker
+        return _run_flaml_worker(X_dev, y_dev, X_test, y_test, time_budget, seed, res_queue=res_queue)
     else:
         raise ValueError(f"Unknown evaluation method: {method_name}")
-
-    proc = mp.Process(
-        target=target,
-        args=(X_dev, y_dev, X_test, y_test, time_budget, seed, res_queue),
-    )
-
-    t_start = time.perf_counter()
-    proc.start()
-    proc.join(timeout=timeout_seconds)
-
-    if proc.is_alive():
-        print(f"[!] Method '{method_name}' exceeded timeout ({timeout_seconds}s); terminating...")
-        proc.terminate()
-        time.sleep(1.0)
-        if proc.is_alive():
-            proc.kill()
-        proc.join()
-        return {
-            "status": "timeout",
-            "test_accuracy": 0.0,
-            "val_accuracy": 0.0,
-            "wallclock_seconds": round(time.perf_counter() - t_start, 2),
-            "peak_memory_mb": 0.0,
-            "extra_info": f"Hard process timeout ({timeout_seconds}s) exceeded",
-            "error_message": "Hard timeout exceeded",
-        }
-
-    if not res_queue.empty():
-        return res_queue.get()
-    else:
-        return {
-            "status": "failed",
-            "test_accuracy": 0.0,
-            "val_accuracy": 0.0,
-            "wallclock_seconds": round(time.perf_counter() - t_start, 2),
-            "peak_memory_mb": 0.0,
-            "extra_info": "",
-            "error_message": f"Worker process crashed (exitcode {proc.exitcode})",
-        }
 
 
 def read_completed_runs(csv_path: Path) -> set[tuple[int, str, int, int]]:
@@ -509,7 +496,8 @@ def read_completed_runs(csv_path: Path) -> set[tuple[int, str, int, int]]:
         with open(csv_path, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                if row.get("status") in ("completed", "skipped"):
+                # ONLY consider truly completed runs with valid positive test accuracy
+                if row.get("status") == "completed" and float(row.get("test_accuracy", 0.0)) > 0.0:
                     try:
                         did = int(row["dataset_id"])
                         m = str(row["method"]).lower()

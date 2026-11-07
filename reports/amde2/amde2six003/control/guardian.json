@@ -1,0 +1,13 @@
+{
+  "campaign_id": "amde2six003",
+  "heartbeat_at": "2026-10-31T10:04:53.482Z",
+  "manager_pid": null,
+  "manager_restart_count": 0,
+  "manager_restart_times_epoch": [],
+  "manager_started_at": "2026-10-31T04:04:48.872Z",
+  "note": "user requested stop; manager and orphan workers are confirmed exited",
+  "pid": 2784,
+  "schema_version": "amde2-guardian-v1",
+  "status": "stopped",
+  "updated_at": "2026-10-31T10:04:53.482Z"
+}

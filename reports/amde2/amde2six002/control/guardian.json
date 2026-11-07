@@ -1,0 +1,12 @@
+{
+  "campaign_id": "amde2six002",
+  "heartbeat_at": "2026-10-31T02:57:14.274Z",
+  "manager_pid": 24172,
+  "manager_restart_count": 0,
+  "manager_restart_times_epoch": [],
+  "manager_started_at": "2026-10-31T02:51:44.056Z",
+  "pid": 21136,
+  "schema_version": "amde2-guardian-v1",
+  "status": "monitoring",
+  "updated_at": "2026-10-31T02:57:14.274Z"
+}

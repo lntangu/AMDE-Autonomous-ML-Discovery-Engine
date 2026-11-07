@@ -1,0 +1,182 @@
+# AMDE Quantum-Classical Research Campaign — amde2_calib_002_quantum
+
+- Status: `stopped`
+- Rounds completed: `6`
+- Requested quantum simulator device: `cuda`
+- Base seed: `2026`
+- VQC config archive: `2` structures
+
+## Evidence boundaries
+
+- VQC values come from an ideal exact statevector simulation, not a physical QPU.
+- CPU/GPU simulation timings are not quantum runtime and do not establish quantum advantage.
+- The maze Grover result uses a table-backed phase oracle whose construction cost is measured separately.
+- BFS exploits graph structure; it is the relevant practical baseline for the included mazes.
+- Test distributions are generated locally and do not replace independent real-world datasets.
+- Every round uses new deterministic seeds; model configurations may transfer, old scores do not.
+
+## Model trial leaderboard
+
+| Round | Task | Method | Device | Val BAcc | Test BAcc | Seconds | Status |
+|---:|---|---|---|---:|---:|---:|---|
+| 0 | `q_moons` | `mlp_cpu_baseline` | `cpu` | 0.65625 | 0.7599206566810608 | 0.0041047000559046865 | ok |
+| 0 | `q_moons` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.90625 | 0.8472222089767456 | 0.04503470007330179 | ok |
+| 0 | `q_moons` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.96875 | 0.9583333730697632 | 0.0024236999452114105 | ok |
+| 0 | `q_moons` | `vqc_statevector` | `cuda` | 0.4375 | 0.4126984179019928 | 0.29013139999005944 | ok |
+| 0 | `q_moons` | `vqc_statevector` | `cuda` | 0.46875 | 0.3769841194152832 | 0.7642393000423908 | ok |
+| 0 | `q_moons` | `vqc_statevector` | `cuda` | 0.40625 | 0.2698412835597992 | 0.9401691999519244 | ok |
+| 0 | `q_parity` | `mlp_cpu_baseline` | `cpu` | 0.5277777910232544 | 0.4931372404098511 | 0.005191300064325333 | ok |
+| 0 | `q_parity` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.7142857313156128 | 0.4735294282436371 | 0.0462714999448508 | ok |
+| 0 | `q_parity` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.7142857313156128 | 0.5176470279693604 | 0.00259119994007051 | ok |
+| 0 | `q_parity` | `vqc_statevector` | `cuda` | 0.511904776096344 | 0.5911765098571777 | 0.2750646999338642 | ok |
+| 0 | `q_parity` | `vqc_statevector` | `cuda` | 0.5198412537574768 | 0.5333333015441895 | 0.7317683999426663 | ok |
+| 0 | `q_parity` | `vqc_statevector` | `cuda` | 0.5476190447807312 | 0.545098066329956 | 0.9101420000661165 | ok |
+| 0 | `q_shifted_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.42222222685813904 | 0.004706500098109245 | ok |
+| 0 | `q_shifted_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.875 | 0.4467836320400238 | 0.04554449999704957 | ok |
+| 0 | `q_shifted_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.875 | 0.45087718963623047 | 0.00240019999910146 | ok |
+| 0 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.625 | 0.5216374397277832 | 0.3112976000411436 | ok |
+| 0 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.59375 | 0.44970762729644775 | 0.982634500018321 | ok |
+| 0 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.5625 | 0.5286549925804138 | 0.9530541999265552 | ok |
+| 0 | `q_xor` | `mlp_cpu_baseline` | `cpu` | 0.42307692766189575 | 0.5961538553237915 | 0.010742299957200885 | ok |
+| 0 | `q_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.942307710647583 | 0.9412955045700073 | 0.5102910000132397 | ok |
+| 0 | `q_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.942307710647583 | 0.8451417088508606 | 0.0038632999639958143 | ok |
+| 0 | `q_xor` | `vqc_statevector` | `cuda` | 0.5448718070983887 | 0.659919023513794 | 1.380501199979335 | ok |
+| 0 | `q_xor` | `vqc_statevector` | `cuda` | 0.5448718070983887 | 0.6336032152175903 | 0.7053267000010237 | ok |
+| 0 | `q_xor` | `vqc_statevector` | `cuda` | 0.442307710647583 | 0.4969635605812073 | 0.8695853999815881 | ok |
+| 1 | `q_moons` | `mlp_cpu_baseline` | `cpu` | 0.7196078300476074 | 0.6990147829055786 | 0.007796399993821979 | ok |
+| 1 | `q_moons` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.9039216041564941 | 0.8167487382888794 | 0.06488209997769445 | ok |
+| 1 | `q_moons` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 1.0 | 0.8428571224212646 | 0.0032374000875279307 | ok |
+| 1 | `q_moons` | `vqc_statevector` | `cuda` | 0.4647058844566345 | 0.47044336795806885 | 0.28093120001722127 | ok |
+| 1 | `q_moons` | `vqc_statevector` | `cuda` | 0.5313725471496582 | 0.45320194959640503 | 0.7256449999986216 | ok |
+| 1 | `q_moons` | `vqc_statevector` | `cuda` | 0.43137258291244507 | 0.39556652307510376 | 0.8580427999841049 | ok |
+| 1 | `q_parity` | `mlp_cpu_baseline` | `cpu` | 0.4757085144519806 | 0.548275887966156 | 0.0036494999658316374 | ok |
+| 1 | `q_parity` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.6740890741348267 | 0.47881776094436646 | 0.0653968999395147 | ok |
+| 1 | `q_parity` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.6761133670806885 | 0.5847290754318237 | 0.002535699983127415 | ok |
+| 1 | `q_parity` | `vqc_statevector` | `cuda` | 0.3663967549800873 | 0.43497538566589355 | 0.31577899993862957 | ok |
+| 1 | `q_parity` | `vqc_statevector` | `cuda` | 0.49190282821655273 | 0.501477837562561 | 0.761994400061667 | ok |
+| 1 | `q_parity` | `vqc_statevector` | `cuda` | 0.48178136348724365 | 0.47783252596855164 | 0.945157099980861 | ok |
+| 1 | `q_shifted_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.0040216000052168965 | ok |
+| 1 | `q_shifted_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.84375 | 0.557692289352417 | 0.04642730008345097 | ok |
+| 1 | `q_shifted_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.78125 | 0.5192307829856873 | 0.0038847000105306506 | ok |
+| 1 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.625 | 0.48279350996017456 | 0.26691550004761666 | ok |
+| 1 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.5 | 0.5121457576751709 | 0.8156325001036748 | ok |
+| 1 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.5 | 0.72773277759552 | 0.9333133999025449 | ok |
+| 1 | `q_xor` | `mlp_cpu_baseline` | `cpu` | 0.59375 | 0.550000011920929 | 0.004566700081340969 | ok |
+| 1 | `q_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.875 | 0.9039216041564941 | 0.056095700012519956 | ok |
+| 1 | `q_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.875 | 0.9078431129455566 | 0.004722400102764368 | ok |
+| 1 | `q_xor` | `vqc_statevector` | `cuda` | 0.6875 | 0.6166666746139526 | 0.30505309998989105 | ok |
+| 1 | `q_xor` | `vqc_statevector` | `cuda` | 0.5625 | 0.4803921580314636 | 0.7683936000103131 | ok |
+| 1 | `q_xor` | `vqc_statevector` | `cuda` | 0.53125 | 0.49705880880355835 | 1.2109256000258029 | ok |
+| 2 | `q_moons` | `mlp_cpu_baseline` | `cpu` | 0.5555555820465088 | 0.571921169757843 | 0.003846399951726198 | ok |
+| 2 | `q_moons` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8928571343421936 | 0.7798029780387878 | 0.05016530002467334 | ok |
+| 2 | `q_moons` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.9285714626312256 | 0.8714286088943481 | 0.002408699947409332 | ok |
+| 2 | `q_moons` | `vqc_statevector` | `cuda` | 0.4761905074119568 | 0.29556649923324585 | 0.26055720006115735 | ok |
+| 2 | `q_moons` | `vqc_statevector` | `cuda` | 0.4841269850730896 | 0.32413792610168457 | 0.8378615999827161 | ok |
+| 2 | `q_moons` | `vqc_statevector` | `cuda` | 0.6626983880996704 | 0.5477832555770874 | 0.9105670999269933 | ok |
+| 2 | `q_parity` | `mlp_cpu_baseline` | `cpu` | 0.5249999761581421 | 0.53125 | 0.0047033000737428665 | ok |
+| 2 | `q_parity` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.6416666507720947 | 0.703125 | 0.04428939998615533 | ok |
+| 2 | `q_parity` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.6166666746139526 | 0.640625 | 0.004113100003451109 | ok |
+| 2 | `q_parity` | `vqc_statevector` | `cuda` | 0.5 | 0.421875 | 0.26649900001939386 | ok |
+| 2 | `q_parity` | `vqc_statevector` | `cuda` | 0.5083333253860474 | 0.390625 | 0.7337010999908671 | ok |
+| 2 | `q_parity` | `vqc_statevector` | `cuda` | 0.5833333134651184 | 0.46875 | 0.9458210000302643 | ok |
+| 2 | `q_shifted_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.0039366999408230186 | ok |
+| 2 | `q_shifted_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8705882430076599 | 0.5742690563201904 | 0.04519510001409799 | ok |
+| 2 | `q_shifted_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.8666666746139526 | 0.6198830604553223 | 0.0024189999094232917 | ok |
+| 2 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.5274509787559509 | 0.5327485799789429 | 0.2737741000019014 | ok |
+| 2 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.4274510145187378 | 0.5339181423187256 | 0.7170262000290677 | ok |
+| 2 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.5058823823928833 | 0.7491227984428406 | 0.9023933000862598 | ok |
+| 2 | `q_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.004198599955998361 | ok |
+| 2 | `q_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.9333333373069763 | 0.9525904655456543 | 0.048211999936029315 | ok |
+| 2 | `q_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.9750000238418579 | 0.968719482421875 | 0.002359100035391748 | ok |
+| 2 | `q_xor` | `vqc_statevector` | `cuda` | 0.625 | 0.6617790460586548 | 0.27993939991574734 | ok |
+| 2 | `q_xor` | `vqc_statevector` | `cuda` | 0.5583333373069763 | 0.5840664505958557 | 0.771347799920477 | ok |
+| 2 | `q_xor` | `vqc_statevector` | `cuda` | 0.6916666626930237 | 0.44379276037216187 | 1.0248421999858692 | ok |
+| 3 | `q_moons` | `mlp_cpu_baseline` | `cpu` | 0.7207792401313782 | 0.6230116486549377 | 0.004375700023956597 | ok |
+| 3 | `q_moons` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.9069263935089111 | 0.8563096523284912 | 0.0518887999933213 | ok |
+| 3 | `q_moons` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.9307359457015991 | 0.8536585569381714 | 0.00252439989708364 | ok |
+| 3 | `q_moons` | `vqc_statevector` | `cuda` | 0.463203489780426 | 0.36532342433929443 | 0.2890165999997407 | ok |
+| 3 | `q_moons` | `vqc_statevector` | `cuda` | 0.463203489780426 | 0.3001060485839844 | 0.8075575999682769 | ok |
+| 3 | `q_moons` | `vqc_statevector` | `cuda` | 0.37012988328933716 | 0.2714740037918091 | 1.060458500054665 | ok |
+| 3 | `q_parity` | `mlp_cpu_baseline` | `cpu` | 0.49166664481163025 | 0.5370370149612427 | 0.005760599975474179 | ok |
+| 3 | `q_parity` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.675000011920929 | 0.575075089931488 | 0.046798700001090765 | ok |
+| 3 | `q_parity` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.6583333015441895 | 0.5970970988273621 | 0.0024070999352261424 | ok |
+| 3 | `q_parity` | `vqc_statevector` | `cuda` | 0.3583333492279053 | 0.5145145058631897 | 0.26670649996958673 | ok |
+| 3 | `q_parity` | `vqc_statevector` | `cuda` | 0.5249999761581421 | 0.49399399757385254 | 0.7866855999454856 | ok |
+| 3 | `q_parity` | `vqc_statevector` | `cuda` | 0.5416666865348816 | 0.4944944977760315 | 0.9755723000271246 | ok |
+| 3 | `q_shifted_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.003855500021018088 | ok |
+| 3 | `q_shifted_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8593074083328247 | 0.6394557952880859 | 0.05156529997475445 | ok |
+| 3 | `q_shifted_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.8831169009208679 | 0.6496598720550537 | 0.0025240000104531646 | ok |
+| 3 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.560606062412262 | 0.5469387769699097 | 0.2919850000180304 | ok |
+| 3 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.4848484992980957 | 0.6272108554840088 | 0.8490847999928519 | ok |
+| 3 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.560606062412262 | 0.5523809790611267 | 1.035197600023821 | ok |
+| 3 | `q_xor` | `mlp_cpu_baseline` | `cpu` | 0.5625 | 0.5921052694320679 | 0.0038389998953789473 | ok |
+| 3 | `q_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8125 | 0.7540485858917236 | 0.05839129991363734 | ok |
+| 3 | `q_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.8125 | 0.852226734161377 | 0.0023891000309959054 | ok |
+| 3 | `q_xor` | `vqc_statevector` | `cuda` | 0.5625 | 0.5890688300132751 | 0.27119400002993643 | ok |
+| 3 | `q_xor` | `vqc_statevector` | `cuda` | 0.53125 | 0.4797571003437042 | 0.6819470999762416 | ok |
+| 3 | `q_xor` | `vqc_statevector` | `cuda` | 0.46875 | 0.5506072640419006 | 0.9205865000840276 | ok |
+| 4 | `q_moons` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.004657499957829714 | ok |
+| 4 | `q_moons` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.9372549057006836 | 0.7922775745391846 | 0.04572980001103133 | ok |
+| 4 | `q_moons` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 1.0 | 0.9032257795333862 | 0.0035212000366300344 | ok |
+| 4 | `q_moons` | `vqc_statevector` | `cuda` | 0.40980392694473267 | 0.4643206298351288 | 0.2900577000109479 | ok |
+| 4 | `q_moons` | `vqc_statevector` | `cuda` | 0.3392156958580017 | 0.4643206298351288 | 0.7810218998929486 | ok |
+| 4 | `q_moons` | `vqc_statevector` | `cuda` | 0.41372549533843994 | 0.27859237790107727 | 0.900108200032264 | ok |
+| 4 | `q_parity` | `mlp_cpu_baseline` | `cpu` | 0.5411764979362488 | 0.4134897291660309 | 0.0037004000041633844 | ok |
+| 4 | `q_parity` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.7745097875595093 | 0.6217008829116821 | 0.04863970004953444 | ok |
+| 4 | `q_parity` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.7529411911964417 | 0.6055718660354614 | 0.002710700035095215 | ok |
+| 4 | `q_parity` | `vqc_statevector` | `cuda` | 0.6352941393852234 | 0.558162271976471 | 0.2742918999865651 | ok |
+| 4 | `q_parity` | `vqc_statevector` | `cuda` | 0.501960813999176 | 0.5117301940917969 | 0.691465700045228 | ok |
+| 4 | `q_parity` | `vqc_statevector` | `cuda` | 0.6058823466300964 | 0.47849464416503906 | 0.9567062000278383 | ok |
+| 4 | `q_shifted_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.0036111000226810575 | ok |
+| 4 | `q_shifted_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8967611789703369 | 0.6426783800125122 | 0.053252400015480816 | ok |
+| 4 | `q_shifted_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.884615421295166 | 0.6827284097671509 | 0.0024945999030023813 | ok |
+| 4 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.6133603453636169 | 0.7146432995796204 | 0.26216579996980727 | ok |
+| 4 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.4291498064994812 | 0.5788486003875732 | 0.7066046000691131 | ok |
+| 4 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.45748987793922424 | 0.6182728409767151 | 1.0157175000058487 | ok |
+| 4 | `q_xor` | `mlp_cpu_baseline` | `cpu` | 0.4761905074119568 | 0.43290042877197266 | 0.010922599933110178 | ok |
+| 4 | `q_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8928571343421936 | 0.9058441519737244 | 0.4351074999431148 | ok |
+| 4 | `q_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.8571428656578064 | 0.9534631967544556 | 0.007373199914582074 | ok |
+| 4 | `q_xor` | `vqc_statevector` | `cuda` | 0.420634925365448 | 0.5140692591667175 | 1.3963906000135466 | ok |
+| 4 | `q_xor` | `vqc_statevector` | `cuda` | 0.420634925365448 | 0.5259740352630615 | 0.7207424000371248 | ok |
+| 4 | `q_xor` | `vqc_statevector` | `cuda` | 0.6468254327774048 | 0.4015151560306549 | 0.9458944000070915 | ok |
+| 5 | `q_moons` | `mlp_cpu_baseline` | `cpu` | 0.5333333611488342 | 0.5 | 0.003671000013127923 | ok |
+| 5 | `q_moons` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8490196466445923 | 0.7420635223388672 | 0.04231129994150251 | ok |
+| 5 | `q_moons` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.9411764740943909 | 0.8829364776611328 | 0.0023692999966442585 | ok |
+| 5 | `q_moons` | `vqc_statevector` | `cuda` | 0.46078431606292725 | 0.3968254029750824 | 0.26215480000246316 | ok |
+| 5 | `q_moons` | `vqc_statevector` | `cuda` | 0.46078431606292725 | 0.414682537317276 | 0.7743268000194803 | ok |
+| 5 | `q_moons` | `vqc_statevector` | `cuda` | 0.6490195989608765 | 0.5 | 0.9085178999230266 | ok |
+| 5 | `q_parity` | `mlp_cpu_baseline` | `cpu` | 0.5372549295425415 | 0.5277777910232544 | 0.004711100016720593 | ok |
+| 5 | `q_parity` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.6274510025978088 | 0.6329365372657776 | 0.05360350001137704 | ok |
+| 5 | `q_parity` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.6901960968971252 | 0.6349206566810608 | 0.0031979000195860863 | ok |
+| 5 | `q_parity` | `vqc_statevector` | `cuda` | 0.5941176414489746 | 0.5357142686843872 | 0.2619483000598848 | ok |
+| 5 | `q_parity` | `vqc_statevector` | `cuda` | 0.5568627715110779 | 0.5099206566810608 | 0.6934307001065463 | ok |
+| 5 | `q_parity` | `vqc_statevector` | `cuda` | 0.5470588207244873 | 0.5257936716079712 | 1.0294717999640852 | ok |
+| 5 | `q_shifted_xor` | `mlp_cpu_baseline` | `cpu` | 0.46875 | 0.7309136390686035 | 0.004399699973873794 | ok |
+| 5 | `q_shifted_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.78125 | 0.5919899940490723 | 0.06105850008316338 | ok |
+| 5 | `q_shifted_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.8125 | 0.6345431804656982 | 0.0024170000106096268 | ok |
+| 5 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.625 | 0.4737171530723572 | 0.27523230004590005 | ok |
+| 5 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.5 | 0.5037546753883362 | 0.703722900012508 | ok |
+| 5 | `q_shifted_xor` | `vqc_statevector` | `cuda` | 0.53125 | 0.7759699821472168 | 0.8406821000389755 | ok |
+| 5 | `q_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.0039428999880328774 | ok |
+| 5 | `q_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.8441295623779297 | 0.859375 | 0.056744800065644085 | ok |
+| 5 | `q_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.7651821970939636 | 0.890625 | 0.0024479000130668283 | ok |
+| 5 | `q_xor` | `vqc_statevector` | `cuda` | 0.36437249183654785 | 0.546875 | 0.3192968999501318 | ok |
+| 5 | `q_xor` | `vqc_statevector` | `cuda` | 0.2995951473712921 | 0.5 | 0.7384019000455737 | ok |
+| 5 | `q_xor` | `vqc_statevector` | `cuda` | 0.5182186365127563 | 0.5625 | 0.9511597999371588 | ok |
+| 6 | `q_xor` | `mlp_cpu_baseline` | `cpu` | 0.5 | 0.5 | 0.004535299958661199 | ok |
+| 6 | `q_xor` | `quantum_fidelity_kernel_ridge` | `cuda` | 0.9078431129455566 | 0.7641700506210327 | 0.05136249994393438 | ok |
+| 6 | `q_xor` | `rbf_kernel_ridge_cpu_baseline` | `cpu` | 0.8372548818588257 | 0.7985830307006836 | 0.002436599927023053 | ok |
+| 6 | `q_xor` | `vqc_statevector` | `cuda` | 0.4843137264251709 | 0.5769230723381042 | 0.27558760007377714 | ok |
+| 6 | `q_xor` | `vqc_statevector` | `cuda` | 0.4843137264251709 | 0.590080976486206 | 0.7480566999875009 | ok |
+
+## Round summaries
+
+| Round | Seed | Status | Models OK | Maze |
+|---:|---:|---|---:|---|
+| 0 | 1978596780 | completed | 24 | ok |
+| 1 | 775849121 | completed | 24 | ok |
+| 2 | 181958129 | completed | 24 | ok |
+| 3 | 1756736149 | completed | 24 | ok |
+| 4 | 686852659 | completed | 24 | ok |
+| 5 | 1385732610 | completed | 24 | ok |
+| 6 | 982789970 | interrupted | 5 | not_run |

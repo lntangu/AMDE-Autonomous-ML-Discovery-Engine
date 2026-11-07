@@ -1,0 +1,11 @@
+﻿{
+    "campaign_id":  "amde2six003",
+    "duration_hours":  6,
+    "timer_finished_at":  "2026-10-31T17:05:49.4628773+07:00",
+    "stop_exit_code":  0,
+    "status_exit_code":  0,
+    "logs_exit_code":  0,
+    "verify_exit_code":  0,
+    "backup_exit_code":  0,
+    "note":  "No force-kill was attempted. Inspect logs if stop_exit_code is nonzero."
+}
