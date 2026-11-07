@@ -18,6 +18,7 @@ Features:
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import csv
 import json
 import multiprocessing as mp
@@ -26,6 +27,7 @@ from pathlib import Path
 import platform
 import random
 import sys
+import threading
 import time
 import traceback
 from typing import Any, Dict, List, Optional, Tuple
@@ -497,21 +499,28 @@ def read_completed_runs(csv_path: Path) -> set[tuple[int, str, int]]:
     return completed
 
 
-def append_master_result(csv_path: Path, row: dict[str, Any]) -> None:
+def append_master_result(csv_path: Path, row: dict[str, Any], lock: Optional[threading.Lock] = None) -> None:
     """Appends a result row atomically to the master CSV file."""
-    csv_path.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = [
-        "dataset_id", "dataset_name", "n_samples", "n_features", "n_classes",
-        "method", "seed", "time_budget_s", "test_accuracy", "val_accuracy",
-        "wallclock_seconds", "peak_memory_mb", "status", "extra_info", "error_message"
-    ]
-    file_exists = csv_path.exists()
-    with open(csv_path, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
-        if not file_exists:
-            writer.writeheader()
-        writer.writerow(row)
-        f.flush()
+    def _do_write() -> None:
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        fieldnames = [
+            "dataset_id", "dataset_name", "n_samples", "n_features", "n_classes",
+            "method", "seed", "time_budget_s", "test_accuracy", "val_accuracy",
+            "wallclock_seconds", "peak_memory_mb", "status", "extra_info", "error_message"
+        ]
+        file_exists = csv_path.exists()
+        with open(csv_path, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+            if not file_exists:
+                writer.writeheader()
+            writer.writerow(row)
+            f.flush()
+
+    if lock is not None:
+        with lock:
+            _do_write()
+    else:
+        _do_write()
 
 
 def run_benchmark_suite(
@@ -521,12 +530,13 @@ def run_benchmark_suite(
     seeds: Optional[list[int]] = None,
     time_budget: int = 60,
     timeout_per_dataset: int = 3600,
+    n_workers: int = 1,
     cache_dir: Path = DEFAULT_CACHE_DIR,
     output_csv: Path = DEFAULT_OUTPUT_CSV,
     resume: bool = True,
     dry_run: bool = False,
 ) -> None:
-    """Orchestrates the entire OpenML-CC18 benchmark suite."""
+    """Orchestrates the entire OpenML-CC18 benchmark suite with optional multiprocessing pool."""
     all_dataset_ids = dataset_ids or get_openml_cc18_dataset_ids(suite_id)
     eval_methods = [m.lower() for m in (methods or ["amde", "optuna", "flaml"])]
     eval_seeds = seeds or [42]
@@ -542,91 +552,234 @@ def run_benchmark_suite(
     print(f"Seeds:               {eval_seeds}")
     print(f"Time Budget / Model: {time_budget}s")
     print(f"Hard Process Timeout:{timeout_per_dataset}s")
+    print(f"Multiprocessing Pool:{n_workers} worker(s) {'[PARALLEL POOL ACTIVE]' if n_workers > 1 else '[SEQUENTIAL]'}")
     print(f"Cache Directory:     {cache_dir}")
     print(f"Master Results CSV:  {output_csv}")
     print(f"Resumption Active:   {resume} ({len(completed_runs)} existing completed runs)")
     print("=" * 76)
 
-    for did_idx, did in enumerate(all_dataset_ids, 1):
-        print(f"\n[{did_idx:02d}/{len(all_dataset_ids):02d}] Preparing OpenML Dataset ID: {did} ...")
-        try:
-            X, y, dname = load_cached_openml_dataset(did, cache_dir=cache_dir)
-            n_samples, n_features = X.shape
-            n_classes = len(np.unique(y))
-            print(f"    Dataset '{dname}': {n_samples} samples, {n_features} features, {n_classes} classes")
-        except Exception as exc:
-            print(f"[!] Error loading dataset {did}: {exc}. Skipping...")
-            for m in eval_methods:
-                for s in eval_seeds:
-                    append_master_result(output_csv, {
-                        "dataset_id": did, "dataset_name": f"openml_{did}",
-                        "n_samples": 0, "n_features": 0, "n_classes": 0,
-                        "method": m, "seed": s, "time_budget_s": time_budget,
-                        "test_accuracy": 0.0, "val_accuracy": 0.0,
-                        "wallclock_seconds": 0.0, "peak_memory_mb": 0.0,
-                        "status": "dataset_fetch_error",
-                        "extra_info": "", "error_message": str(exc),
-                    })
-            continue
+    # -------------------------------------------------------------------------
+    # Mode 1: Sequential Execution (n_workers <= 1)
+    # -------------------------------------------------------------------------
+    if n_workers <= 1:
+        for did_idx, did in enumerate(all_dataset_ids, 1):
+            print(f"\n[{did_idx:02d}/{len(all_dataset_ids):02d}] Preparing OpenML Dataset ID: {did} ...")
+            try:
+                X, y, dname = load_cached_openml_dataset(did, cache_dir=cache_dir)
+                n_samples, n_features = X.shape
+                n_classes = len(np.unique(y))
+                print(f"    Dataset '{dname}': {n_samples} samples, {n_features} features, {n_classes} classes")
+            except Exception as exc:
+                print(f"[!] Error loading dataset {did}: {exc}. Skipping...")
+                for m in eval_methods:
+                    for s in eval_seeds:
+                        append_master_result(output_csv, {
+                            "dataset_id": did, "dataset_name": f"openml_{did}",
+                            "n_samples": 0, "n_features": 0, "n_classes": 0,
+                            "method": m, "seed": s, "time_budget_s": time_budget,
+                            "test_accuracy": 0.0, "val_accuracy": 0.0,
+                            "wallclock_seconds": 0.0, "peak_memory_mb": 0.0,
+                            "status": "dataset_fetch_error",
+                            "extra_info": "", "error_message": str(exc),
+                        })
+                continue
+
+            if dry_run:
+                print(f"    [Dry-run] Dataset {did} validated successfully!")
+                continue
+
+            for seed in eval_seeds:
+                # Deterministic 80/20 train/test partition (with stratification)
+                try:
+                    X_dev, X_test, y_dev, y_test = train_test_split(
+                        X, y, test_size=0.20, random_state=seed, stratify=y
+                    )
+                except ValueError:
+                    # Fallback non-stratified if rare class count < 2
+                    X_dev, X_test, y_dev, y_test = train_test_split(
+                        X, y, test_size=0.20, random_state=seed, stratify=None
+                    )
+
+                for method in eval_methods:
+                    run_key = (did, method, seed)
+                    if resume and run_key in completed_runs:
+                        print(f"    -> [SKIPPED - ALREADY COMPLETED] Method='{method}' Seed={seed}")
+                        continue
+
+                    print(f"    -> Running method='{method}' seed={seed} (budget={time_budget}s)...", end=" ", flush=True)
+                    t_exec_start = time.perf_counter()
+
+                    res = execute_method_with_timeout(
+                        method_name=method,
+                        X_dev=X_dev,
+                        y_dev=y_dev,
+                        X_test=X_test,
+                        y_test=y_test,
+                        time_budget=time_budget,
+                        seed=seed,
+                        timeout_seconds=timeout_per_dataset,
+                    )
+
+                    elapsed = time.perf_counter() - t_exec_start
+                    row_record = {
+                        "dataset_id": did,
+                        "dataset_name": dname,
+                        "n_samples": n_samples,
+                        "n_features": n_features,
+                        "n_classes": n_classes,
+                        "method": method,
+                        "seed": seed,
+                        "time_budget_s": time_budget,
+                        "test_accuracy": res.get("test_accuracy", 0.0),
+                        "val_accuracy": res.get("val_accuracy", 0.0),
+                        "wallclock_seconds": res.get("wallclock_seconds", elapsed),
+                        "peak_memory_mb": res.get("peak_memory_mb", 0.0),
+                        "status": res.get("status", "unknown"),
+                        "extra_info": res.get("extra_info", ""),
+                        "error_message": res.get("error_message", ""),
+                    }
+                    append_master_result(output_csv, row_record)
+                    completed_runs.add(run_key)
+
+                    print(f"DONE [{res['status'].upper()}] in {row_record['wallclock_seconds']:.1f}s | Test Acc: {row_record['test_accuracy']:.4f}")
+
+    # -------------------------------------------------------------------------
+    # Mode 2: Parallel Multiprocessing Pool (n_workers > 1)
+    # -------------------------------------------------------------------------
+    else:
+        print(f"\n[*] Initializing Parallel Task Queue across {len(all_dataset_ids)} dataset(s)...")
+        tasks_to_run: list[dict[str, Any]] = []
+        dataset_cache: dict[int, Tuple[np.ndarray, np.ndarray, str]] = {}
+        cache_lock = threading.Lock()
+        csv_lock = threading.Lock()
+
+        # Step 1: Pre-validate / download datasets and collect tasks
+        for did_idx, did in enumerate(all_dataset_ids, 1):
+            try:
+                X, y, dname = load_cached_openml_dataset(did, cache_dir=cache_dir)
+                dataset_cache[did] = (X, y, dname)
+                n_samples, n_features = X.shape
+                n_classes = len(np.unique(y))
+
+                if dry_run:
+                    print(f"    [{did_idx:02d}/{len(all_dataset_ids):02d}] [Dry-run] Dataset {did} ({dname}) OK: {n_samples} samples, {n_features} features, {n_classes} classes")
+                    continue
+
+                for seed in eval_seeds:
+                    for method in eval_methods:
+                        run_key = (did, method, seed)
+                        if resume and run_key in completed_runs:
+                            continue
+                        tasks_to_run.append({
+                            "dataset_id": did,
+                            "dataset_name": dname,
+                            "n_samples": n_samples,
+                            "n_features": n_features,
+                            "n_classes": n_classes,
+                            "method": method,
+                            "seed": seed,
+                        })
+            except Exception as exc:
+                print(f"[!] Error preparing dataset {did}: {exc}. Logging error rows...")
+                for m in eval_methods:
+                    for s in eval_seeds:
+                        append_master_result(output_csv, {
+                            "dataset_id": did, "dataset_name": f"openml_{did}",
+                            "n_samples": 0, "n_features": 0, "n_classes": 0,
+                            "method": m, "seed": s, "time_budget_s": time_budget,
+                            "test_accuracy": 0.0, "val_accuracy": 0.0,
+                            "wallclock_seconds": 0.0, "peak_memory_mb": 0.0,
+                            "status": "dataset_fetch_error",
+                            "extra_info": "", "error_message": str(exc),
+                        }, lock=csv_lock)
 
         if dry_run:
-            print(f"    [Dry-run] Dataset {did} validated successfully!")
-            continue
+            print("\n[Dry-run] All datasets validated successfully. Exiting.")
+            return
 
-        for seed in eval_seeds:
-            # Deterministic 80/20 train/test partition (with stratification)
+        total_tasks = len(tasks_to_run)
+        print(f"[*] Dispatched {total_tasks} benchmark task(s) into Multiprocessing Pool (concurrency: {n_workers}).\n")
+
+        if total_tasks == 0:
+            print("[*] All benchmark tasks already completed in master CSV. Nothing to execute.")
+            return
+
+        completed_counter = 0
+
+        def _execute_task(task: dict[str, Any]) -> dict[str, Any]:
+            nonlocal completed_counter
+            did = task["dataset_id"]
+            dname = task["dataset_name"]
+            method = task["method"]
+            seed = task["seed"]
+
+            with cache_lock:
+                X, y, _ = dataset_cache[did]
+
+            # Partition train/test
             try:
                 X_dev, X_test, y_dev, y_test = train_test_split(
                     X, y, test_size=0.20, random_state=seed, stratify=y
                 )
             except ValueError:
-                # Fallback non-stratified if rare class count < 2
                 X_dev, X_test, y_dev, y_test = train_test_split(
                     X, y, test_size=0.20, random_state=seed, stratify=None
                 )
 
-            for method in eval_methods:
-                run_key = (did, method, seed)
-                if resume and run_key in completed_runs:
-                    print(f"    -> [SKIPPED - ALREADY COMPLETED] Method='{method}' Seed={seed}")
-                    continue
+            with csv_lock:
+                print(f"  [START] [did={did:04d} | {dname[:16]:<16}] Method={method:<7} Seed={seed} (Budget={time_budget}s)...")
 
-                print(f"    -> Running method='{method}' seed={seed} (budget={time_budget}s)...", end=" ", flush=True)
-                t_exec_start = time.perf_counter()
+            t_exec_start = time.perf_counter()
+            res = execute_method_with_timeout(
+                method_name=method,
+                X_dev=X_dev,
+                y_dev=y_dev,
+                X_test=X_test,
+                y_test=y_test,
+                time_budget=time_budget,
+                seed=seed,
+                timeout_seconds=timeout_per_dataset,
+            )
+            elapsed = time.perf_counter() - t_exec_start
 
-                res = execute_method_with_timeout(
-                    method_name=method,
-                    X_dev=X_dev,
-                    y_dev=y_dev,
-                    X_test=X_test,
-                    y_test=y_test,
-                    time_budget=time_budget,
-                    seed=seed,
-                    timeout_seconds=timeout_per_dataset,
+            row_record = {
+                "dataset_id": did,
+                "dataset_name": dname,
+                "n_samples": task["n_samples"],
+                "n_features": task["n_features"],
+                "n_classes": task["n_classes"],
+                "method": method,
+                "seed": seed,
+                "time_budget_s": time_budget,
+                "test_accuracy": res.get("test_accuracy", 0.0),
+                "val_accuracy": res.get("val_accuracy", 0.0),
+                "wallclock_seconds": res.get("wallclock_seconds", elapsed),
+                "peak_memory_mb": res.get("peak_memory_mb", 0.0),
+                "status": res.get("status", "unknown"),
+                "extra_info": res.get("extra_info", ""),
+                "error_message": res.get("error_message", ""),
+            }
+
+            with csv_lock:
+                completed_counter += 1
+                append_master_result(output_csv, row_record, lock=None)
+                print(
+                    f"  [{completed_counter:03d}/{total_tasks:03d} DONE] "
+                    f"[did={did:04d} | {dname[:16]:<16}] Method={method:<7} "
+                    f"[{res['status'].upper()}] in {row_record['wallclock_seconds']:.1f}s | "
+                    f"Test Acc: {row_record['test_accuracy']:.4f}"
                 )
 
-                elapsed = time.perf_counter() - t_exec_start
-                row_record = {
-                    "dataset_id": did,
-                    "dataset_name": dname,
-                    "n_samples": n_samples,
-                    "n_features": n_features,
-                    "n_classes": n_classes,
-                    "method": method,
-                    "seed": seed,
-                    "time_budget_s": time_budget,
-                    "test_accuracy": res.get("test_accuracy", 0.0),
-                    "val_accuracy": res.get("val_accuracy", 0.0),
-                    "wallclock_seconds": res.get("wallclock_seconds", elapsed),
-                    "peak_memory_mb": res.get("peak_memory_mb", 0.0),
-                    "status": res.get("status", "unknown"),
-                    "extra_info": res.get("extra_info", ""),
-                    "error_message": res.get("error_message", ""),
-                }
-                append_master_result(output_csv, row_record)
-                completed_runs.add(run_key)
+            return row_record
 
-                print(f"DONE [{res['status'].upper()}] in {row_record['wallclock_seconds']:.1f}s | Test Acc: {row_record['test_accuracy']:.4f}")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=n_workers) as executor:
+            futures = [executor.submit(_execute_task, t) for t in tasks_to_run]
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    future.result()
+                except Exception as exc:
+                    with csv_lock:
+                        print(f"[!] Worker execution error: {exc}")
 
     print("\n" + "=" * 76)
     print(f"  OPENML-CC18 BENCHMARK CAMPAIGN FINISHED!")
@@ -643,6 +796,8 @@ def main() -> None:
     parser.add_argument("--seeds", type=str, default="42", help="Comma-separated seeds (e.g., '42,101')")
     parser.add_argument("--time-budget", type=int, default=60, help="Per-method search budget in seconds (default: 60)")
     parser.add_argument("--timeout-per-dataset", type=int, default=3600, help="Hard process timeout in seconds (default: 3600)")
+    parser.add_argument("--n-workers", type=int, default=1, help="Number of concurrent worker processes for parallel suite execution (default: 1)")
+    parser.add_argument("--parallel", action="store_true", help="Enable parallel pool using available CPU cores (max(1, cpu_count - 1))")
     parser.add_argument("--cache-dir", type=str, default=str(DEFAULT_CACHE_DIR), help="Directory to cache datasets as Parquet")
     parser.add_argument("--output", type=str, default=str(DEFAULT_OUTPUT_CSV), help="Master CSV results output path")
     parser.add_argument("--no-resume", action="store_true", help="Do not skip previously completed runs")
@@ -656,6 +811,11 @@ def main() -> None:
     method_list = [m.strip() for m in args.methods.split(",") if m.strip()]
     seed_list = [int(s.strip()) for s in args.seeds.split(",") if s.strip().isdigit()]
 
+    n_workers = args.n_workers
+    if args.parallel and n_workers == 1:
+        cpu_cnt = os.cpu_count() or 2
+        n_workers = max(1, cpu_cnt - 1)
+
     run_benchmark_suite(
         suite_id=args.suite_id,
         dataset_ids=custom_dids,
@@ -663,6 +823,7 @@ def main() -> None:
         seeds=seed_list,
         time_budget=args.time_budget,
         timeout_per_dataset=args.timeout_per_dataset,
+        n_workers=n_workers,
         cache_dir=Path(args.cache_dir),
         output_csv=Path(args.output),
         resume=not args.no_resume,

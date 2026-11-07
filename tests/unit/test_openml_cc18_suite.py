@@ -20,6 +20,7 @@ from scripts.run_openml_cc18_suite import (
     get_openml_cc18_dataset_ids,
     append_master_result,
     read_completed_runs,
+    run_benchmark_suite,
 )
 from scripts.generate_paper_artifacts import (
     compute_academic_metrics,
@@ -97,6 +98,29 @@ class OpenMLCC18SuiteTests(unittest.TestCase):
         self.assertIn(r"\textbf{AMDE 4.1 (Ours)}", latex_str)
         self.assertIn(r"\toprule", latex_str)
         self.assertIn(r"\bottomrule", latex_str)
+
+    def test_parallel_suite_execution(self) -> None:
+        """Verifies parallel multiprocessing pool execution across workers."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            csv_path = Path(tmp_dir) / "test_parallel_master.csv"
+            run_benchmark_suite(
+                dataset_ids=[31],
+                methods=["amde"],
+                seeds=[42],
+                time_budget=3,
+                timeout_per_dataset=30,
+                n_workers=2,
+                output_csv=csv_path,
+                resume=False,
+            )
+            self.assertTrue(csv_path.exists())
+            df = pd.read_csv(csv_path)
+            self.assertEqual(len(df), 1)
+            row = df.iloc[0]
+            self.assertEqual(row["dataset_id"], 31)
+            self.assertEqual(row["method"], "amde")
+            self.assertEqual(row["status"], "completed")
+            self.assertGreater(row["test_accuracy"], 0.50)
 
 
 if __name__ == "__main__":
