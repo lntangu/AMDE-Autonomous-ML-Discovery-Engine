@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -17,6 +18,35 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def notebook_canonical_sha256(path: Path) -> str:
+    """Computes a deterministic hash of an interactive Jupyter notebook's code & markdown cells.
+
+    This ensures that dynamic execution outputs (execution counts, plots, run timestamps)
+    produced during interactive Google Colab execution do not invalidate cryptographic
+    manifest integrity.
+    """
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            nb = json.load(f)
+        cells = []
+        for cell in nb.get("cells", []):
+            c_type = cell.get("cell_type")
+            raw_source = cell.get("source", "")
+            if isinstance(raw_source, list):
+                source = "".join(raw_source)
+            else:
+                source = str(raw_source)
+            source = source.replace("\r\n", "\n").strip()
+            # Ignore auto-prepended colab view-in-github badge cell
+            if "view-in-github" in str(cell.get("metadata", {})) or "colab-badge.svg" in source:
+                continue
+            cells.append({"cell_type": c_type, "source": source})
+        canonical_json = json.dumps(cells, sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
+    except Exception:
+        return sha256(path)
 
 
 def main() -> int:
@@ -39,7 +69,10 @@ def main() -> int:
         if not path.is_file():
             print(f"ERROR: Tracked file missing on disk: {rel}", file=sys.stderr)
             return 1
-        digest = sha256(path)
+        if path.suffix == ".ipynb":
+            digest = notebook_canonical_sha256(path)
+        else:
+            digest = sha256(path)
         lines.append(f"{digest}  {rel}\n")
 
     MANIFEST_PATH.write_text("".join(lines), encoding="utf-8", newline="\n")

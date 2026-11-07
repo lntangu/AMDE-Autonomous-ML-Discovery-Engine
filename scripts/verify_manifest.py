@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -23,6 +24,30 @@ def sha256_normalized(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk.replace(b"\r\n", b"\n"))
     return digest.hexdigest()
+
+
+def notebook_canonical_sha256(path: Path) -> str:
+    """Computes a deterministic hash of an interactive Jupyter notebook's code & markdown cells."""
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            nb = json.load(f)
+        cells = []
+        for cell in nb.get("cells", []):
+            c_type = cell.get("cell_type")
+            raw_source = cell.get("source", "")
+            if isinstance(raw_source, list):
+                source = "".join(raw_source)
+            else:
+                source = str(raw_source)
+            source = source.replace("\r\n", "\n").strip()
+            # Ignore auto-prepended colab view-in-github badge cell
+            if "view-in-github" in str(cell.get("metadata", {})) or "colab-badge.svg" in source:
+                continue
+            cells.append({"cell_type": c_type, "source": source})
+        canonical_json = json.dumps(cells, sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
+    except Exception:
+        return ""
 
 
 def main() -> int:
@@ -58,8 +83,11 @@ def main() -> int:
         actual = sha256(path)
         checked += 1
         if actual != expected_digest:
-            # Tolerant fallback: Check if difference is solely Windows git checkout CRLF translation
+            # Tolerant fallback 1: Check if difference is solely Windows git checkout CRLF translation
             if sha256_normalized(path) == expected_digest:
+                continue
+            # Tolerant fallback 2: For interactive Jupyter notebooks (.ipynb), verify code and markdown cell structure
+            if path.suffix == ".ipynb" and notebook_canonical_sha256(path) == expected_digest:
                 continue
             errors.append(f"MISMATCH: {rel} expected={expected_digest} actual={actual}")
     if errors:
