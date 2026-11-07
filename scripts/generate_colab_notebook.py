@@ -9,10 +9,8 @@ NOTEBOOKS_DIR = ROOT / "notebooks"
 NOTEBOOKS_DIR.mkdir(parents=True, exist_ok=True)
 NOTEBOOK_PATH = NOTEBOOKS_DIR / "AMDE_Real_World_Demo.ipynb"
 
-# Pinned maintenance source commit SHA for immutable source installation in Google Colab.
-# Initial value set to base merge commit 30bac4a0fdc55827dab928391bf996fbe0d0b051;
-# updated in final Commit B to pin to Commit A's immutable SHA.
-SOURCE_COMMIT_PIN = "e71c7607e5db43570029a619f35304c3587c2ec0"
+# Pinned maintenance source commit SHA or branch for source installation in Google Colab.
+SOURCE_COMMIT_PIN = "release-amde-final"
 
 nb = nbf.v4.new_notebook()
 nb.metadata = {
@@ -79,9 +77,14 @@ if IN_COLAB:
 else:
     print("[Local Setup] Using local active environment.")
     from pathlib import Path
-    root = Path(os.getcwd())
-    if (root / "src").exists() and str(root / "src") not in sys.path:
-        sys.path.insert(0, str(root / "src"))"""))
+    cur = Path(os.getcwd()).resolve()
+    for candidate in [cur, cur.parent, cur.parent.parent]:
+        if (candidate / "src" / "amde").exists():
+            cand_src = str((candidate / "src").resolve())
+            if cand_src in sys.path:
+                sys.path.remove(cand_src)
+            sys.path.insert(0, cand_src)
+            break"""))
 
 # Cell 5: Imports & Targeted Warnings
 cells.append(nbf.v4.new_code_cell("""# Step 2: Import core libraries and AMDE modules
@@ -90,8 +93,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.exceptions import ConvergenceWarning
 
-# Apply targeted warning suppression only for benign optimization non-convergences
+# Apply targeted warning suppression for benign optimization, feature selection, and constant feature warnings
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 import amde
 from amde import (
@@ -346,6 +351,7 @@ amde_res = engine.search(
     budget=BUDGET,
 )
 amde_time = time.perf_counter() - amde_t0
+amde_trajectory = [t["incumbent_score"] for t in engine.trial_history]
 
 print(f"[AMDE 4.0 Engine] Completed {BUDGET} search trials in {amde_time:.2f}s")
 print(f"  Best Val Accuracy:    {amde_res['incumbent_score']:.4f}")
@@ -366,14 +372,35 @@ cells.append(nbf.v4.new_code_cell("""# Step 8: Evaluate incumbents on the sealed
 # Protocol Gate: Freeze all candidate exploration before minting holdout access tokens.
 print("Freezing all candidate incumbents and verifying search completion...")
 
+def format_cand_summary(cand):
+    genome = cand.genome
+    model_spec = genome.get("model", {})
+    prep_spec = genome.get("preprocessing", {})
+    fam = model_spec.get("family", "unknown")
+    details = []
+    if fam == "kernel_svc":
+        details.append(f"kernel={model_spec.get('kernel')}, C={1.0/model_spec.get('alpha', 1.0):.3g}, gamma={model_spec.get('gamma', 'scale')}")
+    elif fam == "tree_ensemble":
+        details.append(f"type={model_spec.get('ensemble_type')}, n_est={model_spec.get('n_estimators')}, max_depth={model_spec.get('max_depth')}")
+    elif fam == "mlp":
+        details.append(f"widths={model_spec.get('hidden_widths')}, act={model_spec.get('activation')}, lr={model_spec.get('learning_rate'):.1e}")
+    elif fam == "linear":
+        details.append(f"penalty={model_spec.get('penalty')}, C={model_spec.get('C'):.3g}")
+    else:
+        details.append(str(model_spec))
+    prep_str = f"scaler={prep_spec.get('scaler')}, imputer={prep_spec.get('imputer')}, feat_sel={prep_spec.get('feature_selection')}"
+    return f"Family: {fam} ({', '.join(details)}) | Preprocessing: {prep_str}"
+
 incumbents = {
-    "Method A (Random Search)": rs_incumbent_cand.canonical_hash,
-    "Method B1 (AMDE Native TPE)": tpe_incumbent_cand.canonical_hash,
-    "Method B2 (Optuna TPESampler)": optuna_incumbent_cand.canonical_hash,
-    "Method C (AMDE 4.0 Engine)": engine.incumbent_candidate.canonical_hash,
+    "Method A (Random Search)": rs_incumbent_cand,
+    "Method B1 (AMDE Native TPE)": tpe_incumbent_cand,
+    "Method B2 (Optuna TPESampler)": optuna_incumbent_cand,
+    "Method C (AMDE 4.0 Engine)": engine.incumbent_candidate,
 }
-for name, chash in incumbents.items():
-    print(f"  [Frozen] {name}: SHA-256={chash[:16]}...")
+
+print("\\n--- Discovered Pipeline Architectures (Incumbents) ---")
+for name, cand in incumbents.items():
+    print(f"  {name:<30} SHA-256={cand.canonical_hash[:16]}... | {format_cand_summary(cand)}")
 
 print("\\nMinting single-use holdout tokens and unsealing sealed test partition...")
 
@@ -410,6 +437,7 @@ results_data = [
         "Method": "Random Search (Method A)",
         "Val Accuracy": f"{rs_incumbent_score:.4f}",
         "Sealed Test Acc": f"{rs_test_score:.4f}",
+        "Gen Gap (Val-Test)": f"{(rs_incumbent_score - rs_test_score):+.4f}",
         "Wall-Clock (s)": f"{rs_time:.2f}",
         "Pareto Size": len(rs_pareto.frontier),
         "Duplicate Rate": f"{rs_dedup.duplicate_rate:.1%}",
@@ -420,6 +448,7 @@ results_data = [
         "Method": "AMDE Native TPE (Method B1)",
         "Val Accuracy": f"{tpe_incumbent_score:.4f}",
         "Sealed Test Acc": f"{tpe_test_score:.4f}",
+        "Gen Gap (Val-Test)": f"{(tpe_incumbent_score - tpe_test_score):+.4f}",
         "Wall-Clock (s)": f"{tpe_time:.2f}",
         "Pareto Size": len(tpe_pareto.frontier),
         "Duplicate Rate": f"{tpe_dedup.duplicate_rate:.1%}",
@@ -430,6 +459,7 @@ results_data = [
         "Method": "Optuna TPESampler (Method B2)",
         "Val Accuracy": f"{optuna_incumbent_score:.4f}",
         "Sealed Test Acc": f"{optuna_test_score:.4f}",
+        "Gen Gap (Val-Test)": f"{(optuna_incumbent_score - optuna_test_score):+.4f}",
         "Wall-Clock (s)": f"{optuna_time:.2f}",
         "Pareto Size": len(optuna_pareto.frontier),
         "Duplicate Rate": f"{optuna_dedup.duplicate_rate:.1%}",
@@ -440,10 +470,11 @@ results_data = [
         "Method": "AMDE 4.0 Engine (Method C)",
         "Val Accuracy": f"{amde_res['incumbent_score']:.4f}",
         "Sealed Test Acc": f"{amde_test_score:.4f}",
+        "Gen Gap (Val-Test)": f"{(amde_res['incumbent_score'] - amde_test_score):+.4f}",
         "Wall-Clock (s)": f"{amde_time:.2f}",
         "Pareto Size": amde_res['pareto_size'],
         "Duplicate Rate": f"{amde_res['duplicate_rate']:.1%}",
-        "Evidence Ledger": "Yes (SHA-256)",
+        "Evidence Ledger": "Yes (SHA-256 WAL)",
         "Holdout Gating": "Yes (Token-Gated)",
     },
 ]
@@ -453,34 +484,85 @@ try:
     df_results = pd.DataFrame(results_data)
     display(df_results)
 except (ImportError, NameError):
-    print(f"{'Method':<32} {'Val Acc':<10} {'Test Acc':<10} {'Wall-Clock':<12} {'Pareto':<8} {'Dedup':<12}")
-    print("-" * 88)
+    print(f"{'Method':<30} {'Val Acc':<9} {'Test Acc':<9} {'Gen Gap':<10} {'Time(s)':<9} {'Pareto':<8} {'Dedup':<8}")
+    print("-" * 92)
     for row in results_data:
-        print(f"{row['Method']:<32} {row['Val Accuracy']:<10} {row['Sealed Test Acc']:<10} {row['Wall-Clock (s)']:<12} {row['Pareto Size']:<8} {row['Duplicate Rate']:<12}")
+        print(f"{row['Method']:<30} {row['Val Accuracy']:<9} {row['Sealed Test Acc']:<9} {row['Gen Gap (Val-Test)']:<10} {row['Wall-Clock (s)']:<9} {row['Pareto Size']:<8} {row['Duplicate Rate']:<8}")
 """))
 
-# Cell 15: Pareto Plot
-cells.append(nbf.v4.new_markdown_cell("""## 6. Visualizing Multi-Objective Trade-Offs (Accuracy vs. Latency)"""))
+# Cell 15: Diagnostic Visualizations
+cells.append(nbf.v4.new_markdown_cell("""## 6. Comprehensive Multi-Panel Diagnostic Visualizations"""))
 
-cells.append(nbf.v4.new_code_cell("""# Step 10: Plot Pareto Frontier trade-offs
-fig, ax = plt.subplots(figsize=(9, 5), dpi=100)
+cells.append(nbf.v4.new_code_cell("""# Step 10: Publication-Grade Multi-Panel Diagnostic Dashboard
+fig, axes = plt.subplots(2, 2, figsize=(14, 10), dpi=100)
 
+# Panel A: Optimization Convergence Trajectory
+ax_traj = axes[0, 0]
+trials_x = list(range(1, BUDGET + 1))
+ax_traj.plot(trials_x, rs_trajectory, marker="o", color="#7f7f7f", label="Method A (Random Search)", alpha=0.8)
+ax_traj.plot(trials_x, tpe_trajectory, marker="s", color="#ff7f0e", label="Method B1 (AMDE Native TPE)", alpha=0.8)
+ax_traj.plot(trials_x, optuna_trajectory, marker="^", color="#2ca02c", label="Method B2 (Optuna TPE)", alpha=0.8)
+ax_traj.plot(trials_x, amde_trajectory, marker="*", linewidth=2.5, markersize=8, color="#1f77b4", label="Method C (AMDE 4.0 Engine)", alpha=0.9)
+ax_traj.set_xlabel("Search Trial (Budget = 20)")
+ax_traj.set_ylabel("Best Validation Accuracy")
+ax_traj.set_title("A. Optimization Convergence Trajectory", fontweight="bold")
+ax_traj.set_xticks(range(2, BUDGET + 1, 2))
+ax_traj.grid(True, linestyle=":", alpha=0.6)
+ax_traj.legend(loc="lower right")
+
+# Panel B: Multi-Objective Pareto Frontier (Accuracy vs. Latency)
+ax_pareto = axes[0, 1]
 for m_name, archive, color, marker in [
-    ("Random Search", rs_pareto, "tab:gray", "o"),
-    ("AMDE Native TPE", tpe_pareto, "tab:orange", "s"),
-    ("Optuna TPE", optuna_pareto, "tab:green", "^"),
-    ("AMDE 4.0 Engine", engine.pareto_archive, "tab:blue", "*"),
+    ("Random Search", rs_pareto, "#7f7f7f", "o"),
+    ("AMDE Native TPE", tpe_pareto, "#ff7f0e", "s"),
+    ("Optuna TPE", optuna_pareto, "#2ca02c", "^"),
+    ("AMDE 4.0 Engine", engine.pareto_archive, "#1f77b4", "*"),
 ]:
     points = [(-p["loss"], p["latency"]) for p in archive.frontier if p.get("latency", 0.0) < 50.0]
     if points:
         accs, lats = zip(*sorted(points, key=lambda x: x[1]))
-        ax.plot(lats, accs, marker=marker, linestyle="--", alpha=0.7, color=color, label=f"{m_name} ({len(points)} pts)")
+        ax_pareto.plot(lats, accs, marker=marker, linestyle="--", alpha=0.7, color=color, label=f"{m_name} ({len(points)} pts)")
+ax_pareto.set_xlabel("Inference Latency (ms / 100 samples)")
+ax_pareto.set_ylabel("Validation Accuracy")
+ax_pareto.set_title("B. Multi-Objective Pareto Frontier", fontweight="bold")
+ax_pareto.grid(True, linestyle=":", alpha=0.6)
+ax_pareto.legend(loc="lower right")
 
-ax.set_xlabel("Inference Latency (ms / 100 samples)")
-ax.set_ylabel("Validation Accuracy")
-ax.set_title("Multi-Objective Pareto Frontier (Accuracy vs. Inference Latency)")
-ax.legend(loc="lower right")
-ax.grid(True, linestyle=":", alpha=0.6)
+# Panel C: Generalization Parity (Val vs. Sealed Holdout Test)
+ax_gen = axes[1, 0]
+methods = ["Random", "Native TPE", "Optuna TPE", "AMDE 4.0"]
+val_scores = [rs_incumbent_score, tpe_incumbent_score, optuna_incumbent_score, amde_res["incumbent_score"]]
+test_scores = [rs_test_score, tpe_test_score, optuna_test_score, amde_test_score]
+x = np.arange(len(methods))
+width = 0.35
+rects1 = ax_gen.bar(x - width/2, val_scores, width, label="Val Accuracy", color="#1f77b4", alpha=0.85)
+rects2 = ax_gen.bar(x + width/2, test_scores, width, label="Sealed Test Accuracy", color="#9467bd", alpha=0.85)
+ax_gen.set_ylabel("Classification Accuracy")
+ax_gen.set_title("C. Generalization Parity & Overfitting Check", fontweight="bold")
+ax_gen.set_xticks(x)
+ax_gen.set_xticklabels(methods)
+ax_gen.set_ylim(min(min(val_scores), min(test_scores)) - 0.05, 1.02)
+ax_gen.grid(True, axis="y", linestyle=":", alpha=0.6)
+ax_gen.legend(loc="lower right")
+for i, (v, t) in enumerate(zip(val_scores, test_scores)):
+    gap = (v - t) * 100.0
+    sign = "+" if gap >= 0 else ""
+    ax_gen.annotate(f"$\\\\Delta$: {sign}{gap:.1f}%", xy=(x[i], max(v, t) + 0.005), ha="center", fontsize=9, fontweight="bold")
+
+# Panel D: Computational Efficiency & Search Cache Filtering
+ax_eff = axes[1, 1]
+times = [rs_time, tpe_time, optuna_time, amde_time]
+dedups = [rs_dedup.duplicate_rate * 100.0, tpe_dedup.duplicate_rate * 100.0, optuna_dedup.duplicate_rate * 100.0, amde_res["duplicate_rate"] * 100.0]
+ax_eff.bar(x - width/2, times, width, label="Search Time (s)", color="#17becf", alpha=0.85)
+ax_eff2 = ax_eff.twinx()
+ax_eff2.bar(x + width/2, dedups, width, label="Dedup Rate (%)", color="#d62728", alpha=0.7)
+ax_eff.set_ylabel("Wall-Clock Search Time (s)", color="#17becf")
+ax_eff2.set_ylabel("Duplicate Filter Rate (%)", color="#d62728")
+ax_eff.set_title("D. Resource Efficiency & Search Cache Filtering", fontweight="bold")
+ax_eff.set_xticks(x)
+ax_eff.set_xticklabels(methods)
+ax_eff.grid(True, axis="y", linestyle=":", alpha=0.6)
+
 plt.tight_layout()
 plt.show()"""))
 
@@ -561,6 +643,18 @@ evidence = {
         "summary_csv_sha256": csv_digest,
     },
     "results_summary": results_data,
+    "incumbent_specifications": {
+        "Random Search": format_cand_summary(rs_incumbent_cand),
+        "Native TPE": format_cand_summary(tpe_incumbent_cand),
+        "Optuna TPE": format_cand_summary(optuna_incumbent_cand),
+        "AMDE 4.0 Engine": format_cand_summary(engine.incumbent_candidate),
+    },
+    "optimization_trajectories": {
+        "random_search": rs_trajectory,
+        "native_tpe": tpe_trajectory,
+        "optuna_tpe": optuna_trajectory,
+        "amde_40": amde_trajectory,
+    },
     "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
 }
 
