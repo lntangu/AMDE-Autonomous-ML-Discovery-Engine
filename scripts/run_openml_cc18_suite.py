@@ -899,7 +899,8 @@ def main() -> None:
     parser.add_argument("--cache-dir", type=str, default=str(DEFAULT_CACHE_DIR), help="Directory to cache datasets as Parquet")
     parser.add_argument("--output", type=str, default=str(DEFAULT_OUTPUT_CSV), help="Master CSV results output path")
     parser.add_argument("--convergence-log", type=str, default=str(DEFAULT_CONVERGENCE_CSV), help="Output path for evaluation convergence trajectory history")
-    parser.add_argument("--no-resume", action="store_true", help="Do not skip previously completed runs")
+    parser.add_argument("--resume", action="store_true", default=True, help="Skip previously completed runs (default: True)")
+    parser.add_argument("--no-resume", action="store_false", dest="resume", help="Do not skip previously completed runs")
     parser.add_argument("--dry-run", action="store_true", help="Validate dataset download & parsing without training")
     args = parser.parse_args()
 
@@ -937,7 +938,7 @@ def main() -> None:
         cache_dir=Path(args.cache_dir),
         output_csv=Path(args.output),
         convergence_csv=Path(args.convergence_log),
-        resume=not args.no_resume,
+        resume=args.resume,
         dry_run=args.dry_run,
     )
 

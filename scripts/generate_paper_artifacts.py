@@ -21,9 +21,16 @@ import json
 from pathlib import Path
 import sys
 from typing import Any, Dict, List, Optional, Tuple
-import matplotlib
-matplotlib.use("Agg")  # Non-interactive backend for headless / CI / server environments
-import matplotlib.pyplot as plt
+
+try:
+    import matplotlib
+    matplotlib.use("Agg")  # Non-interactive backend for headless / CI / server environments
+    import matplotlib.pyplot as plt
+    HAS_MATPLOTLIB = True
+except ImportError:
+    HAS_MATPLOTLIB = False
+    plt = None
+
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -239,6 +246,12 @@ def plot_convergence_curve(
     png_out = Path(output_png_path) if output_png_path else pdf_out.with_suffix(".png")
     pdf_out.parent.mkdir(parents=True, exist_ok=True)
     png_out.parent.mkdir(parents=True, exist_ok=True)
+
+    if not HAS_MATPLOTLIB or plt is None:
+        print("[!] Warning: 'matplotlib' is not installed in the active Python environment.")
+        print("    Academic LaTeX table and JSON summary were generated successfully.")
+        print("    To generate the convergence plot (PDF/PNG), install via: pip install matplotlib")
+        return pdf_out, png_out
 
     # 1. Check if detailed trajectory exists in convergence_df
     series_data: Dict[str, Tuple[np.ndarray, np.ndarray]] = {}

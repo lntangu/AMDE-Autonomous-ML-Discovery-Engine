@@ -5,12 +5,12 @@ title AMDE 4.1 - Heavy Long-Horizon Convergence Benchmark Suite
 color 0A
 
 echo ============================================================================
-echo   AMDE 4.1 INDUSTRIAL CONVERGENCE BENCHMARK (1000/100 PARADIGM SHIFT)
+echo   AMDE 4.1 INDUSTRIAL CONVERGENCE BENCHMARK [1000/100 PARADIGM SHIFT]
 echo ============================================================================
-echo   Target Datasets : Adult (1590), Bank-Marketing (1461), Credit-G (31)
+echo   Target Datasets : Adult [1590], Bank-Marketing [1461], Credit-G [31]
 echo   Algorithms      : AMDE 4.1 Pareto Multi-Objective, FLAML, Optuna TPE
 echo   Time Budgets    : 60s, 300s, 600s per dataset/method
-echo   Multiprocessing : Active (Automatic CPU Core Saturation)
+echo   Multiprocessing : Active [Automatic CPU Core Saturation]
 echo ============================================================================
 echo.
 
@@ -24,16 +24,18 @@ if %ERRORLEVEL% neq 0 (
 
 :: Activate Virtual Environment if available
 if exist ".venv\Scripts\activate.bat" (
-    echo [*] Activating Python virtual environment (.venv)...
+    echo [*] Activating virtual environment in .venv
     call .venv\Scripts\activate.bat
-) else if exist "venv\Scripts\activate.bat" (
-    echo [*] Activating Python virtual environment (venv)...
+)
+if exist "venv\Scripts\activate.bat" (
+    echo [*] Activating virtual environment in venv
     call venv\Scripts\activate.bat
 )
 
-:: Ensure Package Installation
+:: Ensure Package Installation and Runtime Dependencies
 echo [*] Verifying AMDE 4.1 installation and runtime dependencies...
-python -m pip install -e . >nul 2>&1
+python -m pip install -e ".[all]" >nul 2>&1
+python -m pip install matplotlib lightgbm optuna flaml openml pyarrow >nul 2>&1
 
 :: Create required directories
 if not exist "results" mkdir results
@@ -42,7 +44,7 @@ if not exist "reports" mkdir reports
 echo.
 echo ============================================================================
 echo   STARTING HIGH-PERFORMANCE WORKSTATION EXECUTION
-echo   (Press Ctrl+C to cancel; all completed checkpoints are saved to disk)
+echo   [Press Ctrl+C to cancel; all completed checkpoints are saved to disk]
 echo ============================================================================
 echo.
 

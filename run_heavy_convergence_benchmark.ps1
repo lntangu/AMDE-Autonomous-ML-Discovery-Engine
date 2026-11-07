@@ -30,7 +30,8 @@ if (Test-Path ".venv\Scripts\Activate.ps1") {
 
 # Ensure package installation
 Write-Host "[*] Verifying AMDE 4.1 installation and runtime dependencies..." -ForegroundColor Yellow
-python -m pip install -e . | Out-Null
+python -m pip install -e ".[all]" | Out-Null
+python -m pip install matplotlib lightgbm optuna flaml openml pyarrow | Out-Null
 
 # Create directories
 if (-not (Test-Path "results")) { New-Item -ItemType Directory -Path "results" | Out-Null }

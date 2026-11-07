@@ -27,7 +27,8 @@ fi
 
 # Ensure package installation
 echo "[*] Verifying AMDE 4.1 installation..."
-python3 -m pip install -e . > /dev/null 2>&1 || python -m pip install -e . > /dev/null 2>&1
+python3 -m pip install -e ".[all]" > /dev/null 2>&1 || python -m pip install -e ".[all]" > /dev/null 2>&1
+python3 -m pip install matplotlib lightgbm optuna flaml openml pyarrow > /dev/null 2>&1 || python -m pip install matplotlib lightgbm optuna flaml openml pyarrow > /dev/null 2>&1
 
 mkdir -p results reports
 
