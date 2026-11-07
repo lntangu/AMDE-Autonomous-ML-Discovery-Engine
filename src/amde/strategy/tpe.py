@@ -94,7 +94,7 @@ class TPEStrategy(SearchStrategy):
     ) -> float:
         """1D Gaussian Kernel Density Estimator log-density."""
         if not observations:
-            return 0.0
+            return math.log(1e-5)
 
         if is_log_scale:
             safe_val = math.log10(max(value, 1e-12))
@@ -225,6 +225,26 @@ class TPEStrategy(SearchStrategy):
                 log_l += self._gaussian_kde_log_prob(val, g_vals, is_log_scale=True)
                 log_g += self._gaussian_kde_log_prob(val, b_vals, is_log_scale=True)
 
+        elif c_fam == "lgbm":
+            for p_name in ("n_estimators", "max_depth", "num_leaves"):
+                val = float(c_model.get(p_name, 10))
+                g_vals = [float(m.get(p_name, 10)) for m in good_matching]
+                b_vals = [float(m.get(p_name, 10)) for m in bad_matching]
+                log_l += self._gaussian_kde_log_prob(val, g_vals)
+                log_g += self._gaussian_kde_log_prob(val, b_vals)
+
+            lr_val = float(c_model.get("learning_rate", 0.1))
+            g_lr = [float(m.get("learning_rate", 0.1)) for m in good_matching]
+            b_lr = [float(m.get("learning_rate", 0.1)) for m in bad_matching]
+            log_l += self._gaussian_kde_log_prob(lr_val, g_lr, is_log_scale=True)
+            log_g += self._gaussian_kde_log_prob(lr_val, b_lr, is_log_scale=True)
+
+            ss_val = float(c_model.get("subsample", 1.0))
+            g_ss = [float(m.get("subsample", 1.0)) for m in good_matching]
+            b_ss = [float(m.get("subsample", 1.0)) for m in bad_matching]
+            log_l += self._gaussian_kde_log_prob(ss_val, g_ss)
+            log_g += self._gaussian_kde_log_prob(ss_val, b_ss)
+
         return log_l - log_g
 
     def propose(
@@ -271,6 +291,8 @@ class TPEStrategy(SearchStrategy):
                         elite_cands.append(cand_obj)
                         self._proposed_registry[cand_obj.canonical_hash] = cand_obj
 
+        dedup = archives.get("deduplicator")
+
         for _ in range(n):
             # Generate a candidate pool: uniform samples + mutations of good/elite candidates
             pool: list[Candidate] = [self.search_space.sample_random(rng) for _ in range(16)]
@@ -286,9 +308,22 @@ class TPEStrategy(SearchStrategy):
 
             for cand in pool:
                 ratio = self._score_candidate_ratio(cand, good_cands, bad_cands)
+                if dedup is not None and dedup.has_seen(cand.canonical_hash):
+                    ratio -= 100.0  # Novelty bias: penalize evaluated candidates
                 if ratio > best_ratio:
                     best_ratio = ratio
                     best_cand = cand
+
+            # Guarantee novelty before committing proposal
+            retry = 0
+            while dedup is not None and dedup.has_seen(best_cand.canonical_hash) and retry < 25:
+                retry += 1
+                if retry <= 12:
+                    best_cand = self.search_space.mutate_candidate(
+                        best_cand, rng, generation=generation, scale=0.20 + 0.05 * retry
+                    )
+                else:
+                    best_cand = self.search_space.sample_random(rng)
 
             best_cand = Candidate(
                 genome=best_cand.genome,

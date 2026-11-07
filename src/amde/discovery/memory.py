@@ -30,6 +30,10 @@ class CandidateDeduplicator:
             return True
         return False
 
+    def has_seen(self, candidate_hash: str) -> bool:
+        """Checks if candidate_hash has already been registered without modifying counters."""
+        return candidate_hash in self._seen_hashes
+
     def register(self, candidate_hash: str) -> None:
         self._seen_hashes.add(candidate_hash)
 

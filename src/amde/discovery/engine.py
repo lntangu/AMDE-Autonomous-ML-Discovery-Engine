@@ -121,6 +121,15 @@ class AMDE3DiscoveryEngine:
                 if evaluations_completed >= budget:
                     break
 
+                if self.config.enable_deduplication:
+                    retry = 0
+                    while self.deduplicator.has_seen(cand.canonical_hash) and retry < 25:
+                        retry += 1
+                        if retry <= 12:
+                            cand = self.search_space.mutate_candidate(cand, self.rng, generation=generation, scale=0.20 + 0.05 * retry)
+                        else:
+                            cand = self.search_space.sample_random(self.rng)
+
                 c_hash = cand.canonical_hash
 
                 # 3. Check for duplicates (BOT-02 repair)
