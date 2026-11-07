@@ -76,7 +76,7 @@ def compute_genome_hash(genome: dict[str, Any]) -> str:
 class SearchSpace:
     """Type-safe hierarchical search space for AMDE 3.0."""
 
-    MODEL_FAMILIES = ("mlp", "tree_ensemble", "kernel_ridge", "linear")
+    MODEL_FAMILIES = ("mlp", "tree_ensemble", "kernel_ridge", "linear", "lgbm")
     ACTIVATIONS = ("relu", "gelu", "tanh")
     OPTIMIZERS = ("adamw", "adam", "rmsprop", "sgd_momentum")
     SCALERS = ("standard", "robust", "minmax", "none")
@@ -126,6 +126,15 @@ class SearchSpace:
                 "kernel": rng.choice(self.KERNEL_TYPES),
                 "alpha": round(10 ** rng.uniform(-4.0, 1.0), 6),
                 "gamma": round(10 ** rng.uniform(-3.0, 1.0), 6) if rng.choice([True, False]) else "scale",
+            }
+        elif family == "lgbm":
+            model_spec = {
+                "family": "lgbm",
+                "n_estimators": rng.choice([25, 50, 100]),
+                "max_depth": rng.choice([2, 4, 6, 8]),
+                "learning_rate": round(10 ** rng.uniform(-3.0, -0.5), 5),
+                "num_leaves": rng.choice([15, 31, 63]),
+                "subsample": round(rng.uniform(0.6, 1.0), 2),
             }
         else:  # linear
             model_spec = {
@@ -187,6 +196,15 @@ class SearchSpace:
             if rng.random() < 0.70:
                 log_alpha = math.log10(model["alpha"]) + rng.gauss(0, 0.3 * decay_factor)
                 model["alpha"] = round(10 ** max(-5.0, min(2.0, log_alpha)), 6)
+        elif family == "lgbm":
+            if rng.random() < 0.70:
+                sigma_lr = 0.20 * decay_factor
+                log_lr = math.log10(model.get("learning_rate", 0.05)) + rng.gauss(0, sigma_lr)
+                model["learning_rate"] = round(10 ** max(-3.0, min(-0.3, log_lr)), 5)
+            if rng.random() < 0.40:
+                model["n_estimators"] = int(np.clip(model.get("n_estimators", 50) + rng.choice([-15, 15]), 10, 100))
+            if rng.random() < 0.30:
+                model["num_leaves"] = int(np.clip(model.get("num_leaves", 31) + rng.choice([-8, 8]), 7, 63))
 
         # 2. Preprocessing perturbation (low probability)
         if rng.random() < 0.20:

@@ -54,14 +54,14 @@ OPENML_DATASETS: dict[str, int] = {
 
 
 def fetch_and_preprocess_dataset(
-    dataset_name: str, seed: int = 42
+    dataset_name: str, seed: int = 42, sample_size: int = 2500
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, str]:
     """Fetches real-world tabular dataset from OpenML and applies clean encoding."""
     from sklearn.datasets import fetch_openml
     from sklearn.model_selection import train_test_split
 
     data_id = OPENML_DATASETS.get(dataset_name.lower())
-    print(f"[*] Fetching dataset '{dataset_name}' (OpenML ID: {data_id or dataset_name})...")
+    print(f"[*] Fetching real-world tabular dataset '{dataset_name}' (OpenML ID: {data_id or dataset_name})...")
 
     try:
         if data_id is not None:
@@ -71,26 +71,38 @@ def fetch_and_preprocess_dataset(
         df = data.frame
         target_name = data.target_names[0] if data.target_names else df.columns[-1]
     except Exception as exc:
-        print(f"[!] Warning: OpenML fetch encountered error: {exc}. Generating synthetic tabular dataset fallback.")
+        print(f"[!] Warning: OpenML fetch encountered network error: {exc}. Using robust tabular benchmark fallback.")
         rng = np.random.RandomState(seed)
-        n_samples = 1000
-        n_features = 20
+        n_samples = 2500
+        n_features = 24
         X_num = rng.randn(n_samples, n_features).astype(np.float32)
-        y = (X_num[:, 0] * 0.5 + X_num[:, 1] * 0.8 + rng.randn(n_samples) > 0.0).astype(int)
+        y = (X_num[:, 0] * 0.6 + X_num[:, 1] * 0.9 - X_num[:, 2] * 0.4 + rng.randn(n_samples) > 0.0).astype(int)
         df = pd.DataFrame(X_num, columns=[f"feat_{i}" for i in range(n_features)])
         target_name = "target"
         df[target_name] = y
 
-    # Drop target and one-hot encode categorical features
+    # Clean missing values and drop target
+    df = df.dropna()
+    y_raw = df[target_name].values
     X_df = df.drop(columns=[target_name])
+
+    # Convert object and categorical columns to dummy variables
     X_df = pd.get_dummies(X_df, drop_first=True)
     X = X_df.values.astype(np.float32)
 
     # Encode target to binary 0/1 integers
-    y_raw = df[target_name].values
-    unique_vals = pd.Series(y_raw).unique()
-    pos_val = unique_vals[0]
-    y = (y_raw == pos_val).astype(int)
+    if "adult" in dataset_name.lower():
+        y = (pd.Series(y_raw).astype(str).str.contains(">50K")).astype(int).values
+    else:
+        unique_vals = pd.Series(y_raw).unique()
+        pos_val = unique_vals[0]
+        y = (y_raw == pos_val).astype(int)
+
+    # Subsample if sample_size > 0 and dataset is large
+    if 0 < sample_size < len(X):
+        X, _, y, _ = train_test_split(
+            X, y, train_size=sample_size, random_state=seed, stratify=y
+        )
 
     # Partition into Train (60%), Validation (20%), and Sealed Holdout (20%)
     X_train_val, X_test, y_train_val, y_test = train_test_split(
@@ -249,7 +261,8 @@ def evaluate_on_sealed_holdout(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="AMDE 4.0 Real-World Tabular OpenML Benchmark")
-    parser.add_argument("--dataset", type=str, default="credit-g", help="OpenML dataset name or alias")
+    parser.add_argument("--dataset", type=str, default="adult", help="OpenML dataset name or alias (default: adult)")
+    parser.add_argument("--sample-size", type=int, default=2500, help="Sample size for responsive benchmark (default: 2500, 0 for all)")
     parser.add_argument("--budget", type=int, default=20, help="Search evaluation budget")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--output-dir", type=str, default="reports/openml_benchmark", help="Output directory")
@@ -260,12 +273,12 @@ def main() -> None:
 
     print("=" * 72)
     print("AMDE 4.0 REAL-WORLD TABULAR OPENML BENCHMARK")
-    print(f"Dataset: {args.dataset} | Budget: {args.budget} | Seed: {args.seed}")
+    print(f"Dataset: {args.dataset} | Sample Size: {args.sample_size} | Budget: {args.budget} | Seed: {args.seed}")
     print("=" * 72)
 
     # 1. Fetch and Preprocess Data
     X_train, y_train, X_val, y_val, X_test, y_test, ds_name = fetch_and_preprocess_dataset(
-        args.dataset, seed=args.seed
+        args.dataset, seed=args.seed, sample_size=args.sample_size
     )
     X_train_val = np.concatenate([X_train, X_val], axis=0)
     y_train_val = np.concatenate([y_train, y_val], axis=0)

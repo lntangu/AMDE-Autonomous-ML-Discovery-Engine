@@ -140,7 +140,7 @@ class NegativeMemory:
     def extract_features(self, genome: dict[str, Any]) -> list[float]:
         """Extracts normalized continuous parameters for distance indexing."""
         model = genome.get("model", {})
-        family_idx = {"mlp": 0.0, "tree_ensemble": 0.33, "kernel_ridge": 0.66, "linear": 1.0}.get(model.get("family", ""), 0.0)
+        family_idx = {"mlp": 0.0, "tree_ensemble": 0.25, "kernel_ridge": 0.50, "linear": 0.75, "lgbm": 1.0}.get(model.get("family", ""), 0.0)
         lr = math.log10(model.get("learning_rate", 1e-3))
         # Normalize lr between -5 and 0 -> [0, 1]
         norm_lr = (lr + 5.0) / 5.0

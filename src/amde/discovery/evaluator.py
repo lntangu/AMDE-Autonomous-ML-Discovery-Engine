@@ -126,6 +126,27 @@ class MultiFidelityEvaluator:
                     )
                 trained_model.fit(X_tr, y_tr)
 
+            elif family == "lgbm":
+                from amde.evaluation.pipeline import _get_lgbm_classifier
+                LGBMClassifier = _get_lgbm_classifier()
+                n_est = min(max_iter * 2, model_spec.get("n_estimators", 50))
+                lr = float(model_spec.get("learning_rate", 0.1))
+                max_d = int(model_spec.get("max_depth", 5))
+                num_leaves = int(model_spec.get("num_leaves", 31))
+                subsample = float(model_spec.get("subsample", 1.0))
+                trained_model = LGBMClassifier(
+                    n_estimators=n_est,
+                    max_depth=max_d,
+                    learning_rate=lr,
+                    num_leaves=num_leaves,
+                    subsample=subsample,
+                    subsample_freq=1 if subsample < 1.0 else 0,
+                    random_state=42,
+                    n_jobs=1,
+                    verbose=-1,
+                )
+                trained_model.fit(X_tr, y_tr)
+
             elif family == "kernel_ridge":
                 from sklearn.linear_model import RidgeClassifier, Ridge
                 alpha = model_spec.get("alpha", 1.0)
