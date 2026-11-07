@@ -28,7 +28,7 @@ from amde.space.parameter import (
 class SearchSpace:
     """Type-safe hierarchical search space for AMDE 4.0."""
 
-    MODEL_FAMILIES = ("tree_ensemble", "mlp", "linear", "kernel_svc")
+    MODEL_FAMILIES = ("tree_ensemble", "mlp", "linear", "kernel_svc", "lgbm")
     DEPRECATED_ALIASES = {"kernel_ridge": "kernel_svc"}
     SCALERS = ("standard", "robust", "minmax", "none")
     IMPUTERS = ("mean", "median", "none")
@@ -79,6 +79,14 @@ class SearchSpace:
             "gamma": ContinuousParameter("gamma", lower=1e-3, upper=1e1, log_scale=True),
         }
 
+        self.lgbm_params: dict[str, Parameter] = {
+            "n_estimators": IntegerParameter("n_estimators", lower=10, upper=100),
+            "max_depth": IntegerParameter("max_depth", lower=2, upper=8),
+            "learning_rate": ContinuousParameter("learning_rate", lower=1e-3, upper=0.3, log_scale=True),
+            "num_leaves": IntegerParameter("num_leaves", lower=7, upper=63),
+            "subsample": ContinuousParameter("subsample", lower=0.5, upper=1.0),
+        }
+
     def sample_random(self, rng: random.Random) -> Candidate:
         """Samples an unbiased, valid candidate pipeline genome."""
         family = rng.choice(self.MODEL_FAMILIES)
@@ -113,6 +121,15 @@ class SearchSpace:
                 "family": "linear",
                 "C": self.linear_params["C"].sample(rng),
                 "penalty": self.linear_params["penalty"].sample(rng),
+            }
+        elif family == "lgbm":
+            model_spec = {
+                "family": "lgbm",
+                "n_estimators": self.lgbm_params["n_estimators"].sample(rng),
+                "max_depth": self.lgbm_params["max_depth"].sample(rng),
+                "learning_rate": self.lgbm_params["learning_rate"].sample(rng),
+                "num_leaves": self.lgbm_params["num_leaves"].sample(rng),
+                "subsample": self.lgbm_params["subsample"].sample(rng),
             }
         else:  # kernel_svc (or legacy kernel_ridge)
             model_spec = {
@@ -169,6 +186,11 @@ class SearchSpace:
             elif fam == "linear":
                 sub_key = rng.choice(["C", "penalty"])
                 mutated_genome["model"][sub_key] = self.linear_params[sub_key].perturb(
+                    mutated_genome["model"][sub_key], rng, scale=scale
+                )
+            elif fam == "lgbm":
+                sub_key = rng.choice(["n_estimators", "max_depth", "learning_rate", "num_leaves", "subsample"])
+                mutated_genome["model"][sub_key] = self.lgbm_params[sub_key].perturb(
                     mutated_genome["model"][sub_key], rng, scale=scale
                 )
             else:  # kernel_svc or kernel_ridge

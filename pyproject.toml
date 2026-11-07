@@ -3,26 +3,59 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "amde"
-version = "4.0.2"
-description = "AMDE 4.0: Autonomous Machine Learning Discovery Engine"
+name = "amde-automl"
+version = "4.1.0"
+description = "AMDE: Autonomous Machine Learning Discovery Engine - SOTA Evidence-Guided Multi-Objective AutoML"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "AMDE Project" }]
+authors = [{ name = "AMDE Research & Engineering Team", email = "research@amde-automl.org" }]
+keywords = [
+    "automl",
+    "machine-learning",
+    "tabular",
+    "hyperparameter-optimization",
+    "pareto-optimization",
+    "lightgbm",
+    "scikit-learn",
+    "openml",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     "psutil>=5.9",
     "numpy>=1.24",
     "scipy>=1.10",
     "scikit-learn>=1.3",
+    "lightgbm>=4.0",
+    "pandas>=2.0",
 ]
 
 [project.optional-dependencies]
 monitoring = ["psutil>=5.9"]
 quantum = ["torch>=2.1", "numpy>=1.26"]
-tabular = ["scikit-learn>=1.5"]
-benchmark = ["optuna>=3.6.0", "matplotlib>=3.7", "pandas>=2.0"]
+tabular = ["scikit-learn>=1.5", "lightgbm>=4.0"]
+openml = ["openml>=0.14.0", "pyarrow>=14.0"]
+benchmark = ["optuna>=3.6.0", "flaml>=2.1.0", "matplotlib>=3.7", "pandas>=2.0"]
+all = ["openml>=0.14.0", "pyarrow>=14.0", "optuna>=3.6.0", "flaml>=2.1.0", "matplotlib>=3.7", "pandas>=2.0"]
 dev = ["pytest>=7", "psutil>=5.9", "ruff>=0.5", "coverage>=7", "build>=1.0", "nbformat>=5.9"]
+
+[project.urls]
+Homepage = "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
+Documentation = "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine#readme"
+Repository = "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git"
+Issues = "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/issues"
 
 [project.scripts]
 amde = "amde.cli:main"

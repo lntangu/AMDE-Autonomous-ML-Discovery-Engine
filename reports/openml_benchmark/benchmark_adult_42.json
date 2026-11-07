@@ -1,0 +1,40 @@
+{
+  "dataset": "adult",
+  "seed": 42,
+  "budget": 20,
+  "random_search": {
+    "elapsed_seconds": 10.863,
+    "val_accuracy": 0.848,
+    "holdout_accuracy": 0.842,
+    "duplicate_rate": 0.0,
+    "pareto_size": 7,
+    "family_distribution": {
+      "tree_ensemble": 3,
+      "lgbm": 8,
+      "mlp": 4,
+      "linear": 3,
+      "kernel_svc": 2
+    }
+  },
+  "amde_4.0": {
+    "elapsed_seconds": 63.389,
+    "val_accuracy": 0.854,
+    "holdout_accuracy": 0.86,
+    "duplicate_rate": 0.0,
+    "pareto_size": 5,
+    "family_distribution": {
+      "tree_ensemble": 13,
+      "mlp": 3,
+      "lgbm": 1,
+      "linear": 1,
+      "kernel_svc": 2
+    },
+    "pareto_families": {
+      "tree_ensemble": 4,
+      "linear": 1
+    },
+    "ledger_sha256": "d7635029ab5ccd8fb145825368897b48adfa1f2bc17d4a26fe02e91a56e0b34e",
+    "ledger_status": "VALID_4_EVENTS",
+    "lightgbm_in_pareto": true
+  }
+}

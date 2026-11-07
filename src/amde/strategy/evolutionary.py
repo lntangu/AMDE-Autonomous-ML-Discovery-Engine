@@ -44,23 +44,27 @@ class EvolutionaryStrategy(SearchStrategy):
 
         # If elite archive is empty or has fewer than 2 candidates, fall back to random sampling
         elite_entries = elite_archive.entries if elite_archive is not None else []
+        dedup = archives.get("deduplicator")
 
         for _ in range(n):
-            if len(elite_entries) >= 2 and rng.random() < self.crossover_rate:
-                # Perform crossover
-                parents = rng.sample(elite_entries, 2)
-                cand_a = parents[0]["candidate"]
-                cand_b = parents[1]["candidate"]
-                child = self.search_space.crossover_candidates(cand_a, cand_b, rng, generation=generation)
-                candidates.append(child)
-            elif len(elite_entries) >= 1:
-                # Perform calibrated mutation
-                parent = rng.choice(elite_entries)["candidate"]
-                child = self.search_space.mutate_candidate(parent, rng, generation=generation, scale=0.15)
-                candidates.append(child)
-            else:
-                child = self.search_space.sample_random(rng)
-                candidates.append(child)
+            child = None
+            retry = 0
+            while child is None or (dedup is not None and dedup.has_seen(child.canonical_hash) and retry < 25):
+                retry += 1
+                scale = 0.15 + 0.05 * retry
+                if len(elite_entries) >= 2 and rng.random() < self.crossover_rate:
+                    # Perform crossover
+                    parents = rng.sample(elite_entries, 2)
+                    cand_a = parents[0]["candidate"]
+                    cand_b = parents[1]["candidate"]
+                    child = self.search_space.crossover_candidates(cand_a, cand_b, rng, generation=generation)
+                elif len(elite_entries) >= 1:
+                    # Perform calibrated mutation
+                    parent = rng.choice(elite_entries)["candidate"]
+                    child = self.search_space.mutate_candidate(parent, rng, generation=generation, scale=scale)
+                else:
+                    child = self.search_space.sample_random(rng)
+            candidates.append(child)
             self.proposals_count += 1
 
         return candidates

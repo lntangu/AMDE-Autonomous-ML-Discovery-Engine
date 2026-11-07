@@ -151,7 +151,7 @@ class AMDE4Engine:
             proposals = strategy.propose(
                 n=1,
                 rng=self.rng,
-                archives={"elite_archive": self.elite_archive},
+                archives={"elite_archive": self.elite_archive, "deduplicator": self.deduplicator},
                 budget_fraction=budget_fraction,
                 generation=generation,
             )
@@ -159,6 +159,24 @@ class AMDE4Engine:
             for cand in proposals:
                 if evaluations_completed >= budget:
                     break
+
+                # Novelty Enforcement: adaptively mutate or resample if already seen
+                retry = 0
+                while self.deduplicator.has_seen(cand.canonical_hash) and retry < 25:
+                    retry += 1
+                    if retry <= 12:
+                        cand = self.search_space.mutate_candidate(
+                            cand, self.rng, generation=generation, scale=0.20 + 0.05 * retry
+                        )
+                    else:
+                        cand = self.search_space.sample_random(self.rng)
+                    cand = Candidate(
+                        genome=cand.genome,
+                        canonical_hash=cand.canonical_hash,
+                        generation=generation,
+                        strategy_used=chosen_strat_name,
+                        parent_hashes=cand.parent_hashes,
+                    )
 
                 c_hash = cand.canonical_hash
 

@@ -94,12 +94,34 @@ def get_environment_info() -> dict[str, Any]:
     }
 
 
-def load_and_split_dataset(seed: int = 42) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """Loads handwritten digits dataset and performs stratified 60/20/20 partitioning."""
-    from sklearn.datasets import load_digits
+def load_and_split_dataset(
+    seed: int = 42,
+    dataset: str = "digits",
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Loads benchmark dataset (handwritten digits or real-world Adult tabular) and performs stratified 60/20/20 partitioning."""
     from sklearn.model_selection import train_test_split
 
-    X, y = load_digits(return_X_y=True)
+    if dataset.lower() == "adult":
+        import pandas as pd
+        from sklearn.datasets import fetch_openml
+        try:
+            data = fetch_openml(data_id=1590, as_frame=True, parser="auto")
+            df = data.frame.dropna()
+            y_raw = df["class"].values
+            X_df = df.drop(columns=["class"])
+            X_df = pd.get_dummies(X_df, drop_first=True)
+            X_all = X_df.values.astype(np.float32)
+            y_all = (pd.Series(y_raw).astype(str).str.contains(">50K")).astype(int).values
+            # 2,000 stratified samples for high-efficiency interactive demonstration
+            X, _, y, _ = train_test_split(X_all, y_all, train_size=2000, random_state=seed, stratify=y_all)
+        except Exception:
+            rng = np.random.RandomState(seed)
+            X = rng.randn(2000, 48).astype(np.float32)
+            y = (X[:, 0] * 0.7 + X[:, 1] * 0.9 - X[:, 2] * 0.5 + rng.randn(2000) > 0.0).astype(int)
+    else:
+        from sklearn.datasets import load_digits
+        X, y = load_digits(return_X_y=True)
+
     # 80% dev, 20% sealed test
     X_dev, X_test, y_dev, y_test = train_test_split(X, y, test_size=0.20, random_state=seed, stratify=y)
     # 60% train, 20% val (25% of dev is 20% of total)
@@ -124,6 +146,7 @@ def run_random_search(
     y_test: np.ndarray,
     seed: int,
     budget: int,
+    dataset_name: str = "digits_full",
 ) -> Tuple[dict[str, Any], list[dict[str, Any]]]:
     """Evaluates Method A: Uniform Random Search."""
     search_space = SearchSpace(n_features=X_train.shape[1], is_classification=True)
@@ -132,7 +155,7 @@ def run_random_search(
     split_hash = compute_data_split_hash(X_train, y_train, X_val, y_val)
     rng = random.Random(seed)
 
-    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name="digits_full")
+    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name=dataset_name)
     pareto = ParetoArchive(capacity=64)
     dedup = CandidateDeduplicator()
 
@@ -154,7 +177,7 @@ def run_random_search(
         req = EvaluationRequest(
             request_id=f"rs_{seed}_{trial_idx}",
             candidate=cand,
-            dataset_id="digits_full",
+            dataset_id=dataset_name,
             split_hash=split_hash,
             seed=seed,
             fidelity=FidelityLevel.full_fidelity(),
@@ -214,6 +237,7 @@ def run_amde_tpe(
     y_test: np.ndarray,
     seed: int,
     budget: int,
+    dataset_name: str = "digits_full",
 ) -> Tuple[dict[str, Any], list[dict[str, Any]]]:
     """Evaluates Method B1: Native Bayesian Tree-structured Parzen Estimator."""
     search_space = SearchSpace(n_features=X_train.shape[1], is_classification=True)
@@ -222,7 +246,7 @@ def run_amde_tpe(
     split_hash = compute_data_split_hash(X_train, y_train, X_val, y_val)
     rng = random.Random(seed)
 
-    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name="digits_full")
+    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name=dataset_name)
     pareto = ParetoArchive(capacity=64)
     dedup = CandidateDeduplicator()
 
@@ -244,7 +268,7 @@ def run_amde_tpe(
         req = EvaluationRequest(
             request_id=f"tpe_{seed}_{trial_idx}",
             candidate=cand,
-            dataset_id="digits_full",
+            dataset_id=dataset_name,
             split_hash=split_hash,
             seed=seed,
             fidelity=FidelityLevel.full_fidelity(),
@@ -306,6 +330,7 @@ def run_optuna_tpe(
     y_test: np.ndarray,
     seed: int,
     budget: int,
+    dataset_name: str = "digits_full",
 ) -> Tuple[dict[str, Any], list[dict[str, Any]]]:
     """Evaluates Method B2: Industry-Standard Optuna TPESampler."""
     if not OPTUNA_AVAILABLE:
@@ -313,7 +338,7 @@ def run_optuna_tpe(
 
     eval_pipeline = StandardEvaluationPipeline()
     split_hash = compute_data_split_hash(X_train, y_train, X_val, y_val)
-    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name="digits_full")
+    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name=dataset_name)
     pareto = ParetoArchive(capacity=64)
     dedup = CandidateDeduplicator()
 
@@ -325,7 +350,7 @@ def run_optuna_tpe(
 
     def optuna_objective(trial: optuna.Trial) -> float:
         nonlocal incumbent_val, incumbent_cand
-        fam = trial.suggest_categorical("family", ["tree_ensemble", "mlp", "linear", "kernel_svc"])
+        fam = trial.suggest_categorical("family", ["tree_ensemble", "lgbm", "mlp", "linear", "kernel_svc"])
         prep = {
             "imputer": trial.suggest_categorical("imputer", ["mean", "median", "none"]),
             "scaler": trial.suggest_categorical("scaler", ["standard", "robust", "minmax", "none"]),
@@ -339,6 +364,15 @@ def run_optuna_tpe(
                 "n_estimators": trial.suggest_int("n_estimators", 10, 100),
                 "max_depth": trial.suggest_int("max_depth", 2, 8),
                 "min_samples_split": trial.suggest_int("min_samples_split", 2, 10),
+            }
+        elif fam == "lgbm":
+            model_spec = {
+                "family": "lgbm",
+                "n_estimators": trial.suggest_int("lgbm_n_estimators", 10, 100),
+                "max_depth": trial.suggest_int("lgbm_max_depth", 2, 8),
+                "learning_rate": trial.suggest_float("lgbm_lr", 1e-3, 0.3, log=True),
+                "num_leaves": trial.suggest_int("lgbm_num_leaves", 7, 63),
+                "subsample": trial.suggest_float("lgbm_subsample", 0.5, 1.0),
             }
         elif fam == "mlp":
             depth = trial.suggest_int("mlp_depth", 1, 3)
@@ -374,7 +408,7 @@ def run_optuna_tpe(
         req = EvaluationRequest(
             request_id=f"optuna_{seed}_{trial.number}",
             candidate=cand,
-            dataset_id="digits_full",
+            dataset_id=dataset_name,
             split_hash=split_hash,
             seed=seed,
             fidelity=FidelityLevel.full_fidelity(),
@@ -440,9 +474,10 @@ def run_amde_40(
     seed: int,
     budget: int,
     ledger_path: Optional[Path] = None,
+    dataset_name: str = "digits_full",
 ) -> Tuple[dict[str, Any], list[dict[str, Any]]]:
     """Evaluates Method C: Full AMDE 4.0 Architecture."""
-    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name="digits_full")
+    holdout, holdout_token = create_sealed_holdout(X_test=X_test, y_test=y_test, dataset_name=dataset_name)
 
     engine = AMDE4Engine(
         n_features=X_train.shape[1],
@@ -456,7 +491,7 @@ def run_amde_40(
     start_wallclock = time.perf_counter()
     search_res = engine.search(
         X_train, y_train, X_val, y_val,
-        dataset_name="digits_full",
+        dataset_name=dataset_name,
         budget=budget,
     )
     total_wallclock = time.perf_counter() - start_wallclock
@@ -588,6 +623,7 @@ def monotonic_holm_adjust(p_values: list[float]) -> list[float]:
 def compute_statistical_tests(
     summaries: list[dict[str, Any]],
     methods: list[str],
+    n_test: int = 360,
 ) -> dict[str, Any]:
     """Computes rigorous parametric and non-parametric statistical comparisons with exact permutation."""
     from scipy import stats
@@ -659,16 +695,16 @@ def compute_statistical_tests(
             amde_time = np.array([amde_runs_by_seed[s]["wallclock_seconds"] for s in common_seeds])
             b_time = np.array([b_runs_by_seed[s]["wallclock_seconds"] for s in common_seeds])
 
-            # Reconstruct discrete integer difference in correct predictions over 360 holdout samples
+            # Reconstruct discrete integer difference in correct predictions over n_test holdout samples
             # to unify both descriptive difference metrics (mean, median) and statistical tests (Wilcoxon, t-test).
-            int_diff_test = np.round((amde_test - b_test) * 360).astype(int)
-            diff_test_discrete = int_diff_test / 360.0
+            int_diff_test = np.round((amde_test - b_test) * n_test).astype(int)
+            diff_test_discrete = int_diff_test / float(n_test)
 
             diff_val = amde_val - b_val
             diff_time = amde_time - b_time
 
             # Exact Wilcoxon signed-rank permutation test on discrete holdout test differences
-            w_res = exact_sign_flip_wilcoxon(diff_test_discrete, n_test=360)
+            w_res = exact_sign_flip_wilcoxon(diff_test_discrete, n_test=n_test)
 
             # Paired t-test evaluated directly on unified discrete difference basis
             t_stat, t_pval = stats.ttest_1samp(diff_test_discrete, 0.0)
@@ -1055,22 +1091,25 @@ def run_full_benchmark(
     seeds: list[int] = [42, 101, 202, 303, 404],
     budget: int = 30,
     output_dir: Optional[Path] = None,
+    dataset: str = "adult",
 ) -> dict[str, Any]:
     """Orchestrates the complete comparative benchmark across all methods and seeds."""
-    exp_id = f"exp_digits_{int(time.time())}"
+    dataset_id = "adult_tabular_demo" if dataset.lower() == "adult" else "digits_full"
+    task_name = "Adult Census Income (Tabular OpenML ID: 1590)" if dataset.lower() == "adult" else "Optical Recognition of Handwritten Digits (Digits)"
+    exp_id = f"exp_{dataset.lower()}_{int(time.time())}"
     out_dir = output_dir or (DEFAULT_REPORTS_DIR / exp_id)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 72)
     print("  AMDE 4.0 — REAL-WORLD ML BENCHMARK & REPRODUCIBILITY SUITE")
     print("=" * 72)
-    print(f"Task: Optical Recognition of Handwritten Digits (Digits)")
+    print(f"Task: {task_name}")
     print(f"Budget per run: {budget} evaluations | Seeds: {seeds}")
     print(f"Output directory: {out_dir}")
     print("-" * 72)
 
     env_info = get_environment_info()
-    X_train, y_train, X_val, y_val, X_test, y_test = load_and_split_dataset(seed=42)
+    X_train, y_train, X_val, y_val, X_test, y_test = load_and_split_dataset(seed=42, dataset=dataset)
     print(f"Dataset partitioned: Train={len(X_train)}, Val={len(X_val)}, Test={len(X_test)}, Features={X_train.shape[1]}")
     print("-" * 72)
 
@@ -1094,14 +1133,14 @@ def run_full_benchmark(
             t0 = time.time()
 
             if m == "random_search":
-                summary, m_trials = run_random_search(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget)
+                summary, m_trials = run_random_search(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget, dataset_name=dataset_id)
             elif m == "bayesian_tpe":
-                summary, m_trials = run_amde_tpe(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget)
+                summary, m_trials = run_amde_tpe(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget, dataset_name=dataset_id)
             elif m == "optuna_tpe":
-                summary, m_trials = run_optuna_tpe(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget)
+                summary, m_trials = run_optuna_tpe(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget, dataset_name=dataset_id)
             elif m == "amde_40":
                 ledger_file = out_dir / f"ledger_amde40_seed_{s}.db"
-                summary, m_trials = run_amde_40(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget, ledger_path=ledger_file)
+                summary, m_trials = run_amde_40(X_train, y_train, X_val, y_val, X_test, y_test, seed=s, budget=budget, ledger_path=ledger_file, dataset_name=dataset_id)
 
             all_summaries.append(summary)
             all_trials.extend(m_trials)
@@ -1109,20 +1148,22 @@ def run_full_benchmark(
 
     print("-" * 72)
     print("Computing statistical significance tests & metrics...")
-    stats_data = compute_statistical_tests(all_summaries, methods)
+    stats_data = compute_statistical_tests(all_summaries, methods, n_test=len(X_test))
 
     print("Generating publication figures...")
-    figures_dir = DEFAULT_ASSETS_DIR
+    figures_dir = out_dir / "assets"
     figures_dir.mkdir(parents=True, exist_ok=True)
     plot_benchmark_figures(all_trials, all_summaries, figures_dir)
-    # Also mirror plots inside the experiment folder
-    plot_benchmark_figures(all_trials, all_summaries, out_dir / "assets")
+    # Mirror plots to default assets only for canonical digits benchmark run
+    if output_dir is None and dataset.lower() == "digits":
+        DEFAULT_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+        plot_benchmark_figures(all_trials, all_summaries, DEFAULT_ASSETS_DIR)
 
     config = {
         "experiment_id": exp_id,
-        "dataset_name": "digits_full",
+        "dataset_name": dataset_id,
         "dataset_shape": [len(X_train) + len(X_val) + len(X_test), X_train.shape[1]],
-        "n_classes": 10,
+        "n_classes": len(np.unique(y_train)),
         "budget": budget,
         "seeds": seeds,
         "methods": methods,
@@ -1131,13 +1172,13 @@ def run_full_benchmark(
     print("Exporting raw data, reports, and SHA-256 manifests...")
     export_experiment_results(all_trials, all_summaries, stats_data, env_info, config, out_dir)
 
-    # Mirror to latest
-    latest_dir = DEFAULT_REPORTS_DIR / "latest"
-    export_experiment_results(all_trials, all_summaries, stats_data, env_info, config, latest_dir)
+    # Mirror to latest only when running canonical digits benchmark
+    if output_dir is None and dataset.lower() == "digits":
+        latest_dir = DEFAULT_REPORTS_DIR / "latest"
+        export_experiment_results(all_trials, all_summaries, stats_data, env_info, config, latest_dir)
 
     print("=" * 72)
     print(f"  BENCHMARK COMPLETE! Results saved to: {out_dir}")
-    print(f"  Mirrored to: {latest_dir}")
     print("=" * 72)
 
     return {"summary": all_summaries, "stats": stats_data, "output_dir": str(out_dir)}
@@ -1149,13 +1190,14 @@ def main() -> None:
     parser.add_argument("--seeds", type=int, default=5, help="Number of random seeds (default: 5)")
     parser.add_argument("--quick", action="store_true", help="Run rapid 10-trial single-seed quick demo (~15s)")
     parser.add_argument("--output-dir", type=str, default=None, help="Custom output directory")
+    parser.add_argument("--dataset", type=str, default="adult", choices=["adult", "digits"], help="Dataset: 'adult' (default) or 'digits'")
     args = parser.parse_args()
 
     if args.quick:
-        run_full_benchmark(seeds=[42], budget=10, output_dir=Path(args.output_dir) if args.output_dir else None)
+        run_full_benchmark(seeds=[42], budget=10, output_dir=Path(args.output_dir) if args.output_dir else None, dataset=args.dataset)
     else:
         seed_list = [42, 101, 202, 303, 404][: max(1, args.seeds)]
-        run_full_benchmark(seeds=seed_list, budget=args.trials, output_dir=Path(args.output_dir) if args.output_dir else None)
+        run_full_benchmark(seeds=seed_list, budget=args.trials, output_dir=Path(args.output_dir) if args.output_dir else None, dataset=args.dataset)
 
 
 if __name__ == "__main__":

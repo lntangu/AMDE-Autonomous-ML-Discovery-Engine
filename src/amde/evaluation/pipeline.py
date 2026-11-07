@@ -18,6 +18,7 @@ from __future__ import annotations
 import copy
 import math
 import multiprocessing
+from pathlib import Path
 import time
 from typing import Any, Mapping, Optional, Tuple
 import warnings
@@ -48,6 +49,28 @@ def _isolated_worker_entry(pipe, pipeline_inst, req, X_tr, y_tr, X_v, y_v):
             pipe.close()
         except Exception:
             pass
+
+
+def _get_lgbm_classifier() -> Any:
+    """Imports LGBMClassifier with automated runtime discovery of bundled OpenMP."""
+    try:
+        import lightgbm as lgb
+        return lgb.LGBMClassifier
+    except OSError:
+        # Fallback: attempt to link bundled libgomp from torch or common site-packages
+        try:
+            import ctypes
+            import torch
+            gomp_path = Path(torch.__file__).parent / "lib" / "libgomp.so.1"
+            if gomp_path.exists():
+                ctypes.CDLL(str(gomp_path), mode=ctypes.RTLD_GLOBAL)
+                import lightgbm as lgb
+                return lgb.LGBMClassifier
+        except Exception:
+            pass
+        raise
+    except ImportError:
+        raise EvaluationError("lightgbm is required for model family 'lgbm'. Please install lightgbm.")
 
 
 class StandardEvaluationPipeline:
@@ -441,6 +464,28 @@ class StandardEvaluationPipeline:
                 solver="lbfgs",
             )
 
+        elif family == "lgbm":
+            LGBMClassifier = _get_lgbm_classifier()
+            n_est = int(model_spec.get("n_estimators", 50))
+            if fidelity.rung_id == 0:
+                n_est = max(10, n_est // 3)
+            max_d = int(model_spec.get("max_depth", 5))
+            lr = float(model_spec.get("learning_rate", 0.1))
+            num_leaves = int(model_spec.get("num_leaves", 31))
+            subsample = float(model_spec.get("subsample", 1.0))
+            subsample_freq = 1 if subsample < 1.0 else 0
+            return LGBMClassifier(
+                n_estimators=n_est,
+                max_depth=max_d,
+                learning_rate=lr,
+                num_leaves=num_leaves,
+                subsample=subsample,
+                subsample_freq=subsample_freq,
+                random_state=seed,
+                n_jobs=1,
+                verbose=-1,
+            )
+
         elif family in ("kernel_svc", "kernel_ridge"):
             if family == "kernel_ridge":
                 warnings.warn(
@@ -471,4 +516,11 @@ class StandardEvaluationPipeline:
             return sum(tree.tree_.node_count for tree in model.estimators_)
         elif hasattr(model, "coefs_"):
             return sum(w.size for w in model.coefs_)
+        elif hasattr(model, "booster_"):
+            try:
+                num_trees = model.booster_.num_trees()
+                leaves_per_tree = getattr(model, "num_leaves", 31)
+                return int(num_trees * leaves_per_tree)
+            except Exception:
+                return 1000
         return 100

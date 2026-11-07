@@ -1,0 +1,39 @@
+{
+  "dataset": "credit-g",
+  "seed": 42,
+  "budget": 20,
+  "random_search": {
+    "elapsed_seconds": 4.39,
+    "val_accuracy": 0.795,
+    "holdout_accuracy": 0.7,
+    "duplicate_rate": 0.0,
+    "pareto_size": 5,
+    "family_distribution": {
+      "tree_ensemble": 3,
+      "lgbm": 8,
+      "mlp": 4,
+      "linear": 3,
+      "kernel_svc": 2
+    }
+  },
+  "amde_4.0": {
+    "elapsed_seconds": 5.838,
+    "val_accuracy": 0.8,
+    "holdout_accuracy": 0.76,
+    "duplicate_rate": 0.0,
+    "pareto_size": 7,
+    "family_distribution": {
+      "tree_ensemble": 12,
+      "linear": 3,
+      "mlp": 3,
+      "kernel_svc": 2
+    },
+    "pareto_families": {
+      "tree_ensemble": 5,
+      "linear": 2
+    },
+    "ledger_sha256": "068ccd83563f3aac7131867b15a42c5942367c4c1f75af1c137432b6397b7d14",
+    "ledger_status": "VALID_2_EVENTS",
+    "lightgbm_in_pareto": false
+  }
+}

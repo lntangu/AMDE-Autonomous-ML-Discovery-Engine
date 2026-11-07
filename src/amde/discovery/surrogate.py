@@ -25,7 +25,7 @@ class CalibratedSurrogate:
         model = genome.get("model", {})
         prep = genome.get("preprocessing", {})
 
-        family_map = {"mlp": 0, "tree_ensemble": 1, "kernel_ridge": 2, "linear": 3}
+        family_map = {"mlp": 0, "tree_ensemble": 1, "kernel_ridge": 2, "linear": 3, "lgbm": 4}
         fam = family_map.get(model.get("family", ""), -1)
 
         scaler_map = {"none": 0, "standard": 1, "robust": 2, "minmax": 3}
