@@ -1,4 +1,4 @@
-# AMDE — Autonomous Machine Learning Discovery Engine (v5.0.0 Super Learner)
+# AMDE — Autonomous Machine Learning Discovery Engine (v5.0.0)
 
 [![CI Matrix](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml/badge.svg?branch=release-amde-final)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/badge/release-v5.0.0-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v5.0.0)
