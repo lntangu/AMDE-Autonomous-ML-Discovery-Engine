@@ -208,6 +208,7 @@ class AMDE4P0CorrectnessTests(unittest.TestCase):
             valid, msg = ledger.verify_chain()
             self.assertFalse(valid, "Deleted intermediate row went undetected!")
             self.assertIn("Sequence discontinuity", msg)
+            ledger.close()
 
     # =========================================================================
     # P0-5: Pareto Archive Exact Preservation & Bounded Crowding Distance

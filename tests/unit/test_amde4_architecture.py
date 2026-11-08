@@ -255,6 +255,7 @@ class TestAMDE4Architecture(unittest.TestCase):
             h = ledger.compute_ledger_sha256()
             self.assertIsInstance(h, str)
             self.assertEqual(len(h), 64)
+            ledger.close()
 
     # 9. Hardware Profile & Pascal Architecture Safeguards
     def test_hardware_profile_detection(self):
@@ -329,6 +330,7 @@ class TestAMDE4Architecture(unittest.TestCase):
             test_score = engine.evaluate_sealed_holdout(X_tr, y_tr, holdout, token=token)
             self.assertIsInstance(test_score, float)
             self.assertGreaterEqual(test_score, 0.0)
+            engine.ledger.close()
 
 
 if __name__ == "__main__":
