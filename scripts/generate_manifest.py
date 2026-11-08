@@ -12,11 +12,25 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "SHA256SUMS.txt"
 
 
+BINARY_EXTENSIONS = {".zip", ".png", ".pdf", ".whl", ".gz", ".tar.gz", ".db", ".sqlite3"}
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as f:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             digest.update(chunk)
+    return digest.hexdigest()
+
+
+def sha256_canonical(path: Path) -> str:
+    if path.suffix.lower() in BINARY_EXTENSIONS:
+        return sha256(path)
+    # Canonical POSIX LF line ending hash for all text assets
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            digest.update(chunk.replace(b"\r\n", b"\n"))
     return digest.hexdigest()
 
 
@@ -72,7 +86,7 @@ def main() -> int:
         if path.suffix == ".ipynb":
             digest = notebook_canonical_sha256(path)
         else:
-            digest = sha256(path)
+            digest = sha256_canonical(path)
         lines.append(f"{digest}  {rel}\n")
 
     MANIFEST_PATH.write_text("".join(lines), encoding="utf-8", newline="\n")

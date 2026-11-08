@@ -26,6 +26,14 @@ def sha256_normalized(path: Path) -> str:
     return digest.hexdigest()
 
 
+def sha256_crlf_normalized(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
+    return digest.hexdigest()
+
+
 def notebook_canonical_sha256(path: Path) -> str:
     """Computes a deterministic hash of an interactive Jupyter notebook's code & markdown cells."""
     try:
@@ -83,8 +91,8 @@ def main() -> int:
         actual = sha256(path)
         checked += 1
         if actual != expected_digest:
-            # Tolerant fallback 1: Check if difference is solely Windows git checkout CRLF translation
-            if sha256_normalized(path) == expected_digest:
+            # Tolerant fallback 1: Check if difference is solely Windows/POSIX line ending translation (CRLF <-> LF)
+            if sha256_normalized(path) == expected_digest or sha256_crlf_normalized(path) == expected_digest:
                 continue
             # Tolerant fallback 2: For interactive Jupyter notebooks (.ipynb), verify code and markdown cell structure
             if path.suffix == ".ipynb" and notebook_canonical_sha256(path) == expected_digest:
