@@ -93,7 +93,8 @@ class AMDE4Engine:
         else:
             self.fidelity_policy = FullFidelityPolicy()
 
-        db_path = ledger_path or Path(f".amde4_ledger_{seed}_{int(time.time())}.db")
+        import os
+        db_path = ledger_path or Path(f".amde4_ledger_{seed}_{os.getpid()}_{time.time_ns()}.db")
         self.ledger = EventLedger(db_path)
 
         self.incumbent_candidate: Optional[Candidate] = None

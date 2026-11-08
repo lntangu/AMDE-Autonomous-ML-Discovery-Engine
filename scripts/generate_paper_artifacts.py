@@ -263,10 +263,15 @@ def plot_convergence_curve(
         ]
         if not c_target.empty:
             for method in ["amde", "optuna", "flaml"]:
-                sub = c_target[c_target["method"].astype(str).str.lower() == method].sort_values("timestamp_s")
-                if not sub.empty:
-                    t = sub["timestamp_s"].values
-                    raw_acc = sub["test_accuracy"].values if "test_accuracy" in sub.columns else sub["incumbent_score"].values
+                sub_method = c_target[c_target["method"].astype(str).str.lower() == method]
+                if not sub_method.empty:
+                    time_col = "elapsed_seconds" if "elapsed_seconds" in sub_method.columns else ("timestamp_s" if "timestamp_s" in sub_method.columns else sub_method.columns[0])
+                    sub = sub_method.sort_values(time_col)
+                    t = sub[time_col].values
+                    raw_acc = (
+                        sub["final_test_accuracy"].values if "final_test_accuracy" in sub.columns
+                        else (sub["test_accuracy"].values if "test_accuracy" in sub.columns else sub["incumbent_score"].values)
+                    )
                     cum_acc = np.maximum.accumulate(raw_acc) * 100.0
                     series_data[method] = (t, cum_acc)
 

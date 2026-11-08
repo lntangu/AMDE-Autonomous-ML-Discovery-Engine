@@ -1,11 +1,9 @@
 {
-  "n_datasets": 5,
+  "n_datasets": 3,
   "datasets": [
     "adult",
     "bank-marketing",
-    "credit-g",
-    "phoneme",
-    "qsar-biodeg"
+    "credit-g"
   ],
   "methods": [
     "amde",
@@ -14,75 +12,65 @@
   ],
   "method_summaries": {
     "amde": {
-      "average_rank": 1.8,
-      "mean_test_acc": 0.8433,
-      "std_test_acc": 0.0465,
-      "median_test_acc": 0.8489,
-      "mean_wallclock_s": 86.48,
-      "mean_memory_mb": 356.5
+      "average_rank": 2.5,
+      "mean_test_acc": 0.8269,
+      "std_test_acc": 0.0989,
+      "median_test_acc": 0.8634,
+      "mean_wallclock_s": 349.9,
+      "mean_memory_mb": 737.7
     },
     "flaml": {
-      "average_rank": 2.6,
-      "mean_test_acc": 0.7966,
-      "std_test_acc": 0.0818,
-      "median_test_acc": 0.801,
-      "mean_wallclock_s": 75.71,
-      "mean_memory_mb": 225.8
+      "average_rank": 1.5,
+      "mean_test_acc": 0.8327,
+      "std_test_acc": 0.1032,
+      "median_test_acc": 0.8754,
+      "mean_wallclock_s": 336.64,
+      "mean_memory_mb": 682.2
     },
     "optuna": {
-      "average_rank": 1.6,
-      "mean_test_acc": 0.8372,
-      "std_test_acc": 0.0636,
-      "median_test_acc": 0.8531,
-      "mean_wallclock_s": 85.44,
-      "mean_memory_mb": 374.6
+      "average_rank": 2.0,
+      "mean_test_acc": 0.8276,
+      "std_test_acc": 0.0922,
+      "median_test_acc": 0.8544,
+      "mean_wallclock_s": 338.23,
+      "mean_memory_mb": 787.9
     }
   },
   "comparisons_vs_amde": {
     "flaml": {
-      "wins": 4,
-      "ties": 0,
-      "losses": 1,
-      "win_rate_pct": 80.0,
-      "mean_diff": 0.04668,
-      "wilcoxon_stat": 2.0,
-      "wilcoxon_p_value": 0.1875
+      "wins": 0,
+      "ties": 1,
+      "losses": 2,
+      "win_rate_pct": 0.0,
+      "mean_diff": -0.00577,
+      "wilcoxon_stat": 0.0,
+      "wilcoxon_p_value": 0.5
     },
     "optuna": {
-      "wins": 2,
+      "wins": 1,
       "ties": 0,
-      "losses": 3,
-      "win_rate_pct": 40.0,
-      "mean_diff": 0.00607,
-      "wilcoxon_stat": 7.0,
-      "wilcoxon_p_value": 1.0
+      "losses": 2,
+      "win_rate_pct": 33.3,
+      "mean_diff": -0.00067,
+      "wilcoxon_stat": 2.0,
+      "wilcoxon_p_value": 0.75
     }
   },
   "raw_accuracy_table": {
     "adult": {
-      "amde": 0.8489,
-      "flaml": 0.8583,
-      "optuna": 0.8538
+      "amde": 0.8634,
+      "flaml": 0.8754,
+      "optuna": 0.8544
     },
     "bank-marketing": {
-      "amde": 0.8965,
-      "flaml": 0.893,
-      "optuna": 0.9009
+      "amde": 0.9025,
+      "flaml": 0.9077,
+      "optuna": 0.9034
     },
     "credit-g": {
-      "amde": 0.775,
-      "flaml": 0.7,
-      "optuna": 0.73
-    },
-    "phoneme": {
-      "amde": 0.8714,
-      "flaml": 0.7308,
-      "optuna": 0.8483
-    },
-    "qsar-biodeg": {
-      "amde": 0.8246,
-      "flaml": 0.801,
-      "optuna": 0.8531
+      "amde": 0.715,
+      "flaml": 0.715,
+      "optuna": 0.725
     }
   }
 }
