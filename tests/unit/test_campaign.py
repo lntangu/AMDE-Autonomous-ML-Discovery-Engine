@@ -153,7 +153,7 @@ class ResearchCampaignTests(unittest.TestCase):
         root, _ = make_project(self)
         args = SimpleNamespace(
             root=str(root), config=None, campaign_id="two_round_check", rounds=2,
-            hours_per_round=0.04, max_trials_per_round=2, max_campaign_gb=1.0,
+            hours_per_round=0.02, max_trials_per_round=3, max_campaign_gb=1.0,
             min_free_gb=1.0, seed=777, device="cpu",
         )
         self.assertEqual(run_campaign(args), 0)
