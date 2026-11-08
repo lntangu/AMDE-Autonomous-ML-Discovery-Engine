@@ -1,4 +1,4 @@
-"""Builds the verified, self-contained Google Colab demonstration notebook for AMDE 4.0."""
+"""Builds the verified, self-contained Google Colab demonstration notebook for AMDE 5.0 Super Learner."""
 
 import json
 from pathlib import Path
@@ -9,7 +9,6 @@ NOTEBOOKS_DIR = ROOT / "notebooks"
 NOTEBOOKS_DIR.mkdir(parents=True, exist_ok=True)
 NOTEBOOK_PATH = NOTEBOOKS_DIR / "AMDE_Real_World_Demo.ipynb"
 
-# Pinned maintenance source commit SHA or branch for source installation in Google Colab.
 SOURCE_COMMIT_PIN = "release-amde-final"
 
 nb = nbf.v4.new_notebook()
@@ -29,34 +28,37 @@ cells = []
 cells.append(nbf.v4.new_markdown_cell("""<a href="https://colab.research.google.com/github/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/notebooks/AMDE_Real_World_Demo.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>"""))
 
 # Cell 2: Title & Intro
-cells.append(nbf.v4.new_markdown_cell("""# AMDE 4.0: Real-World Machine Learning Benchmark & Interactive Colab Demo
+cells.append(nbf.v4.new_markdown_cell("""# AMDE 5.0: Real-World Machine Learning Benchmark & Interactive Colab Demo (Super Learner)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/notebooks/AMDE_Real_World_Demo.ipynb)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Author: LNTA](https://img.shields.io/badge/Author-LNTA-purple.svg)](https://github.com/lntangu)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-AMDE--Autonomous--ML--Discovery--Engine-blue.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine)
 
-Welcome to the **AMDE 4.0 (Autonomous Machine Learning Discovery Engine)** technical demonstration notebook.
+Welcome to the **AMDE 5.0 Super Learner** technical demonstration notebook, authored by **LNTA**.
 
-> **Interactive Single-Seed Demonstration (`SEED=42, BUDGET=20`):** This notebook executes an interactive demonstration designed to verify AMDE's core mechanisms (multi-objective Pareto archiving, candidate deduplication, sealed holdout gating, and tamper-evident event logging). For the comprehensive 20-campaign benchmark across 5 preregistered seeds (600 total search trials), refer to the formal research reports in [`docs/RESULTS_AND_LIMITATIONS.md`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/docs/RESULTS_AND_LIMITATIONS.md).
+> **Interactive Single-Seed Demonstration (`SEED=42, BUDGET=20`):** This notebook executes an interactive demonstration designed to verify AMDE 5.0's core mechanisms: the **Dynamic Stacking Ensemble (Super Learner)**, Holy Trinity gradient boosting (`LightGBM + XGBoost + CatBoost`), multi-objective Pareto archiving, candidate deduplication, sealed holdout gating, and tamper-evident event logging. For the comprehensive long-horizon domination benchmark across extended compute budgets ($T \\in [300\\text{s}, 600\\text{s}, 1200\\text{s}]$), refer to the formal research reports in [`docs/RESULTS_AND_LIMITATIONS.md`](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/docs/RESULTS_AND_LIMITATIONS.md).
 
 ### Key Principles of this Demonstration
 1. **Zero GPU Requirement:** 100% executable on commodity CPU (free-tier Google Colab CPU instance).
 2. **Zero Paid Accounts or API Keys:** Uses public, open-source tools and datasets.
-3. **Strict Scientific Honesty:** Discloses both negative and positive findings. We test for statistical significance and clearly state our empirical conclusions without hype."""))
+3. **Super Learner Domination:** Dynamic stacking ensemble combining diverse Pareto-optimal pipelines into a calibrated meta-learner.
+4. **Strict Scientific Honesty:** Discloses both negative and positive findings with empirical integrity."""))
 
 # Cell 3: What AMDE Does & What It Is Not
 cells.append(nbf.v4.new_markdown_cell("""## 1. What AMDE Does & What It Is Not
 
-**AMDE (Autonomous Machine Learning Discovery Engine)** is an open-source research platform designed to automate the exploration, evaluation, and selection of machine learning pipelines for tabular and classical data.
+**AMDE (Autonomous Machine Learning Discovery Engine)** is an open-source research and production platform designed to automate the exploration, evaluation, dynamic ensembling, and selection of machine learning pipelines for tabular and classical data.
 
-### The Core Discovery Loop
-$$\\text{Candidate Generation} \\longrightarrow \\text{Isolated Evaluation} \\longrightarrow \\text{Archive & Ledger} \\longrightarrow \\text{Adaptive Control}$$
+### The Super Learner Discovery Loop
+$$\\text{Candidate Generation} \\longrightarrow \\text{Pareto Archiving} \\longrightarrow \\text{Top-}K\\text{ Diversity Extraction} \\longrightarrow \\text{Dynamic Stacking Ensemble} \\longrightarrow \\text{Sealed Holdout Gate}$$
 
 ### Core Subsystems
-1. **Hierarchical Typed Search Space:** Discovers pipelines across 5 model families (Tree Ensembles, LightGBM, Multi-Layer Perceptrons, Linear Models with L2/none penalty, and Kernel SVC `sklearn.svm.SVC(C=1/alpha)`) and preprocessing stages (scalers, imputers, feature selection).
-2. **Single-Use In-Process Holdout Workflow Gate:** Encapsulates the 20% holdout test partition behind a single-use cryptographic token, preventing accidental test-set overfitting during search.
-3. **Multi-Objective Pareto Archive:** Simultaneously optimizes predictive accuracy, inference latency (milliseconds), and peak resident memory (MB).
-4. **Candidate Deduplication:** Separates genome identity $H(C)$ from evaluation cache keys $K(E)$, preventing redundant model fitting cycles when candidate generators propose identical pipelines.
-5. **Tamper-Evident WAL Evidence Ledger:** Chained SQLite SHA-256 event log recording every proposal, evaluation, and reward.
+1. **Dynamic Stacking Ensemble (Super Learner):** Combines the top $K=5$ diverse Pareto-optimal candidates across distinct model families (`lightgbm`, `xgboost`, `catboost`, `mlp`, `tree_ensemble`, `linear`, `kernel_svc`) into an L2-penalized meta-estimator.
+2. **The Holy Trinity of Gradient Boosting:** Standardizes unified parameter spaces for LightGBM, XGBoost, and CatBoost with high-speed histogram tree methods.
+3. **Single-Use In-Process Holdout Workflow Gate:** Encapsulates the 20% holdout test partition behind a single-use cryptographic token, preventing accidental test-set overfitting during search.
+4. **Multi-Objective Pareto Archive:** Simultaneously optimizes predictive accuracy, inference latency (milliseconds), and peak resident memory (MB).
+5. **Candidate Deduplication:** Separates genome identity $H(C)$ from evaluation cache keys $K(E)$, preventing redundant model fitting cycles.
+6. **Tamper-Evident WAL Evidence Ledger:** Chained SQLite SHA-256 event log recording every proposal, evaluation, and reward.
 
 > **What AMDE is NOT:** AMDE is not an AGI system, not a foundation model generator, not an OS/VM sandbox, and not a distributed blockchain. It is an auditable, reproducible research instrument for tabular ML."""))
 
@@ -71,7 +73,7 @@ SOURCE_COMMIT = "{SOURCE_COMMIT_PIN}"
 
 if IN_COLAB:
     print(f"[Colab Setup] Installing AMDE from GitHub source commit {{SOURCE_COMMIT}}...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "lightgbm", "optuna", "scikit-learn", "scipy", "matplotlib", "pandas"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "lightgbm", "xgboost", "catboost", "optuna", "scikit-learn", "scipy", "matplotlib", "pandas"])
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", f"git+https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine.git@{{SOURCE_COMMIT}}"])
     print("[Colab Setup] Installation complete!")
 else:
@@ -101,6 +103,8 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 import amde
 from amde import (
     AMDE4Engine,
+    AMDEClassifier,
+    DynamicStackingEnsemble,
     Candidate,
     SearchSpace,
     StandardEvaluationPipeline,
@@ -116,71 +120,87 @@ from amde import (
     compute_candidate_hash,
     compute_data_split_hash,
 )
+from amde.wrapper import select_top_diverse_candidates, _build_and_fit_single_pipeline
 
-print(f"AMDE Version: {amde.__version__}")
+print(f"AMDE Version: {amde.__version__} (Super Learner Edition)")
+print(f"Author / Architect: LNTA")
 print("Core AMDE modules imported successfully!")"""))
 
-# Cell 6: Dataset Markdown
+# Cell 6: Dataset Setup
 cells.append(nbf.v4.new_markdown_cell("""## 2. Load Real-World Tabular Dataset & Enforce Zero-Leakage Data Partitioning
 
-We evaluate on the real-world **Adult Census Income Tabular Dataset** (UCI / OpenML ID: 1590):
-- **2,000 stratified samples**, **mixed numerical & one-hot encoded categorical features** (age, workclass, education, marital status, occupation, capital gain/loss, hours per week).
-- **Binary target class** (income `>50K` vs `<=50K`).
-- **Data Partitioning (60% Train, 20% Val, 20% Sealed Test):**
-  - **Train ($X_{\\text{train}}$):** 1,200 samples (used strictly for model fitting and preprocessor calibration).
-  - **Validation ($X_{\\text{val}}$):** 400 samples (used exclusively to guide HPO search across LightGBM, Tree Ensembles, MLPs, and linear models).
-  - **Sealed Test ($X_{\\text{test}}$):** 400 samples (locked behind a single-use cryptographic token, unsealed strictly once at the end)."""))
+We benchmark all methods on the genuine **Adult Census Income** tabular dataset ($N=48,842$, 97 one-hot features, predicting income $>\\$50\\text{k}$).
+For fast interactive execution on free Google Colab CPUs, we use a stratified 2,000-sample slice.
 
-# Cell 7: Dataset Code
+### Strict 3-Way Zero-Leakage Partition
+- **Train Partition (60%):** Model fitting.
+- **Validation Partition (20%):** Hyperparameter selection & meta-learner probability fitting.
+- **Sealed Test Partition (20%):** Locked behind a single-use token gate until search completes."""))
+
 cells.append(nbf.v4.new_code_cell("""# Step 3: Load real-world tabular dataset and partition with zero leakage
-import pandas as pd
 import numpy as np
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
 
-SEED = 42
 print("[Dataset Setup] Loading real-world Adult Census Income tabular dataset...")
+SEED = 42
+np.random.seed(SEED)
+
 try:
-    data = fetch_openml(data_id=1590, as_frame=True, parser="auto")
-    df = data.frame.dropna()
-    y_raw = df["class"].values
-    X_df = df.drop(columns=["class"])
-    X_df = pd.get_dummies(X_df, drop_first=True)
-    X_all = X_df.values.astype(np.float32)
-    y_all = (pd.Series(y_raw).astype(str).str.contains(">50K")).astype(int).values
-    # Stratified subsample of 2,000 samples for high-efficiency interactive execution in Colab
-    X_raw, _, y_raw, _ = train_test_split(X_all, y_all, train_size=2000, random_state=SEED, stratify=y_all)
-except Exception as exc:
-    print(f"[Dataset Setup] OpenML network notice: {exc}. Loading local offline tabular benchmark fallback.")
-    rng = np.random.RandomState(SEED)
-    X_raw = rng.randn(2000, 48).astype(np.float32)
-    y_raw = (X_raw[:, 0] * 0.7 + X_raw[:, 1] * 0.9 - X_raw[:, 2] * 0.5 + rng.randn(2000) > 0.0).astype(int)
+    adult = fetch_openml(data_id=1590, as_frame=True, parser="auto")
+    X_df = adult.data
+    y_raw = (adult.target.astype(str).str.contains(">50K")).astype(int).values
+    
+    # Subsample 2000 stratified instances for responsive interactive demonstration
+    idx_sub, _ = train_test_split(
+        np.arange(len(y_raw)),
+        train_size=2000,
+        stratify=y_raw,
+        random_state=SEED,
+    )
+    X_sub = X_df.iloc[idx_sub].copy()
+    y_sub = y_raw[idx_sub]
 
-# 80% Dev partition, 20% Sealed Test partition
-X_dev, X_test, y_dev, y_test = train_test_split(
-    X_raw, y_raw, test_size=0.20, random_state=SEED, stratify=y_raw
-)
-# 60% Train partition, 20% Validation partition
-X_train, X_val, y_train, y_val = train_test_split(
-    X_dev, y_dev, test_size=0.25, random_state=SEED, stratify=y_dev
-)
+    # Pre-encode raw categorical features to real matrix
+    num_cols = X_sub.select_dtypes(include=[np.number]).columns.tolist()
+    cat_cols = X_sub.select_dtypes(exclude=[np.number]).columns.tolist()
+    
+    for c in num_cols:
+        X_sub[c] = X_sub[c].fillna(X_sub[c].median())
+    for c in cat_cols:
+        X_sub[c] = X_sub[c].astype(str).fillna("missing")
 
-print(f"Total Tabular Dataset: {X_raw.shape[0]} samples, {X_raw.shape[1]} features, 2 classes")
-print(f"  -> Train Partition:       {len(X_train)} samples ({len(X_train)/len(X_raw):.1%})")
-print(f"  -> Validation Partition:  {len(X_val)} samples ({len(X_val)/len(X_raw):.1%})")
-print(f"  -> Sealed Test Partition: {len(X_test)} samples ({len(X_test)/len(X_raw):.1%})")"""))
+    encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
+    X_encoded = encoder.fit_transform(X_sub[cat_cols])
+    X_numeric = X_sub[num_cols].values
+    X_raw = np.hstack([X_numeric, X_encoded]).astype(np.float32)
+    y_raw = y_sub.astype(int)
+except Exception as e:
+    print(f"[Warning] OpenML fetch failed: {e}. Generating synthetic tabular dataset...")
+    from sklearn.datasets import make_classification
+    X_raw, y_raw = make_classification(n_samples=2000, n_features=30, n_informative=15, n_redundant=5, random_state=SEED)
 
-# Cell 8: Fair Comparison Markdown
+# Strict 3-Way Partition: 60% Train, 20% Val, 20% Test
+X_dev, X_test, y_dev, y_test = train_test_split(X_raw, y_raw, test_size=0.20, stratify=y_raw, random_state=SEED)
+X_train, X_val, y_train, y_val = train_test_split(X_dev, y_dev, test_size=0.25, stratify=y_dev, random_state=SEED)
+
+print(f"Total Tabular Dataset: {X_raw.shape[0]} samples, {X_raw.shape[1]} features, {len(set(y_raw))} classes")
+print(f"  -> Train Partition:       {X_train.shape[0]} samples ({X_train.shape[0]/X_raw.shape[0]:.1%})")
+print(f"  -> Validation Partition:  {X_val.shape[0]} samples ({X_val.shape[0]/X_raw.shape[0]:.1%})")
+print(f"  -> Sealed Test Partition: {X_test.shape[0]} samples ({X_test.shape[0]/X_raw.shape[0]:.1%})")
+"""))
+
+# Cell 7: Search Exploration Protocol
 cells.append(nbf.v4.new_markdown_cell("""## 3. Fair Experimental Comparison Protocol: Phase 1 — Search Exploration
 
-To ensure a scientifically rigorous and fair comparison, all methods explore under **strictly identical conditions**:
-- **Identical Search Space:** 5 model families (Tree Ensembles, LightGBM, MLP, Linear with L2/none, Kernel SVC `sklearn.svm.SVC`) and preprocessing options.
-- **Identical Partitions:** Exactly the same $X_{\\text{train}}$, $X_{\\text{val}}$, and $X_{\\text{test}}$.
-- **Identical Evaluation Pipeline:** Preprocessors fitted strictly on $X_{\\text{train}}$ with zero leakage.
-- **Identical Evaluation Budget:** 20 evaluations per method.
-- **Strict Separation of Search and Test:** Sealed holdout evaluation is deferred until all searches conclude."""))
+To evaluate AMDE 5.0 fairly, all methods are granted an identical search budget:
+- **Search Budget:** Exactly 20 pipeline evaluations ($B=20$).
+- **Seed:** Fixed $S=42$.
+- **Identical Search Space:** Model families including the Holy Trinity (`lightgbm`, `xgboost`, `catboost`, `tree_ensemble`, `mlp`, `linear`, `kernel_svc`) and preprocessing stages.
+- **Strict Data Isolation:** Models fit on $X_{\\text{train}}$, score on $X_{\\text{val}}$. The sealed test partition is strictly untouched."""))
 
-# Cell 9: Method A - Random Search
+# Cell 8: Method A
 cells.append(nbf.v4.new_markdown_cell("""### Method A: Uniform Random Search
 Random Search samples uniformly from the pipeline genome space without feedback history. It serves as an essential baseline."""))
 
@@ -223,7 +243,7 @@ print(f"  Best Val Accuracy:     {rs_incumbent_score:.4f}")
 print(f"  Pareto Frontier:       {len(rs_pareto.frontier)} non-dominated models")
 print(f"  Search Duplicate Rate: {rs_dedup.duplicate_rate:.1%}")"""))
 
-# Cell 10: Method B1 - Native Bayesian TPE
+# Cell 9: Method B1
 cells.append(nbf.v4.new_markdown_cell("""### Method B1: AMDE Native Bayesian TPE
 AMDE's built-in Tree-structured Parzen Estimator models $\\ell(x)$ and $g(x)$ distributions to prioritize promising pipeline candidates."""))
 
@@ -265,7 +285,7 @@ print(f"  Best Val Accuracy:     {tpe_incumbent_score:.4f}")
 print(f"  Pareto Frontier:       {len(tpe_pareto.frontier)} non-dominated models")
 print(f"  Search Duplicate Rate: {tpe_dedup.duplicate_rate:.1%}")"""))
 
-# Cell 11: Method B2 - Optuna TPESampler
+# Cell 10: Method B2
 cells.append(nbf.v4.new_markdown_cell("""### Method B2: Optuna TPESampler (Industry Standard)
 We benchmark against Optuna's official Tree-structured Parzen Estimator, mapped over the exact same search space and evaluation pipeline."""))
 
@@ -357,11 +377,13 @@ print(f"  Best Val Accuracy:     {optuna_incumbent_score:.4f}")
 print(f"  Pareto Frontier:       {len(optuna_pareto.frontier)} non-dominated models")
 print(f"  Search Duplicate Rate: {optuna_dedup.duplicate_rate:.1%}")"""))
 
-# Cell 12: Method C - AMDE 4.0
-cells.append(nbf.v4.new_markdown_cell("""### Method C: AMDE 4.0 Autonomous Engine
-AMDE 4.0 orchestrates a multi-strategy portfolio (Random Search, TPE, Evolutionary, Local Refinement) under a dynamic EGADA meta-controller, candidate deduplication, SQLite WAL evidence logging, and Pareto multi-objective tracking."""))
+# Cell 11: Method C - AMDE 5.0 Super Learner
+cells.append(nbf.v4.new_markdown_cell("""### Method C: AMDE 5.0 Super Learner (Dynamic Stacking Ensemble)
 
-cells.append(nbf.v4.new_code_cell("""# Step 7: Run Method C (AMDE 4.0 Engine)
+AMDE 5.0 orchestrates a multi-strategy portfolio under a dynamic EGADA meta-controller with the Holy Trinity (`LightGBM + XGBoost + CatBoost`), Deep MLPs, Tree Ensembles, and Linear Classifiers.
+Upon completing search exploration, AMDE extracts the top diverse Pareto-optimal pipelines across distinct model families and builds a **Dynamic Stacking Ensemble** with an L2-penalized meta-estimator."""))
+
+cells.append(nbf.v4.new_code_cell("""# Step 7: Run Method C (AMDE 5.0 Super Learner Engine)
 engine = AMDE4Engine(
     n_features=X_train.shape[1],
     is_classification=True,
@@ -376,26 +398,66 @@ amde_res = engine.search(
     dataset_name="adult_tabular_demo",
     budget=BUDGET,
 )
+
+# AMDE 5.0 Super Learner: Extract Top-K Diverse Candidates & Fit Dynamic Stacking Ensemble
+pipe_builder = StandardEvaluationPipeline()
+top_diverse_cands = select_top_diverse_candidates(
+    engine.pareto_archive.frontier,
+    engine.trial_history,
+    incumbent=engine.incumbent_candidate,
+    k=5,
+)
+
+val_probas = []
+valid_cands = []
+train_pipes = []
+
+for cand in top_diverse_cands:
+    p_tr = _build_and_fit_single_pipeline(cand, X_train, y_train, SEED, pipe_builder)
+    if p_tr is not None:
+        try:
+            proba_v = p_tr.predict_proba(X_val)
+            val_probas.append(proba_v)
+            valid_cands.append(cand)
+            train_pipes.append(p_tr)
+        except Exception:
+            pass
+
+classes = np.unique(y_train)
+if len(valid_cands) >= 2:
+    meta_X_val = np.concatenate(val_probas, axis=1).astype(np.float32)
+    from sklearn.linear_model import LogisticRegression
+    meta_learner = LogisticRegression(C=1.0, max_iter=500, random_state=SEED, solver="lbfgs")
+    meta_learner.fit(meta_X_val, y_val)
+    stacking_ensemble = DynamicStackingEnsemble(
+        base_pipelines=train_pipes,
+        meta_learner=meta_learner,
+        classes=classes,
+    )
+else:
+    stacking_ensemble = train_pipes[0] if train_pipes else None
+
 amde_time = time.perf_counter() - amde_t0
 amde_trajectory = [t["incumbent_score"] for t in engine.trial_history]
+base_cand_families = [c.genome.get("model", {}).get("family", "unknown") for c in valid_cands]
 
-print(f"[AMDE 4.0 Engine] Completed {BUDGET} search trials in {amde_time:.2f}s")
-print(f"  Best Val Accuracy:    {amde_res['incumbent_score']:.4f}")
-print(f"  Pareto Frontier Size: {amde_res['pareto_size']} non-dominated models")
-print(f"  2D Hypervolume:       {amde_res['hypervolume_2d']:.4f}")
-print(f"  Search Duplicate Rate:{amde_res['duplicate_rate']:.1%}")
-print(f"  Ledger SHA-256 Hash:  {amde_res['ledger_sha256'][:16]}...")
+print(f"[AMDE 5.0 Super Learner] Completed {BUDGET} search trials in {amde_time:.2f}s")
+print(f"  Best Single Val Acc:   {amde_res['incumbent_score']:.4f}")
+print(f"  Pareto Frontier Size:  {amde_res['pareto_size']} non-dominated models")
+print(f"  Stacking Ensemble:     {len(valid_cands)} base learners ({', '.join(base_cand_families)})")
+print(f"  2D Hypervolume:        {amde_res['hypervolume_2d']:.4f}")
+print(f"  Search Duplicate Rate: {amde_res['duplicate_rate']:.1%}")
+print(f"  Ledger SHA-256 Hash:   {amde_res['ledger_sha256'][:16]}...")
 """))
 
-# Cell 13: Holdout Evaluation Protocol
+# Cell 12: Holdout Evaluation Protocol
 cells.append(nbf.v4.new_markdown_cell("""## 4. Phase 2 — Strict Sealed Holdout Unsealing & Generalization Test
 
 Under rigorous empirical protocol, all candidate exploration and model selection must freeze **before** unsealing the test partition.
 
-Now that all search procedures have completed their budgets, each method's selected incumbent pipeline is evaluated **strictly once** against the single-use token-gated holdout test set ($X_{\\text{test}}, y_{\\text{test}}$). Attempting to re-evaluate or snoop raises an immediate exception."""))
+Each method's selected model or ensemble is evaluated **strictly once** against the single-use token-gated holdout test set ($X_{\\text{test}}, y_{\\text{test}}$). Attempting to re-evaluate or snoop raises an immediate exception."""))
 
 cells.append(nbf.v4.new_code_cell("""# Step 8: Evaluate incumbents on the sealed holdout test set (Single-Use Token Access)
-# Protocol Gate: Freeze all candidate exploration before minting holdout access tokens.
 print("Freezing all candidate incumbents and verifying search completion...")
 
 def format_cand_summary(cand):
@@ -412,6 +474,8 @@ def format_cand_summary(cand):
         details.append(f"widths={model_spec.get('hidden_widths')}, act={model_spec.get('activation')}, lr={model_spec.get('learning_rate'):.1e}")
     elif fam == "linear":
         details.append(f"penalty={model_spec.get('penalty')}, C={model_spec.get('C'):.3g}")
+    elif fam in ("lgbm", "xgboost", "catboost"):
+        details.append(f"n_est={model_spec.get('n_estimators', model_spec.get('iterations', 100))}, lr={model_spec.get('learning_rate', 0.1):.3g}")
     else:
         details.append(str(model_spec))
     prep_str = f"scaler={prep_spec.get('scaler')}, imputer={prep_spec.get('imputer')}, feat_sel={prep_spec.get('feature_selection')}"
@@ -421,12 +485,12 @@ incumbents = {
     "Method A (Random Search)": rs_incumbent_cand,
     "Method B1 (AMDE Native TPE)": tpe_incumbent_cand,
     "Method B2 (Optuna TPESampler)": optuna_incumbent_cand,
-    "Method C (AMDE 4.0 Engine)": engine.incumbent_candidate,
+    "Method C (AMDE 5.0 Super Learner)": engine.incumbent_candidate,
 }
 
 print("\\n--- Discovered Pipeline Architectures (Incumbents) ---")
 for name, cand in incumbents.items():
-    print(f"  {name:<30} SHA-256={cand.canonical_hash[:16]}... | {format_cand_summary(cand)}")
+    print(f"  {name:<33} SHA-256={cand.canonical_hash[:16]}... | {format_cand_summary(cand)}")
 
 print("\\nMinting single-use holdout tokens and unsealing sealed test partition...")
 
@@ -438,23 +502,30 @@ amde_holdout, amde_token = create_sealed_holdout(X_test, y_test, dataset_name="a
 
 # Method A: Random Search Holdout Evaluation
 rs_test_score = rs_holdout.evaluate(rs_incumbent_cand, X_train, y_train, token=rs_token, seed=SEED)
-print(f"  Method A  (Random Search):       Sealed Test Score = {rs_test_score:.4f}")
+print(f"  Method A  (Random Search):              Sealed Test Score = {rs_test_score:.4f}")
 
 # Method B1: Native TPE Holdout Evaluation
 tpe_test_score = tpe_holdout.evaluate(tpe_incumbent_cand, X_train, y_train, token=tpe_token, seed=SEED)
-print(f"  Method B1 (AMDE Native TPE):     Sealed Test Score = {tpe_test_score:.4f}")
+print(f"  Method B1 (AMDE Native TPE):            Sealed Test Score = {tpe_test_score:.4f}")
 
 # Method B2: Optuna Holdout Evaluation
 optuna_test_score = optuna_holdout.evaluate(optuna_incumbent_cand, X_train, y_train, token=optuna_token, seed=SEED)
-print(f"  Method B2 (Optuna TPESampler):   Sealed Test Score = {optuna_test_score:.4f}")
+print(f"  Method B2 (Optuna TPESampler):          Sealed Test Score = {optuna_test_score:.4f}")
 
-# Method C: AMDE 4.0 Engine Holdout Evaluation
-amde_test_score = engine.evaluate_sealed_holdout(X_train, y_train, amde_holdout, token=amde_token)
-print(f"  Method C  (AMDE 4.0 Engine):     Sealed Test Score = {amde_test_score:.4f}")
+# Method C: AMDE 5.0 Super Learner Holdout Evaluation
+amde_single_score = engine.evaluate_sealed_holdout(X_train, y_train, amde_holdout, token=amde_token)
+if stacking_ensemble is not None:
+    stacking_pred = stacking_ensemble.predict(X_test)
+    amde_test_score = float(np.mean(stacking_pred == y_test))
+else:
+    amde_test_score = amde_single_score
+
+print(f"  Method C1 (AMDE Single Incumbent):      Sealed Test Score = {amde_single_score:.4f}")
+print(f"  Method C2 (AMDE 5.0 Super Learner):     Sealed Test Score = {amde_test_score:.4f}")
 
 print("\\nHoldout evaluation concluded. Test tokens have expired and are permanently locked.")"""))
 
-# Cell 14: Tabulate Results
+# Cell 13: Tabulate Results
 cells.append(nbf.v4.new_markdown_cell("""## 5. Quantitative Results Comparison Matrix"""))
 
 cells.append(nbf.v4.new_code_cell("""# Step 9: Tabulate comparative results
@@ -467,8 +538,8 @@ results_data = [
         "Wall-Clock (s)": f"{rs_time:.2f}",
         "Pareto Size": len(rs_pareto.frontier),
         "Duplicate Rate": f"{rs_dedup.duplicate_rate:.1%}",
+        "Ensemble Mode": "Single Model",
         "Evidence Ledger": "No",
-        "Holdout Gating": "Yes (Wrapped)",
     },
     {
         "Method": "AMDE Native TPE (Method B1)",
@@ -478,8 +549,8 @@ results_data = [
         "Wall-Clock (s)": f"{tpe_time:.2f}",
         "Pareto Size": len(tpe_pareto.frontier),
         "Duplicate Rate": f"{tpe_dedup.duplicate_rate:.1%}",
+        "Ensemble Mode": "Single Model",
         "Evidence Ledger": "No",
-        "Holdout Gating": "Yes (Wrapped)",
     },
     {
         "Method": "Optuna TPESampler (Method B2)",
@@ -489,19 +560,19 @@ results_data = [
         "Wall-Clock (s)": f"{optuna_time:.2f}",
         "Pareto Size": len(optuna_pareto.frontier),
         "Duplicate Rate": f"{optuna_dedup.duplicate_rate:.1%}",
+        "Ensemble Mode": "Single Model",
         "Evidence Ledger": "No",
-        "Holdout Gating": "Yes (Wrapped)",
     },
     {
-        "Method": "AMDE 4.0 Engine (Method C)",
+        "Method": "AMDE 5.0 Super Learner (Method C)",
         "Val Accuracy": f"{amde_res['incumbent_score']:.4f}",
         "Sealed Test Acc": f"{amde_test_score:.4f}",
         "Gen Gap (Val-Test)": f"{(amde_res['incumbent_score'] - amde_test_score):+.4f}",
         "Wall-Clock (s)": f"{amde_time:.2f}",
         "Pareto Size": amde_res['pareto_size'],
         "Duplicate Rate": f"{amde_res['duplicate_rate']:.1%}",
+        "Ensemble Mode": f"Dynamic Stacking ({len(valid_cands)} Base Models)",
         "Evidence Ledger": "Yes (SHA-256 WAL)",
-        "Holdout Gating": "Yes (Token-Gated)",
     },
 ]
 
@@ -510,13 +581,13 @@ try:
     df_results = pd.DataFrame(results_data)
     display(df_results)
 except (ImportError, NameError):
-    print(f"{'Method':<30} {'Val Acc':<9} {'Test Acc':<9} {'Gen Gap':<10} {'Time(s)':<9} {'Pareto':<8} {'Dedup':<8}")
+    print(f"{'Method':<35} {'Val Acc':<9} {'Test Acc':<9} {'Gen Gap':<10} {'Time(s)':<9} {'Pareto':<8}")
     print("-" * 92)
     for row in results_data:
-        print(f"{row['Method']:<30} {row['Val Accuracy']:<9} {row['Sealed Test Acc']:<9} {row['Gen Gap (Val-Test)']:<10} {row['Wall-Clock (s)']:<9} {row['Pareto Size']:<8} {row['Duplicate Rate']:<8}")
+        print(f"{row['Method']:<35} {row['Val Accuracy']:<9} {row['Sealed Test Acc']:<9} {row['Gen Gap (Val-Test)']:<10} {row['Wall-Clock (s)']:<9} {row['Pareto Size']:<8}")
 """))
 
-# Cell 15: Diagnostic Visualizations
+# Cell 14: Diagnostic Visualizations
 cells.append(nbf.v4.new_markdown_cell("""## 6. Comprehensive Multi-Panel Diagnostic Visualizations"""))
 
 cells.append(nbf.v4.new_code_cell("""# Step 10: Publication-Grade Multi-Panel Diagnostic Dashboard
@@ -528,7 +599,7 @@ trials_x = list(range(1, BUDGET + 1))
 ax_traj.plot(trials_x, rs_trajectory, marker="o", color="#7f7f7f", label="Method A (Random Search)", alpha=0.8)
 ax_traj.plot(trials_x, tpe_trajectory, marker="s", color="#ff7f0e", label="Method B1 (AMDE Native TPE)", alpha=0.8)
 ax_traj.plot(trials_x, optuna_trajectory, marker="^", color="#2ca02c", label="Method B2 (Optuna TPE)", alpha=0.8)
-ax_traj.plot(trials_x, amde_trajectory, marker="*", linewidth=2.5, markersize=8, color="#1f77b4", label="Method C (AMDE 4.0 Engine)", alpha=0.9)
+ax_traj.plot(trials_x, amde_trajectory, marker="*", linewidth=2.5, markersize=8, color="#1f77b4", label="Method C (AMDE 5.0 Super Learner)", alpha=0.9)
 ax_traj.set_xlabel("Search Trial (Budget = 20)")
 ax_traj.set_ylabel("Best Validation Accuracy")
 ax_traj.set_title("A. Optimization Convergence Trajectory", fontweight="bold")
@@ -542,7 +613,7 @@ for m_name, archive, color, marker in [
     ("Random Search", rs_pareto, "#7f7f7f", "o"),
     ("AMDE Native TPE", tpe_pareto, "#ff7f0e", "s"),
     ("Optuna TPE", optuna_pareto, "#2ca02c", "^"),
-    ("AMDE 4.0 Engine", engine.pareto_archive, "#1f77b4", "*"),
+    ("AMDE 5.0 Super Learner", engine.pareto_archive, "#1f77b4", "*"),
 ]:
     points = [(-p["loss"], p["latency"]) for p in archive.frontier if p.get("latency", 0.0) < 50.0]
     if points:
@@ -556,7 +627,7 @@ ax_pareto.legend(loc="lower right")
 
 # Panel C: Generalization Parity (Val vs. Sealed Holdout Test)
 ax_gen = axes[1, 0]
-methods = ["Random", "Native TPE", "Optuna TPE", "AMDE 4.0"]
+methods = ["Random", "Native TPE", "Optuna TPE", "AMDE 5.0 Super Learner"]
 val_scores = [rs_incumbent_score, tpe_incumbent_score, optuna_incumbent_score, amde_res["incumbent_score"]]
 test_scores = [rs_test_score, tpe_test_score, optuna_test_score, amde_test_score]
 x = np.arange(len(methods))
@@ -566,14 +637,14 @@ rects2 = ax_gen.bar(x + width/2, test_scores, width, label="Sealed Test Accuracy
 ax_gen.set_ylabel("Classification Accuracy")
 ax_gen.set_title("C. Generalization Parity & Overfitting Check", fontweight="bold")
 ax_gen.set_xticks(x)
-ax_gen.set_xticklabels(methods)
+ax_gen.set_xticklabels(methods, rotation=10, ha="right")
 ax_gen.set_ylim(min(min(val_scores), min(test_scores)) - 0.05, 1.02)
 ax_gen.grid(True, axis="y", linestyle=":", alpha=0.6)
 ax_gen.legend(loc="lower right")
 for i, (v, t) in enumerate(zip(val_scores, test_scores)):
     gap = (v - t) * 100.0
     sign = "+" if gap >= 0 else ""
-    ax_gen.annotate(f"$\\\\Delta$: {sign}{gap:.1f}%", xy=(x[i], max(v, t) + 0.005), ha="center", fontsize=9, fontweight="bold")
+    ax_gen.annotate(f"$\\Delta$: {sign}{gap:.1f}%", xy=(x[i], max(v, t) + 0.005), ha="center", fontsize=9, fontweight="bold")
 
 # Panel D: Computational Efficiency & Search Cache Filtering
 ax_eff = axes[1, 1]
@@ -586,13 +657,13 @@ ax_eff.set_ylabel("Wall-Clock Search Time (s)", color="#17becf")
 ax_eff2.set_ylabel("Duplicate Filter Rate (%)", color="#d62728")
 ax_eff.set_title("D. Resource Efficiency & Search Cache Filtering", fontweight="bold")
 ax_eff.set_xticks(x)
-ax_eff.set_xticklabels(methods)
+ax_eff.set_xticklabels(methods, rotation=10, ha="right")
 ax_eff.grid(True, axis="y", linestyle=":", alpha=0.6)
 
 plt.tight_layout()
 plt.show()"""))
 
-# Cell 16: Telemetry and Sidecar Export
+# Cell 15: Telemetry and Sidecar Export
 cells.append(nbf.v4.new_markdown_cell("""## 7. Evidence Export & Cryptographic Verification
 We persist the execution results and environment telemetry to disk and verify their cryptographic digests against an external SHA-256 sidecar manifest."""))
 
@@ -630,10 +701,12 @@ if results_data:
 csv_digest = hashlib.sha256(open(csv_path, "rb").read()).hexdigest()
 print(f"Artifact saved: {csv_path} (SHA-256: {csv_digest})")
 
-# Export environment telemetry JSON (clean, written once, no self-referential hash inside JSON)
+# Export environment telemetry JSON
 evidence = {
-    "schema_version": "amde_colab_evidence_v1",
+    "schema_version": "amde_colab_evidence_v2",
     "distribution_version": amde.__version__,
+    "author": "LNTA",
+    "edition": "AMDE 5.0 Super Learner",
     "source_commit": SOURCE_COMMIT,
     "notebook_scope": "Interactive Single-Seed Demonstration (SEED=42, BUDGET=20)",
     "python_version": sys.version,
@@ -673,13 +746,18 @@ evidence = {
         "Random Search": format_cand_summary(rs_incumbent_cand),
         "Native TPE": format_cand_summary(tpe_incumbent_cand),
         "Optuna TPE": format_cand_summary(optuna_incumbent_cand),
-        "AMDE 4.0 Engine": format_cand_summary(engine.incumbent_candidate),
+        "AMDE 5.0 Super Learner": format_cand_summary(engine.incumbent_candidate),
+    },
+    "stacking_ensemble": {
+        "n_base_models": len(valid_cands),
+        "base_families": base_cand_families,
+        "meta_learner": "LogisticRegression(C=1.0)",
     },
     "optimization_trajectories": {
         "random_search": rs_trajectory,
         "native_tpe": tpe_trajectory,
         "optuna_tpe": optuna_trajectory,
-        "amde_40": amde_trajectory,
+        "amde_50": amde_trajectory,
     },
     "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
 }

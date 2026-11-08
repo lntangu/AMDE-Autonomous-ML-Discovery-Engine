@@ -1,17 +1,22 @@
 cff-version: 1.2.0
 message: "If you use this software in your experimental research, please cite it as below."
 authors:
-  - name: "AMDE Project Maintainers"
-title: "AMDE: Autonomous Machine Learning Discovery Engine"
-version: 4.0.2
-date-released: 2026-11-04
+  - name: "LNTA"
+  - name: "AMDE Contributors"
+title: "AMDE: Autonomous Machine Learning Discovery Engine (Version 5.0.0 Super Learner)"
+version: 5.0.0
+date-released: 2026-11-08
 url: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
 repository-code: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
 license: "MIT"
 keywords:
   - "machine-learning"
   - "automl"
+  - "super-learner"
+  - "stacking-ensemble"
+  - "lightgbm"
+  - "xgboost"
+  - "catboost"
   - "multi-objective-optimization"
-  - "thompson-sampling"
   - "pareto-frontier"
   - "research-software"

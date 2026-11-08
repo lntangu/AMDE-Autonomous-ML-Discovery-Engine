@@ -11,7 +11,7 @@ Features:
 - Robust dynamic fetching & local Parquet caching (avoids OpenML API rate limits).
 - Process-level fault isolation & configurable per-dataset timeouts (e.g. 3600s).
 - Identical stratified 60/20/20 train/val/test splits across all methods.
-- Real-time incremental logging to results/openml_cc18_master_results.csv.
+- Real-time incremental logging to results/domination_benchmark_results.csv.
 - Full resumption support (--resume skips already evaluated dataset/method pairs).
 """
 
@@ -69,8 +69,8 @@ OPENML_CC18_DATASET_IDS = [
 ]
 
 DEFAULT_CACHE_DIR = ROOT / "data" / "openml_cc18_cache"
-DEFAULT_OUTPUT_CSV = ROOT / "results" / "openml_cc18_master_results.csv"
-DEFAULT_CONVERGENCE_CSV = ROOT / "results" / "convergence_history.csv"
+DEFAULT_OUTPUT_CSV = ROOT / "results" / "domination_benchmark_results.csv"
+DEFAULT_CONVERGENCE_CSV = ROOT / "results" / "domination_convergence_history.csv"
 
 
 def get_openml_cc18_dataset_ids(suite_id: int = 99) -> list[int]:

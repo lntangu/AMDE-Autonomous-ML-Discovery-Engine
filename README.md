@@ -1,4 +1,4 @@
-# AMDE — Autonomous Machine Learning Discovery Engine (v5.0.0)
+# AMDE — Autonomous Machine Learning Discovery Engine (v5.0.0 Super Learner)
 
 [![CI Matrix](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml/badge.svg?branch=release-amde-final)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/badge/release-v5.0.0-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v5.0.0)
@@ -6,9 +6,10 @@
 [![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](pyproject.toml)
 [![Platforms](https://img.shields.io/badge/platforms-Ubuntu%20%7C%20Windows-lightgrey.svg)](.github/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Author: LNTA](https://img.shields.io/badge/Author-LNTA-purple.svg)](https://github.com/lntangu)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/notebooks/AMDE_Real_World_Demo.ipynb)
 
-**AMDE (Autonomous Machine Learning Discovery Engine)** is an enterprise-grade research and production AutoML platform for reproducible, multi-objective exploration, dynamic stacking ensemble learning, and forensic evaluation of tabular machine learning pipelines.
+**AMDE (Autonomous Machine Learning Discovery Engine)** is an enterprise-grade research and production AutoML platform authored by **LNTA** for reproducible, multi-objective exploration, dynamic stacking ensemble learning, and forensic evaluation of tabular machine learning pipelines.
 
 AMDE v5.0 introduces the **Dynamic Stacking Ensemble ("Super Learner")**, unifying the Holy Trinity of gradient boosted trees (**LightGBM + XGBoost + CatBoost**) alongside Deep MLPs, Tree Ensembles (Random Forests/ExtraTrees), and Regularized Linear Classifiers under a calibrated meta-learner.
 
@@ -150,7 +151,7 @@ pip install -e ".[tabular,benchmark]"
 
 ## 6. Quickstart
 
-### Standard Scikit-Learn API (3 Lines of Code)
+### Standard Scikit-Learn API (3 Lines of Code — AMDE 5.0 Super Learner)
 
 ```python
 from amde import AMDEClassifier
@@ -160,14 +161,15 @@ from sklearn.model_selection import train_test_split
 X, y = load_breast_cancer(return_X_y=True)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize and fit AMDE (e.g., 60-second time budget)
-clf = AMDEClassifier(time_budget_s=60, random_state=42)
+# 3-Line Scikit-Learn API: 300s budget, 5-model dynamic stacking ensemble
+clf = AMDEClassifier(time_budget_s=300, stacking_k=5, random_state=42)
 clf.fit(X_train, y_train)
-
-# Evaluate predictions
 y_pred = clf.predict(X_test)
-print(f"Test Accuracy: {clf.score(X_test, y_test):.4f}")
-print(f"Pareto Frontier Models: {len(clf.pareto_frontier_)}")
+
+# Evaluate predictions & inspect discovered ensemble
+print(f"Test Accuracy:             {clf.score(X_test, y_test):.4f}")
+print(f"Dynamic Ensemble Learners: {clf.stacking_k} models (Super Learner)")
+print(f"Pareto Frontier Size:      {len(clf.pareto_frontier_)} non-dominated architectures")
 print(f"Cryptographic Ledger Hash: {clf.ledger_hash_[:16]}...")
 ```
 
@@ -291,8 +293,8 @@ The interactive demonstration is available to open directly in Google Colab:
 | **[`docs/CLAIMS_LEDGER.md`](docs/CLAIMS_LEDGER.md)** | Machine-audited ledger mapping every claim to empirical verification status. |
 | **[`docs/VIDEO_DEMONSTRATION_PLAN.md`](docs/VIDEO_DEMONSTRATION_PLAN.md)** | Walkthrough video script and visual assets demonstration plan. |
 | **[`docs/PROJECT_CLOSURE.md`](docs/PROJECT_CLOSURE.md)** | Formal project status, development closure, and release references. |
-| **[`docs/releases/AMDE_4.1.0_RELEASE_NOTES.md`](docs/releases/AMDE_4.1.0_RELEASE_NOTES.md)** | Complete release notes for version 4.1.0 (OpenML-CC18, LightGBM, PyPI). |
-| **[`docs/releases/AMDE_4.0.2_RELEASE_NOTES.md`](docs/releases/AMDE_4.0.2_RELEASE_NOTES.md)** | Complete release notes for version 4.0.2. |
+| **[`docs/releases/AMDE_5.0.0_RELEASE_NOTES.md`](docs/releases/AMDE_5.0.0_RELEASE_NOTES.md)** | Complete release notes for version 5.0.0 (Super Learner Stacking & Domination). |
+| **[`docs/architecture/AMDE_5.0_Super_Learner_Architecture.md`](docs/architecture/AMDE_5.0_Super_Learner_Architecture.md)** | Technical specification for Dynamic Stacking Ensemble & Holy Trinity. |
 
 ---
 
@@ -301,14 +303,12 @@ The interactive demonstration is available to open directly in Google Colab:
 If you use AMDE in your experimental research, please cite this work as follows:
 
 ```bibtex
-@software{amde2026,
-  author = {lntangu and AMDE Contributors},
-  title = {AMDE: Autonomous Machine Learning Discovery Engine (Version 4.0.2)},
+@software{amde2026_lnta,
+  author = {LNTA and AMDE Contributors},
+  title = {AMDE: Autonomous Machine Learning Discovery Engine (Version 5.0.0 Super Learner)},
   year = {2026},
   publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine}},
-  note = {Canonical branch: release-amde-final}
+  howpublished = {\url{https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine}}
 }
 ```
 

@@ -1,5 +1,6 @@
-"""AMDE 4.0: Autonomous Machine Learning Discovery Engine.
+"""AMDE 5.0: Autonomous Machine Learning Discovery Engine (Super Learner).
 
+Author: LNTA
 Principal ML Systems Architecture for Evidence-Guided Discovery.
 """
 

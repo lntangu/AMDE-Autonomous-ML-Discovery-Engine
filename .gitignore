@@ -26,7 +26,9 @@ amde_colab_evidence.json
 amde_colab_evidence.sha256
 data/openml_cc18_cache/
 results/*
-!results/openml_cc18_master_results.csv
+!results/domination_benchmark_results.csv
+!results/domination_convergence_history.csv
 *.zip
+!archive/amde_v4_legacy_archive.zip
 github-recovery-codes.txt
 catboost_info/

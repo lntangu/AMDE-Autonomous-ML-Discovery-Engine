@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Automated Academic Paper Reporter for AutoML Benchmarks.
 
-Parses OpenML-CC18 master results (results/openml_cc18_master_results.csv), computes
+Parses OpenML-CC18 master results (results/domination_benchmark_results.csv), computes
 standard academic benchmark metrics (Demšar 2006):
 1. Average Rank (Friedman rank) across all completed datasets.
 2. Win / Tie / Loss matrix against industry baselines (FLAML, Optuna).
@@ -9,8 +9,8 @@ standard academic benchmark metrics (Demšar 2006):
 4. Mean and median generalization accuracy, search wall-clock duration, and peak memory.
 
 Outputs:
-- Publication-ready LaTeX table: reports/openml_results_table.tex (NeurIPS/ICML format).
-- Machine-readable summary: reports/openml_benchmark_summary.json.
+- Publication-ready LaTeX table: reports/domination_results_table.tex (NeurIPS/ICML format).
+- Machine-readable summary: reports/domination_benchmark_summary.json.
 """
 
 from __future__ import annotations
@@ -36,11 +36,11 @@ import pandas as pd
 from scipy import stats
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT_CSV = ROOT / "results" / "openml_cc18_master_results.csv"
-DEFAULT_CONVERGENCE_CSV = ROOT / "results" / "convergence_history.csv"
-DEFAULT_LATEX_OUTPUT = ROOT / "reports" / "openml_results_table.tex"
-DEFAULT_JSON_OUTPUT = ROOT / "reports" / "openml_benchmark_summary.json"
-DEFAULT_PLOT_PDF = ROOT / "reports" / "convergence_curve_adult.pdf"
+DEFAULT_INPUT_CSV = ROOT / "results" / "domination_benchmark_results.csv"
+DEFAULT_CONVERGENCE_CSV = ROOT / "results" / "domination_convergence_history.csv"
+DEFAULT_LATEX_OUTPUT = ROOT / "reports" / "domination_results_table.tex"
+DEFAULT_JSON_OUTPUT = ROOT / "reports" / "domination_benchmark_summary.json"
+DEFAULT_PLOT_PDF = ROOT / "reports" / "domination_convergence_adult.pdf"
 
 
 def generate_synthetic_demo_records() -> pd.DataFrame:

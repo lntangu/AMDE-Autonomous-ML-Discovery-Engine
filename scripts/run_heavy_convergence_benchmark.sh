@@ -44,8 +44,8 @@ python3 scripts/run_openml_cc18_suite.py \
     --time-budgets 60,300,600 \
     --parallel \
     --resume \
-    --output results/openml_cc18_master_results.csv \
-    --convergence-log results/convergence_history.csv
+    --output results/domination_benchmark_results.csv \
+    --convergence-log results/domination_convergence_history.csv
 
 echo ""
 echo "============================================================================"
@@ -54,8 +54,8 @@ echo "==========================================================================
 echo ""
 
 python3 scripts/generate_paper_artifacts.py \
-    --input results/openml_cc18_master_results.csv \
-    --convergence-input results/convergence_history.csv \
+    --input results/domination_benchmark_results.csv \
+    --convergence-input results/domination_convergence_history.csv \
     --latex-output reports/openml_results_table.tex \
     --json-output reports/openml_benchmark_summary.json \
     --plot-output reports/convergence_curve_adult.pdf
@@ -64,8 +64,8 @@ echo ""
 echo "============================================================================"
 echo "  CONVERGENCE BENCHMARK COMPLETE!"
 echo "  Outputs:"
-echo "    - Master Results : results/openml_cc18_master_results.csv"
-echo "    - Convergence Log: results/convergence_history.csv"
+echo "    - Master Results : results/domination_benchmark_results.csv"
+echo "    - Convergence Log: results/domination_convergence_history.csv"
 echo "    - LaTeX Table    : reports/openml_results_table.tex"
 echo "    - Vector Plot PDF: reports/convergence_curve_adult.pdf"
 echo "    - High-Res PNG   : reports/convergence_curve_adult.png"
