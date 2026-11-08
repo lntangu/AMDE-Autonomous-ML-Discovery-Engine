@@ -20,6 +20,17 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 
 def terminate_tree(process: subprocess.Popen[Any]) -> None:
     if process.poll() is not None:
@@ -157,7 +168,10 @@ def main() -> int:
         log_path = ROOT / result["log"]
         content = log_path.read_text(encoding="utf-8", errors="replace") if log_path.exists() else ""
         tail = content[-12000:]
-        print(f"\n===== {name.upper()} LOG TAIL =====\n{tail}", flush=True)
+        try:
+            print(f"\n===== {name.upper()} LOG TAIL =====\n{tail}", flush=True)
+        except UnicodeEncodeError:
+            print(f"\n===== {name.upper()} LOG TAIL =====\n{tail.encode('ascii', errors='backslashreplace').decode('ascii')}", flush=True)
         result["log_tail"] = tail
 
     passed = preflight_ok and len(suite_results) == 2 and all(
