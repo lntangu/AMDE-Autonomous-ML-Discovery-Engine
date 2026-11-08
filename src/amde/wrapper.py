@@ -24,6 +24,7 @@ from sklearn.utils.validation import check_array, check_is_fitted, check_X_y
 from amde.core.contracts import Candidate, FidelityLevel
 from amde.engine import AMDE4Engine
 from amde.evaluation.pipeline import StandardEvaluationPipeline
+from amde.preprocessing.tabular import TabularPreprocessor
 
 
 class _FittedAMDEPipeline:
@@ -137,12 +138,29 @@ class DynamicStackingEnsemble:
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         """Predicts calibrated class probabilities using the meta-learner."""
         meta_feats = self._get_base_meta_features(X)
+        proba = None
         if hasattr(self.meta_learner, "predict_proba"):
             try:
-                return self.meta_learner.predict_proba(meta_feats)
+                proba = self.meta_learner.predict_proba(meta_feats)
             except Exception:
                 pass
-        return np.mean([p.predict_proba(X) for p in self.base_pipelines], axis=0)
+        if proba is None:
+            proba = np.mean([p.predict_proba(X) for p in self.base_pipelines], axis=0)
+
+        # Calibrate, normalize, and align with global classes_
+        n_classes = len(self.classes_)
+        if proba.shape[1] < n_classes:
+            padded = np.zeros((len(X), n_classes), dtype=np.float32)
+            padded[:, : proba.shape[1]] = proba
+            proba = padded
+        elif proba.shape[1] > n_classes:
+            proba = proba[:, :n_classes]
+
+        proba = np.nan_to_num(proba, nan=1.0 / n_classes, posinf=1.0, neginf=0.0)
+        proba = np.clip(proba, 0.0, 1.0)
+        sums = proba.sum(axis=1, keepdims=True)
+        sums[sums == 0.0] = 1.0
+        return (proba / sums).astype(np.float32)
 
 
 def select_top_diverse_candidates(
@@ -208,12 +226,16 @@ def select_top_diverse_candidates(
 
     # Fourth pass: fallback to pareto_frontier
     if len(selected) < k:
-        for cand in pareto_frontier:
+        for item in pareto_frontier:
             if len(selected) >= k:
                 break
-            if cand.canonical_hash not in seen_hashes:
+            cand = item.get("candidate") if isinstance(item, dict) else item
+            if cand is None:
+                continue
+            c_hash = getattr(cand, "canonical_hash", None) or (item.get("candidate_hash") if isinstance(item, dict) else None)
+            if c_hash and c_hash not in seen_hashes:
                 selected.append(cand)
-                seen_hashes.add(cand.canonical_hash)
+                seen_hashes.add(c_hash)
 
     return selected
 
@@ -347,10 +369,10 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         verbose: int = 0,
     ):
         self.time_budget_s = time_budget_s
-        self.time_budget = time_budget if time_budget is not None else (time_budget_s if time_budget_s is not None else 60)
+        self.time_budget = time_budget if time_budget is not None else time_budget_s
         self.max_evaluations = max_evaluations
         self.random_state = random_state
-        self.seed = seed if seed is not None else (random_state if random_state is not None else 42)
+        self.seed = seed if seed is not None else random_state
         self.val_size = val_size
         self.holdout_size = holdout_size
         self.use_multi_fidelity = use_multi_fidelity
@@ -371,71 +393,36 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         self.ledger_sha256_ = val
 
     @property
-    def holdout_data_(self) -> Optional[tuple[np.ndarray, np.ndarray]]:
-        """Returns the isolated sealed holdout test split (X_test, y_test) if configured."""
+    def holdout_data_(self) -> Optional[tuple[Any, Any]]:
+        """Deprecated property: returns the isolated sealed holdout test split (X_test, y_test).
+        Prefer evaluate_holdout() for audited, single-use evaluation.
+        """
+        import warnings
+        warnings.warn(
+            "holdout_data_ will be deprecated. Use evaluate_holdout() for secure sealed evaluation.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return getattr(self, "_holdout_data_", None)
 
     def _prepare_data(self, X: Any, y: Any = None, is_train: bool = False) -> tuple[np.ndarray, Optional[np.ndarray]]:
-        """Handles Pandas DataFrames and categorical features safely using OneHotEncoder.
-
-        Guarantees strict dimensional consistency during inference and handles unseen categories
-        gracefully via handle_unknown='ignore'.
-        """
-        from sklearn.preprocessing import OneHotEncoder
-
-        if isinstance(X, pd.Series):
-            X = X.to_frame()
-
-        if isinstance(X, pd.DataFrame):
-            if is_train:
-                self.feature_names_in_ = np.array(X.columns, dtype=object)
-                cat_cols = [c for c in X.columns if not pd.api.types.is_numeric_dtype(X[c])]
-                num_cols = [c for c in X.columns if pd.api.types.is_numeric_dtype(X[c])]
-                self.categorical_columns_ = cat_cols
-                self.numeric_columns_ = num_cols
-
-                if cat_cols:
-                    try:
-                        encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
-                    except TypeError:
-                        encoder = OneHotEncoder(handle_unknown="ignore", sparse=False)
-                    encoder.fit(X[cat_cols].astype(str))
-                    self.encoder_ = encoder
-                else:
-                    self.encoder_ = None
-
-            cat_cols = getattr(self, "categorical_columns_", [])
-            num_cols = getattr(self, "numeric_columns_", [])
-
-            if getattr(self, "encoder_", None) is not None and cat_cols:
-                # Transform categorical columns using fitted OneHotEncoder
-                X_cat_enc = self.encoder_.transform(X[cat_cols].astype(str)).astype(np.float32)
-                if num_cols:
-                    X_num = X[num_cols].to_numpy(dtype=np.float32)
-                    X_arr = np.hstack([X_num, X_cat_enc])
-                else:
-                    X_arr = X_cat_enc
-            else:
-                if is_train and not cat_cols:
-                    X_arr = X.to_numpy(dtype=np.float32)
-                elif hasattr(self, "numeric_columns_") and self.numeric_columns_:
-                    X_arr = X[self.numeric_columns_].to_numpy(dtype=np.float32)
-                else:
-                    X_arr = X.to_numpy(dtype=np.float32)
-        elif isinstance(X, np.ndarray) and X.dtype.kind in ("O", "U", "S"):
-            df = pd.DataFrame(X)
-            return self._prepare_data(df, y=y, is_train=is_train)
+        """Prepares and transforms input features via the TabularPreprocessor."""
+        if is_train:
+            self.preprocessor_ = TabularPreprocessor()
+            X_arr = self.preprocessor_.fit_transform(X)
+            self.feature_names_in_ = self.preprocessor_.feature_names_in_
+            self.categorical_columns_ = self.preprocessor_.categorical_columns_
+            self.numeric_columns_ = self.preprocessor_.numeric_columns_
+            self.encoder_ = self.preprocessor_.encoder_
         else:
-            if is_train:
-                self.categorical_columns_ = []
-                self.numeric_columns_ = []
-                self.encoder_ = None
-            X_arr = np.asarray(X, dtype=np.float32)
+            if hasattr(self, "preprocessor_") and self.preprocessor_ is not None:
+                X_arr = self.preprocessor_.transform(X)
+            elif isinstance(X, pd.DataFrame):
+                X_arr = X.to_numpy(dtype=np.float32)
+            else:
+                X_arr = np.asarray(X, dtype=np.float32)
 
-        y_arr = None
-        if y is not None:
-            y_arr = np.asarray(y)
-
+        y_arr = np.asarray(y) if y is not None else None
         return np.ascontiguousarray(X_arr, dtype=np.float32), y_arr
 
     def fit(self, X: Any, y: Any) -> "AMDEClassifier":
@@ -443,33 +430,52 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         if hasattr(X, "columns"):
             self.feature_names_in_ = np.array(X.columns, dtype=object)
 
-        X_arr, y_arr = self._prepare_data(X, y, is_train=True)
-        try:
-            X_arr, y_arr = check_X_y(X_arr, y_arr, accept_sparse=False, ensure_all_finite=False)
-        except TypeError:
-            X_arr, y_arr = check_X_y(X_arr, y_arr, accept_sparse=False, force_all_finite=False)
-
+        y_arr = np.asarray(y)
         self.classes_ = unique_labels(y_arr)
         self.n_classes_ = len(self.classes_)
-        self.n_features_in_ = X_arr.shape[1]
 
-        effective_budget = float(self.time_budget_s if self.time_budget_s is not None else (self.time_budget if self.time_budget is not None else 60.0))
-        effective_seed = int(self.random_state if self.random_state is not None else (self.seed if self.seed is not None else 42))
+        effective_budget = float(self.time_budget if self.time_budget is not None else (self.time_budget_s if self.time_budget_s is not None else 60.0))
+        effective_seed = int(self.seed if self.seed is not None else (self.random_state if self.random_state is not None else 42))
 
-        # Partition data: Train, Val, (optional Sealed Holdout)
-        if self.holdout_size > 0.0 and self.holdout_size < 0.5:
-            X_dev, X_test, y_dev, y_test = train_test_split(
-                X_arr, y_arr, test_size=self.holdout_size, random_state=effective_seed, stratify=y_arr
-            )
-            self._holdout_data_ = (X_test, y_test)
+        # 1. Split raw inputs BEFORE fitting preprocessors (Zero-Leakage guarantee!)
+        if 0.0 < self.holdout_size < 0.5:
+            if isinstance(X, pd.DataFrame):
+                X_dev_raw, X_test_raw, y_dev, y_test = train_test_split(
+                    X, y_arr, test_size=self.holdout_size, random_state=effective_seed, stratify=y_arr
+                )
+            else:
+                X_raw_arr = np.asarray(X)
+                X_dev_raw, X_test_raw, y_dev, y_test = train_test_split(
+                    X_raw_arr, y_arr, test_size=self.holdout_size, random_state=effective_seed, stratify=y_arr
+                )
+            self._holdout_data_ = (X_test_raw, y_test)
         else:
-            X_dev, y_dev = X_arr, y_arr
+            X_dev_raw, y_dev = X, y_arr
             self._holdout_data_ = None
 
         val_ratio = min(0.40, max(0.10, self.val_size))
-        X_train, X_val, y_train, y_val = train_test_split(
-            X_dev, y_dev, test_size=val_ratio, random_state=effective_seed, stratify=y_dev
-        )
+        if isinstance(X_dev_raw, pd.DataFrame):
+            X_train_raw, X_val_raw, y_train, y_val = train_test_split(
+                X_dev_raw, y_dev, test_size=val_ratio, random_state=effective_seed, stratify=y_dev
+            )
+        else:
+            X_dev_arr = np.asarray(X_dev_raw)
+            X_train_raw, X_val_raw, y_train, y_val = train_test_split(
+                X_dev_arr, y_dev, test_size=val_ratio, random_state=effective_seed, stratify=y_dev
+            )
+
+        # 2. Fit TabularPreprocessor strictly on X_train_raw
+        self.preprocessor_ = TabularPreprocessor()
+        self.preprocessor_.fit(X_train_raw)
+        self.categorical_columns_ = self.preprocessor_.categorical_columns_
+        self.numeric_columns_ = self.preprocessor_.numeric_columns_
+        self.encoder_ = self.preprocessor_.encoder_
+
+        X_train = self.preprocessor_.transform(X_train_raw)
+        X_val = self.preprocessor_.transform(X_val_raw)
+        X_dev = self.preprocessor_.transform(X_dev_raw)
+
+        self.n_features_in_ = X_train.shape[1]
 
         ledger_p = Path(self.ledger_path) if self.ledger_path else None
         self.engine_ = AMDE4Engine(
@@ -515,7 +521,6 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         # Build production pipeline: Dynamic Stacking Ensemble or Incumbent Pipeline
         pipe_builder = StandardEvaluationPipeline()
 
-        # CRITICAL P0 DATA LEAKAGE RESOLUTION:
         # When holdout_size > 0, refit_full MUST only refit on the development set (X_dev, y_dev).
         # The sealed holdout test set (X_test, y_test) must NEVER be included in final training or refit.
         if self.refit_full:
@@ -539,28 +544,44 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
             )
 
             if len(diverse_cands) >= 2:
-                # 1. Fit candidates on X_train and get validation probabilities on X_val
-                val_probas: list[np.ndarray] = []
-                valid_cands: list[Candidate] = []
-                train_pipes: list[_FittedAMDEPipeline] = []
+                try:
+                    # Genuine K-Fold Out-Of-Fold (OOF) cross-validation for Meta-Learner
+                    from sklearn.model_selection import StratifiedKFold
+                    min_class_count = min(np.sum(fit_y == c) for c in self.classes_)
+                    n_splits = min(5, max(2, min_class_count))
+                    cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=effective_seed)
 
-                for cand in diverse_cands:
-                    pipe_tr = _build_and_fit_single_pipeline(
-                        cand, X_train, y_train, effective_seed, pipe_builder, dummy_cols
-                    )
-                    if pipe_tr is not None:
-                        try:
-                            proba_v = pipe_tr.predict_proba(X_val)
-                            val_probas.append(proba_v)
+                    oof_matrix = np.zeros((len(fit_X), len(diverse_cands) * self.n_classes_), dtype=np.float32)
+                    valid_cands: list[Candidate] = []
+
+                    for cand in diverse_cands:
+                        cand_oof = np.zeros((len(fit_X), self.n_classes_), dtype=np.float32)
+                        cand_success = True
+                        for train_idx, val_idx in cv.split(fit_X, fit_y):
+                            X_f_tr, y_f_tr = fit_X[train_idx], fit_y[train_idx]
+                            X_f_va = fit_X[val_idx]
+                            p_fold = _build_and_fit_single_pipeline(
+                                cand, X_f_tr, y_f_tr, effective_seed, pipe_builder, dummy_cols
+                            )
+                            if p_fold is None:
+                                cand_success = False
+                                break
+                            p_va = p_fold.predict_proba(X_f_va)
+                            if p_va.shape[1] < self.n_classes_:
+                                padded = np.zeros((len(X_f_va), self.n_classes_), dtype=np.float32)
+                                padded[:, : p_va.shape[1]] = p_va
+                                p_va = padded
+                            elif p_va.shape[1] > self.n_classes_:
+                                p_va = p_va[:, : self.n_classes_]
+                            cand_oof[val_idx] = p_va
+
+                        if cand_success:
+                            idx = len(valid_cands)
                             valid_cands.append(cand)
-                            train_pipes.append(pipe_tr)
-                        except Exception:
-                            pass
+                            oof_matrix[:, idx * self.n_classes_ : (idx + 1) * self.n_classes_] = cand_oof
 
-                if len(valid_cands) >= 2:
-                    try:
-                        # Stack validation probabilities into meta-features
-                        meta_X_val = np.concatenate(val_probas, axis=1).astype(np.float32)
+                    if len(valid_cands) >= 2:
+                        meta_X = oof_matrix[:, : len(valid_cands) * self.n_classes_]
                         from sklearn.linear_model import LogisticRegression
                         meta_learner = LogisticRegression(
                             C=1.0,
@@ -568,19 +589,15 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                             random_state=effective_seed,
                             solver="lbfgs",
                         )
-                        meta_learner.fit(meta_X_val, y_val)
+                        meta_learner.fit(meta_X, fit_y)
 
-                        # Fit final base models (on full data if refit_full, else use train_pipes)
-                        if self.refit_full:
-                            final_pipes: list[_FittedAMDEPipeline] = []
-                            for cand in valid_cands:
-                                p_full = _build_and_fit_single_pipeline(
-                                    cand, fit_X, fit_y, effective_seed, pipe_builder, dummy_cols
-                                )
-                                if p_full is not None:
-                                    final_pipes.append(p_full)
-                        else:
-                            final_pipes = train_pipes
+                        final_pipes: list[_FittedAMDEPipeline] = []
+                        for cand in valid_cands:
+                            p_full = _build_and_fit_single_pipeline(
+                                cand, fit_X, fit_y, effective_seed, pipe_builder, dummy_cols
+                            )
+                            if p_full is not None:
+                                final_pipes.append(p_full)
 
                         if len(final_pipes) >= 2:
                             self.best_estimator_ = DynamicStackingEnsemble(
@@ -594,9 +611,9 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                             if self.verbose > 0:
                                 fams = [p.genome.get("model", {}).get("family") for p in final_pipes]
                                 print(f"[AMDEClassifier] Dynamic Stacking Ensemble active with {len(final_pipes)} models: {fams}")
-                    except Exception as stack_exc:
-                        if self.verbose > 0:
-                            print(f"[AMDEClassifier] Stacking fitting failed ({stack_exc}), falling back to incumbent.")
+                except Exception as stack_exc:
+                    if self.verbose > 0:
+                        print(f"[AMDEClassifier] Stacking fitting failed ({stack_exc}), falling back to incumbent.")
 
         # Fallback to single incumbent model if stacking was not active
         if not self.is_stacking_active_:
@@ -621,15 +638,23 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                 print(f"[AMDEClassifier] Discovered best model: {self.incumbent_candidate_.genome.get('model', {}).get('family')} (Val Score: {self.best_val_score_:.4f})")
 
         self.is_fitted_ = True
-
-        # Evaluate sealed holdout test set if configured
-        if self._holdout_data_ is not None:
-            X_holdout, y_holdout = self._holdout_data_
-            y_holdout_pred = self.predict(X_holdout)
-            from sklearn.metrics import accuracy_score
-            self.holdout_score_ = float(accuracy_score(y_holdout, y_holdout_pred))
-
         return self
+
+    def evaluate_holdout(self, token: Optional[str] = None) -> float:
+        """Controlled, auditable single-use evaluation of the sealed holdout test set."""
+        check_is_fitted(self, attributes=["is_fitted_", "best_estimator_"])
+        if self._holdout_data_ is None:
+            raise ValueError("No holdout test split was configured for this estimator.")
+        if getattr(self, "_holdout_opened_", False):
+            raise RuntimeError(
+                "Sealed holdout set has already been evaluated. Repeated evaluations are forbidden to prevent adaptive feedback leakage."
+            )
+        self._holdout_opened_ = True
+        self._holdout_eval_count_ = getattr(self, "_holdout_eval_count_", 0) + 1
+        X_h, y_h = self._holdout_data_
+        score = float(self.score(X_h, y_h))
+        self.holdout_score_ = score
+        return score
 
     def _check_array_safe(self, X_arr: np.ndarray) -> np.ndarray:
         try:

@@ -70,6 +70,7 @@ class EventLedger:
 
     def _init_db(self) -> None:
         """Initializes SQLite database with WAL mode and schema."""
+        self._writer_exception: Optional[Exception] = None
         with self._connection() as conn:
             conn.execute("PRAGMA journal_mode=WAL;")
             conn.execute("PRAGMA synchronous=NORMAL;")
@@ -139,8 +140,8 @@ class EventLedger:
                         batch,
                     )
                     conn.commit()
-                except Exception:
-                    pass
+                except Exception as exc:
+                    self._writer_exception = exc
                 finally:
                     for _ in batch:
                         self._write_queue.task_done()
@@ -154,6 +155,10 @@ class EventLedger:
         """Flushes all queued events to persistent SQLite storage."""
         if hasattr(self, "_write_queue"):
             self._write_queue.join()
+        if getattr(self, "_writer_exception", None) is not None:
+            exc = self._writer_exception
+            self._writer_exception = None
+            raise RuntimeError(f"EventLedger writer worker failed: {exc}") from exc
 
     def close(self) -> None:
         """Flushes pending events and terminates the background writer worker cleanly."""
@@ -223,8 +228,8 @@ class EventLedger:
                 timestamp=ts,
             )
             self._seen_event_map[event_id] = event
+            self._write_queue.put(record)
 
-        self._write_queue.put(record)
         return event
 
     def get_events(self, experiment_id: str) -> List[ExperimentEvent]:
