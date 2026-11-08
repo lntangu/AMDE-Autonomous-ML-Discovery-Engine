@@ -192,6 +192,7 @@ def _run_amde_worker(
         test_acc = float(accuracy_score(y_test, y_pred))
         val_acc = float(getattr(clf, "best_val_score_", test_acc))
         incumbent_family = clf.incumbent_candidate_.genome["model"]["family"] if hasattr(clf, "incumbent_candidate_") and clf.incumbent_candidate_ else "unknown"
+        stacking_info = f"stacking_k={clf.stacking_models_count_}" if getattr(clf, "is_stacking_active_", False) else "single"
 
         trajectory = []
         if hasattr(clf, "search_history_") and clf.search_history_:
@@ -206,7 +207,7 @@ def _run_amde_worker(
             "val_accuracy": round(val_acc, 5),
             "wallclock_seconds": round(duration, 3),
             "peak_memory_mb": rss_peak,
-            "extra_info": f"incumbent={incumbent_family}",
+            "extra_info": f"{stacking_info}|incumbent={incumbent_family}",
             "error_message": "",
             "trajectory": trajectory,
         }
@@ -265,7 +266,7 @@ def _run_optuna_worker(
 
         def objective(trial: optuna.Trial) -> float:
             nonlocal best_cand, best_val, trajectory
-            fam = trial.suggest_categorical("family", ["tree_ensemble", "lgbm", "mlp", "linear", "kernel_svc"])
+            fam = trial.suggest_categorical("family", ["tree_ensemble", "lgbm", "xgboost", "catboost", "mlp", "linear", "kernel_svc"])
             prep = {
                 "imputer": trial.suggest_categorical("imputer", ["mean", "median", "none"]),
                 "scaler": trial.suggest_categorical("scaler", ["standard", "robust", "minmax", "none"]),
@@ -280,6 +281,23 @@ def _run_optuna_worker(
                     "learning_rate": trial.suggest_float("lgbm_lr", 1e-3, 0.3, log=True),
                     "num_leaves": trial.suggest_int("lgbm_leaves", 7, 63),
                     "subsample": trial.suggest_float("lgbm_subsample", 0.5, 1.0),
+                }
+            elif fam == "xgboost":
+                model_spec = {
+                    "family": "xgboost",
+                    "n_estimators": trial.suggest_int("xgb_n_est", 10, 150),
+                    "max_depth": trial.suggest_int("xgb_depth", 2, 8),
+                    "learning_rate": trial.suggest_float("xgb_lr", 1e-3, 0.3, log=True),
+                    "subsample": trial.suggest_float("xgb_subsample", 0.5, 1.0),
+                    "colsample_bytree": trial.suggest_float("xgb_colsample", 0.5, 1.0),
+                }
+            elif fam == "catboost":
+                model_spec = {
+                    "family": "catboost",
+                    "iterations": trial.suggest_int("cat_iters", 10, 150),
+                    "depth": trial.suggest_int("cat_depth", 2, 8),
+                    "learning_rate": trial.suggest_float("cat_lr", 1e-3, 0.3, log=True),
+                    "l2_leaf_reg": trial.suggest_float("cat_l2", 1.0, 10.0, log=True),
                 }
             elif fam == "tree_ensemble":
                 model_spec = {

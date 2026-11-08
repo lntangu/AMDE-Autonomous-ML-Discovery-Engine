@@ -128,6 +128,83 @@ class AMDE4SOTAUpgradesTests(unittest.TestCase):
             self.assertEqual(len(sha), 64)
             ledger.close()
 
+    def test_xgboost_and_catboost_integration(self) -> None:
+        """Verifies XGBoost and CatBoost search space sampling, mutation, and execution."""
+        ss = SearchSpace(n_features=5, is_classification=True)
+        self.assertIn("xgboost", ss.MODEL_FAMILIES)
+        self.assertIn("catboost", ss.MODEL_FAMILIES)
+
+        pipe = StandardEvaluationPipeline()
+        X_tr = np.random.randn(50, 5).astype(np.float32)
+        y_tr = np.random.randint(0, 2, size=50)
+        X_val = np.random.randn(20, 5).astype(np.float32)
+        y_val = np.random.randint(0, 2, size=20)
+
+        # Test XGBoost
+        xgb_cand = ss.sample_random(random.Random(123))
+        xgb_cand.genome["model"] = {
+            "family": "xgboost",
+            "n_estimators": 10,
+            "max_depth": 3,
+            "learning_rate": 0.1,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+        }
+        req_xgb = EvaluationRequest(
+            request_id="test_xgb_eval",
+            candidate=xgb_cand,
+            dataset_id="test_xgb",
+            split_hash="fake_hash",
+            seed=42,
+            fidelity=FidelityLevel.full_fidelity(),
+            resource_budget=ResourceBudget(max_evaluations=5),
+        )
+        res_xgb = pipe.execute(req_xgb, X_tr, y_tr, X_val, y_val)
+        self.assertEqual(res_xgb.status, "completed")
+        self.assertGreaterEqual(res_xgb.primary_metric, 0.0)
+
+        # Test CatBoost
+        cat_cand = ss.sample_random(random.Random(456))
+        cat_cand.genome["model"] = {
+            "family": "catboost",
+            "iterations": 10,
+            "depth": 3,
+            "learning_rate": 0.1,
+            "l2_leaf_reg": 3.0,
+        }
+        req_cat = EvaluationRequest(
+            request_id="test_cat_eval",
+            candidate=cat_cand,
+            dataset_id="test_cat",
+            split_hash="fake_hash",
+            seed=42,
+            fidelity=FidelityLevel.full_fidelity(),
+            resource_budget=ResourceBudget(max_evaluations=5),
+        )
+        res_cat = pipe.execute(req_cat, X_tr, y_tr, X_val, y_val)
+        self.assertEqual(res_cat.status, "completed")
+        self.assertGreaterEqual(res_cat.primary_metric, 0.0)
+
+    def test_dynamic_stacking_ensemble(self) -> None:
+        """Verifies AMDE 5.0 Dynamic Stacking Ensemble (Super Learner) construction."""
+        from amde.wrapper import AMDEClassifier
+        from sklearn.datasets import load_breast_cancer
+
+        X, y = load_breast_cancer(return_X_y=True)
+        clf = AMDEClassifier(time_budget=10, seed=42, use_stacking=True, stacking_k=3)
+        clf.fit(X, y)
+        self.assertTrue(clf.is_fitted_)
+        self.assertTrue(clf.is_stacking_active_)
+        self.assertGreaterEqual(clf.stacking_models_count_, 2)
+
+        preds = clf.predict(X[:10])
+        self.assertEqual(len(preds), 10)
+        probas = clf.predict_proba(X[:10])
+        self.assertEqual(probas.shape, (10, 2))
+        self.assertAlmostEqual(float(np.sum(probas[0])), 1.0, places=4)
+        acc = clf.score(X, y)
+        self.assertGreater(acc, 0.85)
+
 
 if __name__ == "__main__":
     unittest.main()

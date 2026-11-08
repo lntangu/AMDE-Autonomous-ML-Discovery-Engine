@@ -3,6 +3,8 @@
 Provides:
 - AMDEClassifier: Production-grade, 3-line AutoML classifier adhering strictly
   to the Scikit-Learn BaseEstimator & ClassifierMixin contract.
+- DynamicStackingEnsemble: SOTA Super Learner combining diverse Pareto-optimal
+  base models into a unified meta-learning ensemble.
 """
 
 from __future__ import annotations
@@ -19,7 +21,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils.multiclass import unique_labels
 from sklearn.utils.validation import check_array, check_is_fitted, check_X_y
 
-from amde.core.contracts import Candidate
+from amde.core.contracts import Candidate, FidelityLevel
 from amde.engine import AMDE4Engine
 from amde.evaluation.pipeline import StandardEvaluationPipeline
 
@@ -61,28 +63,226 @@ class _FittedAMDEPipeline:
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         Xt = self.transform_X(X)
         if hasattr(self.estimator, "predict_proba"):
-            return self.estimator.predict_proba(Xt)
+            try:
+                proba = self.estimator.predict_proba(Xt)
+                if proba.ndim == 2:
+                    return proba
+            except Exception:
+                pass
         if hasattr(self.estimator, "decision_function"):
-            df = self.estimator.decision_function(Xt)
-            if df.ndim == 1:
-                # Binary classification sigmoid calibration
-                p1 = 1.0 / (1.0 + np.exp(-df))
-                return np.column_stack([1.0 - p1, p1])
-            else:
-                # Multi-class softmax calibration
-                exp_df = np.exp(df - np.max(df, axis=1, keepdims=True))
-                return exp_df / np.sum(exp_df, axis=1, keepdims=True)
+            try:
+                df = self.estimator.decision_function(Xt)
+                if df.ndim == 1:
+                    # Binary classification sigmoid calibration
+                    p1 = 1.0 / (1.0 + np.exp(-np.clip(df, -25.0, 25.0)))
+                    return np.column_stack([1.0 - p1, p1])
+                else:
+                    # Multi-class softmax calibration
+                    exp_df = np.exp(df - np.max(df, axis=1, keepdims=True))
+                    return exp_df / np.sum(exp_df, axis=1, keepdims=True)
+            except Exception:
+                pass
         # Fallback hard one-hot
         preds = self.estimator.predict(Xt)
         classes = np.unique(preds)
-        proba = np.zeros((len(X), len(classes)), dtype=np.float32)
+        proba = np.zeros((len(X), max(len(classes), 2)), dtype=np.float32)
         for i, c in enumerate(classes):
             proba[preds == c, i] = 1.0
         return proba
 
 
+class DynamicStackingEnsemble:
+    """Dynamic Stacking Ensemble (Super Learner) for AMDE 5.0.
+
+    Combines diverse Pareto-optimal base models (LGBM, XGBoost, CatBoost, RandomForest, Linear/MLP)
+    using a regularized Meta-Learner trained on out-of-sample probability distributions.
+    """
+
+    def __init__(
+        self,
+        base_pipelines: list[_FittedAMDEPipeline],
+        meta_learner: Any,
+        classes: np.ndarray,
+        dummy_columns: Optional[list[str]] = None,
+    ):
+        self.base_pipelines = base_pipelines
+        self.meta_learner = meta_learner
+        self.classes_ = classes
+        self.dummy_columns = dummy_columns
+
+    def _get_base_meta_features(self, X: np.ndarray) -> np.ndarray:
+        """Extracts and concatenates probability predictions from all base estimators."""
+        all_probas = []
+        n_classes = len(self.classes_)
+        for pipe in self.base_pipelines:
+            proba = pipe.predict_proba(X)
+            if proba.shape[1] < n_classes:
+                padded = np.zeros((len(X), n_classes), dtype=np.float32)
+                padded[:, : proba.shape[1]] = proba
+                proba = padded
+            elif proba.shape[1] > n_classes:
+                proba = proba[:, :n_classes]
+            all_probas.append(proba)
+        return np.concatenate(all_probas, axis=1).astype(np.float32)
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """Predicts class labels using the meta-learner on stacked base features."""
+        meta_feats = self._get_base_meta_features(X)
+        try:
+            return self.meta_learner.predict(meta_feats)
+        except Exception:
+            avg_proba = np.mean([p.predict_proba(X) for p in self.base_pipelines], axis=0)
+            return self.classes_[np.argmax(avg_proba, axis=1)]
+
+    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        """Predicts calibrated class probabilities using the meta-learner."""
+        meta_feats = self._get_base_meta_features(X)
+        if hasattr(self.meta_learner, "predict_proba"):
+            try:
+                return self.meta_learner.predict_proba(meta_feats)
+            except Exception:
+                pass
+        return np.mean([p.predict_proba(X) for p in self.base_pipelines], axis=0)
+
+
+def select_top_diverse_candidates(
+    pareto_frontier: Sequence[Candidate],
+    trial_history: Sequence[dict[str, Any]],
+    incumbent: Optional[Candidate] = None,
+    k: int = 5,
+) -> list[Candidate]:
+    """Selects up to k top-performing and diverse candidates across distinct model families."""
+    selected: list[Candidate] = []
+    seen_hashes: set[str] = set()
+    family_counts: dict[str, int] = {}
+
+    if incumbent is not None:
+        selected.append(incumbent)
+        seen_hashes.add(incumbent.canonical_hash)
+        fam = incumbent.genome.get("model", {}).get("family", "unknown")
+        family_counts[fam] = 1
+
+    valid_trials = [
+        t for t in trial_history
+        if t.get("status") == "completed" and t.get("val_score", 0.0) > 0.0
+    ]
+    valid_trials.sort(key=lambda t: t.get("val_score", 0.0), reverse=True)
+
+    # First pass: 1 candidate per distinct family for maximum ensemble decorrelation
+    for t in valid_trials:
+        if len(selected) >= k:
+            break
+        cand = t.get("candidate")
+        if cand is None or cand.canonical_hash in seen_hashes:
+            continue
+        fam = cand.genome.get("model", {}).get("family", "unknown")
+        if family_counts.get(fam, 0) == 0:
+            selected.append(cand)
+            seen_hashes.add(cand.canonical_hash)
+            family_counts[fam] = 1
+
+    # Second pass: fill up to 2 per family if slots remain
+    if len(selected) < k:
+        for t in valid_trials:
+            if len(selected) >= k:
+                break
+            cand = t.get("candidate")
+            if cand is None or cand.canonical_hash in seen_hashes:
+                continue
+            fam = cand.genome.get("model", {}).get("family", "unknown")
+            if family_counts.get(fam, 0) < 2:
+                selected.append(cand)
+                seen_hashes.add(cand.canonical_hash)
+                family_counts[fam] = family_counts.get(fam, 0) + 1
+
+    # Third pass: fill remaining slots from trial history
+    if len(selected) < k:
+        for t in valid_trials:
+            if len(selected) >= k:
+                break
+            cand = t.get("candidate")
+            if cand is None or cand.canonical_hash in seen_hashes:
+                continue
+            selected.append(cand)
+            seen_hashes.add(cand.canonical_hash)
+
+    # Fourth pass: fallback to pareto_frontier
+    if len(selected) < k:
+        for cand in pareto_frontier:
+            if len(selected) >= k:
+                break
+            if cand.canonical_hash not in seen_hashes:
+                selected.append(cand)
+                seen_hashes.add(cand.canonical_hash)
+
+    return selected
+
+
+def _build_and_fit_single_pipeline(
+    cand: Candidate,
+    fit_X: np.ndarray,
+    fit_y: np.ndarray,
+    seed: int,
+    pipe_builder: StandardEvaluationPipeline,
+    dummy_columns: Optional[list[str]] = None,
+) -> Optional[_FittedAMDEPipeline]:
+    """Fits preprocessor and model for a candidate pipeline."""
+    try:
+        genome = cand.genome
+        prep_spec = genome.get("preprocessing", {})
+        model_spec = genome.get("model", {})
+
+        imputer = None
+        imp_strat = prep_spec.get("imputer", "mean")
+        has_nans = bool(np.isnan(fit_X).any())
+        if imp_strat != "none" or has_nans:
+            from sklearn.impute import SimpleImputer
+            actual_strat = imp_strat if imp_strat != "none" else "mean"
+            imputer = SimpleImputer(strategy=actual_strat)
+            X_step = imputer.fit_transform(fit_X)
+        else:
+            X_step = fit_X
+
+        scaler = None
+        scaler_name = prep_spec.get("scaler", "standard")
+        if scaler_name == "standard":
+            from sklearn.preprocessing import StandardScaler
+            scaler = StandardScaler()
+            X_step = scaler.fit_transform(X_step)
+        elif scaler_name == "robust":
+            from sklearn.preprocessing import RobustScaler
+            scaler = RobustScaler()
+            X_step = scaler.fit_transform(X_step)
+        elif scaler_name == "minmax":
+            from sklearn.preprocessing import MinMaxScaler
+            scaler = MinMaxScaler()
+            X_step = scaler.fit_transform(X_step)
+
+        selector = None
+        feat_sel = prep_spec.get("feature_selection", "none")
+        k_feat = prep_spec.get("k_features", X_step.shape[1])
+        if feat_sel == "select_k_best" and k_feat < X_step.shape[1] and k_feat > 0:
+            from sklearn.feature_selection import SelectKBest, f_classif
+            selector = SelectKBest(score_func=f_classif, k=k_feat)
+            X_step = selector.fit_transform(X_step, fit_y)
+
+        estimator = pipe_builder._build_model(model_spec, FidelityLevel.full_fidelity(), seed)
+        estimator.fit(X_step, fit_y)
+
+        return _FittedAMDEPipeline(
+            genome=genome,
+            estimator=estimator,
+            imputer=imputer,
+            scaler=scaler,
+            feature_selector=selector,
+            dummy_columns=dummy_columns,
+        )
+    except Exception:
+        return None
+
+
 class AMDEClassifier(ClassifierMixin, BaseEstimator):
-    """Production-grade Scikit-Learn compatible AutoML Classifier powered by AMDE 4.1.
+    """Production-grade Scikit-Learn compatible AutoML Classifier powered by AMDE 5.0.
 
     Parameters
     ----------
@@ -103,7 +303,12 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
     enable_controller : bool, default=True
         Whether to enable the EGADA multi-armed bandit meta-controller.
     refit_full : bool, default=True
-        Whether to refit the discovered incumbent architecture on all training data.
+        Whether to refit discovered models on all training data.
+    use_stacking : bool, default=True
+        Whether to construct a Dynamic Stacking Ensemble (Super Learner) from Top-K
+        diverse Pareto candidates.
+    stacking_k : int, default=5
+        Maximum number of diverse base models to include in the stacking ensemble.
     ledger_path : str or Path, optional
         Path to SQLite WAL ledger for SHA-256 tamper-evident provenance.
     verbose : int, default=0
@@ -134,6 +339,8 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         use_multi_fidelity: bool = False,
         enable_controller: bool = True,
         refit_full: bool = True,
+        use_stacking: bool = True,
+        stacking_k: int = 5,
         ledger_path: Optional[Union[str, Path]] = None,
         verbose: int = 0,
     ):
@@ -145,6 +352,8 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         self.use_multi_fidelity = use_multi_fidelity
         self.enable_controller = enable_controller
         self.refit_full = refit_full
+        self.use_stacking = use_stacking
+        self.stacking_k = stacking_k
         self.ledger_path = ledger_path
         self.verbose = verbose
 
@@ -154,7 +363,6 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
             if hasattr(self, "feature_names_in_"):
                 # Align columns during transform / predict
                 X_df = pd.get_dummies(X, drop_first=True)
-                # Reindex with missing columns filled with 0
                 if hasattr(self, "_dummy_columns_"):
                     X_df = X_df.reindex(columns=self._dummy_columns_, fill_value=0)
                 X_arr = X_df.values.astype(np.float32)
@@ -172,8 +380,7 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         return X_arr, y_arr
 
     def fit(self, X: Any, y: Any) -> "AMDEClassifier":
-        """Fits the AMDE AutoML engine on X, y and selects the Pareto incumbent."""
-        # Record feature names if DataFrame
+        """Fits the AMDE AutoML engine on X, y and constructs the Super Learner ensemble."""
         if hasattr(X, "columns"):
             self.feature_names_in_ = np.array(X.columns, dtype=object)
 
@@ -237,72 +444,111 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         self.ledger_sha256_ = search_res.get("ledger_sha256")
 
         if self.incumbent_candidate_ is None:
-            # Fallback to first Pareto candidate or random candidate
             if self.pareto_frontier_:
                 self.incumbent_candidate_ = self.pareto_frontier_[0]
             else:
                 self.incumbent_candidate_ = self.engine_.search_space.sample_random(self.engine_.rng)
 
-        # Build and fit production pipeline
+        # Build production pipeline: Dynamic Stacking Ensemble or Incumbent Pipeline
         pipe_builder = StandardEvaluationPipeline()
-        genome = self.incumbent_candidate_.genome
-        prep_spec = genome.get("preprocessing", {})
-        model_spec = genome.get("model", {})
-
         fit_X = X_arr if self.refit_full else X_train
         fit_y = y_arr if self.refit_full else y_train
+        dummy_cols = getattr(self, "_dummy_columns_", None)
 
-        # Preprocessing setup
-        imputer = None
-        imp_strat = prep_spec.get("imputer", "mean")
-        if imp_strat != "none":
-            from sklearn.impute import SimpleImputer
-            imputer = SimpleImputer(strategy=imp_strat)
-            X_step = imputer.fit_transform(fit_X)
-        else:
-            X_step = fit_X
+        self.is_stacking_active_ = False
+        self.stacking_models_count_ = 1
 
-        scaler = None
-        scaler_name = prep_spec.get("scaler", "standard")
-        if scaler_name == "standard":
-            from sklearn.preprocessing import StandardScaler
-            scaler = StandardScaler()
-            X_step = scaler.fit_transform(X_step)
-        elif scaler_name == "robust":
-            from sklearn.preprocessing import RobustScaler
-            scaler = RobustScaler()
-            X_step = scaler.fit_transform(X_step)
-        elif scaler_name == "minmax":
-            from sklearn.preprocessing import MinMaxScaler
-            scaler = MinMaxScaler()
-            X_step = scaler.fit_transform(X_step)
+        if self.use_stacking and self.stacking_k > 1:
+            diverse_cands = select_top_diverse_candidates(
+                self.pareto_frontier_,
+                self.search_history_,
+                incumbent=self.incumbent_candidate_,
+                k=self.stacking_k,
+            )
 
-        selector = None
-        feat_sel = prep_spec.get("feature_selection", "none")
-        k_feat = prep_spec.get("k_features", X_step.shape[1])
-        if feat_sel == "select_k_best" and k_feat < X_step.shape[1] and k_feat > 0:
-            from sklearn.feature_selection import SelectKBest, f_classif
-            selector = SelectKBest(score_func=f_classif, k=k_feat)
-            X_step = selector.fit_transform(X_step, fit_y)
+            if len(diverse_cands) >= 2:
+                # 1. Fit candidates on X_train and get validation probabilities on X_val
+                val_probas: list[np.ndarray] = []
+                valid_cands: list[Candidate] = []
+                train_pipes: list[_FittedAMDEPipeline] = []
 
-        # Construct and fit estimator
-        from amde.core.contracts import FidelityLevel
-        estimator = pipe_builder._build_model(model_spec, FidelityLevel.full_fidelity(), self.seed)
-        estimator.fit(X_step, fit_y)
+                for cand in diverse_cands:
+                    pipe_tr = _build_and_fit_single_pipeline(
+                        cand, X_train, y_train, self.seed, pipe_builder, dummy_cols
+                    )
+                    if pipe_tr is not None:
+                        try:
+                            proba_v = pipe_tr.predict_proba(X_val)
+                            val_probas.append(proba_v)
+                            valid_cands.append(cand)
+                            train_pipes.append(pipe_tr)
+                        except Exception:
+                            pass
 
-        self.best_estimator_ = _FittedAMDEPipeline(
-            genome=genome,
-            estimator=estimator,
-            imputer=imputer,
-            scaler=scaler,
-            feature_selector=selector,
-            dummy_columns=getattr(self, "_dummy_columns_", None),
-        )
+                if len(valid_cands) >= 2:
+                    try:
+                        # Stack validation probabilities into meta-features
+                        meta_X_val = np.concatenate(val_probas, axis=1).astype(np.float32)
+                        from sklearn.linear_model import LogisticRegression
+                        meta_learner = LogisticRegression(
+                            C=1.0,
+                            max_iter=500,
+                            random_state=self.seed,
+                            solver="lbfgs",
+                        )
+                        meta_learner.fit(meta_X_val, y_val)
+
+                        # Fit final base models (on full data if refit_full, else use train_pipes)
+                        if self.refit_full:
+                            final_pipes: list[_FittedAMDEPipeline] = []
+                            for cand in valid_cands:
+                                p_full = _build_and_fit_single_pipeline(
+                                    cand, fit_X, fit_y, self.seed, pipe_builder, dummy_cols
+                                )
+                                if p_full is not None:
+                                    final_pipes.append(p_full)
+                        else:
+                            final_pipes = train_pipes
+
+                        if len(final_pipes) >= 2:
+                            self.best_estimator_ = DynamicStackingEnsemble(
+                                base_pipelines=final_pipes,
+                                meta_learner=meta_learner,
+                                classes=self.classes_,
+                                dummy_columns=dummy_cols,
+                            )
+                            self.is_stacking_active_ = True
+                            self.stacking_models_count_ = len(final_pipes)
+                            if self.verbose > 0:
+                                fams = [p.genome.get("model", {}).get("family") for p in final_pipes]
+                                print(f"[AMDEClassifier] Dynamic Stacking Ensemble active with {len(final_pipes)} models: {fams}")
+                    except Exception as stack_exc:
+                        if self.verbose > 0:
+                            print(f"[AMDEClassifier] Stacking fitting failed ({stack_exc}), falling back to incumbent.")
+
+        # Fallback to single incumbent model if stacking was not active
+        if not self.is_stacking_active_:
+            incumbent_pipe = _build_and_fit_single_pipeline(
+                self.incumbent_candidate_, fit_X, fit_y, self.seed, pipe_builder, dummy_cols
+            )
+            if incumbent_pipe is None:
+                from sklearn.linear_model import LogisticRegression
+                from sklearn.impute import SimpleImputer
+                lr_fb = LogisticRegression(max_iter=500, random_state=self.seed)
+                imp_fb = SimpleImputer(strategy="mean")
+                X_imp = imp_fb.fit_transform(fit_X)
+                lr_fb.fit(X_imp, fit_y)
+                incumbent_pipe = _FittedAMDEPipeline(
+                    genome={"model": {"family": "linear"}, "preprocessing": {}},
+                    estimator=lr_fb,
+                    imputer=imp_fb,
+                    dummy_columns=dummy_cols,
+                )
+            self.best_estimator_ = incumbent_pipe
+            if self.verbose > 0:
+                print(f"[AMDEClassifier] Discovered best model: {self.incumbent_candidate_.genome.get('model', {}).get('family')} (Val Score: {self.best_val_score_:.4f})")
 
         self.is_fitted_ = True
-        if self.verbose > 0:
-            print(f"[AMDEClassifier] Discovered best model: {model_spec.get('family')} (Val Score: {self.best_val_score_:.4f})")
-
         return self
 
     def _check_array_safe(self, X_arr: np.ndarray) -> np.ndarray:

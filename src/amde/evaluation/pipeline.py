@@ -73,6 +73,24 @@ def _get_lgbm_classifier() -> Any:
         raise EvaluationError("lightgbm is required for model family 'lgbm'. Please install lightgbm.")
 
 
+def _get_xgb_classifier() -> Any:
+    """Imports XGBClassifier with informative error message."""
+    try:
+        from xgboost import XGBClassifier
+        return XGBClassifier
+    except ImportError:
+        raise EvaluationError("xgboost is required for model family 'xgboost'. Please install xgboost.")
+
+
+def _get_catboost_classifier() -> Any:
+    """Imports CatBoostClassifier with informative error message."""
+    try:
+        from catboost import CatBoostClassifier
+        return CatBoostClassifier
+    except ImportError:
+        raise EvaluationError("catboost is required for model family 'catboost'. Please install catboost.")
+
+
 class StandardEvaluationPipeline:
     """Production evaluation pipeline guaranteeing strict data isolation and resource tracking."""
 
@@ -486,6 +504,46 @@ class StandardEvaluationPipeline:
                 verbose=-1,
             )
 
+        elif family == "xgboost":
+            XGBClassifier = _get_xgb_classifier()
+            n_est = int(model_spec.get("n_estimators", 50))
+            if fidelity.rung_id == 0:
+                n_est = max(10, n_est // 3)
+            max_d = int(model_spec.get("max_depth", 5))
+            lr = float(model_spec.get("learning_rate", 0.1))
+            subsample = float(model_spec.get("subsample", 1.0))
+            colsample_bytree = float(model_spec.get("colsample_bytree", 1.0))
+            return XGBClassifier(
+                n_estimators=n_est,
+                max_depth=max_d,
+                learning_rate=lr,
+                subsample=subsample,
+                colsample_bytree=colsample_bytree,
+                tree_method="hist",
+                random_state=seed,
+                n_jobs=1,
+                eval_metric="logloss",
+                verbosity=0,
+            )
+
+        elif family == "catboost":
+            CatBoostClassifier = _get_catboost_classifier()
+            iters = int(model_spec.get("iterations", model_spec.get("n_estimators", 50)))
+            if fidelity.rung_id == 0:
+                iters = max(10, iters // 3)
+            depth = int(model_spec.get("depth", model_spec.get("max_depth", 5)))
+            lr = float(model_spec.get("learning_rate", 0.1))
+            l2_reg = float(model_spec.get("l2_leaf_reg", 3.0))
+            return CatBoostClassifier(
+                iterations=iters,
+                depth=depth,
+                learning_rate=lr,
+                l2_leaf_reg=l2_reg,
+                random_seed=seed,
+                thread_count=1,
+                verbose=False,
+            )
+
         elif family in ("kernel_svc", "kernel_ridge"):
             if family == "kernel_ridge":
                 warnings.warn(
@@ -521,6 +579,17 @@ class StandardEvaluationPipeline:
                 num_trees = model.booster_.num_trees()
                 leaves_per_tree = getattr(model, "num_leaves", 31)
                 return int(num_trees * leaves_per_tree)
+            except Exception:
+                return 1000
+        elif hasattr(model, "get_booster"):
+            try:
+                booster = model.get_booster()
+                return int(getattr(model, "n_estimators", 50) * 31)
+            except Exception:
+                return 1000
+        elif hasattr(model, "tree_count_"):
+            try:
+                return int(model.tree_count_ * 32)
             except Exception:
                 return 1000
         return 100

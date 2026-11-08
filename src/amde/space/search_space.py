@@ -28,7 +28,7 @@ from amde.space.parameter import (
 class SearchSpace:
     """Type-safe hierarchical search space for AMDE 4.0."""
 
-    MODEL_FAMILIES = ("tree_ensemble", "mlp", "linear", "kernel_svc", "lgbm")
+    MODEL_FAMILIES = ("tree_ensemble", "mlp", "linear", "kernel_svc", "lgbm", "xgboost", "catboost")
     DEPRECATED_ALIASES = {"kernel_ridge": "kernel_svc"}
     SCALERS = ("standard", "robust", "minmax", "none")
     IMPUTERS = ("mean", "median", "none")
@@ -87,6 +87,21 @@ class SearchSpace:
             "subsample": ContinuousParameter("subsample", lower=0.5, upper=1.0),
         }
 
+        self.xgboost_params: dict[str, Parameter] = {
+            "n_estimators": IntegerParameter("n_estimators", lower=10, upper=150),
+            "max_depth": IntegerParameter("max_depth", lower=2, upper=8),
+            "learning_rate": ContinuousParameter("learning_rate", lower=1e-3, upper=0.3, log_scale=True),
+            "subsample": ContinuousParameter("subsample", lower=0.5, upper=1.0),
+            "colsample_bytree": ContinuousParameter("colsample_bytree", lower=0.5, upper=1.0),
+        }
+
+        self.catboost_params: dict[str, Parameter] = {
+            "iterations": IntegerParameter("iterations", lower=10, upper=150),
+            "depth": IntegerParameter("depth", lower=2, upper=8),
+            "learning_rate": ContinuousParameter("learning_rate", lower=1e-3, upper=0.3, log_scale=True),
+            "l2_leaf_reg": ContinuousParameter("l2_leaf_reg", lower=1.0, upper=10.0, log_scale=True),
+        }
+
     def sample_random(self, rng: random.Random) -> Candidate:
         """Samples an unbiased, valid candidate pipeline genome."""
         family = rng.choice(self.MODEL_FAMILIES)
@@ -130,6 +145,23 @@ class SearchSpace:
                 "learning_rate": self.lgbm_params["learning_rate"].sample(rng),
                 "num_leaves": self.lgbm_params["num_leaves"].sample(rng),
                 "subsample": self.lgbm_params["subsample"].sample(rng),
+            }
+        elif family == "xgboost":
+            model_spec = {
+                "family": "xgboost",
+                "n_estimators": self.xgboost_params["n_estimators"].sample(rng),
+                "max_depth": self.xgboost_params["max_depth"].sample(rng),
+                "learning_rate": self.xgboost_params["learning_rate"].sample(rng),
+                "subsample": self.xgboost_params["subsample"].sample(rng),
+                "colsample_bytree": self.xgboost_params["colsample_bytree"].sample(rng),
+            }
+        elif family == "catboost":
+            model_spec = {
+                "family": "catboost",
+                "iterations": self.catboost_params["iterations"].sample(rng),
+                "depth": self.catboost_params["depth"].sample(rng),
+                "learning_rate": self.catboost_params["learning_rate"].sample(rng),
+                "l2_leaf_reg": self.catboost_params["l2_leaf_reg"].sample(rng),
             }
         else:  # kernel_svc (or legacy kernel_ridge)
             model_spec = {
@@ -191,6 +223,16 @@ class SearchSpace:
             elif fam == "lgbm":
                 sub_key = rng.choice(["n_estimators", "max_depth", "learning_rate", "num_leaves", "subsample"])
                 mutated_genome["model"][sub_key] = self.lgbm_params[sub_key].perturb(
+                    mutated_genome["model"][sub_key], rng, scale=scale
+                )
+            elif fam == "xgboost":
+                sub_key = rng.choice(["n_estimators", "max_depth", "learning_rate", "subsample", "colsample_bytree"])
+                mutated_genome["model"][sub_key] = self.xgboost_params[sub_key].perturb(
+                    mutated_genome["model"][sub_key], rng, scale=scale
+                )
+            elif fam == "catboost":
+                sub_key = rng.choice(["iterations", "depth", "learning_rate", "l2_leaf_reg"])
+                mutated_genome["model"][sub_key] = self.catboost_params[sub_key].perturb(
                     mutated_genome["model"][sub_key], rng, scale=scale
                 )
             else:  # kernel_svc or kernel_ridge

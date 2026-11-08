@@ -29,3 +29,4 @@ results/*
 !results/openml_cc18_master_results.csv
 *.zip
 github-recovery-codes.txt
+catboost_info/
