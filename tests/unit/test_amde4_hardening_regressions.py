@@ -181,17 +181,20 @@ class TestAMDE4HardeningRegressions(unittest.TestCase):
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", ResourceWarning)
                 ledger = EventLedger(db_path)
-                for i in range(10):
-                    ledger.append_event(
-                        event_id=f"evt_{i}",
-                        experiment_id="exp_01",
-                        event_type="test_event",
-                        payload={"step": i},
-                    )
-                events = ledger.get_events("exp_01")
-                sha = ledger.compute_ledger_sha256()
-                self.assertEqual(len(events), 10)
-                self.assertTrue(bool(sha))
+                try:
+                    for i in range(10):
+                        ledger.append_event(
+                            event_id=f"evt_{i}",
+                            experiment_id="exp_01",
+                            event_type="test_event",
+                            payload={"step": i},
+                        )
+                    events = ledger.get_events("exp_01")
+                    sha = ledger.compute_ledger_sha256()
+                    self.assertEqual(len(events), 10)
+                    self.assertTrue(bool(sha))
+                finally:
+                    ledger.close()
 
                 # Check for ResourceWarning specifically related to sqlite3
                 sqlite_warnings = [
