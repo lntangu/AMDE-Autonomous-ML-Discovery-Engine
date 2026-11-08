@@ -33,9 +33,9 @@ if exist "venv\Scripts\activate.bat" (
 )
 
 :: Ensure Package Installation and Runtime Dependencies
-echo [*] Verifying runtime dependencies [flaml, optuna, lightgbm, openml, matplotlib]...
+echo [*] Verifying runtime dependencies [flaml[automl], xgboost, optuna, lightgbm, openml, matplotlib]...
 python -m pip install -e ".[all]" >nul 2>&1
-python -m pip install flaml optuna lightgbm openml matplotlib pyarrow >nul 2>&1
+python -m pip install "flaml[automl]" xgboost optuna lightgbm openml matplotlib pyarrow >nul 2>&1
 
 :: Create required directories
 if not exist "results" mkdir results

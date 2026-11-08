@@ -30,9 +30,9 @@ if (Test-Path ".venv\Scripts\Activate.ps1") {
 }
 
 # Ensure all dependencies are present
-Write-Host "[*] Verifying runtime dependencies (flaml, optuna, lightgbm, openml, matplotlib)..." -ForegroundColor Yellow
+Write-Host "[*] Verifying runtime dependencies (flaml[automl], xgboost, optuna, lightgbm, openml, matplotlib)..." -ForegroundColor Yellow
 python -m pip install -e ".[all]" | Out-Null
-python -m pip install flaml optuna lightgbm openml matplotlib pyarrow | Out-Null
+python -m pip install "flaml[automl]" xgboost optuna lightgbm openml matplotlib pyarrow | Out-Null
 
 # Create output directories
 if (-not (Test-Path "results")) { New-Item -ItemType Directory -Path "results" | Out-Null }

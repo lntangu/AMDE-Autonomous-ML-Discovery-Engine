@@ -513,26 +513,29 @@ def read_completed_runs(csv_path: Path) -> set[tuple[int, str, int, int]]:
 
 def append_master_result(csv_path: Path, row: dict[str, Any], lock: Optional[threading.Lock] = None) -> None:
     """Appends a result row atomically to the master CSV file."""
-    def _do_write() -> None:
-        csv_path.parent.mkdir(parents=True, exist_ok=True)
-        fieldnames = [
-            "dataset_id", "dataset_name", "n_samples", "n_features", "n_classes",
-            "method", "seed", "time_budget_s", "test_accuracy", "val_accuracy",
-            "wallclock_seconds", "peak_memory_mb", "status", "extra_info", "error_message"
-        ]
-        file_exists = csv_path.exists()
-        with open(csv_path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
-            if not file_exists:
-                writer.writeheader()
-            writer.writerow(row)
-            f.flush()
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = [
+        "dataset_id", "dataset_name", "n_samples", "n_features", "n_classes",
+        "method", "seed", "time_budget_s", "test_accuracy", "val_accuracy",
+        "wallclock_seconds", "peak_memory_mb", "status", "extra_info", "error_message"
+    ]
+    file_exists = csv_path.exists()
+    import io
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+    if not file_exists:
+        writer.writeheader()
+    writer.writerow(row)
+    line_bytes = buf.getvalue().encode("utf-8")
 
-    if lock is not None:
-        with lock:
-            _do_write()
-    else:
-        _do_write()
+    for attempt in range(10):
+        try:
+            with open(csv_path, "ab") as f:
+                f.write(line_bytes)
+                f.flush()
+            break
+        except (IOError, PermissionError):
+            time.sleep(0.05 * (attempt + 1))
 
 
 def append_convergence_history(
@@ -550,28 +553,105 @@ def append_convergence_history(
     if not trajectory:
         return
 
-    def _do_write() -> None:
-        csv_path.parent.mkdir(parents=True, exist_ok=True)
-        file_exists = csv_path.exists()
-        with open(csv_path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            if not file_exists:
-                writer.writerow([
-                    "dataset_id", "dataset_name", "method", "seed",
-                    "time_budget_s", "elapsed_seconds", "incumbent_score", "final_test_accuracy"
-                ])
-            for pt in trajectory:
-                writer.writerow([
-                    dataset_id, dataset_name, method, seed,
-                    time_budget, pt.get("time", 0.0), pt.get("score", 0.0), final_test_accuracy
-                ])
-            f.flush()
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    file_exists = csv_path.exists()
+    import io
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    if not file_exists:
+        writer.writerow([
+            "dataset_id", "dataset_name", "method", "seed",
+            "time_budget_s", "elapsed_seconds", "incumbent_score", "final_test_accuracy"
+        ])
+    for pt in trajectory:
+        writer.writerow([
+            dataset_id, dataset_name, method, seed,
+            time_budget, pt.get("time", 0.0), pt.get("score", 0.0), final_test_accuracy
+        ])
+    payload = buf.getvalue().encode("utf-8")
 
-    if lock is not None:
-        with lock:
-            _do_write()
-    else:
-        _do_write()
+    for attempt in range(10):
+        try:
+            with open(csv_path, "ab") as f:
+                f.write(payload)
+                f.flush()
+            break
+        except (IOError, PermissionError):
+            time.sleep(0.05 * (attempt + 1))
+
+
+def _execute_benchmark_task(task: dict[str, Any]) -> dict[str, Any]:
+    """Top-level pickleable task worker executed in isolated process."""
+    did = task["dataset_id"]
+    dname = task.get("dataset_name", f"openml_{did}")
+    method = task["method"]
+    seed = task["seed"]
+    tb = task["time_budget"]
+    timeout_per_dataset = task.get("timeout_per_dataset", 3600)
+    cache_dir = Path(task["cache_dir"])
+    output_csv = Path(task["output_csv"])
+    convergence_csv = Path(task["convergence_csv"])
+
+    X, y, loaded_dname = load_cached_openml_dataset(did, cache_dir=cache_dir)
+    dname = loaded_dname or dname
+    n_samples, n_features = X.shape
+    n_classes = len(np.unique(y))
+
+    # Deterministic 80/20 train/test partition (with stratification)
+    try:
+        X_dev, X_test, y_dev, y_test = train_test_split(
+            X, y, test_size=0.20, random_state=seed, stratify=y
+        )
+    except ValueError:
+        X_dev, X_test, y_dev, y_test = train_test_split(
+            X, y, test_size=0.20, random_state=seed, stratify=None
+        )
+
+    t_exec_start = time.perf_counter()
+    res = execute_method_with_timeout(
+        method_name=method,
+        X_dev=X_dev,
+        y_dev=y_dev,
+        X_test=X_test,
+        y_test=y_test,
+        time_budget=tb,
+        seed=seed,
+        timeout_seconds=timeout_per_dataset,
+    )
+    elapsed = time.perf_counter() - t_exec_start
+
+    row_record = {
+        "dataset_id": did,
+        "dataset_name": dname,
+        "n_samples": n_samples,
+        "n_features": n_features,
+        "n_classes": n_classes,
+        "method": method,
+        "seed": seed,
+        "time_budget_s": tb,
+        "test_accuracy": res.get("test_accuracy", 0.0),
+        "val_accuracy": res.get("val_accuracy", 0.0),
+        "wallclock_seconds": res.get("wallclock_seconds", elapsed),
+        "peak_memory_mb": res.get("peak_memory_mb", 0.0),
+        "status": res.get("status", "unknown"),
+        "extra_info": res.get("extra_info", ""),
+        "error_message": res.get("error_message", ""),
+    }
+
+    append_master_result(output_csv, row_record)
+    if res.get("trajectory"):
+        append_convergence_history(
+            convergence_csv,
+            did,
+            dname,
+            method,
+            seed,
+            tb,
+            row_record["test_accuracy"],
+            res["trajectory"],
+        )
+
+    return row_record
 
 
 def run_benchmark_suite(
@@ -748,6 +828,10 @@ def run_benchmark_suite(
                                 "method": method,
                                 "seed": seed,
                                 "time_budget": tb,
+                                "timeout_per_dataset": timeout_per_dataset,
+                                "cache_dir": str(cache_dir),
+                                "output_csv": str(output_csv),
+                                "convergence_csv": str(convergence_csv),
                             })
             except Exception as exc:
                 print(f"[!] Error preparing dataset {did}: {exc}. Logging error rows...")
@@ -777,93 +861,26 @@ def run_benchmark_suite(
 
         completed_counter = 0
 
-        def _execute_task(task: dict[str, Any]) -> dict[str, Any]:
-            nonlocal completed_counter
-            did = task["dataset_id"]
-            dname = task["dataset_name"]
-            method = task["method"]
-            seed = task["seed"]
-            tb = task["time_budget"]
-
-            with cache_lock:
-                X, y, _ = dataset_cache[did]
-
-            # Partition train/test
-            try:
-                X_dev, X_test, y_dev, y_test = train_test_split(
-                    X, y, test_size=0.20, random_state=seed, stratify=y
-                )
-            except ValueError:
-                X_dev, X_test, y_dev, y_test = train_test_split(
-                    X, y, test_size=0.20, random_state=seed, stratify=None
-                )
-
-            with csv_lock:
-                print(f"  [START] [did={did:04d} | {dname[:16]:<16}] Method={method:<7} Seed={seed} (Budget={tb}s)...")
-
-            t_exec_start = time.perf_counter()
-            res = execute_method_with_timeout(
-                method_name=method,
-                X_dev=X_dev,
-                y_dev=y_dev,
-                X_test=X_test,
-                y_test=y_test,
-                time_budget=tb,
-                seed=seed,
-                timeout_seconds=timeout_per_dataset,
-            )
-            elapsed = time.perf_counter() - t_exec_start
-
-            row_record = {
-                "dataset_id": did,
-                "dataset_name": dname,
-                "n_samples": task["n_samples"],
-                "n_features": task["n_features"],
-                "n_classes": task["n_classes"],
-                "method": method,
-                "seed": seed,
-                "time_budget_s": tb,
-                "test_accuracy": res.get("test_accuracy", 0.0),
-                "val_accuracy": res.get("val_accuracy", 0.0),
-                "wallclock_seconds": res.get("wallclock_seconds", elapsed),
-                "peak_memory_mb": res.get("peak_memory_mb", 0.0),
-                "status": res.get("status", "unknown"),
-                "extra_info": res.get("extra_info", ""),
-                "error_message": res.get("error_message", ""),
-            }
-
-            with csv_lock:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=n_workers) as executor:
+            future_to_task = {executor.submit(_execute_benchmark_task, t): t for t in tasks_to_run}
+            for future in concurrent.futures.as_completed(future_to_task):
                 completed_counter += 1
-                append_master_result(output_csv, row_record, lock=None)
-                if res.get("trajectory"):
-                    append_convergence_history(
-                        convergence_csv,
-                        did,
-                        dname,
-                        method,
-                        seed,
-                        tb,
-                        row_record["test_accuracy"],
-                        res["trajectory"],
-                        lock=None,
-                    )
-                print(
-                    f"  [{completed_counter:03d}/{total_tasks:03d} DONE] "
-                    f"[did={did:04d} | {dname[:16]:<16}] Method={method:<7} "
-                    f"[{res['status'].upper()}] in {row_record['wallclock_seconds']:.1f}s | "
-                    f"Test Acc: {row_record['test_accuracy']:.4f}"
-                )
-
-            return row_record
-
-        with concurrent.futures.ThreadPoolExecutor(max_workers=n_workers) as executor:
-            futures = [executor.submit(_execute_task, t) for t in tasks_to_run]
-            for future in concurrent.futures.as_completed(futures):
                 try:
-                    future.result()
+                    row_record = future.result()
+                    print(
+                        f"  [{completed_counter:03d}/{total_tasks:03d} DONE] "
+                        f"[did={row_record['dataset_id']:04d} | {row_record['dataset_name'][:16]:<16}] "
+                        f"Method={row_record['method']:<7} [{row_record['status'].upper()}] in {row_record['wallclock_seconds']:.1f}s | "
+                        f"Test Acc: {row_record['test_accuracy']:.4f} (Val: {row_record['val_accuracy']:.4f})",
+                        flush=True,
+                    )
                 except Exception as exc:
-                    with csv_lock:
-                        print(f"[!] Worker execution error: {exc}")
+                    t = future_to_task[future]
+                    print(
+                        f"  [{completed_counter:03d}/{total_tasks:03d} FAILED] "
+                        f"[did={t['dataset_id']:04d} | {t['dataset_name'][:16]:<16}] Method={t['method']:<7}: {exc}",
+                        flush=True,
+                    )
 
     print("\n" + "=" * 76)
     print(f"  OPENML-CC18 BENCHMARK CAMPAIGN FINISHED!")
