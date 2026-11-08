@@ -9,7 +9,7 @@
 [![Author: LNTA](https://img.shields.io/badge/Author-LNTA-purple.svg)](https://github.com/lntangu)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/lntangu/AMDE-Autonomous-ML-Discovery-Engine/blob/release-amde-final/notebooks/AMDE_Real_World_Demo.ipynb)
 
-**AMDE (Autonomous Machine Learning Discovery Engine)** is an enterprise-grade research and production AutoML platform authored by **LNTA** for reproducible, multi-objective exploration, dynamic stacking ensemble learning, and forensic evaluation of tabular machine learning pipelines.
+**AMDE (Autonomous Machine Learning Discovery Engine)** is an enterprise-grade research and production AutoML platform authored by **LNTA** (<dutubelnta@gmail.com>, Architect & Lead Maintainer) for reproducible, multi-objective exploration, dynamic stacking ensemble learning, and forensic evaluation of tabular machine learning pipelines.
 
 AMDE v5.0 introduces the **Dynamic Stacking Ensemble ("Super Learner")**, unifying the Holy Trinity of gradient boosted trees (**LightGBM + XGBoost + CatBoost**) alongside Deep MLPs, Tree Ensembles (Random Forests/ExtraTrees), and Regularized Linear Classifiers under a calibrated meta-learner.
 

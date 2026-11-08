@@ -14,7 +14,7 @@ if __name__ == "__main__":
         name="amde-automl",
         version="5.0.0",
         author="LNTA",
-        author_email="lntangu@users.noreply.github.com",
+        author_email="dutubelnta@gmail.com",
         maintainer="LNTA",
-        maintainer_email="lntangu@users.noreply.github.com",
+        maintainer_email="dutubelnta@gmail.com",
     )

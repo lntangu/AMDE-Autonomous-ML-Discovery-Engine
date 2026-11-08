@@ -1,6 +1,7 @@
 """AMDE 5.0: Autonomous Machine Learning Discovery Engine (Super Learner).
 
-Author: LNTA
+Author: LNTA <dutubelnta@gmail.com>
+Role: Architect & Lead Maintainer
 Principal ML Systems Architecture for Evidence-Guided Discovery.
 """
 
@@ -60,6 +61,9 @@ from amde.strategy.tpe import TPEStrategy
 from amde.wrapper import AMDEClassifier, DynamicStackingEnsemble
 
 __version__ = "5.0.0"
+__author__ = "LNTA"
+__email__ = "dutubelnta@gmail.com"
+__role__ = "Architect & Lead Maintainer"
 
 __all__ = [
     "AMDE4Engine",
@@ -106,4 +110,7 @@ __all__ = [
     "compute_data_split_hash",
     "make_evaluation_cache_key",
     "__version__",
+    "__author__",
+    "__email__",
+    "__role__",
 ]

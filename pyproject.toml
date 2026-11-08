@@ -10,8 +10,12 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
-authors = [{ name = "LNTA", email = "lntangu@users.noreply.github.com" }]
-maintainers = [{ name = "LNTA", email = "lntangu@users.noreply.github.com" }]
+authors = [
+    { name = "LNTA", email = "dutubelnta@gmail.com" }
+]
+maintainers = [
+    { name = "LNTA", email = "dutubelnta@gmail.com" }
+]
 keywords = [
     "automl",
     "machine-learning",
