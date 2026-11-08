@@ -56,13 +56,14 @@ from amde.strategy.local_refinement import LocalRefinementStrategy
 from amde.strategy.portfolio import StrategyPortfolio
 from amde.strategy.random_search import RandomSearchStrategy
 from amde.strategy.tpe import TPEStrategy
-from amde.wrapper import AMDEClassifier
+from amde.wrapper import AMDEClassifier, DynamicStackingEnsemble
 
-__version__ = "4.1.0"
+__version__ = "5.0.0"
 
 __all__ = [
     "AMDE4Engine",
     "AMDEClassifier",
+    "DynamicStackingEnsemble",
     "Candidate",
     "ExperimentSpec",
     "ResourceBudget",
