@@ -122,6 +122,7 @@ class OpenMLCC18SuiteTests(unittest.TestCase):
         """Verifies parallel multiprocessing pool execution across workers."""
         with tempfile.TemporaryDirectory() as tmp_dir:
             csv_path = Path(tmp_dir) / "test_parallel_master.csv"
+            conv_path = Path(tmp_dir) / "test_convergence.csv"
             run_benchmark_suite(
                 dataset_ids=[31],
                 methods=["amde"],
@@ -130,6 +131,7 @@ class OpenMLCC18SuiteTests(unittest.TestCase):
                 timeout_per_dataset=30,
                 n_workers=2,
                 output_csv=csv_path,
+                convergence_csv=conv_path,
                 resume=False,
             )
             self.assertTrue(csv_path.exists())
