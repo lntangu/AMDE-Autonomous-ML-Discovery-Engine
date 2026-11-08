@@ -44,7 +44,7 @@ Write-Host "  STAGE 1: EXECUTING LONG-HORIZON CONVERGENCE BENCHMARK" -Foreground
 Write-Host "============================================================================" -ForegroundColor Green
 Write-Host ""
 
-python scripts/run_openml_cc18_suite.py `
+python -u scripts/run_openml_cc18_suite.py `
     --datasets 1590,1461,31 `
     --methods amde,optuna,flaml `
     --time-budgets 60,300,600 `
