@@ -103,9 +103,11 @@ class AMDEClassifierWrapperTests(unittest.TestCase):
         self.assertGreater(clf.n_samples_fit_, 0)
         self.assertLess(clf.n_samples_fit_, n_samples)
 
-        # Verify holdout evaluation metric was recorded safely
+        # Verify holdout evaluation metric was recorded safely via evaluate_holdout()
+        score = clf.evaluate_holdout()
         self.assertTrue(hasattr(clf, "holdout_score_"))
         self.assertGreaterEqual(clf.holdout_score_, 0.0)
+        self.assertEqual(score, clf.holdout_score_)
 
     def test_p1_categorical_encoding_unseen_categories(self) -> None:
         """Task 2: Verifies robust OneHotEncoder handling on unseen categories without dimension mismatch."""

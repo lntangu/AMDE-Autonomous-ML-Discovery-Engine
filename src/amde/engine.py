@@ -102,6 +102,7 @@ class AMDE4Engine:
         self.incumbent_candidate: Optional[Candidate] = None
         self.incumbent_score: float = -float("inf")
         self.trial_history: list[dict[str, Any]] = []
+        self.failure_history: list[dict[str, Any]] = []
 
     def search(
         self,
@@ -266,15 +267,36 @@ class AMDE4Engine:
                 inf_latency = res.inference_latency_ms
                 mem_mb = res.peak_memory_mb
 
-                # 7. Update Archives
+                # 7. Update Archives (Strictly exclude failures and non-finite scores)
                 improved = False
-                if val_score > self.incumbent_score:
-                    self.incumbent_score = val_score
-                    self.incumbent_candidate = cand
-                    improved = True
+                is_valid_eval = (
+                    res.status == "completed"
+                    and np.isfinite(val_score)
+                    and val_score > 0.0
+                    and np.isfinite(inf_latency)
+                    and inf_latency > 0.0
+                    and np.isfinite(mem_mb)
+                    and mem_mb >= 0.0
+                )
+                if is_valid_eval:
+                    if val_score > self.incumbent_score:
+                        self.incumbent_score = val_score
+                        self.incumbent_candidate = cand
+                        improved = True
 
-                self.elite_archive.add(cand, val_score)
-                self.pareto_archive.update(cand, loss=-val_score, latency=inf_latency, memory=mem_mb)
+                    self.elite_archive.add(cand, val_score)
+                    self.pareto_archive.update(cand, loss=-val_score, latency=inf_latency, memory=mem_mb)
+                else:
+                    self.failure_history.append({
+                        "trial_id": evaluations_completed,
+                        "candidate": cand,
+                        "candidate_hash": c_hash,
+                        "status": res.status,
+                        "error_trace": getattr(res, "error_trace", None),
+                        "val_score": val_score,
+                        "inf_latency": inf_latency,
+                        "mem_mb": mem_mb,
+                    })
 
                 # 8. Controller Feedback
                 self.controller.update_feedback(

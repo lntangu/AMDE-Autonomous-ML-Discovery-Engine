@@ -1,0 +1,89 @@
+{
+  "project": "amde-automl",
+  "version": "5.0.0",
+  "audit_timestamp": "2026-11-08T21:28:00+07:00",
+  "author": "LNTA",
+  "email": "dutubelnta@gmail.com",
+  "defects": [
+    {
+      "id": "P0-1",
+      "severity": "CRITICAL",
+      "title": "Tabular Preprocessing Data Leakage Across Splits",
+      "component": "src/amde/wrapper.py",
+      "root_cause": "_prepare_data fitted OneHotEncoder and column schemas on entire dataset X prior to train/val/holdout partitioning, leaking category vocabularies and distributions.",
+      "remediation": "Engineered standalone TabularPreprocessor in src/amde/preprocessing/tabular.py. Split raw data X before transformer fitting, fitting preprocessor strictly on X_train_raw.",
+      "verification_test": "tests/unit/test_remediation_p0_p1.py::test_p0_1_tabular_preprocessor_zero_leakage",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "P0-2",
+      "severity": "CRITICAL",
+      "title": "Holdout Test Split Exposure and Implicit In-Fit Evaluation",
+      "component": "src/amde/wrapper.py",
+      "root_cause": "Holdout test data was exposed via public property holdout_data_ and automatically evaluated inside fit(), enabling adaptive leakage.",
+      "remediation": "Sealed holdout into private _holdout_data_. Gated evaluation behind explicit evaluate_holdout() single-use cryptographic seal.",
+      "verification_test": "tests/unit/test_remediation_p0_p1.py::test_p0_2_holdout_isolation_and_audit",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "P0-3",
+      "severity": "CRITICAL",
+      "title": "Pareto & Elite Archive Contamination by Failed Candidates",
+      "component": "src/amde/engine.py, src/amde/archive/pareto.py, src/amde/archive/elite.py",
+      "root_cause": "Evaluations with status != 'completed', NaNs, non-finite loss/latency/memory or 0.0 latency sentinels were inserted into archives, falsely dominating valid models.",
+      "remediation": "Enforced strict validation in ParetoArchive.update and EliteArchive.add (loss/latency/memory finite and strictly positive). Routed failed candidates to AMDE4Engine.failure_history.",
+      "verification_test": "tests/unit/test_remediation_p0_p1.py::test_p0_3_failed_candidates_excluded_from_archives",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "P0-4",
+      "severity": "CRITICAL",
+      "title": "Dynamic Stacking Selection Bias and Meta-Feature In-Sample Contamination",
+      "component": "src/amde/wrapper.py",
+      "root_cause": "Validation set X_val was used both for candidate selection and meta-learner training, causing optimistic bias in Super Learner weights.",
+      "remediation": "Implemented genuine K-Fold Out-Of-Fold (OOF) cross-validation predictions on fit_X to train L2 LogisticRegression meta-learner.",
+      "verification_test": "tests/unit/test_remediation_p0_p1.py::test_p1_3_predict_proba_normalized_and_finite",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "P1-1",
+      "severity": "HIGH",
+      "title": "EventLedger Background Writer Concurrency Race & Silent Failure",
+      "component": "src/amde/ledger/event_ledger.py",
+      "root_cause": "Queue put occurred outside mutex lock leading to out-of-order SQLite sequence writes; worker exceptions were swallowed silently.",
+      "remediation": "Synchronized queue put within _lock. Captured worker exception in _writer_exception and re-raised on flush().",
+      "verification_test": "tests/unit/test_remediation_p0_p1.py::test_p1_1_event_ledger_writer_exception_propagation",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "P1-2",
+      "severity": "HIGH",
+      "title": "Scikit-Learn BaseEstimator Cloning Contract & Alias Mutation",
+      "component": "src/amde/wrapper.py",
+      "root_cause": "__init__ modified arguments in-place, violating Scikit-Learn BaseEstimator contract and get_params() roundtrip.",
+      "remediation": "Preserved all __init__ parameters verbatim as instance attributes; computed effective parameters dynamically during fit().",
+      "verification_test": "tests/unit/test_remediation_p0_p1.py::test_p1_2_sklearn_estimator_cloning_contract",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "P1-3",
+      "severity": "HIGH",
+      "title": "Predict Proba Non-Finite & Unnormalized Output Risk",
+      "component": "src/amde/wrapper.py",
+      "root_cause": "DynamicStackingEnsemble predict_proba could emit unnormalized or non-finite values if base models produced divergent logits.",
+      "remediation": "Implemented robust probability normalization, clipping, and dimension alignment with classes_.",
+      "verification_test": "tests/unit/test_remediation_p0_p1.py::test_p1_3_predict_proba_normalized_and_finite",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "P1-4",
+      "severity": "HIGH",
+      "title": "Publish to PyPI CI Cancellation Due to Unconstrained Thread Oversubscription",
+      "component": ".github/workflows/publish-pypi.yml",
+      "root_cause": "GitHub Actions 2-core runner hung for 23 minutes on unconstrained OpenMP/BLAS threads during test execution.",
+      "remediation": "Exported OMP_NUM_THREADS=1, MKL_NUM_THREADS=1, OPENBLAS_NUM_THREADS=1 and switched runner invocation to scripts/run_unit_tests.py.",
+      "verification_test": "Local unit suite execution within bounds",
+      "status": "RESOLVED"
+    }
+  ]
+}

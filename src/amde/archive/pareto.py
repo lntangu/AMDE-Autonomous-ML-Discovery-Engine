@@ -95,7 +95,27 @@ class ParetoArchive:
         self, candidate: Candidate, loss: float, latency: float, memory: float
     ) -> bool:
         """Updates the frontier with a new candidate. Returns True if accepted into the non-dominated set."""
-        new_obj = (float(loss), float(latency), float(memory))
+        import math
+        try:
+            floss, flat, fmem = float(loss), float(latency), float(memory)
+        except (ValueError, TypeError):
+            return False
+
+        if not (math.isfinite(floss) and math.isfinite(flat) and math.isfinite(fmem)):
+            return False
+
+        if flat <= 0.0 or fmem < 0.0:
+            return False
+
+        new_obj = (floss, flat, fmem)
+
+        # 0. Check duplicate candidate identity
+        for item in self.frontier:
+            if item.get("candidate_hash") == candidate.canonical_hash:
+                # If already present, don't duplicate; only keep better objectives
+                if self.dominates(item["objectives"], new_obj):
+                    return False
+                break
 
         # 1. Check if the candidate is dominated by any existing member
         for item in self.frontier:
@@ -104,7 +124,9 @@ class ParetoArchive:
 
         # 2. Candidate is non-dominated; prune existing members that the new candidate dominates
         pruned_frontier = [
-            item for item in self.frontier if not self.dominates(new_obj, item["objectives"])
+            item for item in self.frontier
+            if item.get("candidate_hash") != candidate.canonical_hash
+            and not self.dominates(new_obj, item["objectives"])
         ]
 
         # 3. Add novel point

@@ -21,12 +21,20 @@ class EliteArchive:
 
     def add(self, candidate: Candidate, score: float) -> bool:
         """Adds a candidate if it qualifies for the top-k archive."""
+        import math
+        try:
+            fscore = float(score)
+        except (ValueError, TypeError):
+            return False
+        if not math.isfinite(fscore):
+            return False
+
         # Check if already present by hash
         for item in self.entries:
             if item["candidate"].canonical_hash == candidate.canonical_hash:
                 # Update score if better
-                if score > item["score"]:
-                    item["score"] = score
+                if fscore > item["score"]:
+                    item["score"] = fscore
                     self._sort_and_trim()
                     return True
                 return False
@@ -34,7 +42,7 @@ class EliteArchive:
         # Add candidate
         self.entries.append({
             "candidate": candidate,
-            "score": float(score),
+            "score": fscore,
             "hash": candidate.canonical_hash,
         })
         self._sort_and_trim()
