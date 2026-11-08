@@ -59,6 +59,12 @@ def notebook_canonical_sha256(path: Path) -> str:
 
 
 def main() -> int:
+    if "--update" in sys.argv:
+        # Canonical manifest update with deterministic POSIX line endings
+        import subprocess
+        res = subprocess.run([sys.executable, str(ROOT / "scripts" / "generate_manifest.py")], cwd=ROOT)
+        return res.returncode
+
     if not MANIFEST.is_file():
         print(f"FAIL: manifest missing: {MANIFEST}", file=sys.stderr)
         return 2

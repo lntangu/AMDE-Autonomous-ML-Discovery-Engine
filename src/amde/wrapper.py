@@ -331,9 +331,11 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
 
     def __init__(
         self,
-        time_budget: int = 60,
+        time_budget_s: Optional[int] = None,
+        time_budget: Optional[int] = None,
         max_evaluations: Optional[int] = None,
-        seed: int = 42,
+        random_state: Optional[int] = None,
+        seed: Optional[int] = None,
         val_size: float = 0.20,
         holdout_size: float = 0.0,
         use_multi_fidelity: bool = False,
@@ -344,9 +346,11 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         ledger_path: Optional[Union[str, Path]] = None,
         verbose: int = 0,
     ):
-        self.time_budget = time_budget
+        self.time_budget_s = time_budget_s
+        self.time_budget = time_budget if time_budget is not None else (time_budget_s if time_budget_s is not None else 60)
         self.max_evaluations = max_evaluations
-        self.seed = seed
+        self.random_state = random_state
+        self.seed = seed if seed is not None else (random_state if random_state is not None else 42)
         self.val_size = val_size
         self.holdout_size = holdout_size
         self.use_multi_fidelity = use_multi_fidelity
@@ -357,34 +361,89 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         self.ledger_path = ledger_path
         self.verbose = verbose
 
-    def _prepare_data(self, X: Any, y: Any = None) -> tuple[np.ndarray, Optional[np.ndarray]]:
-        """Handles Pandas DataFrames with categorical/object columns safely."""
+    @property
+    def ledger_hash_(self) -> Optional[str]:
+        """Tamper-evident SHA-256 cryptographic ledger hash alias for v5.0 API."""
+        return getattr(self, "ledger_sha256_", None)
+
+    @ledger_hash_.setter
+    def ledger_hash_(self, val: Optional[str]) -> None:
+        self.ledger_sha256_ = val
+
+    @property
+    def holdout_data_(self) -> Optional[tuple[np.ndarray, np.ndarray]]:
+        """Returns the isolated sealed holdout test split (X_test, y_test) if configured."""
+        return getattr(self, "_holdout_data_", None)
+
+    def _prepare_data(self, X: Any, y: Any = None, is_train: bool = False) -> tuple[np.ndarray, Optional[np.ndarray]]:
+        """Handles Pandas DataFrames and categorical features safely using OneHotEncoder.
+
+        Guarantees strict dimensional consistency during inference and handles unseen categories
+        gracefully via handle_unknown='ignore'.
+        """
+        from sklearn.preprocessing import OneHotEncoder
+
+        if isinstance(X, pd.Series):
+            X = X.to_frame()
+
         if isinstance(X, pd.DataFrame):
-            if hasattr(self, "feature_names_in_"):
-                # Align columns during transform / predict
-                X_df = pd.get_dummies(X, drop_first=True)
-                if hasattr(self, "_dummy_columns_"):
-                    X_df = X_df.reindex(columns=self._dummy_columns_, fill_value=0)
-                X_arr = X_df.values.astype(np.float32)
+            if is_train:
+                self.feature_names_in_ = np.array(X.columns, dtype=object)
+                cat_cols = [c for c in X.columns if not pd.api.types.is_numeric_dtype(X[c])]
+                num_cols = [c for c in X.columns if pd.api.types.is_numeric_dtype(X[c])]
+                self.categorical_columns_ = cat_cols
+                self.numeric_columns_ = num_cols
+
+                if cat_cols:
+                    try:
+                        encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
+                    except TypeError:
+                        encoder = OneHotEncoder(handle_unknown="ignore", sparse=False)
+                    encoder.fit(X[cat_cols].astype(str))
+                    self.encoder_ = encoder
+                else:
+                    self.encoder_ = None
+
+            cat_cols = getattr(self, "categorical_columns_", [])
+            num_cols = getattr(self, "numeric_columns_", [])
+
+            if getattr(self, "encoder_", None) is not None and cat_cols:
+                # Transform categorical columns using fitted OneHotEncoder
+                X_cat_enc = self.encoder_.transform(X[cat_cols].astype(str)).astype(np.float32)
+                if num_cols:
+                    X_num = X[num_cols].to_numpy(dtype=np.float32)
+                    X_arr = np.hstack([X_num, X_cat_enc])
+                else:
+                    X_arr = X_cat_enc
             else:
-                X_df = pd.get_dummies(X, drop_first=True)
-                self._dummy_columns_ = list(X_df.columns)
-                X_arr = X_df.values.astype(np.float32)
+                if is_train and not cat_cols:
+                    X_arr = X.to_numpy(dtype=np.float32)
+                elif hasattr(self, "numeric_columns_") and self.numeric_columns_:
+                    X_arr = X[self.numeric_columns_].to_numpy(dtype=np.float32)
+                else:
+                    X_arr = X.to_numpy(dtype=np.float32)
+        elif isinstance(X, np.ndarray) and X.dtype.kind in ("O", "U", "S"):
+            df = pd.DataFrame(X)
+            return self._prepare_data(df, y=y, is_train=is_train)
         else:
+            if is_train:
+                self.categorical_columns_ = []
+                self.numeric_columns_ = []
+                self.encoder_ = None
             X_arr = np.asarray(X, dtype=np.float32)
 
         y_arr = None
         if y is not None:
             y_arr = np.asarray(y)
 
-        return X_arr, y_arr
+        return np.ascontiguousarray(X_arr, dtype=np.float32), y_arr
 
     def fit(self, X: Any, y: Any) -> "AMDEClassifier":
         """Fits the AMDE AutoML engine on X, y and constructs the Super Learner ensemble."""
         if hasattr(X, "columns"):
             self.feature_names_in_ = np.array(X.columns, dtype=object)
 
-        X_arr, y_arr = self._prepare_data(X, y)
+        X_arr, y_arr = self._prepare_data(X, y, is_train=True)
         try:
             X_arr, y_arr = check_X_y(X_arr, y_arr, accept_sparse=False, ensure_all_finite=False)
         except TypeError:
@@ -394,10 +453,13 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         self.n_classes_ = len(self.classes_)
         self.n_features_in_ = X_arr.shape[1]
 
+        effective_budget = float(self.time_budget_s if self.time_budget_s is not None else (self.time_budget if self.time_budget is not None else 60.0))
+        effective_seed = int(self.random_state if self.random_state is not None else (self.seed if self.seed is not None else 42))
+
         # Partition data: Train, Val, (optional Sealed Holdout)
         if self.holdout_size > 0.0 and self.holdout_size < 0.5:
             X_dev, X_test, y_dev, y_test = train_test_split(
-                X_arr, y_arr, test_size=self.holdout_size, random_state=self.seed, stratify=y_arr
+                X_arr, y_arr, test_size=self.holdout_size, random_state=effective_seed, stratify=y_arr
             )
             self._holdout_data_ = (X_test, y_test)
         else:
@@ -406,20 +468,21 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
 
         val_ratio = min(0.40, max(0.10, self.val_size))
         X_train, X_val, y_train, y_val = train_test_split(
-            X_dev, y_dev, test_size=val_ratio, random_state=self.seed, stratify=y_dev
+            X_dev, y_dev, test_size=val_ratio, random_state=effective_seed, stratify=y_dev
         )
 
         ledger_p = Path(self.ledger_path) if self.ledger_path else None
         self.engine_ = AMDE4Engine(
             n_features=self.n_features_in_,
             is_classification=True,
-            seed=self.seed,
+            seed=effective_seed,
             ledger_path=ledger_p,
             use_multi_fidelity=self.use_multi_fidelity,
             enable_controller=self.enable_controller,
+            stacking_k=self.stacking_k,
         )
 
-        timeout_s = float(self.time_budget) if self.time_budget is not None else 300.0
+        timeout_s = effective_budget
         budget = self.max_evaluations if self.max_evaluations is not None else max(100, int(timeout_s * 5))
 
         if self.verbose > 0:
@@ -451,8 +514,17 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
 
         # Build production pipeline: Dynamic Stacking Ensemble or Incumbent Pipeline
         pipe_builder = StandardEvaluationPipeline()
-        fit_X = X_arr if self.refit_full else X_train
-        fit_y = y_arr if self.refit_full else y_train
+
+        # CRITICAL P0 DATA LEAKAGE RESOLUTION:
+        # When holdout_size > 0, refit_full MUST only refit on the development set (X_dev, y_dev).
+        # The sealed holdout test set (X_test, y_test) must NEVER be included in final training or refit.
+        if self.refit_full:
+            fit_X = X_dev
+            fit_y = y_dev
+        else:
+            fit_X = X_train
+            fit_y = y_train
+        self.n_samples_fit_ = len(fit_X)
         dummy_cols = getattr(self, "_dummy_columns_", None)
 
         self.is_stacking_active_ = False
@@ -474,7 +546,7 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
 
                 for cand in diverse_cands:
                     pipe_tr = _build_and_fit_single_pipeline(
-                        cand, X_train, y_train, self.seed, pipe_builder, dummy_cols
+                        cand, X_train, y_train, effective_seed, pipe_builder, dummy_cols
                     )
                     if pipe_tr is not None:
                         try:
@@ -493,7 +565,7 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                         meta_learner = LogisticRegression(
                             C=1.0,
                             max_iter=500,
-                            random_state=self.seed,
+                            random_state=effective_seed,
                             solver="lbfgs",
                         )
                         meta_learner.fit(meta_X_val, y_val)
@@ -503,7 +575,7 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                             final_pipes: list[_FittedAMDEPipeline] = []
                             for cand in valid_cands:
                                 p_full = _build_and_fit_single_pipeline(
-                                    cand, fit_X, fit_y, self.seed, pipe_builder, dummy_cols
+                                    cand, fit_X, fit_y, effective_seed, pipe_builder, dummy_cols
                                 )
                                 if p_full is not None:
                                     final_pipes.append(p_full)
@@ -529,12 +601,12 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         # Fallback to single incumbent model if stacking was not active
         if not self.is_stacking_active_:
             incumbent_pipe = _build_and_fit_single_pipeline(
-                self.incumbent_candidate_, fit_X, fit_y, self.seed, pipe_builder, dummy_cols
+                self.incumbent_candidate_, fit_X, fit_y, effective_seed, pipe_builder, dummy_cols
             )
             if incumbent_pipe is None:
                 from sklearn.linear_model import LogisticRegression
                 from sklearn.impute import SimpleImputer
-                lr_fb = LogisticRegression(max_iter=500, random_state=self.seed)
+                lr_fb = LogisticRegression(max_iter=500, random_state=effective_seed)
                 imp_fb = SimpleImputer(strategy="mean")
                 X_imp = imp_fb.fit_transform(fit_X)
                 lr_fb.fit(X_imp, fit_y)
@@ -549,6 +621,14 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                 print(f"[AMDEClassifier] Discovered best model: {self.incumbent_candidate_.genome.get('model', {}).get('family')} (Val Score: {self.best_val_score_:.4f})")
 
         self.is_fitted_ = True
+
+        # Evaluate sealed holdout test set if configured
+        if self._holdout_data_ is not None:
+            X_holdout, y_holdout = self._holdout_data_
+            y_holdout_pred = self.predict(X_holdout)
+            from sklearn.metrics import accuracy_score
+            self.holdout_score_ = float(accuracy_score(y_holdout, y_holdout_pred))
+
         return self
 
     def _check_array_safe(self, X_arr: np.ndarray) -> np.ndarray:
@@ -560,14 +640,14 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
     def predict(self, X: Any) -> np.ndarray:
         """Predicts class labels for samples in X."""
         check_is_fitted(self, attributes=["is_fitted_", "best_estimator_"])
-        X_arr, _ = self._prepare_data(X)
+        X_arr, _ = self._prepare_data(X, is_train=False)
         X_arr = self._check_array_safe(X_arr)
         return self.best_estimator_.predict(X_arr)
 
     def predict_proba(self, X: Any) -> np.ndarray:
         """Predicts class probabilities for samples in X."""
         check_is_fitted(self, attributes=["is_fitted_", "best_estimator_"])
-        X_arr, _ = self._prepare_data(X)
+        X_arr, _ = self._prepare_data(X, is_train=False)
         X_arr = self._check_array_safe(X_arr)
         return self.best_estimator_.predict_proba(X_arr)
 

@@ -66,8 +66,10 @@ class AMDE4Engine:
         ledger_path: Optional[Path] = None,
         use_multi_fidelity: bool = False,
         enable_controller: bool = True,
+        stacking_k: int = 5,
     ):
         self.seed = seed
+        self.stacking_k = stacking_k
         self.rng = random.Random(seed)
         self.np_rng = np.random.RandomState(seed)
         self.is_classification = is_classification
