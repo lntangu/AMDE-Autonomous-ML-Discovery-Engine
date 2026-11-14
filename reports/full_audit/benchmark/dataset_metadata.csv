@@ -1,0 +1,7 @@
+dataset_id,dataset_name,n_samples,n_features,n_numeric,n_categorical,target_col,n_classes,missing_pct
+31,credit-g,1000,20,7,13,class,2,0.0
+37,diabetes,768,8,8,0,class,2,0.0
+38,sick,3772,29,7,22,Class,2,5.54
+54,vehicle,846,18,18,0,Class,4,0.0
+1464,blood-transfusion-service-center,748,4,4,0,Class,2,0.0
+40975,car,1728,6,0,6,class,4,0.0

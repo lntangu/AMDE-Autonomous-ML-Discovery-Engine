@@ -60,7 +60,7 @@ from amde.strategy.random_search import RandomSearchStrategy
 from amde.strategy.tpe import TPEStrategy
 from amde.wrapper import AMDEClassifier, DynamicStackingEnsemble
 
-__version__ = "5.0.0"
+__version__ = "5.0.1"
 __author__ = "LNTA"
 __email__ = "dutubelnta@gmail.com"
 __role__ = "Architect & Lead Maintainer"

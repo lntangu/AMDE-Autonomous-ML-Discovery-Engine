@@ -204,8 +204,8 @@ class TestAMDE4HardeningRegressions(unittest.TestCase):
                 self.assertEqual(len(sqlite_warnings), 0, f"Encountered unclosed SQLite warnings: {sqlite_warnings}")
 
     def test_def16_version_alignment(self):
-        """DEF-16: Release version must be 5.0.0 in amde.__version__."""
-        self.assertEqual(amde.__version__, "5.0.0")
+        """DEF-16: Release version must be 5.0.1 in amde.__version__."""
+        self.assertEqual(amde.__version__, "5.0.1")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,82 @@
+{
+  "project_name": "amde-automl",
+  "version": "5.0.0",
+  "requires_python": ">=3.10",
+  "core_dependencies_count": 9,
+  "core_dependencies": [
+    "psutil>=5.9",
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "scikit-learn>=1.3",
+    "lightgbm>=4.0",
+    "xgboost>=2.0.0",
+    "catboost>=1.2.0",
+    "pandas>=2.0",
+    "matplotlib>=3.7"
+  ],
+  "installed_core_versions": {
+    "psutil": "7.2.2",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "lightgbm": "4.7.0",
+    "xgboost": "2.1.4",
+    "catboost": "1.2.10",
+    "pandas": "3.1.0",
+    "matplotlib": "3.11.2"
+  },
+  "optional_dependency_groups": {
+    "monitoring": 1,
+    "quantum": 2,
+    "tabular": 4,
+    "openml": 2,
+    "benchmark": 6,
+    "all": 8,
+    "dev": 6
+  },
+  "optional_dependencies": {
+    "monitoring": [
+      "psutil>=5.9"
+    ],
+    "quantum": [
+      "torch>=2.1",
+      "numpy>=1.26"
+    ],
+    "tabular": [
+      "scikit-learn>=1.5",
+      "lightgbm>=4.0",
+      "xgboost>=2.0.0",
+      "catboost>=1.2.0"
+    ],
+    "openml": [
+      "openml>=0.14.0",
+      "pyarrow>=14.0"
+    ],
+    "benchmark": [
+      "optuna>=3.6.0",
+      "flaml>=2.1.0",
+      "xgboost>=2.0.0",
+      "catboost>=1.2.0",
+      "matplotlib>=3.7",
+      "pandas>=2.0"
+    ],
+    "all": [
+      "openml>=0.14.0",
+      "pyarrow>=14.0",
+      "optuna>=3.6.0",
+      "flaml>=2.1.0",
+      "xgboost>=2.0.0",
+      "catboost>=1.2.0",
+      "matplotlib>=3.7",
+      "pandas>=2.0"
+    ],
+    "dev": [
+      "pytest>=7",
+      "psutil>=5.9",
+      "ruff>=0.5",
+      "coverage>=7",
+      "build>=1.0",
+      "nbformat>=5.9"
+    ]
+  }
+}

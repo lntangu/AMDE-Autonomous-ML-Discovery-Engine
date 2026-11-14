@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     strategy:
@@ -67,5 +70,5 @@ jobs:
           clean_env/bin/python -m pip install --upgrade pip
           WHL_FILE=$(ls dist/*.whl | head -n 1)
           clean_env/bin/python -m pip install "$WHL_FILE"[all] "xgboost>=2.0.0" "catboost>=1.2.0"
-          clean_env/bin/python -c "import amde; print('AMDE version:', amde.__version__); assert amde.__version__ == '5.0.0'"
+          clean_env/bin/python -c "import amde; print('AMDE version:', amde.__version__); assert amde.__version__ == '5.0.1'"
           clean_env/bin/python -c "from amde import SearchSpace, AMDE4Engine, DynamicStackingEnsemble; s = SearchSpace(); e = AMDE4Engine(); print('Clean package smoke test PASSED')"
