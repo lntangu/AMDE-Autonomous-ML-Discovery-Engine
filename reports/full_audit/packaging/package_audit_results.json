@@ -1,0 +1,27 @@
+[
+  {
+    "check": "Distribution Name",
+    "status": "PASS",
+    "detail": "Package name is correctly 'amde-automl'"
+  },
+  {
+    "check": "Authorship Attribution",
+    "status": "PASS",
+    "detail": "Author LNTA <dutubelnta@gmail.com> properly declared"
+  },
+  {
+    "check": "Package Version",
+    "status": "PASS",
+    "detail": "Declared version is '5.0.0'"
+  },
+  {
+    "check": "Package Build (python -m build)",
+    "status": "PASS",
+    "detail": "Wheel and sdist built successfully."
+  },
+  {
+    "check": "Twine Distribution Validation",
+    "status": "PASS",
+    "detail": "twine check passed strictly."
+  }
+]

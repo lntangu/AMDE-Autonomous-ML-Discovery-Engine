@@ -1,0 +1,44 @@
+[
+  {
+    "workflow": "ci.yml",
+    "check": "Explicit least-privilege permissions block",
+    "status": "PASS",
+    "detail": "Workflow explicitly defines permissions block"
+  },
+  {
+    "workflow": "ci.yml",
+    "check": "Absence of unsafe pull_request_target trigger",
+    "status": "PASS",
+    "detail": "pull_request_target not used"
+  },
+  {
+    "workflow": "ci.yml",
+    "check": "Action version pinning",
+    "status": "PASS",
+    "detail": "All actions pinned with major tags or commit hashes"
+  },
+  {
+    "workflow": "publish-pypi.yml",
+    "check": "Explicit least-privilege permissions block",
+    "status": "PASS",
+    "detail": "Workflow explicitly defines permissions block"
+  },
+  {
+    "workflow": "publish-pypi.yml",
+    "check": "Absence of unsafe pull_request_target trigger",
+    "status": "PASS",
+    "detail": "pull_request_target not used"
+  },
+  {
+    "workflow": "publish-pypi.yml",
+    "check": "Action version pinning",
+    "status": "WARN",
+    "detail": "Unpinned actions: [('pypa/gh-action-pypi-publish', 'release/v1')]"
+  },
+  {
+    "workflow": "publish-pypi.yml",
+    "check": "OIDC id-token scoped to named environment",
+    "status": "PASS",
+    "detail": "id-token: write is correctly scoped to deployment environment"
+  }
+]

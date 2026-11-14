@@ -1,0 +1,83 @@
+[
+  {
+    "workstream": "Repository Inventory",
+    "script": "scripts/audit/repository_inventory.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 11.39,
+    "stdout": "[+] Inventory generated: /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/repository_inventory.json and /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/repository_inventory.md",
+    "stderr": ""
+  },
+  {
+    "workstream": "AST Security & Code Quality",
+    "script": "scripts/audit/custom_ast_security_scan.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 3.39,
+    "stdout": "[+] AST Security Scan completed: 112 findings recorded in /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/static_analysis/ast_scan_findings.json",
+    "stderr": ""
+  },
+  {
+    "workstream": "DataFrame & Preprocessing Integrity",
+    "script": "scripts/audit/dataframe_audit.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 4.84,
+    "stdout": "[+] DataFrame Audit: 10 passed, 0 failed. Report written to /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/preprocessing/dataframe_audit_report.md",
+    "stderr": ""
+  },
+  {
+    "workstream": "ML Correctness & Data Leakage",
+    "script": "scripts/audit/ml_leakage_audit.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 13.49,
+    "stdout": "[+] ML Leakage Audit: 3 passed, 0 failed. Report written to /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/ml_correctness/ml_correctness_audit.md",
+    "stderr": "/home/lnta/.local/lib/python3.14/site-packages/sklearn/neural_network/_multilayer_perceptron.py:606: ConvergenceWarning: lbfgs failed to converge after 50 iteration(s) (status=1):\nSTOP: TOTAL NO. OF ITERATIONS REACHED LIMIT\n\nIncrease the number of iterations to improve the convergence (max_iter=50).\nYou might also want to scale the data as shown in:\n    https://scikit-learn.org/stable/modules/preprocessing.html\n  self.n_iter_ = _check_optimize_result(\"lbfgs\", opt_res, self.max_iter)\n/mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/scripts/audit/ml_leakage_audit.py:68: DeprecationWarning: holdout_data_ will be deprecated. Use evaluate_holdout() for secure sealed evaluation.\n  if clf.holdout_data_ is None:\n/mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/scripts/audit/ml_leakage_audit.py:71: DeprecationWarning: holdout_data_ will be deprecated. Use evaluate_holdout() for secure sealed evaluation.\n  X_holdout, y_holdout = clf.holdout_data_"
+  },
+  {
+    "workstream": "Supply-Chain & Dependency Audit",
+    "script": "scripts/audit/dependency_audit.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 0.41,
+    "stdout": "[+] Dependency audit written to /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/supply_chain/dependency_report.md",
+    "stderr": ""
+  },
+  {
+    "workstream": "Concurrency & State Isolation",
+    "script": "scripts/audit/concurrency_audit.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 15.38,
+    "stdout": "[+] Concurrency Audit: 2 passed, 0 failed. Report written to /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/concurrency/reliability_audit.md",
+    "stderr": ""
+  },
+  {
+    "workstream": "GitHub Actions Security",
+    "script": "scripts/audit/github_workflow_audit.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 0.23,
+    "stdout": "[+] Workflow audit written to /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/github_actions/github_actions_security.md",
+    "stderr": ""
+  },
+  {
+    "workstream": "Packaging & Distribution Integrity",
+    "script": "scripts/audit/package_audit.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 22.83,
+    "stdout": "[+] Package audit written to /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/packaging/packaging_audit.md",
+    "stderr": ""
+  },
+  {
+    "workstream": "Defect Register Consolidation",
+    "script": "scripts/audit/finding_deduplicator.py",
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 0.21,
+    "stdout": "[+] Consolidated Defect Register: 6 findings written to /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/reports/full_audit/FULL_DEFECT_REGISTER.md",
+    "stderr": ""
+  }
+]

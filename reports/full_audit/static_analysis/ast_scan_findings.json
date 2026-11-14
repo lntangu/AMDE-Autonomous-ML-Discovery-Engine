@@ -1,0 +1,1010 @@
+[
+  {
+    "id": "REL-SILENT-EXCEPT-314",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/orchestrator.py",
+    "line": 314,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-372",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/orchestrator.py",
+    "line": 372,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1203",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/orchestrator.py",
+    "line": 1203,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1786",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/orchestrator.py",
+    "line": 1786,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1928",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/orchestrator.py",
+    "line": 1928,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1956",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/orchestrator.py",
+    "line": 1956,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1960",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/orchestrator.py",
+    "line": 1960,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-179",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/util.py",
+    "line": 179,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except OSError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-71",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/wrapper.py",
+    "line": 71,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-84",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/wrapper.py",
+    "line": 84,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-145",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/wrapper.py",
+    "line": 145,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-183",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/discovery/dsl.py",
+    "line": 183,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-124",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/discovery/factory.py",
+    "line": 124,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-125",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/discovery/operators.py",
+    "line": 125,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-50",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 50,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-56",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 56,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-60",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 60,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-80",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 80,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-84",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 84,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-89",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 89,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-131",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 131,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-139",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 139,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-157",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 157,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-265",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 265,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-339",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/isolation.py",
+    "line": 339,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-50",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/pipeline.py",
+    "line": 50,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-69",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/pipeline.py",
+    "line": 69,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-121",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/pipeline.py",
+    "line": 121,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-172",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/pipeline.py",
+    "line": 172,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-180",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/pipeline.py",
+    "line": 180,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-192",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/pipeline.py",
+    "line": 192,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-198",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/pipeline.py",
+    "line": 198,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-249",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/worker.py",
+    "line": 249,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-311",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/evaluation/worker.py",
+    "line": 311,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-56",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/hardware/profile.py",
+    "line": 56,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-91",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/hardware/profile.py",
+    "line": 91,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-58",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/ledger/event_ledger.py",
+    "line": 58,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-151",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/ledger/event_ledger.py",
+    "line": 151,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "SEC-SECRET-442",
+    "category": "security",
+    "severity": "High",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 442,
+    "type": "potential_hardcoded_credential",
+    "message": "Potential credential found: potential_hardcoded_credential (redacted)."
+  },
+  {
+    "id": "SEC-SECRET-1169",
+    "category": "security",
+    "severity": "High",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1169,
+    "type": "potential_hardcoded_credential",
+    "message": "Potential credential found: potential_hardcoded_credential (redacted)."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-496",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 496,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-561",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 561,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-940",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 940,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-971",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 971,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1085",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1085,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1358",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1358,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1382",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1382,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1623",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1623,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1629",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1629,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1635",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1635,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1675",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1675,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Error: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1681",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1681,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Error: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-1783",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 1783,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except ValueError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-2099",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/amde2.py",
+    "line": 2099,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-79",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/heartbeat.py",
+    "line": 79,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-97",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/heartbeat.py",
+    "line": 97,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except OSError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-102",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/heartbeat.py",
+    "line": 102,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except OSError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-201",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/job.py",
+    "line": 201,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-236",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/job.py",
+    "line": 236,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-290",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/job.py",
+    "line": 290,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-346",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/job.py",
+    "line": 346,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-356",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/job.py",
+    "line": 356,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-33",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/lock.py",
+    "line": 33,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-36",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/lock.py",
+    "line": 36,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except ImportError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-183",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/lock.py",
+    "line": 183,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except FileNotFoundError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-208",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/lock.py",
+    "line": 208,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-107",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/resources.py",
+    "line": 107,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-171",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/runtime/resources.py",
+    "line": 171,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-52",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/storage/checkpoint.py",
+    "line": 52,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-257",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/storage/ledger.py",
+    "line": 257,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except OSError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-322",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "src/amde/storage/ledger.py",
+    "line": 322,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except OperationalError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-47",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/benchmark_hardware_profiles.py",
+    "line": 47,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-121",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/hybrid_research_campaign.py",
+    "line": 121,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-231",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/hybrid_research_campaign.py",
+    "line": 231,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-421",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/hybrid_research_campaign.py",
+    "line": 421,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-89",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/measure_controlled_latency.py",
+    "line": 89,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-69",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/profile_live_campaign.py",
+    "line": 69,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-88",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/quantum_research_campaign.py",
+    "line": 88,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-111",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/quantum_research_campaign.py",
+    "line": 111,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-161",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/quantum_research_campaign.py",
+    "line": 161,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except OSError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-577",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/quantum_research_campaign.py",
+    "line": 577,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-774",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/quantum_research_campaign.py",
+    "line": 774,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except DatabaseError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-804",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/quantum_research_campaign.py",
+    "line": 804,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except DatabaseError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-431",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/research_campaign.py",
+    "line": 431,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except ConfigError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-26",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/run_full_test_suite.py",
+    "line": 26,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-31",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/run_full_test_suite.py",
+    "line": 31,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-86",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/run_integration_tests.py",
+    "line": 86,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except ProcessLookupError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-54",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/run_openml_cc18_suite.py",
+    "line": 54,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-525",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/run_openml_cc18_suite.py",
+    "line": 525,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-527",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/run_openml_cc18_suite.py",
+    "line": 527,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "SEC-CODE-EXEC-39",
+    "category": "security",
+    "severity": "Critical",
+    "file": "scripts/test_execute_notebook.py",
+    "line": 39,
+    "type": "dynamic_code_execution",
+    "message": "Direct call to exec() detected."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-47",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/benchmark_validation.py",
+    "line": 47,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-175",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/custom_ast_security_scan.py",
+    "line": 175,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except SyntaxError: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-63",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/repository_inventory.py",
+    "line": 63,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-92",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 92,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-117",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 117,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-131",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 131,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-183",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 183,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-202",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 202,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-274",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 274,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-295",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 295,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-337",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_amde2_runtime.py",
+    "line": 337,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-129",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_final_acceptance_closure.py",
+    "line": 129,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-219",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_final_acceptance_closure.py",
+    "line": 219,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-123",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_hard_deadline_integration.py",
+    "line": 123,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-200",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_hard_deadline_integration.py",
+    "line": 200,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-238",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_hard_deadline_integration.py",
+    "line": 238,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-175",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_quantum_research.py",
+    "line": 175,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-246",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/integration/test_quantum_research.py",
+    "line": 246,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except bare_except: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-44",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "tests/unit/test_amde2_forced_termination.py",
+    "line": 44,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "SEC-SECRET-155",
+    "category": "security",
+    "severity": "High",
+    "file": "tests/unit/test_amde4_p0_correctness.py",
+    "line": 155,
+    "type": "potential_hardcoded_credential",
+    "message": "Potential credential found: potential_hardcoded_credential (redacted)."
+  },
+  {
+    "id": "SEC-DESER-PICKLE-226",
+    "category": "security",
+    "severity": "Medium",
+    "file": "tests/unit/test_categorical_preprocessing.py",
+    "line": 226,
+    "type": "unsafe_deserialization",
+    "message": "Use of pickle.load/loads. Requires strict trust boundary."
+  }
+]

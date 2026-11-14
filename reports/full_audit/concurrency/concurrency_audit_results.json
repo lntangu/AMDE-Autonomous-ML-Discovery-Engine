@@ -1,0 +1,14 @@
+[
+  {
+    "test_id": "F-CONC-01",
+    "description": "Repeated estimator re-fitting isolation",
+    "status": "PASS",
+    "detail": "State cleanly reset across consecutive fits."
+  },
+  {
+    "test_id": "F-CONC-02",
+    "description": "EventLedger concurrent thread-safe record_event",
+    "status": "PASS",
+    "detail": "Successfully logged 200 concurrent events with 0 errors."
+  }
+]

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "amde-automl"
-version = "5.0.0"
+version = "5.0.1"
 description = "AMDE: Autonomous Machine Learning Discovery Engine - SOTA Evidence-Guided Multi-Objective AutoML"
 readme = "README.md"
 requires-python = ">=3.10"

@@ -1,0 +1,19 @@
+dataset_id,dataset_name,system,time_budget,seed,status,weighted_f1,accuracy,fit_time_s,peak_rss_mb,error,models_in_ensemble
+31,credit-g,AMDE 5.0 Super Learner,30,42,COMPLETED,0.7559,0.765,119.92,555.91,,5
+31,credit-g,FLAML v2.8.0,30,42,COMPLETED,0.6862,0.715,32.36,556.87,,
+31,credit-g,AutoGluon v1.6.3,30,42,BLOCKED,0.0,0.0,0.0,0.0,ModuleNotFoundError: autogluon is not available in Python 3.14 environment,
+37,diabetes,AMDE 5.0 Super Learner,30,42,COMPLETED,0.7274,0.7338,30.65,557.09,,5
+37,diabetes,FLAML v2.8.0,30,42,COMPLETED,0.7372,0.7468,33.0,557.45,,
+37,diabetes,AutoGluon v1.6.3,30,42,BLOCKED,0.0,0.0,0.0,0.0,ModuleNotFoundError: autogluon is not available in Python 3.14 environment,
+38,sick,AMDE 5.0 Super Learner,30,42,COMPLETED,0.992,0.9921,35.48,568.97,,5
+38,sick,FLAML v2.8.0,30,42,COMPLETED,0.9786,0.9801,30.82,593.01,,
+38,sick,AutoGluon v1.6.3,30,42,BLOCKED,0.0,0.0,0.0,0.0,ModuleNotFoundError: autogluon is not available in Python 3.14 environment,
+54,vehicle,AMDE 5.0 Super Learner,30,42,COMPLETED,0.8276,0.8294,50.76,617.49,,5
+54,vehicle,FLAML v2.8.0,30,42,COMPLETED,0.6653,0.6882,31.38,615.71,,
+54,vehicle,AutoGluon v1.6.3,30,42,BLOCKED,0.0,0.0,0.0,0.0,ModuleNotFoundError: autogluon is not available in Python 3.14 environment,
+1464,blood-transfusion-service-center,AMDE 5.0 Super Learner,30,42,COMPLETED,0.7642,0.7933,10.81,617.77,,5
+1464,blood-transfusion-service-center,FLAML v2.8.0,30,42,COMPLETED,0.7384,0.78,32.49,616.56,,
+1464,blood-transfusion-service-center,AutoGluon v1.6.3,30,42,BLOCKED,0.0,0.0,0.0,0.0,ModuleNotFoundError: autogluon is not available in Python 3.14 environment,
+40975,car,AMDE 5.0 Super Learner,30,42,COMPLETED,0.9943,0.9942,34.35,619.99,,5
+40975,car,FLAML v2.8.0,30,42,COMPLETED,0.7908,0.8179,32.54,620.09,,
+40975,car,AutoGluon v1.6.3,30,42,BLOCKED,0.0,0.0,0.0,0.0,ModuleNotFoundError: autogluon is not available in Python 3.14 environment,

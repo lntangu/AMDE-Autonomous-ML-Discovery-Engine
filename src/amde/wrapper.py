@@ -427,6 +427,7 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
 
     def fit(self, X: Any, y: Any) -> "AMDEClassifier":
         """Fits the AMDE AutoML engine on X, y and constructs the Super Learner ensemble."""
+        fit_start_t = time.monotonic()
         if hasattr(X, "columns"):
             self.feature_names_in_ = np.array(X.columns, dtype=object)
 
@@ -488,11 +489,11 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
             stacking_k=self.stacking_k,
         )
 
-        timeout_s = effective_budget
-        budget = self.max_evaluations if self.max_evaluations is not None else max(100, int(timeout_s * 5))
+        search_timeout = max(1.0, effective_budget * 0.85)  # 15% reserve for ensemble refit & stacking
+        budget = self.max_evaluations if self.max_evaluations is not None else max(100, int(effective_budget * 5))
 
         if self.verbose > 0:
-            print(f"[AMDEClassifier] Starting AutoML search (time_budget={timeout_s}s, max_evals={budget})...")
+            print(f"[AMDEClassifier] Starting AutoML search (time_budget={effective_budget}s, search_budget={search_timeout:.1f}s, max_evals={budget})...")
 
         t0 = time.perf_counter()
         search_res = self.engine_.search(
@@ -502,7 +503,7 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
             y_val=np.ascontiguousarray(y_val),
             dataset_name="amde_fit_dataset",
             budget=budget,
-            timeout_seconds=timeout_s,
+            timeout_seconds=search_timeout,
         )
         self.search_duration_ = time.perf_counter() - t0
 
@@ -535,6 +536,7 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         self.is_stacking_active_ = False
         self.stacking_models_count_ = 1
 
+        remaining_time = effective_budget - (time.monotonic() - fit_start_t)
         if self.use_stacking and self.stacking_k > 1:
             diverse_cands = select_top_diverse_candidates(
                 self.pareto_frontier_,
@@ -638,7 +640,15 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                 print(f"[AMDEClassifier] Discovered best model: {self.incumbent_candidate_.genome.get('model', {}).get('family')} (Val Score: {self.best_val_score_:.4f})")
 
         self.is_fitted_ = True
+        self.total_fit_duration_ = time.monotonic() - fit_start_t
+        self.budget_respected_ = bool(self.total_fit_duration_ <= max(effective_budget * 1.5, effective_budget + 5.0))
+        self.finalization_completed_ = True
+        self.failure_summary_ = self.engine_.get_failure_summary()
         return self
+
+    def get_failure_summary(self) -> dict[str, Any]:
+        """Returns structured failure summary from the underlying AutoML discovery engine."""
+        return getattr(self, "failure_summary_", {})
 
     def evaluate_holdout(self, token: Optional[str] = None) -> float:
         """Controlled, auditable single-use evaluation of the sealed holdout test set."""

@@ -12,7 +12,7 @@ from setuptools import setup
 if __name__ == "__main__":
     setup(
         name="amde-automl",
-        version="5.0.0",
+        version="5.0.1",
         author="LNTA",
         author_email="dutubelnta@gmail.com",
         maintainer="LNTA",

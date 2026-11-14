@@ -1,0 +1,20 @@
+[
+  {
+    "test_id": "D-LEAK-01",
+    "description": "Holdout split isolation from final refit",
+    "status": "PASS",
+    "detail": "Fit on dev (75), holdout isolated (25)"
+  },
+  {
+    "test_id": "D-LEAK-02",
+    "description": "Single-use holdout anti-adaptive-leakage lock",
+    "status": "PASS",
+    "detail": "Repeated holdout query safely blocked with RuntimeError. Score: 1.0000"
+  },
+  {
+    "test_id": "D-LEAK-03",
+    "description": "Preprocessor vocabulary isolation",
+    "status": "PASS",
+    "detail": "Learned only train categories: {'A', 'B'}"
+  }
+]
