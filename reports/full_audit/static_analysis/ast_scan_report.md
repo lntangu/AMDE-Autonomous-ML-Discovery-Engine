@@ -1,6 +1,6 @@
 # AMDE AST Security & Reliability Scan Report
 
-- **Total Scanned Findings**: 112
+- **Total Scanned Findings**: 117
 
 | ID | Category | Severity | File | Line | Type | Message |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -97,7 +97,12 @@
 | `SEC-CODE-EXEC-39` | security | **Critical** | `scripts/test_execute_notebook.py` | 39 | `dynamic_code_execution` | Direct call to exec() detected. |
 | `REL-SILENT-EXCEPT-47` | reliability | **Medium** | `scripts/audit/benchmark_validation.py` | 47 | `silent_exception_suppression` | Silent exception suppression detected: except Exception: pass. |
 | `REL-SILENT-EXCEPT-175` | reliability | **Medium** | `scripts/audit/custom_ast_security_scan.py` | 175 | `silent_exception_suppression` | Silent exception suppression detected: except SyntaxError: pass. |
+| `REL-SILENT-EXCEPT-67` | reliability | **Medium** | `scripts/audit/exception_suppression_auditor.py` | 67 | `silent_exception_suppression` | Silent exception suppression detected: except Exception: pass. |
+| `REL-SILENT-EXCEPT-72` | reliability | **Medium** | `scripts/audit/high_cardinality_auditor.py` | 72 | `silent_exception_suppression` | Silent exception suppression detected: except Exception: pass. |
+| `REL-SILENT-EXCEPT-101` | reliability | **Medium** | `scripts/audit/numerical_integrity_auditor.py` | 101 | `silent_exception_suppression` | Silent exception suppression detected: except Exception: pass. |
 | `REL-SILENT-EXCEPT-63` | reliability | **Medium** | `scripts/audit/repository_inventory.py` | 63 | `silent_exception_suppression` | Silent exception suppression detected: except Exception: pass. |
+| `REL-SILENT-EXCEPT-74` | reliability | **Medium** | `scripts/audit/stress_test_runner.py` | 74 | `silent_exception_suppression` | Silent exception suppression detected: except Exception: pass. |
+| `REL-SILENT-EXCEPT-55` | reliability | **Medium** | `scripts/audit/time_budget_auditor.py` | 55 | `silent_exception_suppression` | Silent exception suppression detected: except Exception: pass. |
 | `REL-SILENT-EXCEPT-92` | reliability | **Medium** | `tests/integration/test_amde2_runtime.py` | 92 | `silent_exception_suppression` | Silent exception suppression detected: except bare_except: pass. |
 | `REL-SILENT-EXCEPT-117` | reliability | **Medium** | `tests/integration/test_amde2_runtime.py` | 117 | `silent_exception_suppression` | Silent exception suppression detected: except bare_except: pass. |
 | `REL-SILENT-EXCEPT-131` | reliability | **Medium** | `tests/integration/test_amde2_runtime.py` | 131 | `silent_exception_suppression` | Silent exception suppression detected: except bare_except: pass. |

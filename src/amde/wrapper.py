@@ -163,6 +163,27 @@ class DynamicStackingEnsemble:
         return (proba / sums).astype(np.float32)
 
 
+def _safe_train_test_split(
+    X: Any, y: Any, test_size: float | int, random_state: int = 42
+) -> tuple[Any, Any, Any, Any]:
+    """Safely splits data using stratification when possible and mathematically valid."""
+    unique, counts = np.unique(y, return_counts=True)
+    n_classes = len(unique)
+    n_samples = len(y)
+
+    can_stratify = True
+    if n_classes < 2 or np.min(counts) < 2:
+        can_stratify = False
+    else:
+        n_test = int(np.ceil(n_samples * test_size)) if isinstance(test_size, float) else int(test_size)
+        n_train = n_samples - n_test
+        if n_test < n_classes or n_train < n_classes:
+            can_stratify = False
+
+    strat = y if can_stratify else None
+    return train_test_split(X, y, test_size=test_size, random_state=random_state, stratify=strat)
+
+
 def select_top_diverse_candidates(
     pareto_frontier: Sequence[Candidate],
     trial_history: Sequence[dict[str, Any]],
@@ -440,34 +461,22 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
 
         # 1. Split raw inputs BEFORE fitting preprocessors (Zero-Leakage guarantee!)
         if 0.0 < self.holdout_size < 0.5:
-            if isinstance(X, pd.DataFrame):
-                X_dev_raw, X_test_raw, y_dev, y_test = train_test_split(
-                    X, y_arr, test_size=self.holdout_size, random_state=effective_seed, stratify=y_arr
-                )
-            else:
-                X_raw_arr = np.asarray(X)
-                X_dev_raw, X_test_raw, y_dev, y_test = train_test_split(
-                    X_raw_arr, y_arr, test_size=self.holdout_size, random_state=effective_seed, stratify=y_arr
-                )
+            X_dev_raw, X_test_raw, y_dev, y_test = _safe_train_test_split(
+                X, y_arr, test_size=self.holdout_size, random_state=effective_seed
+            )
             self._holdout_data_ = (X_test_raw, y_test)
         else:
             X_dev_raw, y_dev = X, y_arr
             self._holdout_data_ = None
 
         val_ratio = min(0.40, max(0.10, self.val_size))
-        if isinstance(X_dev_raw, pd.DataFrame):
-            X_train_raw, X_val_raw, y_train, y_val = train_test_split(
-                X_dev_raw, y_dev, test_size=val_ratio, random_state=effective_seed, stratify=y_dev
-            )
-        else:
-            X_dev_arr = np.asarray(X_dev_raw)
-            X_train_raw, X_val_raw, y_train, y_val = train_test_split(
-                X_dev_arr, y_dev, test_size=val_ratio, random_state=effective_seed, stratify=y_dev
-            )
+        X_train_raw, X_val_raw, y_train, y_val = _safe_train_test_split(
+            X_dev_raw, y_dev, test_size=val_ratio, random_state=effective_seed
+        )
 
-        # 2. Fit TabularPreprocessor strictly on X_train_raw
+        # 2. Fit TabularPreprocessor strictly on X_train_raw with y_train for target encoding
         self.preprocessor_ = TabularPreprocessor()
-        self.preprocessor_.fit(X_train_raw)
+        self.preprocessor_.fit(X_train_raw, y=y_train)
         self.categorical_columns_ = self.preprocessor_.categorical_columns_
         self.numeric_columns_ = self.preprocessor_.numeric_columns_
         self.encoder_ = self.preprocessor_.encoder_
@@ -495,12 +504,22 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         if self.verbose > 0:
             print(f"[AMDEClassifier] Starting AutoML search (time_budget={effective_budget}s, search_budget={search_timeout:.1f}s, max_evals={budget})...")
 
+        # Progressive Stratified Subsampling for candidate search on large datasets (> 25,000 samples)
+        if len(X_train) > 25000:
+            sub_ratio = min(1.0, 15000.0 / len(X_train))
+            val_sub_ratio = min(1.0, 5000.0 / len(X_val))
+            X_tr_search, _, y_tr_search, _ = _safe_train_test_split(X_train, y_train, test_size=1.0 - sub_ratio, random_state=effective_seed)
+            X_va_search, _, y_va_search, _ = _safe_train_test_split(X_val, y_val, test_size=1.0 - val_sub_ratio, random_state=effective_seed)
+        else:
+            X_tr_search, y_tr_search = X_train, y_train
+            X_va_search, y_va_search = X_val, y_val
+
         t0 = time.perf_counter()
         search_res = self.engine_.search(
-            X_train=np.ascontiguousarray(X_train),
-            y_train=np.ascontiguousarray(y_train),
-            X_val=np.ascontiguousarray(X_val),
-            y_val=np.ascontiguousarray(y_val),
+            X_train=np.ascontiguousarray(X_tr_search),
+            y_train=np.ascontiguousarray(y_tr_search),
+            X_val=np.ascontiguousarray(X_va_search),
+            y_val=np.ascontiguousarray(y_va_search),
             dataset_name="amde_fit_dataset",
             budget=budget,
             timeout_seconds=search_timeout,
@@ -537,7 +556,13 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
         self.stacking_models_count_ = 1
 
         remaining_time = effective_budget - (time.monotonic() - fit_start_t)
-        if self.use_stacking and self.stacking_k > 1:
+        can_run_stacking = (
+            self.use_stacking
+            and self.stacking_k > 1
+            and remaining_time > 3.0
+            and (len(fit_X) <= 30000 or remaining_time > 15.0)
+        )
+        if can_run_stacking:
             diverse_cands = select_top_diverse_candidates(
                 self.pareto_frontier_,
                 self.search_history_,
@@ -557,9 +582,14 @@ class AMDEClassifier(ClassifierMixin, BaseEstimator):
                     valid_cands: list[Candidate] = []
 
                     for cand in diverse_cands:
+                        if (effective_budget - (time.monotonic() - fit_start_t)) < 2.0:
+                            break
                         cand_oof = np.zeros((len(fit_X), self.n_classes_), dtype=np.float32)
                         cand_success = True
                         for train_idx, val_idx in cv.split(fit_X, fit_y):
+                            if (effective_budget - (time.monotonic() - fit_start_t)) < 1.0:
+                                cand_success = False
+                                break
                             X_f_tr, y_f_tr = fit_X[train_idx], fit_y[train_idx]
                             X_f_va = fit_X[val_idx]
                             p_fold = _build_and_fit_single_pipeline(

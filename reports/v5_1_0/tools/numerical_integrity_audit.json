@@ -1,0 +1,426 @@
+{
+  "workstream": "Numerical Integrity Audit",
+  "total_findings": 60,
+  "findings": [
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/wrapper.py",
+      "line": 51,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/wrapper.py",
+      "line": 58,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "clipping_hazard",
+      "severity": "Low",
+      "file": "src/amde/wrapper.py",
+      "line": 78,
+      "detail": "Use of clip() detected; verify whether clipping distorts distribution or masks root cause."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/wrapper.py",
+      "line": 127,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values (e.g. 1e308 -> inf)."
+    },
+    {
+      "type": "blind_numerical_fix",
+      "severity": "Medium",
+      "file": "src/amde/wrapper.py",
+      "line": 159,
+      "detail": "Use of np.nan_to_num() detected; check if this blindly masks non-finite values."
+    },
+    {
+      "type": "clipping_hazard",
+      "severity": "Low",
+      "file": "src/amde/wrapper.py",
+      "line": 160,
+      "detail": "Use of clip() detected; verify whether clipping distorts distribution or masks root cause."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/wrapper.py",
+      "line": 163,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values (e.g. 1e308 -> inf)."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/wrapper.py",
+      "line": 421,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/wrapper.py",
+      "line": 426,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/benchmarks/generators.py",
+      "line": 22,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/dsl.py",
+      "line": 258,
+      "detail": "Mathematical logarithm call (log1p) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/dsl.py",
+      "line": 270,
+      "detail": "Mathematical logarithm call (log1p) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/factory.py",
+      "line": 23,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/factory.py",
+      "line": 23,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/factory.py",
+      "line": 27,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/factory.py",
+      "line": 27,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/memory.py",
+      "line": 144,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/search_space.py",
+      "line": 175,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/search_space.py",
+      "line": 179,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/search_space.py",
+      "line": 189,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/search_space.py",
+      "line": 197,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/search_space.py",
+      "line": 202,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "clipping_hazard",
+      "severity": "Low",
+      "file": "src/amde/discovery/search_space.py",
+      "line": 205,
+      "detail": "Use of clip() detected; verify whether clipping distorts distribution or masks root cause."
+    },
+    {
+      "type": "clipping_hazard",
+      "severity": "Low",
+      "file": "src/amde/discovery/search_space.py",
+      "line": 207,
+      "detail": "Use of clip() detected; verify whether clipping distorts distribution or masks root cause."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/surrogate.py",
+      "line": 34,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/discovery/surrogate.py",
+      "line": 35,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/evaluation/metrics.py",
+      "line": 74,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/evaluation/metrics.py",
+      "line": 74,
+      "detail": "Mathematical logarithm call (log1p) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/evaluation/pipeline.py",
+      "line": 379,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/evaluation/pipeline.py",
+      "line": 380,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/examples/real_world_demo.py",
+      "line": 113,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values (e.g. 1e308 -> inf)."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/examples/real_world_demo.py",
+      "line": 119,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values (e.g. 1e308 -> inf)."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/models/trainer.py",
+      "line": 206,
+      "detail": "Mathematical logarithm call (log1p) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/models/trainer.py",
+      "line": 208,
+      "detail": "Mathematical logarithm call (log1p) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 98,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "blind_numerical_fix",
+      "severity": "Medium",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 132,
+      "detail": "Use of np.nan_to_num() detected; check if this blindly masks non-finite values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 174,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "blind_numerical_fix",
+      "severity": "Medium",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 179,
+      "detail": "Use of np.nan_to_num() detected; check if this blindly masks non-finite values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 185,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values (e.g. 1e308 -> inf)."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 191,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "blind_numerical_fix",
+      "severity": "Medium",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 192,
+      "detail": "Use of np.nan_to_num() detected; check if this blindly masks non-finite values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 194,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "blind_numerical_fix",
+      "severity": "Medium",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 205,
+      "detail": "Use of np.nan_to_num() detected; check if this blindly masks non-finite values."
+    },
+    {
+      "type": "blind_numerical_fix",
+      "severity": "Medium",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 208,
+      "detail": "Use of np.nan_to_num() detected; check if this blindly masks non-finite values."
+    },
+    {
+      "type": "float32_conversion_hazard",
+      "severity": "High",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 209,
+      "detail": "Direct conversion to float32 (np.float32) without explicit boundary check can overflow float64 extreme values."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/research/statistics.py",
+      "line": 120,
+      "detail": "Mathematical logarithm call (log2) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/search/population.py",
+      "line": 332,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/search/portfolio.py",
+      "line": 27,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/search/stagnation.py",
+      "line": 27,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/space/parameter.py",
+      "line": 51,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/space/parameter.py",
+      "line": 52,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/space/parameter.py",
+      "line": 66,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/space/parameter.py",
+      "line": 67,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/space/parameter.py",
+      "line": 67,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/strategy/tpe.py",
+      "line": 84,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/strategy/tpe.py",
+      "line": 87,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/strategy/tpe.py",
+      "line": 97,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/strategy/tpe.py",
+      "line": 100,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/strategy/tpe.py",
+      "line": 101,
+      "detail": "Mathematical logarithm call (log10) detected; verify domain protection against <= 0."
+    },
+    {
+      "type": "log_hazard",
+      "severity": "Medium",
+      "file": "src/amde/strategy/tpe.py",
+      "line": 123,
+      "detail": "Mathematical logarithm call (log) detected; verify domain protection against <= 0."
+    }
+  ]
+}

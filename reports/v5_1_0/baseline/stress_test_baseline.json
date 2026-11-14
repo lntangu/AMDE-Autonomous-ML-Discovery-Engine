@@ -1,0 +1,110 @@
+[
+  {
+    "case_id": "G01",
+    "description": "Standard Heterogeneous (Num + Cat + Missing)",
+    "status": "PASS",
+    "elapsed_seconds": 18.53,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G02",
+    "description": "High Cardinality 10K (20k rows, 10k categories)",
+    "status": "FAIL",
+    "elapsed_seconds": 56.15,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": "ValidationError: Invalid non-finite float value in canonical data: -inf"
+  },
+  {
+    "case_id": "G03",
+    "description": "Extreme Class Imbalance (99.5% vs 0.5%)",
+    "status": "PASS",
+    "elapsed_seconds": 8.39,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G04",
+    "description": "Inf and Float64 Max (+/-inf, 1e308, -1e308)",
+    "status": "FAIL",
+    "elapsed_seconds": 0.02,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": "ValueError: Input X contains infinity or a value too large for dtype('float32')."
+  },
+  {
+    "case_id": "G05",
+    "description": "All Missing Columns (100% NaN/None)",
+    "status": "PASS",
+    "elapsed_seconds": 7.73,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G06",
+    "description": "Tiny Dataset Small N (N=15, 3 classes)",
+    "status": "FAIL",
+    "elapsed_seconds": 0.0,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": "ValueError: The test_size = 2 should be greater or equal to the number of classes = 3"
+  },
+  {
+    "case_id": "G07",
+    "description": "High Dimensionality Wide (N=100, D=300)",
+    "status": "PASS",
+    "elapsed_seconds": 17.05,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G08",
+    "description": "Disjoint Unseen Categories at Inference",
+    "status": "PASS",
+    "elapsed_seconds": 7.37,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G09",
+    "description": "Sentinel Collision ('__missing__', 'nan', 'null')",
+    "status": "PASS",
+    "elapsed_seconds": 10.49,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G10",
+    "description": "Zero-Variance Constant Features",
+    "status": "PASS",
+    "elapsed_seconds": 12.35,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G11",
+    "description": "High Class Count (20 distinct classes)",
+    "status": "PASS",
+    "elapsed_seconds": 13.64,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  },
+  {
+    "case_id": "G12",
+    "description": "Mixed Nullable Extension Dtypes (Int64, Float64, boolean)",
+    "status": "PASS",
+    "elapsed_seconds": 13.18,
+    "peak_rss_mb": 6026.71,
+    "delta_rss_mb": 0.0,
+    "error_message": ""
+  }
+]

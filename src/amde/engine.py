@@ -314,7 +314,8 @@ class AMDE4Engine:
                     is_failure=(res.status != "completed"),
                 )
                 strategy.record_feedback(c_hash, val_score, improved=improved)
-                trajectory.append(round(self.incumbent_score, 5))
+                safe_incumbent = float(self.incumbent_score) if np.isfinite(self.incumbent_score) else 0.0
+                trajectory.append(round(safe_incumbent, 5))
 
                 self.trial_history.append({
                     "trial_id": evaluations_completed,
@@ -324,7 +325,7 @@ class AMDE4Engine:
                     "model_family": cand.genome.get("model", {}).get("family", "unknown"),
                     "strategy": chosen_strat_name,
                     "val_score": val_score,
-                    "incumbent_score": self.incumbent_score,
+                    "incumbent_score": safe_incumbent,
                     "train_duration": train_duration,
                     "inf_latency_ms": inf_latency,
                     "memory_mb": mem_mb,
@@ -333,13 +334,14 @@ class AMDE4Engine:
                 })
 
         end_time_iso = utc_now_iso()
+        safe_best_score = float(self.incumbent_score) if np.isfinite(self.incumbent_score) else 0.0
         self.ledger.append_event(
             event_id=f"end_{spec.experiment_id}",
             experiment_id=spec.experiment_id,
             event_type="experiment_completed",
             payload={
                 "evaluations": evaluations_completed,
-                "best_score": self.incumbent_score,
+                "best_score": safe_best_score,
                 "best_hash": self.incumbent_candidate.canonical_hash if self.incumbent_candidate else None,
             },
         )

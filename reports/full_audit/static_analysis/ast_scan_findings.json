@@ -837,11 +837,56 @@
     "message": "Silent exception suppression detected: except SyntaxError: pass."
   },
   {
+    "id": "REL-SILENT-EXCEPT-67",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/exception_suppression_auditor.py",
+    "line": 67,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-72",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/high_cardinality_auditor.py",
+    "line": 72,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-101",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/numerical_integrity_auditor.py",
+    "line": 101,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
     "id": "REL-SILENT-EXCEPT-63",
     "category": "reliability",
     "severity": "Medium",
     "file": "scripts/audit/repository_inventory.py",
     "line": 63,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-74",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/stress_test_runner.py",
+    "line": 74,
+    "type": "silent_exception_suppression",
+    "message": "Silent exception suppression detected: except Exception: pass."
+  },
+  {
+    "id": "REL-SILENT-EXCEPT-55",
+    "category": "reliability",
+    "severity": "Medium",
+    "file": "scripts/audit/time_budget_auditor.py",
+    "line": 55,
     "type": "silent_exception_suppression",
     "message": "Silent exception suppression detected: except Exception: pass."
   },

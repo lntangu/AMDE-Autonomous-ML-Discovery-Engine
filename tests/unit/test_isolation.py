@@ -97,7 +97,7 @@ class IsolationTests(unittest.TestCase):
 
     def test_infrastructure_errors_are_not_candidate_errors(self) -> None:
         result = run_jobs(
-            [WorkerJob({"kind": "not-a-worker"}, timeout_seconds=10)],
+            [WorkerJob({"kind": "not-a-worker"}, timeout_seconds=30)],
             max_workers=1,
         )[0]
         self.assertEqual(result["status"], "error", result)

@@ -1,0 +1,118 @@
+{
+  "workstream": "Time-Budget & Runtime Governance Audit",
+  "total_findings": 16,
+  "findings": [
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/engine.py",
+      "line": 123,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/examples/real_world_demo.py",
+      "line": 1099,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/examples/real_world_demo.py",
+      "line": 1133,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/examples/real_world_demo.py",
+      "line": 1147,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/amde2.py",
+      "line": 145,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/amde2.py",
+      "line": 154,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/amde2.py",
+      "line": 449,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/amde2.py",
+      "line": 662,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/amde2.py",
+      "line": 863,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/amde2.py",
+      "line": 1233,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/amde2.py",
+      "line": 1403,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/heartbeat.py",
+      "line": 29,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/lock.py",
+      "line": 173,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/lock.py",
+      "line": 179,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/runtime/resources.py",
+      "line": 304,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    },
+    {
+      "type": "non_monotonic_clock",
+      "severity": "Medium",
+      "file": "src/amde/storage/checkpoint.py",
+      "line": 49,
+      "detail": "Use of time.time() for duration or timeout calculation; should use time.monotonic() to avoid NTP drift/clock adjustments."
+    }
+  ]
+}

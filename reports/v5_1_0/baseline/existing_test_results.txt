@@ -1,0 +1,558 @@
+test_scenario_a_cooperative_worker_exits_before_timeout (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_a_cooperative_worker_exits_before_timeout)
+Scenario A: Worker detects cooperative stop marker, exits gracefully before timeout. ... [2026-11-14T12:48:36.819Z] INFO campaign-scoped stop propagated to workers
+ok
+test_scenario_b_unresponsive_worker_forced_termination (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_b_unresponsive_worker_forced_termination)
+Scenario B: Unresponsive worker ignores stop request; timeout expires and forced kill triggers. ... [2026-11-14T12:48:37.048Z] INFO campaign-scoped stop propagated to workers
+[2026-11-14T12:48:38.851Z] WARNING worker did not exit after its cooperative stop window; executing verified forced termination
+ok
+test_scenario_c_worker_with_child_and_grandchild (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_c_worker_with_child_and_grandchild)
+Scenario C: Worker with child and grandchild processes is completely terminated. ... [2026-11-14T12:48:41.235Z] INFO campaign-scoped stop propagated to workers
+[2026-11-14T12:48:42.437Z] WARNING worker did not exit after its cooperative stop window; executing verified forced termination
+ok
+test_scenario_d_stale_pid_identity_validation_prevents_kill (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_d_stale_pid_identity_validation_prevents_kill)
+Scenario D: PID identity validation rejects mismatched command token, prevents collateral kill. ... ok
+test_scenario_e_manager_shutdown_timeout (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_e_manager_shutdown_timeout)
+Scenario E: Manager shutdown escalation records timeout when worker does not stop. ... [2026-11-14T12:48:43.009Z] INFO campaign-scoped stop propagated to workers
+[2026-11-14T12:48:44.215Z] WARNING worker did not exit after its cooperative stop window; executing verified forced termination
+ok
+test_scenario_f_guardian_orphan_recovery_timeout (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_f_guardian_orphan_recovery_timeout)
+Scenario F: Guardian detects orphan worker after manager exit, timeout expires, forces kill. ... Guardian found orphan workers/relays; requested campaign-scoped shutdown before recovery {"orphan_pids": [27028, 27028]}
+Orphan worker processes remain alive after 1s grace timeout; executing verified forced termination {"level": "WARNING"}
+ok
+test_scenario_g_repeated_stop_requests_idempotent (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_g_repeated_stop_requests_idempotent)
+Scenario G: Repeated stop requests do not cause duplicate races or reset monotonic grace clock. ... [2026-11-14T12:48:45.353Z] INFO campaign-scoped stop propagated to workers
+[2026-11-14T12:48:45.556Z] INFO campaign-scoped stop propagated to workers
+ok
+test_scenario_h_worker_exits_around_timeout_boundary (tests.unit.test_amde2_forced_termination.ForcedTerminationTests.test_scenario_h_worker_exits_around_timeout_boundary)
+Scenario H: Worker exiting exactly around timeout boundary is handled race-safely. ... ok
+test_job_object_grandchild_containment (tests.unit.test_amde2_job.WindowsJobObjectTests.test_job_object_grandchild_containment) ... skipped 'Windows Job Objects are native to Windows NT'
+test_job_object_lifecycle (tests.unit.test_amde2_job.WindowsJobObjectTests.test_job_object_lifecycle) ... skipped 'Windows Job Objects are native to Windows NT'
+test_process_identity_validation_prevents_collateral_termination (tests.unit.test_amde2_job.WindowsJobObjectTests.test_process_identity_validation_prevents_collateral_termination) ... ok
+test_terminate_process_tree_safely (tests.unit.test_amde2_job.WindowsJobObjectTests.test_terminate_process_tree_safely) ... ok
+test_backup_and_sha256_verification (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_backup_and_sha256_verification) ... ok
+test_clock_and_backoff_across_reboot_simulation (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_clock_and_backoff_across_reboot_simulation) ... ok
+test_concurrent_state_read_under_windows_atomic_replace_contention (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_concurrent_state_read_under_windows_atomic_replace_contention) ... ok
+test_critical_json_fail_closed (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_critical_json_fail_closed) ... ok
+test_isolated_campaign_stop_files_do_not_touch_legacy_or_other_campaigns (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_isolated_campaign_stop_files_do_not_touch_legacy_or_other_campaigns) ... Backup created: /tmp/tmp8fc11tuv/campaign_backup.zip
+Files: 7 | Size: 0.00 MiB
+Backup verification PASS: 7 files SHA-256 verified; ZIP CRC and SQLite integrity clean.
+Backup verification PASS: 7 files SHA-256 verified; ZIP CRC and SQLite integrity clean.
+Restored campaign test_campaign: 7 verified files into /tmp/tmp8fc11tuv/restored_project
+Campaign root rebased; new plan hash=716ffd1941a91cf831edce14272a0f56d26f394d027478265086b2d5b0803fd6
+Transient locks and stop markers were not restored. No worker was started. Run doctor, verify, then resume explicitly.
+Backup verification PASS: 7 files SHA-256 verified; ZIP CRC and SQLite integrity clean.
+[2026-11-14T12:48:46.702Z] INFO campaign-scoped stop propagated to workers
+ok
+test_isolated_stop_controller_ignores_global_stop (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_isolated_stop_controller_ignores_global_stop) ... ok
+test_manager_watchdog_stop_does_not_create_user_campaign_stop (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_manager_watchdog_stop_does_not_create_user_campaign_stop) ... [2026-11-14T12:48:46.712Z] INFO campaign-scoped stop propagated to workers
+Manager heartbeat stale (300s, PID=12345); requested campaign-scoped cooperative shutdown
+ok
+test_pid_identity_check_rejects_recycled_or_unrelated_pid (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_pid_identity_check_rejects_recycled_or_unrelated_pid) ... ok
+test_plan_checksum_and_tamper_detection (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_plan_checksum_and_tamper_detection) ... ok
+test_plan_mode_and_persistent_deadline (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_plan_mode_and_persistent_deadline) ... ok
+test_plan_with_quantum_profile (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_plan_with_quantum_profile) ... ok
+test_restart_budget_uses_persistable_epoch_timestamps (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_restart_budget_uses_persistable_epoch_timestamps) ... [2026-11-14T12:48:46.740Z] WARNING worker restart scheduled
+ok
+test_sample_process_tree_telemetry (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_sample_process_tree_telemetry) ... ok
+test_schedule_restart_uses_monotonic_time (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_schedule_restart_uses_monotonic_time) ... [2026-11-14T12:48:46.752Z] WARNING worker restart scheduled
+ok
+test_start_campaign_directory_ownership (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_start_campaign_directory_ownership) ... ok
+test_verify_campaign_detects_missing_or_corrupt_checkpoints (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_verify_campaign_detects_missing_or_corrupt_checkpoints) ... ok
+test_worker_exit_failure_classification (tests.unit.test_amde2_runtime.AMDE2RuntimeTests.test_worker_exit_failure_classification) ... Plan: valid | JSON files: 2 | SQLite DBs: 1 | valid checkpoints found: 0
+Verification findings:
+ - missing or invalid required checkpoint for run directory: verify_test_classical_r00000
+Plan: valid | JSON files: 2 | SQLite DBs: 1 | valid checkpoints found: 1
+AMDE 2.0 evidence verification PASS. This checks file/database integrity, not scientific validity.
+[2026-11-14T12:48:46.775Z] INFO worker process exited
+[2026-11-14T12:48:46.777Z] ERROR quantum worker reported configuration error (exit code 2; state=running)
+[2026-11-14T12:48:46.779Z] INFO campaign-scoped stop propagated to workers
+[2026-11-14T12:48:46.782Z] INFO worker process exited
+[2026-11-14T12:48:46.785Z] INFO worker process exited
+[2026-11-14T12:48:46.787Z] INFO worker process exited
+[2026-11-14T12:48:46.789Z] INFO campaign-scoped stop propagated to workers
+[2026-11-14T12:48:46.792Z] INFO worker process exited
+[2026-11-14T12:48:46.793Z] ERROR FATAL data integrity failure in quantum worker (exit code 4): corrupt sqlite ledger
+[2026-11-14T12:48:46.795Z] INFO campaign-scoped stop propagated to workers
+[2026-11-14T12:48:46.798Z] INFO worker process exited
+ok
+test_amde_lite_engine_defaults (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_amde_lite_engine_defaults)
+Verifies AMDELiteEngine instantiates with Lite presets. ... ok
+test_bot_01_and_bot_03_calibrated_mutation (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_bot_01_and_bot_03_calibrated_mutation)
+Verifies that mutation is calibrated and does not catastrophically scramble genomes. ... ok
+test_bot_01_elite_archive_preservation (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_bot_01_elite_archive_preservation)
+Verifies that EliteArchive guarantees monotonic non-degradation of best score (BOT-01 fix). ... ok
+test_bot_02_deduplication (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_bot_02_deduplication)
+Verifies that candidate deduplicator catches repeated proposals (BOT-02 fix). ... ok
+test_bot_03_negative_memory (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_bot_03_negative_memory)
+Verifies that negative memory indexes failure points and rejects neighbors (BOT-03 fix). ... ok
+test_bot_04_dynamic_quantum_circuits (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_bot_04_dynamic_quantum_circuits)
+Verifies that dynamic quantum circuit space synthesizes diverse configurations (BOT-04 fix). ... ok
+test_canonical_hash_invariance_property (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_canonical_hash_invariance_property)
+Property-based verification of canonical hash invariance under permutation. ... ok
+test_canonical_hashing_invariance (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_canonical_hashing_invariance)
+Verifies that dictionary key order or metadata does not alter canonical hash. ... ok
+test_controller_finite_initial_reward (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_controller_finite_initial_reward)
+Verifies that the first evaluated candidate receives finite reward and does not skew TS. ... ok
+test_controller_replay_determinism (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_controller_replay_determinism)
+Verifies bit-for-bit identical decision streams across identical seeds. ... ok
+test_egada_controller_bandit (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_egada_controller_bandit)
+Verifies that EGADA controller shifts allocation toward winning strategies. ... ok
+test_engine_config_presets (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_engine_config_presets)
+Verifies evidence-driven feature flags and default presets. ... ok
+test_engine_end_to_end_search_and_sealed_test (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_engine_end_to_end_search_and_sealed_test)
+Verifies complete end-to-end discovery run and sealed holdout test isolation (BOT-05 fix). ... ok
+test_pareto_archive_non_domination (tests.unit.test_amde3_discovery.TestAMDE3Discovery.test_pareto_archive_non_domination)
+Verifies multi-objective non-domination tracking. ... ok
+test_candidate_hash_invariance_and_transient_filtering (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_candidate_hash_invariance_and_transient_filtering)
+Verifies candidate hash strips transient execution metrics and is invariant. ... ok
+test_canonical_json_invariance_under_key_reordering (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_canonical_json_invariance_under_key_reordering)
+Verifies canonical JSON produces bit-for-bit identical strings regardless of dict order. ... ok
+test_continuous_parameter_bounds_and_log_scale (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_continuous_parameter_bounds_and_log_scale)
+Verifies continuous parameter sampling, log scaling, and perturbation bounds. ... ok
+test_controller_baselines_uniform_and_random (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_controller_baselines_uniform_and_random)
+Verifies uniform round-robin and random controller baselines. ... ok
+test_controller_finite_initial_reward (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_controller_finite_initial_reward)
+Verifies initial trial baseline handling eliminates infinite reward bug. ... ok
+test_controller_replay_determinism (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_controller_replay_determinism)
+Verifies 100% bit-for-bit replay determinism across identical random seeds. ... ok
+test_engine_end_to_end_search_and_sealed_evaluation (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_engine_end_to_end_search_and_sealed_evaluation)
+Verifies complete end-to-end autonomous discovery campaign with AMDE4Engine. ... ok
+test_evaluation_cache_key_separates_candidate_from_evaluation_context (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_evaluation_cache_key_separates_candidate_from_evaluation_context)
+Verifies same candidate evaluated under different splits, seeds, or fidelities has distinct keys. ... ok
+test_event_ledger_append_and_hash_chaining (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_event_ledger_append_and_hash_chaining)
+Verifies EventLedger idempotency and cryptographic SHA-256 integrity. ... ok
+test_hardware_profile_detection (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_hardware_profile_detection)
+Verifies hardware capability probing detects CPU cores, RAM, and Pascal non-tensor status. ... ok
+test_pareto_archive_non_dominated_sorting_and_hypervolume (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_pareto_archive_non_dominated_sorting_and_hypervolume)
+Verifies Pareto dominance and 2D hypervolume calculation. ... ok
+test_sealed_holdout_test_token_gate_and_single_read (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_sealed_holdout_test_token_gate_and_single_read)
+Verifies sealed holdout partition enforces single-read token authorization. ... ok
+test_search_space_chromosomal_crossover (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_search_space_chromosomal_crossover)
+Verifies crossover across two parents yields a novel valid candidate. ... ok
+test_search_space_sampling_and_calibrated_mutation (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_search_space_sampling_and_calibrated_mutation)
+Verifies sampling valid candidate pipelines and calibrated mutation ratio. ... ok
+test_standard_evaluation_pipeline_execution (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_standard_evaluation_pipeline_execution)
+Verifies 10-phase pipeline execution on synthetic data. ... ok
+test_strategy_portfolio_registration_and_proposals (tests.unit.test_amde4_architecture.TestAMDE4Architecture.test_strategy_portfolio_registration_and_proposals)
+Verifies StrategyPortfolio registers strategies and generates candidates. ... ok
+test_holm_bonferroni_wilcoxon (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_holm_bonferroni_wilcoxon) ... ok
+test_mean_and_wilcoxon_share_identical_discrete_basis (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_mean_and_wilcoxon_share_identical_discrete_basis)
+Regression test ensuring descriptive mean/median and exact Wilcoxon use the identical discrete basis. ... ok
+test_monotonic_holm_paired_t_tests (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_monotonic_holm_paired_t_tests) ... ok
+test_production_does_not_call_scipy_wilcoxon (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_production_does_not_call_scipy_wilcoxon)
+Ensures compute_statistical_tests does not use scipy.stats.wilcoxon default. ... ok
+test_reconciliation_with_canonical_seed_summary (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_reconciliation_with_canonical_seed_summary)
+Verifies that recomputing from canonical seed_summary.csv matches statistical_analysis.json. ... ok
+test_wilcoxon_native_tpe (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_wilcoxon_native_tpe) ... ok
+test_wilcoxon_optuna_tpe (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_wilcoxon_optuna_tpe) ... ok
+test_wilcoxon_random_search_with_zero (tests.unit.test_amde4_benchmark_stats.BenchmarkStatisticalRegressionTests.test_wilcoxon_random_search_with_zero) ... ok
+test_def11_nan_and_inf_raise_validation_error (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def11_nan_and_inf_raise_validation_error)
+DEF-11: canonical_json must reject NaN and Inf rather than silently mapping to null. ... ok
+test_def11_negative_zero_normalization (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def11_negative_zero_normalization)
+DEF-11: -0.0 and 0.0 must serialize to identical canonical JSON. ... ok
+test_def11_numpy_scalar_handling (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def11_numpy_scalar_handling)
+DEF-11: NumPy integer, floating, and bool scalars serialize as JSON literals, not quoted strings. ... ok
+test_def11_unicode_nfc_normalization (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def11_unicode_nfc_normalization)
+DEF-11: Composed and decomposed Unicode strings must produce identical canonical representation. ... ok
+test_def12_compute_data_split_hash_full_array_sensitivity (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def12_compute_data_split_hash_full_array_sensitivity)
+DEF-12: Differences beyond row 10 must produce different split hashes. ... ok
+test_def12_evaluation_cache_key_full_hash (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def12_evaluation_cache_key_full_hash)
+DEF-12: EvaluationCacheKey preserves full 64-char hashes for collision resistance. ... ok
+test_def13_egada_online_variance_update (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def13_egada_online_variance_update)
+DEF-13: Bandit arm posterior variance updates dynamically with evidence. ... ok
+test_def13_egada_zero_reward_on_stagnation (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def13_egada_zero_reward_on_stagnation)
+DEF-13: Valid candidates with zero improvement over incumbent receive 0.0 reward. ... ok
+test_def14_out_of_bounds_accounting (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def14_out_of_bounds_accounting)
+DEF-14: Out of bounds points relative to reference points are accounted for. ... ok
+test_def14_pareto_3d_hypervolume (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def14_pareto_3d_hypervolume)
+DEF-14: ParetoArchive exact 3D hypervolume calculation across (loss, latency, memory). ... ok
+test_def15_sqlite_connection_no_resource_warnings (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def15_sqlite_connection_no_resource_warnings)
+DEF-15: EventLedger operations cleanly close SQLite connections without ResourceWarning. ... ok
+test_def16_version_alignment (tests.unit.test_amde4_hardening_regressions.TestAMDE4HardeningRegressions.test_def16_version_alignment)
+DEF-16: Release version must be 5.0.1 in amde.__version__. ... ok
+test_p0_1_tpe_feedback_updates_history_and_drives_proposals (tests.unit.test_amde4_p0_correctness.AMDE4P0CorrectnessTests.test_p0_1_tpe_feedback_updates_history_and_drives_proposals)
+Proves record_feedback updates observations and proposals depend on feedback. ... ok
+test_p0_2_search_space_phenotype_consistency (tests.unit.test_amde4_p0_correctness.AMDE4P0CorrectnessTests.test_p0_2_search_space_phenotype_consistency)
+Verifies every active gene affects model construction and dropout is rejected. ... ok
+test_p0_3_sealed_holdout_token_isolation (tests.unit.test_amde4_p0_correctness.AMDE4P0CorrectnessTests.test_p0_3_sealed_holdout_token_isolation)
+Verifies search code cannot read authorization tokens via property access. ... ok
+test_p0_4_ledger_integrity_and_adversarial_tampering (tests.unit.test_amde4_p0_correctness.AMDE4P0CorrectnessTests.test_p0_4_ledger_integrity_and_adversarial_tampering)
+Verifies hashing of all security-relevant metadata including experiment_id and chain verification. ... ok
+test_p0_5_pareto_exact_and_bounded_tradeoff_preservation (tests.unit.test_amde4_p0_correctness.AMDE4P0CorrectnessTests.test_p0_5_pareto_exact_and_bounded_tradeoff_preservation)
+Verifies exact Pareto preservation and multi-objective diversity under bounded capacity. ... ok
+test_p0_6_actual_peak_rss_and_process_deadline_enforcement (tests.unit.test_amde4_p0_correctness.AMDE4P0CorrectnessTests.test_p0_6_actual_peak_rss_and_process_deadline_enforcement)
+Verifies actual resident set size measurement and hard OS deadline enforcement. ... ok
+test_dynamic_stacking_ensemble (tests.unit.test_amde4_sota_upgrades.AMDE4SOTAUpgradesTests.test_dynamic_stacking_ensemble)
+Verifies AMDE 5.0 Dynamic Stacking Ensemble (Super Learner) construction. ... ok
+test_event_ledger_async_batching_and_chain (tests.unit.test_amde4_sota_upgrades.AMDE4SOTAUpgradesTests.test_event_ledger_async_batching_and_chain)
+Task 3: Verifies high-throughput async batch writes and cryptographic chain verification. ... ok
+test_lightgbm_search_space_and_pipeline (tests.unit.test_amde4_sota_upgrades.AMDE4SOTAUpgradesTests.test_lightgbm_search_space_and_pipeline)
+Task 1: Verifies LightGBM model family integration and evaluation execution. ... ok
+test_novelty_enforcement_duplicate_rate (tests.unit.test_amde4_sota_upgrades.AMDE4SOTAUpgradesTests.test_novelty_enforcement_duplicate_rate)
+Task 2: Verifies CandidateDeduplicator.has_seen and < 3% duplicate rate in search. ... ok
+test_xgboost_and_catboost_integration (tests.unit.test_amde4_sota_upgrades.AMDE4SOTAUpgradesTests.test_xgboost_and_catboost_integration)
+Verifies XGBoost and CatBoost search space sampling, mutation, and execution. ... ok
+test_api_v5_aliases_and_ledger_hash (tests.unit.test_amde_classifier_wrapper.AMDEClassifierWrapperTests.test_api_v5_aliases_and_ledger_hash)
+Task 3: Verifies alignment with v5.0 Quickstart signatures and ledger_hash_ alias. ... ok
+test_fit_and_predict_dataframe_with_categoricals (tests.unit.test_amde_classifier_wrapper.AMDEClassifierWrapperTests.test_fit_and_predict_dataframe_with_categoricals) ... ok
+test_fit_and_predict_numpy_binary (tests.unit.test_amde_classifier_wrapper.AMDEClassifierWrapperTests.test_fit_and_predict_numpy_binary) ... ok
+test_not_fitted_error (tests.unit.test_amde_classifier_wrapper.AMDEClassifierWrapperTests.test_not_fitted_error) ... ok
+test_p0_holdout_leakage_prevention (tests.unit.test_amde_classifier_wrapper.AMDEClassifierWrapperTests.test_p0_holdout_leakage_prevention)
+Task 1: Verifies that holdout test data is strictly excluded from final training samples. ... ok
+test_p1_categorical_encoding_unseen_categories (tests.unit.test_amde_classifier_wrapper.AMDEClassifierWrapperTests.test_p1_categorical_encoding_unseen_categories)
+Task 2: Verifies robust OneHotEncoder handling on unseen categories without dimension mismatch. ... ok
+test_explicit_deadline_policy_hard_persisted (tests.unit.test_backward_compatibility.BackwardCompatibilityTests.test_explicit_deadline_policy_hard_persisted) ... ok
+test_invalid_deadline_policy_rejected (tests.unit.test_backward_compatibility.BackwardCompatibilityTests.test_invalid_deadline_policy_rejected) ... ok
+test_legacy_plan_without_deadline_policy_defaults_to_cooperative (tests.unit.test_backward_compatibility.BackwardCompatibilityTests.test_legacy_plan_without_deadline_policy_defaults_to_cooperative) ... ok
+test_arc_adapter_rejects_invalid_grids (tests.unit.test_benchmarks.BenchmarkTests.test_arc_adapter_rejects_invalid_grids) ... ok
+test_arc_adapter_validates_and_never_mutates_files (tests.unit.test_benchmarks.BenchmarkTests.test_arc_adapter_validates_and_never_mutates_files) ... ok
+test_arc_is_blocked_without_local_tasks (tests.unit.test_benchmarks.BenchmarkTests.test_arc_is_blocked_without_local_tasks) ... ok
+test_challenge_examples_are_not_generated_by_default (tests.unit.test_benchmarks.BenchmarkTests.test_challenge_examples_are_not_generated_by_default) ... ok
+test_default_challenge_cohort_hash_covers_only_heldout_task_splits (tests.unit.test_benchmarks.BenchmarkTests.test_default_challenge_cohort_hash_covers_only_heldout_task_splits) ... ok
+test_default_stage_routing_keeps_holdout_out_of_open_stages (tests.unit.test_benchmarks.BenchmarkTests.test_default_stage_routing_keeps_holdout_out_of_open_stages) ... ok
+test_manifest_contains_hashes_not_challenge_examples (tests.unit.test_benchmarks.BenchmarkTests.test_manifest_contains_hashes_not_challenge_examples) ... ok
+test_manifest_hashes_are_stable_for_same_protocol (tests.unit.test_benchmarks.BenchmarkTests.test_manifest_hashes_are_stable_for_same_protocol) ... ok
+test_new_generator_outputs_are_finite_and_dimensionally_valid (tests.unit.test_benchmarks.BenchmarkTests.test_new_generator_outputs_are_finite_and_dimensionally_valid) ... ok
+test_research_task_zoo_contains_diverse_dev_and_heldout_families (tests.unit.test_benchmarks.BenchmarkTests.test_research_task_zoo_contains_diverse_dev_and_heldout_families) ... ok
+test_sealed_challenge_split_is_disjoint_and_generated_on_request (tests.unit.test_benchmarks.BenchmarkTests.test_sealed_challenge_split_is_disjoint_and_generated_on_request) ... ok
+test_split_audit_detects_challenge_overlap (tests.unit.test_benchmarks.BenchmarkTests.test_split_audit_detects_challenge_overlap) ... ok
+test_split_audit_detects_leakage (tests.unit.test_benchmarks.BenchmarkTests.test_split_audit_detects_leakage) ... ok
+test_splits_are_disjoint_and_deterministic (tests.unit.test_benchmarks.BenchmarkTests.test_splits_are_disjoint_and_deterministic) ... ok
+test_campaign_defaults_to_cpu_backend (tests.unit.test_campaign.ResearchCampaignTests.test_campaign_defaults_to_cpu_backend) ... ok
+test_campaign_seed_is_evaluated_directly_in_fresh_round (tests.unit.test_campaign.ResearchCampaignTests.test_campaign_seed_is_evaluated_directly_in_fresh_round) ... ok
+test_compact_summary_prefers_confirmed_candidate (tests.unit.test_campaign.ResearchCampaignTests.test_compact_summary_prefers_confirmed_candidate) ... ok
+test_round_config_changes_task_search_and_evaluation_seeds (tests.unit.test_campaign.ResearchCampaignTests.test_round_config_changes_task_search_and_evaluation_seeds) ... ok
+test_round_config_imports_only_archived_genome_structures (tests.unit.test_campaign.ResearchCampaignTests.test_round_config_imports_only_archived_genome_structures) ... ok
+test_round_config_is_deterministic_for_same_campaign_round (tests.unit.test_campaign.ResearchCampaignTests.test_round_config_is_deterministic_for_same_campaign_round) ... ok
+test_round_config_keeps_holdout_separation_and_disables_auto_open (tests.unit.test_campaign.ResearchCampaignTests.test_round_config_keeps_holdout_separation_and_disables_auto_open) ... ok
+test_search_seed_genomes_are_validated_and_re_evaluated (tests.unit.test_campaign.ResearchCampaignTests.test_search_seed_genomes_are_validated_and_re_evaluated) ... ok
+test_search_seed_genomes_fail_closed_on_invalid_structure (tests.unit.test_campaign.ResearchCampaignTests.test_search_seed_genomes_fail_closed_on_invalid_structure) ... ok
+test_two_round_campaign_re_evaluates_archived_genomes (tests.unit.test_campaign.ResearchCampaignTests.test_two_round_campaign_re_evaluates_archived_genomes) ... AMDE campaign two_round_check; rounds=2; device=cpu
+State: /tmp/amde_test_hski3i57/reports/campaigns/two_round_check/state.json
+
+[0] START two_round_check_r00000 seed=330536816 storage=0.00 GiB
+[0] time_budget generations=0 trials=0 best=None
+
+[1] START two_round_check_r00001 seed=1047319026 storage=0.00 GiB
+FAIL
+test_8_1_10_different_category_sets_train_inference (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_10_different_category_sets_train_inference)
+Scenario 10: Categorical columns with disjoint category sets. ... ok
+test_8_1_1_category_without_missing (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_1_category_without_missing)
+Scenario 1: category dtype without missing values. ... ok
+test_8_1_2_category_with_missing_values (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_2_category_with_missing_values)
+Scenario 2: category dtype with missing values (The Central Failure Fix). ... ok
+test_8_1_3_ordered_category_with_missing (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_3_ordered_category_with_missing)
+Scenario 3: Ordered categorical dtype. ... ok
+test_8_1_4_numerical_looking_category_labels (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_4_numerical_looking_category_labels)
+Scenario 4: Numerical-looking category labels. ... ok
+test_8_1_5_string_categories (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_5_string_categories)
+Scenario 5: Standard string object categories. ... ok
+test_8_1_6_mixed_category_representations (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_6_mixed_category_representations)
+Scenario 6: Mixed category representations. ... ok
+test_8_1_7_unseen_categories_inference (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_7_unseen_categories_inference)
+Scenario 7: Previously unseen prediction categories. ... ok
+test_8_1_8_sentinel_collision (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_8_sentinel_collision)
+Scenario 8: Category sentinel collision ('__missing__'). ... ok
+test_8_1_9_entirely_missing_categorical_column (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_1_9_entirely_missing_categorical_column)
+Scenario 9: Entirely missing categorical column. ... ok
+test_8_2_1_standard_numerical (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_2_1_standard_numerical) ... ok
+test_8_2_2_nan_numerical (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_2_2_nan_numerical) ... ok
+test_8_2_3_and_4_positive_negative_infinity (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_2_3_and_4_positive_negative_infinity)
+Scenario 3 & 4: Positive and negative infinity normalized to finite values. ... ok
+test_8_2_5_all_missing_numerical_column (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_2_5_all_missing_numerical_column)
+Scenario 5: All-missing numerical column. ... ok
+test_8_2_6_constant_numerical_column (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_2_6_constant_numerical_column)
+Scenario 6: Constant numerical column. ... ok
+test_8_2_7_and_8_nullable_int_and_float (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_2_7_and_8_nullable_int_and_float)
+Scenario 7 & 8: Pandas nullable integer and float dtypes. ... ok
+test_8_3_column_reordering_and_missing_additional_cols (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_3_column_reordering_and_missing_additional_cols)
+Guarantees column reordering is aligned and extra columns are ignored. ... ok
+test_8_3_immutability_guarantee (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_3_immutability_guarantee)
+Guarantees caller DataFrame is never mutated in-place. ... ok
+test_8_3_pickle_serialization_roundtrip (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_8_3_pickle_serialization_roundtrip)
+Verifies fitted TabularPreprocessor survives pickle serialization. ... ok
+test_amde_classifier_full_e2e_categorical_pipeline (tests.unit.test_categorical_preprocessing.CategoricalPreprocessingRegressionTests.test_amde_classifier_full_e2e_categorical_pipeline)
+Verifies AMDEClassifier fits and predicts end-to-end on raw categorical DataFrames. ... ok
+test_backup_recovery_after_latest_corruption (tests.unit.test_checkpoint_lock.CheckpointTests.test_backup_recovery_after_latest_corruption) ... ok
+test_checkpoint_backups_are_bounded (tests.unit.test_checkpoint_lock.CheckpointTests.test_checkpoint_backups_are_bounded) ... ok
+test_save_hashes_the_same_immutable_snapshot_it_persists (tests.unit.test_checkpoint_lock.CheckpointTests.test_save_hashes_the_same_immutable_snapshot_it_persists) ... ok
+test_save_load_and_checksums (tests.unit.test_checkpoint_lock.CheckpointTests.test_save_load_and_checksums) ... ok
+test_tampered_checkpoint_without_valid_backup_fails_closed (tests.unit.test_checkpoint_lock.CheckpointTests.test_tampered_checkpoint_without_valid_backup_fails_closed) ... ok
+test_unsupported_schema_is_rejected (tests.unit.test_checkpoint_lock.CheckpointTests.test_unsupported_schema_is_rejected) ... ok
+test_heartbeat_write_and_read (tests.unit.test_checkpoint_lock.HeartbeatStopTests.test_heartbeat_write_and_read) ... ok
+test_stop_controller_run_and_global_files (tests.unit.test_checkpoint_lock.HeartbeatStopTests.test_stop_controller_run_and_global_files) ... ok
+test_acquire_heartbeat_release (tests.unit.test_checkpoint_lock.LockTests.test_acquire_heartbeat_release) ... ok
+test_dead_owner_lock_is_stolen_and_archived (tests.unit.test_checkpoint_lock.LockTests.test_dead_owner_lock_is_stolen_and_archived) ... ok
+test_second_live_instance_is_rejected (tests.unit.test_checkpoint_lock.LockTests.test_second_live_instance_is_rejected) ... ok
+test_stale_heartbeat_with_live_pid_is_stolen (tests.unit.test_checkpoint_lock.LockTests.test_stale_heartbeat_with_live_pid_is_stolen) ... ok
+test_canonical_json_protocol_version_is_part_of_protocol_hash (tests.unit.test_config.ConfigTests.test_canonical_json_protocol_version_is_part_of_protocol_hash) ... ok
+test_cli_seed_override_changes_config_hash (tests.unit.test_config.ConfigTests.test_cli_seed_override_changes_config_hash) ... ok
+test_config_paths_are_relative_to_project_root (tests.unit.test_config.ConfigTests.test_config_paths_are_relative_to_project_root) ... ok
+test_default_config_loads_and_hashes_are_stable (tests.unit.test_config.ConfigTests.test_default_config_loads_and_hashes_are_stable) ... ok
+test_default_protocol_reserves_two_task_families_for_challenge (tests.unit.test_config.ConfigTests.test_default_protocol_reserves_two_task_families_for_challenge) ... ok
+test_duplicate_task_ids_are_rejected (tests.unit.test_config.ConfigTests.test_duplicate_task_ids_are_rejected) ... ok
+test_gpu_requires_successful_tensor_smoke_and_limits_concurrency (tests.unit.test_config.ConfigTests.test_gpu_requires_successful_tensor_smoke_and_limits_concurrency) ... ok
+test_holdout_only_tasks_are_excluded_from_dev_and_quick (tests.unit.test_config.ConfigTests.test_holdout_only_tasks_are_excluded_from_dev_and_quick) ... ok
+test_invalid_levels_and_seed_counts_are_rejected (tests.unit.test_config.ConfigTests.test_invalid_levels_and_seed_counts_are_rejected) ... ok
+test_meta_features_ignore_holdout_task_metadata (tests.unit.test_config.ConfigTests.test_meta_features_ignore_holdout_task_metadata) ... ok
+test_path_escape_is_rejected (tests.unit.test_config.ConfigTests.test_path_escape_is_rejected) ... ok
+test_ram_reserve_never_drops_below_safety_floor (tests.unit.test_config.ConfigTests.test_ram_reserve_never_drops_below_safety_floor) ... ok
+test_ram_reserve_scales_to_small_hosts (tests.unit.test_config.ConfigTests.test_ram_reserve_scales_to_small_hosts) ... ok
+test_resource_plan_never_claims_gpu_training (tests.unit.test_config.ConfigTests.test_resource_plan_never_claims_gpu_training) ... ok
+test_resource_plan_respects_low_ram_and_cpu_reserve (tests.unit.test_config.ConfigTests.test_resource_plan_respects_low_ram_and_cpu_reserve) ... ok
+test_shared_test_fixture_forces_cpu_independent_of_host_gpu (tests.unit.test_config.ConfigTests.test_shared_test_fixture_forces_cpu_independent_of_host_gpu) ... ok
+test_smoke_profile_is_bounded_without_changing_full_campaign_config (tests.unit.test_config.ConfigTests.test_smoke_profile_is_bounded_without_changing_full_campaign_config) ... ok
+test_unknown_generator_is_rejected (tests.unit.test_config.ConfigTests.test_unknown_generator_is_rejected) ... ok
+test_archive_capacity_is_bounded_and_fails_open (tests.unit.test_discovery_archive.DiscoveryArchiveTests.test_archive_capacity_is_bounded_and_fails_open) ... ok
+test_archive_concurrent_observations_do_not_lose_sightings (tests.unit.test_discovery_archive.DiscoveryArchiveTests.test_archive_concurrent_observations_do_not_lose_sightings) ... ok
+test_archive_rejects_invalid_observation_metadata (tests.unit.test_discovery_archive.DiscoveryArchiveTests.test_archive_rejects_invalid_observation_metadata) ... ok
+test_exact_identity_is_global_and_sightings_are_append_only (tests.unit.test_discovery_archive.DiscoveryArchiveTests.test_exact_identity_is_global_and_sightings_are_append_only) ... ok
+test_warm_start_returns_genomes_without_importing_old_scores_as_fitness (tests.unit.test_discovery_archive.DiscoveryArchiveTests.test_warm_start_returns_genomes_without_importing_old_scores_as_fitness) ... ok
+test_all_templates_validate_and_include_weight_and_bias (tests.unit.test_dsl.DSLTests.test_all_templates_validate_and_include_weight_and_bias) ... ok
+test_evaluation_is_numeric_and_bounded (tests.unit.test_dsl.DSLTests.test_evaluation_is_numeric_and_bounded) ... ok
+test_extra_fields_and_bad_constants_are_rejected (tests.unit.test_dsl.DSLTests.test_extra_fields_and_bad_constants_are_rejected) ... ok
+test_random_and_mutated_expressions_are_valid (tests.unit.test_dsl.DSLTests.test_random_and_mutated_expressions_are_valid) ... ok
+test_size_and_depth_limits_are_enforced (tests.unit.test_dsl.DSLTests.test_size_and_depth_limits_are_enforced) ... ok
+test_summary_counts_nodes (tests.unit.test_dsl.DSLTests.test_summary_counts_nodes) ... ok
+test_unknown_operation_and_variable_are_rejected (tests.unit.test_dsl.DSLTests.test_unknown_operation_and_variable_are_rejected) ... ok
+test_cache_key_is_stable_and_protocol_sensitive (tests.unit.test_evaluator.EvaluatorTests.test_cache_key_is_stable_and_protocol_sensitive) ... ok
+test_candidate_parameter_limit_is_invalid_not_infrastructure (tests.unit.test_evaluator.EvaluatorTests.test_candidate_parameter_limit_is_invalid_not_infrastructure) ... [1] time_budget generations=0 trials=0 best=None
+Campaign state: round_limit_reached; next_round=2; recorded=2
+Report: /tmp/amde_test_hski3i57/reports/campaigns/two_round_check/REPORT.md
+ok
+test_malformed_or_leaky_aggregates_are_protocol_errors (tests.unit.test_evaluator.EvaluatorTests.test_malformed_or_leaky_aggregates_are_protocol_errors) ... ok
+test_payload_is_dev_only_and_contains_no_challenge_data (tests.unit.test_evaluator.EvaluatorTests.test_payload_is_dev_only_and_contains_no_challenge_data) ... ok
+test_real_majority_evaluation_in_a_spawned_process (tests.unit.test_evaluator.EvaluatorTests.test_real_majority_evaluation_in_a_spawned_process) ... ok
+test_request_identity_rules_fail_closed (tests.unit.test_evaluator.EvaluatorTests.test_request_identity_rules_fail_closed) ... ok
+test_valid_aggregate_is_normalized (tests.unit.test_evaluator.EvaluatorTests.test_valid_aggregate_is_normalized) ... ok
+test_worker_failures_are_classified_not_zero_filled (tests.unit.test_evaluator.EvaluatorTests.test_worker_failures_are_classified_not_zero_filled) ... ok
+test_categorical_and_missing_features_are_encoded_without_leakage (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_categorical_and_missing_features_are_encoded_without_leakage) ... ok
+test_conflicting_duplicate_features_are_rejected (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_conflicting_duplicate_features_are_rejected) ... ok
+test_declared_numeric_looking_categories_preserve_leading_zeroes (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_declared_numeric_looking_categories_preserve_leading_zeroes) ... ok
+test_external_manifest_accepts_categorical_and_missing_features (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_external_manifest_accepts_categorical_and_missing_features) ... ok
+test_external_manifest_hash_and_group_split_are_reproducible (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_external_manifest_hash_and_group_split_are_reproducible) ... ok
+test_manifest_rejects_exact_duplicate_family_files (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_manifest_rejects_exact_duplicate_family_files) ... ok
+test_optional_baseline_identity_is_bound_to_library_and_parameters (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_optional_baseline_identity_is_bound_to_library_and_parameters) ... ok
+test_optional_sklearn_tree_baseline_supports_regression (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_optional_sklearn_tree_baseline_supports_regression) ... ok
+test_optional_sklearn_tree_baselines_cover_classification (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_optional_sklearn_tree_baselines_cover_classification) ... ok
+test_paired_candidate_baseline_evaluation_emits_family_scores (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_paired_candidate_baseline_evaluation_emits_family_scores) ... ok
+test_regression_manifest_loads_and_splits_without_label_stratification (tests.unit.test_external_benchmarks.ExternalBenchmarkTests.test_regression_manifest_loads_and_splits_without_label_stratification) ... ok
+test_family_mismatch_is_rejected (tests.unit.test_generalization.GeneralizationAuditTests.test_family_mismatch_is_rejected) ... ok
+test_missing_metadata_is_rejected (tests.unit.test_generalization.GeneralizationAuditTests.test_missing_metadata_is_rejected) ... ok
+test_selection_contamination_blocks_generalization_gate (tests.unit.test_generalization.GeneralizationAuditTests.test_selection_contamination_blocks_generalization_gate) ... ok
+test_strong_paired_external_holdout_evidence_passes_scoped_gate (tests.unit.test_generalization.GeneralizationAuditTests.test_strong_paired_external_holdout_evidence_passes_scoped_gate) ... ok
+test_hash_changes_with_content_and_is_stable (tests.unit.test_genome.GenomeTests.test_hash_changes_with_content_and_is_stable) ... ok
+test_level_a_scope_is_enforced (tests.unit.test_genome.GenomeTests.test_level_a_scope_is_enforced) ... ok
+test_level_b_and_c_cannot_carry_dsl (tests.unit.test_genome.GenomeTests.test_level_b_and_c_cannot_carry_dsl) ... ok
+test_level_d_requires_dsl (tests.unit.test_genome.GenomeTests.test_level_d_requires_dsl) ... ok
+test_non_dsl_optimizer_cannot_smuggle_dsl (tests.unit.test_genome.GenomeTests.test_non_dsl_optimizer_cannot_smuggle_dsl) ... ok
+test_operators_always_emit_valid_genomes (tests.unit.test_genome.GenomeTests.test_operators_always_emit_valid_genomes) ... ok
+test_parameter_estimate (tests.unit.test_genome.GenomeTests.test_parameter_estimate) ... ok
+test_random_genomes_are_valid_at_every_level (tests.unit.test_genome.GenomeTests.test_random_genomes_are_valid_at_every_level) ... ok
+test_safety_limits_are_enforced (tests.unit.test_genome.GenomeTests.test_safety_limits_are_enforced) ... ok
+test_upgrade_preserves_or_adds_valid_capabilities (tests.unit.test_genome.GenomeTests.test_upgrade_preserves_or_adds_valid_capabilities) ... ok
+test_invalid_pid_is_not_alive (tests.unit.test_hybrid_control.HybridControlPidTests.test_invalid_pid_is_not_alive) ... ok
+test_liveness_probe_does_not_terminate_a_live_process (tests.unit.test_hybrid_control.HybridControlPidTests.test_liveness_probe_does_not_terminate_a_live_process) ... ok
+test_dev_worker_rejects_challenge_payloads_directly (tests.unit.test_isolation.IsolationTests.test_dev_worker_rejects_challenge_payloads_directly) ... ok
+test_empty_job_list_is_a_no_op (tests.unit.test_isolation.IsolationTests.test_empty_job_list_is_a_no_op) ... ok
+test_infrastructure_errors_are_not_candidate_errors (tests.unit.test_isolation.IsolationTests.test_infrastructure_errors_are_not_candidate_errors) ... FAIL
+test_memory_cap_is_enforced_when_psutil_is_available (tests.unit.test_isolation.IsolationTests.test_memory_cap_is_enforced_when_psutil_is_available) ... ok
+test_stop_callback_prevents_worker_start (tests.unit.test_isolation.IsolationTests.test_stop_callback_prevents_worker_start) ... ok
+test_success_runs_in_a_different_process (tests.unit.test_isolation.IsolationTests.test_success_runs_in_a_different_process) ... ok
+test_timeout_is_enforced_by_the_parent (tests.unit.test_isolation.IsolationTests.test_timeout_is_enforced_by_the_parent) ... ok
+test_artifact_and_checkpoint_metadata (tests.unit.test_ledger.LedgerTests.test_artifact_and_checkpoint_metadata) ... ok
+test_baselines_generations_decisions_archives_and_events (tests.unit.test_ledger.LedgerTests.test_baselines_generations_decisions_archives_and_events) ... ok
+test_challenge_openings_are_counted_and_serialized (tests.unit.test_ledger.LedgerTests.test_challenge_openings_are_counted_and_serialized) ... ok
+test_close_is_idempotent_and_releases_database_handle (tests.unit.test_ledger.LedgerTests.test_close_is_idempotent_and_releases_database_handle) ... ok
+test_reopen_preserves_rows (tests.unit.test_ledger.LedgerTests.test_reopen_preserves_rows) ... ok
+test_repeated_successful_cache_keys_do_not_break_ledger (tests.unit.test_ledger.LedgerTests.test_repeated_successful_cache_keys_do_not_break_ledger) ... ok
+test_run_and_candidate_roundtrip (tests.unit.test_ledger.LedgerTests.test_run_and_candidate_roundtrip) ... ok
+test_schema_v1_unique_cache_index_is_migrated (tests.unit.test_ledger.LedgerTests.test_schema_v1_unique_cache_index_is_migrated) ... ok
+test_trial_lifecycle_cache_lookup_and_interruption (tests.unit.test_ledger.LedgerTests.test_trial_lifecycle_cache_lookup_and_interruption) ... ok
+test_all_manifest_entries_match_disk_digests (tests.unit.test_manifest_completeness.ManifestCompletenessTests.test_all_manifest_entries_match_disk_digests) ... ok
+test_manifest_covers_all_git_tracked_files (tests.unit.test_manifest_completeness.ManifestCompletenessTests.test_manifest_covers_all_git_tracked_files) ... ok
+test_manifest_file_exists_and_non_empty (tests.unit.test_manifest_completeness.ManifestCompletenessTests.test_manifest_file_exists_and_non_empty) ... ok
+test_verify_manifest_script_returns_zero (tests.unit.test_manifest_completeness.ManifestCompletenessTests.test_verify_manifest_script_returns_zero) ... ok
+test_aggregate_scores_family_task_and_seed_structure (tests.unit.test_metrics.MetricTests.test_aggregate_scores_family_task_and_seed_structure) ... ok
+test_choose_baseline_uses_only_valid_aggregates (tests.unit.test_metrics.MetricTests.test_choose_baseline_uses_only_valid_aggregates) ... ok
+test_classification_balanced_accuracy (tests.unit.test_metrics.MetricTests.test_classification_balanced_accuracy) ... ok
+test_compare_requires_identical_task_and_seed_coverage (tests.unit.test_metrics.MetricTests.test_compare_requires_identical_task_and_seed_coverage) ... ok
+test_family_balanced_metric_prevents_overrepresented_family_bias (tests.unit.test_metrics.MetricTests.test_family_balanced_metric_prevents_overrepresented_family_bias) ... ok
+test_promotion_guard_promotes_clear_consistent_win (tests.unit.test_metrics.MetricTests.test_promotion_guard_promotes_clear_consistent_win) ... ok
+test_promotion_guard_rejects_noise_and_regression (tests.unit.test_metrics.MetricTests.test_promotion_guard_rejects_noise_and_regression) ... ok
+test_regression_r2_is_clipped_to_unit_interval (tests.unit.test_metrics.MetricTests.test_regression_r2_is_clipped_to_unit_interval) ... ok
+test_score_task_dispatch_and_rejections (tests.unit.test_metrics.MetricTests.test_score_task_dispatch_and_rejections) ... ok
+test_seed_interval_uses_student_t_critical_values (tests.unit.test_metrics.MetricTests.test_seed_interval_uses_student_t_critical_values) ... ok
+test_pipeline_builds_svc_from_kernel_svc (tests.unit.test_model_space_kernel_svc.ModelSpaceKernelSVCTests.test_pipeline_builds_svc_from_kernel_svc) ... ok
+test_pipeline_builds_svc_from_legacy_kernel_ridge_with_warning (tests.unit.test_model_space_kernel_svc.ModelSpaceKernelSVCTests.test_pipeline_builds_svc_from_legacy_kernel_ridge_with_warning) ... ok
+test_search_space_contains_kernel_svc (tests.unit.test_model_space_kernel_svc.ModelSpaceKernelSVCTests.test_search_space_contains_kernel_svc) ... ok
+test_search_space_validation (tests.unit.test_model_space_kernel_svc.ModelSpaceKernelSVCTests.test_search_space_validation) ... ok
+test_tpe_strategy_proposes_and_scores_kernel_svc (tests.unit.test_model_space_kernel_svc.ModelSpaceKernelSVCTests.test_tpe_strategy_proposes_and_scores_kernel_svc) ... ok
+test_growth_budget_is_monotone_and_never_exceeds_safety_caps (tests.unit.test_open_ended.OpenEndedSearchTests.test_growth_budget_is_monotone_and_never_exceeds_safety_caps) ... ok
+test_novelty_ledger_uses_exact_payload_and_diagnostic_signature (tests.unit.test_open_ended.OpenEndedSearchTests.test_novelty_ledger_uses_exact_payload_and_diagnostic_signature) ... ok
+test_open_ended_genomes_validate_and_grow (tests.unit.test_open_ended.OpenEndedSearchTests.test_open_ended_genomes_validate_and_grow) ... ok
+test_proposer_open_ended_arm_returns_unseen_candidate (tests.unit.test_open_ended.OpenEndedSearchTests.test_proposer_open_ended_arm_returns_unseen_candidate) ... ok
+test_random_expression_generator_never_exceeds_node_budget (tests.unit.test_open_ended.OpenEndedSearchTests.test_random_expression_generator_never_exceeds_node_budget) ... ok
+test_academic_metrics_and_latex_table (tests.unit.test_openml_cc18_suite.OpenMLCC18SuiteTests.test_academic_metrics_and_latex_table)
+Verifies calculation of Average Rank, W/T/L, and LaTeX table synthesis. ... ok
+test_convergence_curve_plotter (tests.unit.test_openml_cc18_suite.OpenMLCC18SuiteTests.test_convergence_curve_plotter)
+Verifies generation of publication-quality convergence curve plots (PDF & PNG). ... findfont: Failed to find font weight semibold for DejaVu Sans, now using 700.
+ok
+test_master_results_append_and_resume (tests.unit.test_openml_cc18_suite.OpenMLCC18SuiteTests.test_master_results_append_and_resume)
+Verifies incremental appending and resumption filtering in master CSV. ... ok
+test_openml_cc18_dataset_ids_count (tests.unit.test_openml_cc18_suite.OpenMLCC18SuiteTests.test_openml_cc18_dataset_ids_count)
+Verifies that the OpenML-CC18 catalog contains exactly 72 curated datasets. ... ok
+test_parallel_suite_execution (tests.unit.test_openml_cc18_suite.OpenMLCC18SuiteTests.test_parallel_suite_execution)
+Verifies parallel multiprocessing pool execution across workers. ... PASS: 697/697 SHA-256 entries verified
+Note: SHA256SUMS.txt does not hash itself (self-reference is impossible).
+============================================================================
+  AMDE 4.1 — OPENML-CC18 MASSIVE TABULAR BENCHMARK HARNESS
+============================================================================
+Suite ID:            99 (OpenML-CC18)
+Total Datasets:      1
+Evaluation Methods:  ['amde']
+Seeds:               [42]
+Time Budgets:        [3]s
+Hard Process Timeout:30s
+Multiprocessing Pool:2 worker(s) [PARALLEL POOL ACTIVE]
+Cache Directory:     /mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/data/openml_cc18_cache
+Master Results CSV:  /tmp/tmp72h_qldx/test_parallel_master.csv
+Convergence Log CSV: /tmp/tmp72h_qldx/test_convergence.csv
+Resumption Active:   False (0 existing completed runs)
+============================================================================
+
+[*] Initializing Parallel Task Queue across 1 dataset(s)...
+[*] Dispatched 1 benchmark task(s) into Multiprocessing Pool (concurrency: 2).
+
+  [001/001 DONE] [did=0031 | credit-g        ] Method=amde    [COMPLETED] in 13.6s | Test Acc: 0.7400 (Val: 0.7937)
+ok
+test_challenge_does_not_auto_open_during_search_by_default (tests.unit.test_orchestrator_cache.OrchestratorCacheTests.test_challenge_does_not_auto_open_during_search_by_default) ... ok
+test_confirm_selection_deduplicates_genome_hashes (tests.unit.test_orchestrator_cache.OrchestratorCacheTests.test_confirm_selection_deduplicates_genome_hashes) ... ok
+test_quick_batch_coalesces_identical_cache_keys (tests.unit.test_orchestrator_cache.OrchestratorCacheTests.test_quick_batch_coalesces_identical_cache_keys) ... ok
+test_stop_requested_evaluation_is_not_retried (tests.unit.test_orchestrator_cache.OrchestratorCacheTests.test_stop_requested_evaluation_is_not_retried) ... ok
+test_add_deduplicate_capacity_and_islands (tests.unit.test_population.PopulationTests.test_add_deduplicate_capacity_and_islands) ... ok
+test_confirm_update_and_serialization_roundtrip (tests.unit.test_population.PopulationTests.test_confirm_update_and_serialization_roundtrip) ... ok
+test_elites_and_parent_selection_prefer_rank (tests.unit.test_population.PopulationTests.test_elites_and_parent_selection_prefer_rank) ... ok
+test_novelty_cells_and_archive_manager (tests.unit.test_population.PopulationTests.test_novelty_cells_and_archive_manager) ... ok
+test_optimizer_descriptor_remains_normalized_for_expanded_vocabulary (tests.unit.test_population.PopulationTests.test_optimizer_descriptor_remains_normalized_for_expanded_vocabulary) ... ok
+test_pareto_archive_removes_dominated_entries (tests.unit.test_population.PopulationTests.test_pareto_archive_removes_dominated_entries) ... ok
+test_quantum_and_rbf_kernel_baselines_are_finite (tests.unit.test_quantum.QuantumKernelTests.test_quantum_and_rbf_kernel_baselines_are_finite) ... ok
+test_bell_pair_expectation_and_cnot (tests.unit.test_quantum.StatevectorTests.test_bell_pair_expectation_and_cnot) ... ok
+test_budget_rejects_excessive_allocation (tests.unit.test_quantum.StatevectorTests.test_budget_rejects_excessive_allocation) ... ok
+test_grover_amplifies_marked_state (tests.unit.test_quantum.StatevectorTests.test_grover_amplifies_marked_state) ... ok
+test_maze_demo_reports_query_model_limits (tests.unit.test_quantum.StatevectorTests.test_maze_demo_reports_query_model_limits) ... ok
+test_single_qubit_gates_preserve_norm (tests.unit.test_quantum.StatevectorTests.test_single_qubit_gates_preserve_norm) ... ok
+test_balanced_accuracy_uses_positive_and_negative_class_denominators (tests.unit.test_quantum.VQCTests.test_balanced_accuracy_uses_positive_and_negative_class_denominators) ... ok
+test_config_validation (tests.unit.test_quantum.VQCTests.test_config_validation) ... ok
+test_parameter_shift_matches_autograd (tests.unit.test_quantum.VQCTests.test_parameter_shift_matches_autograd) ... ok
+test_vqc_trains_and_returns_finite_metrics (tests.unit.test_quantum.VQCTests.test_vqc_trains_and_returns_finite_metrics) ... ok
+test_adaptive_governor_hysteresis (tests.unit.test_quantum_profiles.QuantumProfilesAndGovernorTests.test_adaptive_governor_hysteresis) ... ok
+test_cnot_and_signs_caching (tests.unit.test_quantum_profiles.QuantumProfilesAndGovernorTests.test_cnot_and_signs_caching) ... ok
+test_compute_profiles_provenance_and_immutability (tests.unit.test_quantum_profiles.QuantumProfilesAndGovernorTests.test_compute_profiles_provenance_and_immutability) ... ok
+test_vqc_training_optimizations_preserve_metrics (tests.unit.test_quantum_profiles.QuantumProfilesAndGovernorTests.test_vqc_training_optimizations_preserve_metrics) ... ok
+test_8_4_holdout_test_data_strict_isolation (tests.unit.test_reliability_and_time_budget.ReliabilityAndTimeBudgetRegressionTests.test_8_4_holdout_test_data_strict_isolation)
+8.4: Verifies holdout test set is never seen during model discovery or final refit. ... ok
+test_8_5_time_budget_enforcement_and_finalization (tests.unit.test_reliability_and_time_budget.ReliabilityAndTimeBudgetRegressionTests.test_8_5_time_budget_enforcement_and_finalization)
+8.5: Verifies time-budget respects limits and sets finalization flags. ... ok
+test_8_6_candidate_failure_observability (tests.unit.test_reliability_and_time_budget.ReliabilityAndTimeBudgetRegressionTests.test_8_6_candidate_failure_observability)
+8.6: Verifies candidate failures are recorded in structured summary without crashing search. ... ok
+test_p0_1_tabular_preprocessor_zero_leakage (tests.unit.test_remediation_p0_p1.RemediationP0P1Tests.test_p0_1_tabular_preprocessor_zero_leakage)
+P0-1: Verifies TabularPreprocessor fits strictly on train and ignores unseen test categories. ... ok
+test_p0_2_holdout_isolation_and_audit (tests.unit.test_remediation_p0_p1.RemediationP0P1Tests.test_p0_2_holdout_isolation_and_audit)
+P0-2: Verifies holdout set is isolated, cannot be evaluated multiple times, and is not auto-evaluated. ... ok
+test_p0_3_failed_candidates_excluded_from_archives (tests.unit.test_remediation_p0_p1.RemediationP0P1Tests.test_p0_3_failed_candidates_excluded_from_archives)
+P0-3: Failed or non-finite candidates are rejected by Pareto and Elite archives. ... ok
+test_p1_1_event_ledger_writer_exception_propagation (tests.unit.test_remediation_p0_p1.RemediationP0P1Tests.test_p1_1_event_ledger_writer_exception_propagation)
+P1-1: Verifies EventLedger detects and propagates background worker write exceptions on flush(). ... ok
+test_p1_2_sklearn_estimator_cloning_contract (tests.unit.test_remediation_p0_p1.RemediationP0P1Tests.test_p1_2_sklearn_estimator_cloning_contract)
+P1-2: Verifies AMDEClassifier strictly honors Scikit-Learn BaseEstimator cloning contract. ... ok
+test_p1_3_predict_proba_normalized_and_finite (tests.unit.test_remediation_p0_p1.RemediationP0P1Tests.test_p1_3_predict_proba_normalized_and_finite)
+P1-3: Verifies DynamicStackingEnsemble outputs non-negative finite probabilities summing to 1.0. ... ok
+test_ablation_audit_pairs_by_family_and_seed_and_holm_adjusts (tests.unit.test_research_toolkit.ResearchToolkitTests.test_ablation_audit_pairs_by_family_and_seed_and_holm_adjusts) ... ok
+test_ablation_plan_is_deterministic_and_bounded (tests.unit.test_research_toolkit.ResearchToolkitTests.test_ablation_plan_is_deterministic_and_bounded) ... ok
+test_ablation_rejects_missing_pairs_and_too_few_families (tests.unit.test_research_toolkit.ResearchToolkitTests.test_ablation_rejects_missing_pairs_and_too_few_families) ... ok
+test_hypothesis_batch_audit_applies_holm_to_complete_prespecified_family (tests.unit.test_research_toolkit.ResearchToolkitTests.test_hypothesis_batch_audit_applies_holm_to_complete_prespecified_family) ... ok
+test_hypothesis_evaluation_supports_a_preregistered_effect (tests.unit.test_research_toolkit.ResearchToolkitTests.test_hypothesis_evaluation_supports_a_preregistered_effect) ... ok
+test_hypothesis_is_not_supported_when_underpowered (tests.unit.test_research_toolkit.ResearchToolkitTests.test_hypothesis_is_not_supported_when_underpowered) ... ok
+test_hypothesis_registration_is_immutable_and_idempotent (tests.unit.test_research_toolkit.ResearchToolkitTests.test_hypothesis_registration_is_immutable_and_idempotent) ... ok
+test_hypothesis_requires_exact_family_coverage (tests.unit.test_research_toolkit.ResearchToolkitTests.test_hypothesis_requires_exact_family_coverage) ... ok
+test_one_sided_exact_test_resolution_floor_tracks_alpha (tests.unit.test_research_toolkit.ResearchToolkitTests.test_one_sided_exact_test_resolution_floor_tracks_alpha) ... ok
+test_power_analysis_is_explicit_and_deterministic (tests.unit.test_research_toolkit.ResearchToolkitTests.test_power_analysis_is_explicit_and_deterministic) ... ok
+test_engine_log_rotation_bounds_long_run_logs (tests.unit.test_runtime_monitoring.RuntimeMonitoringTests.test_engine_log_rotation_bounds_long_run_logs) ... ok
+test_hardware_and_resource_sampler_report_memory_and_pressure (tests.unit.test_runtime_monitoring.RuntimeMonitoringTests.test_hardware_and_resource_sampler_report_memory_and_pressure) ... ok
+test_torch_probe_is_skipped_when_no_nvidia_gpu_is_detected (tests.unit.test_runtime_monitoring.RuntimeMonitoringTests.test_torch_probe_is_skipped_when_no_nvidia_gpu_is_detected) ... ok
+test_open_opening_fails_closed_on_leaks_or_bad_status (tests.unit.test_sealed.SealedEvaluatorTests.test_open_opening_fails_closed_on_leaks_or_bad_status) ... ok
+test_open_opening_validates_and_accepts_aggregate_results (tests.unit.test_sealed.SealedEvaluatorTests.test_open_opening_validates_and_accepts_aggregate_results) ... ok
+test_payload_requires_a_valid_baseline_and_marks_challenge_use (tests.unit.test_sealed.SealedEvaluatorTests.test_payload_requires_a_valid_baseline_and_marks_challenge_use) ... ok
+test_real_sealed_worker_returns_only_aggregates (tests.unit.test_sealed.SealedEvaluatorTests.test_real_sealed_worker_returns_only_aggregates) ... 
+============================================================================
+  OPENML-CC18 BENCHMARK CAMPAIGN FINISHED!
+  Master Results logged to: /tmp/tmp72h_qldx/test_parallel_master.csv
+  Convergence Logged to:    /tmp/tmp72h_qldx/test_convergence.csv
+============================================================================
+ok
+test_exact_aggregate_summary_is_accepted (tests.unit.test_sealed.SealedSummaryTests.test_exact_aggregate_summary_is_accepted) ... ok
+test_metric_coverage_and_ranges_are_checked (tests.unit.test_sealed.SealedSummaryTests.test_metric_coverage_and_ranges_are_checked) ... ok
+test_non_aggregate_or_missing_fields_are_rejected (tests.unit.test_sealed.SealedSummaryTests.test_non_aggregate_or_missing_fields_are_rejected) ... ok
+test_experimental_meta_policy_prior_is_normalized (tests.unit.test_search.SearchTests.test_experimental_meta_policy_prior_is_normalized) ... ok
+test_meta_policy_is_disabled_by_default (tests.unit.test_search.SearchTests.test_meta_policy_is_disabled_by_default) ... ok
+test_portfolio_tries_every_arm_before_exploiting (tests.unit.test_search.SearchTests.test_portfolio_tries_every_arm_before_exploiting) ... ok
+test_proposer_exercises_all_strategies_even_when_empty (tests.unit.test_search.SearchTests.test_proposer_exercises_all_strategies_even_when_empty) ... ok
+test_unknown_strategy_is_rejected (tests.unit.test_search.SearchTests.test_unknown_strategy_is_rejected) ... ok
+test_auto_smoke_is_safe_when_resource_policy_selects_cuda (tests.unit.test_smoke_config.SmokeConfigTimeoutTests.test_auto_smoke_is_safe_when_resource_policy_selects_cuda) ... ok
+test_cuda_smoke_has_bounded_startup_headroom (tests.unit.test_smoke_config.SmokeConfigTimeoutTests.test_cuda_smoke_has_bounded_startup_headroom) ... ok
+test_explicit_cpu_smoke_retains_short_timeouts (tests.unit.test_smoke_config.SmokeConfigTimeoutTests.test_explicit_cpu_smoke_retains_short_timeouts) ... ok
+test_no_plateau_does_not_emit_intervention_recommendation (tests.unit.test_stagnation.StagnationTests.test_no_plateau_does_not_emit_intervention_recommendation) ... ok
+test_plateau_report_is_passive_and_actionable (tests.unit.test_stagnation.StagnationTests.test_plateau_report_is_passive_and_actionable) ... ok
+test_combines_run_and_artifact_roots_and_triggers_safe_pause_threshold (tests.unit.test_storage_budget.RunStorageBudgetTests.test_combines_run_and_artifact_roots_and_triggers_safe_pause_threshold) ... ok
+test_nested_roots_are_not_double_counted (tests.unit.test_storage_budget.RunStorageBudgetTests.test_nested_roots_are_not_double_counted) ... ok
+test_tree_size_ignores_missing_directory (tests.unit.test_storage_budget.RunStorageBudgetTests.test_tree_size_ignores_missing_directory) ... ok
+test_adagrad_and_nadam_are_valid_searchable_optimizer_methods (tests.unit.test_trainer.TrainerTests.test_adagrad_and_nadam_are_valid_searchable_optimizer_methods) ... ok
+test_dsl_update_rule_trains_without_numerical_failure (tests.unit.test_trainer.TrainerTests.test_dsl_update_rule_trains_without_numerical_failure) ... ok
+test_learning_rate_schedules_are_bounded_and_monotone (tests.unit.test_trainer.TrainerTests.test_learning_rate_schedules_are_bounded_and_monotone) ... ok
+test_linear_regression_learns_and_is_deterministic (tests.unit.test_trainer.TrainerTests.test_linear_regression_learns_and_is_deterministic) ... ok
+test_majority_baseline_is_parameter_free_and_real (tests.unit.test_trainer.TrainerTests.test_majority_baseline_is_parameter_free_and_real) ... ok
+test_mlp_classification_beats_chance (tests.unit.test_trainer.TrainerTests.test_mlp_classification_beats_chance) ... ok
+test_nadam_uses_nesterov_momentum_formula (tests.unit.test_trainer.TrainerTests.test_nadam_uses_nesterov_momentum_formula) ... ok
+test_parameter_limit_and_empty_splits_fail_closed (tests.unit.test_trainer.TrainerTests.test_parameter_limit_and_empty_splits_fail_closed) ... ok
+test_pytorch_cpu_backend_matches_reference_across_optimizers (tests.unit.test_trainer.TrainerTests.test_pytorch_cpu_backend_matches_reference_across_optimizers) ... ok
+test_pytorch_cpu_backend_matches_reference_for_linear_mlp_and_dsl (tests.unit.test_trainer.TrainerTests.test_pytorch_cpu_backend_matches_reference_for_linear_mlp_and_dsl) ... ok
+test_atomic_write_json_roundtrip (tests.unit.test_util.UtilTests.test_atomic_write_json_roundtrip) ... ok
+test_canonical_json_is_key_order_independent (tests.unit.test_util.UtilTests.test_canonical_json_is_key_order_independent) ... ok
+test_canonical_json_normalizes_numeric_object_keys_for_json_roundtrip (tests.unit.test_util.UtilTests.test_canonical_json_normalizes_numeric_object_keys_for_json_roundtrip) ... ok
+test_canonical_json_rejects_colliding_normalized_keys (tests.unit.test_util.UtilTests.test_canonical_json_rejects_colliding_normalized_keys) ... ok
+test_canonical_json_rejects_nan_and_infinity (tests.unit.test_util.UtilTests.test_canonical_json_rejects_nan_and_infinity) ... ok
+test_deep_merge_does_not_mutate_inputs (tests.unit.test_util.UtilTests.test_deep_merge_does_not_mutate_inputs) ... ok
+test_hash_json_changes_with_content (tests.unit.test_util.UtilTests.test_hash_json_changes_with_content) ... ok
+test_human_duration_and_chunking (tests.unit.test_util.UtilTests.test_human_duration_and_chunking) ... ok
+test_safe_relpath_rejects_escape (tests.unit.test_util.UtilTests.test_safe_relpath_rejects_escape) ... ok
+test_sanitize_id_removes_unsafe_characters (tests.unit.test_util.UtilTests.test_sanitize_id_removes_unsafe_characters) ... ok
+test_search_seed_depends_on_experiment_seed_not_run_id (tests.unit.test_util.UtilTests.test_search_seed_depends_on_experiment_seed_not_run_id) ... ok
+test_seed_from_is_deterministic_and_type_sensitive (tests.unit.test_util.UtilTests.test_seed_from_is_deterministic_and_type_sensitive) ... ok
+
+======================================================================
+FAIL: test_two_round_campaign_re_evaluates_archived_genomes (tests.unit.test_campaign.ResearchCampaignTests.test_two_round_campaign_re_evaluates_archived_genomes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/tests/unit/test_campaign.py", line 164, in test_two_round_campaign_re_evaluates_archived_genomes
+    self.assertGreaterEqual(len(state["candidate_archive"]), 1)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_infrastructure_errors_are_not_candidate_errors (tests.unit.test_isolation.IsolationTests.test_infrastructure_errors_are_not_candidate_errors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine/tests/unit/test_isolation.py", line 103, in test_infrastructure_errors_are_not_candidate_errors
+    self.assertEqual(result["status"], "error", result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'timeout' != 'error'
+- timeout
++ error
+ : {'status': 'timeout', 'result': None, 'error_type': 'candidate', 'error_code': 'timeout', 'message': 'evaluation exceeded 10.0s timeout', 'elapsed_seconds': 10.013503752998076, 'peak_rss_mb': None, 'exit_code': -15, 'worker_pid': 28115, 'memory_cap_enforced': False, 'worker_shutdown_forced': False}
+
+----------------------------------------------------------------------
+Ran 353 tests in 516.121s
+
+FAILED (failures=2, skipped=2)
+UNIT_GATE tests=353 failures=2 errors=0 skipped=2 elapsed=537.59s

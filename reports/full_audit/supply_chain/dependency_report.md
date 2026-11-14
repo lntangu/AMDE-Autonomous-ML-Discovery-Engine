@@ -1,7 +1,7 @@
 # AMDE Software Supply-Chain & Dependency Audit Report
 
 - **Distribution Name**: `amde-automl`
-- **Version**: `5.0.0`
+- **Version**: `5.0.1`
 - **Requires Python**: `>=3.10`
 - **Core Dependencies**: 9
 

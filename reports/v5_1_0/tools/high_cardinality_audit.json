@@ -1,0 +1,27 @@
+{
+  "workstream": "High-Cardinality & Categorical Encoding Audit",
+  "total_findings": 3,
+  "findings": [
+    {
+      "type": "get_dummies_hazard",
+      "severity": "High",
+      "file": "src/amde/examples/real_world_demo.py",
+      "line": 112,
+      "detail": "pd.get_dummies produces dimension mismatch on unseen categories in inference data."
+    },
+    {
+      "type": "dense_onehot_hazard",
+      "severity": "Critical",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 107,
+      "detail": "OneHotEncoder(sparse_output=False) creates dense array. If cardinality is high (e.g. 10k), creates 10k dense columns leading to multi-gigabyte RAM explosion and OOM/timeouts."
+    },
+    {
+      "type": "dense_onehot_hazard",
+      "severity": "Critical",
+      "file": "src/amde/preprocessing/tabular.py",
+      "line": 112,
+      "detail": "OneHotEncoder(sparse_output=False) creates dense array. If cardinality is high (e.g. 10k), creates 10k dense columns leading to multi-gigabyte RAM explosion and OOM/timeouts."
+    }
+  ]
+}
