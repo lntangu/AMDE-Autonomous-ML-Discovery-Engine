@@ -1,7 +1,7 @@
-# AMDE — Autonomous Machine Learning Discovery Engine (v5.0.0 Super Learner)
+# AMDE — Autonomous Machine Learning Discovery Engine (v5.0.1 Super Learner)
 
 [![CI Matrix](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml/badge.svg?branch=release-amde-final)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/badge/release-v5.0.0-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v5.0.0)
+[![Release](https://img.shields.io/badge/release-v5.0.1-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v5.0.1)
 [![PyPI](https://img.shields.io/badge/pypi-amde--automl-blue.svg)](https://pypi.org/project/amde-automl/)
 [![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](pyproject.toml)
 [![Platforms](https://img.shields.io/badge/platforms-Ubuntu%20%7C%20Windows-lightgrey.svg)](.github/workflows/ci.yml)
@@ -293,6 +293,7 @@ The interactive demonstration is available to open directly in Google Colab:
 | **[`docs/CLAIMS_LEDGER.md`](docs/CLAIMS_LEDGER.md)** | Machine-audited ledger mapping every claim to empirical verification status. |
 | **[`docs/VIDEO_DEMONSTRATION_PLAN.md`](docs/VIDEO_DEMONSTRATION_PLAN.md)** | Walkthrough video script and visual assets demonstration plan. |
 | **[`docs/PROJECT_CLOSURE.md`](docs/PROJECT_CLOSURE.md)** | Formal project status, development closure, and release references. |
+| **[`docs/releases/AMDE_5.0.1_RELEASE_NOTES.md`](docs/releases/AMDE_5.0.1_RELEASE_NOTES.md)** | Complete release notes for version 5.0.1 (Categorical Preprocessing Remediation & Reliability). |
 | **[`docs/releases/AMDE_5.0.0_RELEASE_NOTES.md`](docs/releases/AMDE_5.0.0_RELEASE_NOTES.md)** | Complete release notes for version 5.0.0 (Super Learner Stacking & Domination). |
 | **[`docs/architecture/AMDE_5.0_Super_Learner_Architecture.md`](docs/architecture/AMDE_5.0_Super_Learner_Architecture.md)** | Technical specification for Dynamic Stacking Ensemble & Holy Trinity. |
 
@@ -305,7 +306,7 @@ If you use AMDE in your experimental research, please cite this work as follows:
 ```bibtex
 @software{amde2026_lnta,
   author = {LNTA and AMDE Contributors},
-  title = {AMDE: Autonomous Machine Learning Discovery Engine (Version 5.0.0 Super Learner)},
+  title = {AMDE: Autonomous Machine Learning Discovery Engine (Version 5.0.1 Super Learner)},
   year = {2026},
   publisher = {GitHub},
   howpublished = {\url{https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine}}

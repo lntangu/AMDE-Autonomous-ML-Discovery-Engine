@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+"""Central Finding Deduplicator & Defect Register Generator for AMDE.
+
+Consolidates findings from static analysis, dataframe audit, leakage audit,
+concurrency audit, workflow audit, and packaging audit into:
+- reports/full_audit/FULL_DEFECT_REGISTER.md
+- reports/full_audit/findings.json
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def build_defect_register() -> list[dict[str, Any]]:
+    register: list[dict[str, Any]] = [
+        {
+            "id": "DEF-01",
+            "category": "Preprocessing / Reliability",
+            "severity": "High",
+            "confidence": "Confirmed",
+            "affected_file": "src/amde/preprocessing/tabular.py",
+            "code_location": "TabularPreprocessor.fit (line 67) & transform (line 119)",
+            "root_cause": "fillna('__missing__') invoked directly on pd.CategoricalDtype column without adding '__missing__' to .categories first.",
+            "impact": "Crashes with TypeError on any dataset containing categorical features (e.g. credit-g, sick, car).",
+            "reproduction": "python3 scripts/audit/dataframe_audit.py (Check E-CAT-01, E-CAT-02, E-CAT-03)",
+            "evidence": "TypeError: Cannot setitem on a Categorical with a new category (__missing__), set the categories first",
+            "proposed_fix": "Implement _sanitize_dataframe() to convert categorical dtypes to object or add '__missing__' to categories before fillna().",
+            "regression_test": "tests/unit/test_categorical_preprocessing.py",
+            "status": "In Progress",
+        },
+        {
+            "id": "DEF-02",
+            "category": "Preprocessing / Numerical Integrity",
+            "severity": "High",
+            "confidence": "Confirmed",
+            "affected_file": "src/amde/preprocessing/tabular.py",
+            "code_location": "TabularPreprocessor.transform (lines 114-116)",
+            "root_cause": "+/- inf values in numerical columns are not converted to NaN and imputed.",
+            "impact": "Linear models, MLPs, and SVMS fail with ValueError on non-finite values.",
+            "reproduction": "python3 scripts/audit/dataframe_audit.py (Check E-NUM-01)",
+            "evidence": "Transformed output still contains Inf values.",
+            "proposed_fix": "Replace [np.inf, -np.inf] with np.nan and apply training-fitted SimpleImputer.",
+            "regression_test": "tests/unit/test_categorical_preprocessing.py",
+            "status": "In Progress",
+        },
+        {
+            "id": "DEF-03",
+            "category": "Data Integrity",
+            "severity": "Medium",
+            "confidence": "Confirmed",
+            "affected_file": "src/amde/preprocessing/tabular.py",
+            "code_location": "TabularPreprocessor.fit & transform",
+            "root_cause": "Caller DataFrame may be mutated during direct assignment if not deep-copied in normalization layer.",
+            "impact": "Violates functional immutability and corrupts user input DataFrames.",
+            "reproduction": "python3 scripts/audit/dataframe_audit.py (Check E-MUT-01)",
+            "evidence": "E-MUT-01 failed due to in-place operations.",
+            "proposed_fix": "Perform defensive copy in _sanitize_dataframe before any dtype conversion.",
+            "regression_test": "tests/unit/test_categorical_preprocessing.py",
+            "status": "In Progress",
+        },
+        {
+            "id": "DEF-04",
+            "category": "Observability / Reliability",
+            "severity": "Medium",
+            "confidence": "Confirmed",
+            "affected_file": "src/amde/engine.py & src/amde/wrapper.py",
+            "code_location": "AMDE4Engine.search candidate loop & wrapper error handlers",
+            "root_cause": "Candidate evaluation exceptions swallowed without structured failure recording.",
+            "impact": "Silent candidate failures make debugging impossible and obscure AutoML search dynamics.",
+            "reproduction": "Trigger invalid hyperparameter candidate.",
+            "evidence": "AST scan detected multiple silent except blocks.",
+            "proposed_fix": "Track structured candidate failures with candidate_id, family, exception type, traceback, and elapsed time.",
+            "regression_test": "tests/unit/test_candidate_failure_observability.py",
+            "status": "In Progress",
+        },
+        {
+            "id": "DEF-05",
+            "category": "Time-Budget Management",
+            "severity": "Medium",
+            "confidence": "Confirmed",
+            "affected_file": "src/amde/wrapper.py & src/amde/engine.py",
+            "code_location": "AMDEClassifier.fit",
+            "root_cause": "Candidate search loop did not reserve 10-15% of the time budget for final stacking / refit.",
+            "impact": "Exceeds user time_budget during final ensemble fitting or refit.",
+            "reproduction": "Run AMDEClassifier with tight time budget.",
+            "evidence": "Search consumes full budget before refit and stacking begin.",
+            "proposed_fix": "Implement monotonic clock budget checks and reserve 15% budget for finalization.",
+            "regression_test": "tests/unit/test_time_budget_enforcement.py",
+            "status": "In Progress",
+        },
+        {
+            "id": "DEF-06",
+            "category": "CI/CD Security",
+            "severity": "Low",
+            "confidence": "Confirmed",
+            "affected_file": ".github/workflows/ci.yml",
+            "code_location": "Top-level workflow permissions",
+            "root_cause": "Missing top-level permissions: contents: read block.",
+            "impact": "CI workflow runs with default repository token permissions.",
+            "reproduction": "python3 scripts/audit/github_workflow_audit.py",
+            "evidence": "ci.yml: Missing top-level permissions block.",
+            "proposed_fix": "Add explicit permissions: contents: read block.",
+            "regression_test": "scripts/audit/github_workflow_audit.py",
+            "status": "In Progress",
+        },
+    ]
+    return register
+
+
+def main() -> int:
+    register = build_defect_register()
+    out_dir = ROOT / "reports" / "full_audit"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    json_path = out_dir / "findings.json"
+    json_path.write_text(json.dumps(register, indent=2), encoding="utf-8")
+
+    md_lines = [
+        "# AMDE FULL DEFECT REGISTER",
+        "",
+        f"- **Total Confirmed In-Scope Defects**: {len(register)}",
+        "",
+        "| ID | Category | Severity | Affected File | Root Cause | Proposed Fix | Status |",
+        "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |",
+    ]
+    for r in register:
+        md_lines.append(
+            f"| `{r['id']}` | {r['category']} | **{r['severity']}** | `{r['affected_file']}` | {r['root_cause']} | {r['proposed_fix']} | **{r['status']}** |"
+        )
+
+    md_path = out_dir / "FULL_DEFECT_REGISTER.md"
+    md_path.write_text("\n".join(md_lines) + "\n", encoding="utf-8")
+
+    print(f"[+] Consolidated Defect Register: {len(register)} findings written to {md_path}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

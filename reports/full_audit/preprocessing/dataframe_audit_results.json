@@ -1,0 +1,62 @@
+[
+  {
+    "test_id": "E-CAT-01",
+    "description": "Category dtype with missing values",
+    "status": "PASS",
+    "detail": "Output shape: (4, 4)"
+  },
+  {
+    "test_id": "E-CAT-02",
+    "description": "Ordered categorical dtype with missing values",
+    "status": "PASS",
+    "detail": "Output shape: (4, 5)"
+  },
+  {
+    "test_id": "E-CAT-03",
+    "description": "Numerical-looking category labels",
+    "status": "PASS",
+    "detail": "Output shape: (4, 4)"
+  },
+  {
+    "test_id": "E-CAT-04",
+    "description": "Unseen categories during inference",
+    "status": "PASS",
+    "detail": "Output shape: (3, 3)"
+  },
+  {
+    "test_id": "E-CAT-05",
+    "description": "Category sentinel collision ('__missing__')",
+    "status": "PASS",
+    "detail": "Output shape: (3, 3)"
+  },
+  {
+    "test_id": "E-CAT-06",
+    "description": "Entirely missing categorical column",
+    "status": "PASS",
+    "detail": "Output shape: (3, 2)"
+  },
+  {
+    "test_id": "E-NUM-01",
+    "description": "+/- Infinity in numerical columns",
+    "status": "PASS",
+    "detail": "Output shape: (4, 5)"
+  },
+  {
+    "test_id": "E-NUM-02",
+    "description": "All-missing numerical column",
+    "status": "PASS",
+    "detail": "Output shape: (3, 4)"
+  },
+  {
+    "test_id": "E-NUM-03",
+    "description": "Pandas nullable Int64 and Float64 dtypes",
+    "status": "PASS",
+    "detail": "Output shape: (3, 5)"
+  },
+  {
+    "test_id": "E-MUT-01",
+    "description": "Caller DataFrame immutability guarantee",
+    "status": "PASS",
+    "detail": "Original DataFrame untouched."
+  }
+]

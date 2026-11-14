@@ -1,0 +1,3332 @@
+{
+  "repository_name": "AMDE-Autonomous-ML-Discovery-Engine",
+  "root": "/mnt/c/Users/Admin/Downloads/AMDE_Autonomous_ML_Discovery_Engine",
+  "summary": {
+    "total_files": 658,
+    "total_loc": 112747,
+    "python_source_files": 95,
+    "test_files": 56,
+    "category_counts": {
+      "src": 95,
+      "tests": 56,
+      "scripts": 83,
+      "docs": 55,
+      "workflows": 2,
+      "config": 7,
+      "other": 360
+    }
+  },
+  "public_interfaces": [
+    "amde.AMDEClassifier",
+    "amde.preprocessing.TabularPreprocessor",
+    "amde.engine.AMDE4Engine",
+    "amde.discovery.engine.Engine",
+    "amde.ledger.EventLedger"
+  ],
+  "categories": {
+    "src": [
+      {
+        "path": "src/amde/cli.py",
+        "size_bytes": 17267,
+        "lines_of_code": 434
+      },
+      {
+        "path": "src/amde/config.py",
+        "size_bytes": 24961,
+        "lines_of_code": 557
+      },
+      {
+        "path": "src/amde/engine.py",
+        "size_bytes": 16958,
+        "lines_of_code": 401
+      },
+      {
+        "path": "src/amde/errors.py",
+        "size_bytes": 2648,
+        "lines_of_code": 87
+      },
+      {
+        "path": "src/amde/orchestrator.py",
+        "size_bytes": 101493,
+        "lines_of_code": 2289
+      },
+      {
+        "path": "src/amde/util.py",
+        "size_bytes": 12725,
+        "lines_of_code": 376
+      },
+      {
+        "path": "src/amde/wrapper.py",
+        "size_bytes": 30396,
+        "lines_of_code": 693
+      },
+      {
+        "path": "src/amde/__init__.py",
+        "size_bytes": 3295,
+        "lines_of_code": 116
+      },
+      {
+        "path": "src/amde/__main__.py",
+        "size_bytes": 325,
+        "lines_of_code": 15
+      },
+      {
+        "path": "src/amde/baselines/registry.py",
+        "size_bytes": 4131,
+        "lines_of_code": 116
+      },
+      {
+        "path": "src/amde/baselines/__init__.py",
+        "size_bytes": 192,
+        "lines_of_code": 5
+      },
+      {
+        "path": "src/amde/benchmarks/arc.py",
+        "size_bytes": 9916,
+        "lines_of_code": 242
+      },
+      {
+        "path": "src/amde/benchmarks/base.py",
+        "size_bytes": 6273,
+        "lines_of_code": 184
+      },
+      {
+        "path": "src/amde/benchmarks/external.py",
+        "size_bytes": 31178,
+        "lines_of_code": 638
+      },
+      {
+        "path": "src/amde/benchmarks/generators.py",
+        "size_bytes": 12477,
+        "lines_of_code": 307
+      },
+      {
+        "path": "src/amde/benchmarks/registry.py",
+        "size_bytes": 7779,
+        "lines_of_code": 192
+      },
+      {
+        "path": "src/amde/benchmarks/__init__.py",
+        "size_bytes": 255,
+        "lines_of_code": 8
+      },
+      {
+        "path": "src/amde/controller/base.py",
+        "size_bytes": 1454,
+        "lines_of_code": 44
+      },
+      {
+        "path": "src/amde/controller/baselines.py",
+        "size_bytes": 2133,
+        "lines_of_code": 67
+      },
+      {
+        "path": "src/amde/controller/egada.py",
+        "size_bytes": 6594,
+        "lines_of_code": 167
+      },
+      {
+        "path": "src/amde/controller/__init__.py",
+        "size_bytes": 348,
+        "lines_of_code": 12
+      },
+      {
+        "path": "src/amde/core/contracts.py",
+        "size_bytes": 7631,
+        "lines_of_code": 228
+      },
+      {
+        "path": "src/amde/core/errors.py",
+        "size_bytes": 1121,
+        "lines_of_code": 43
+      },
+      {
+        "path": "src/amde/core/identity.py",
+        "size_bytes": 4244,
+        "lines_of_code": 110
+      },
+      {
+        "path": "src/amde/core/__init__.py",
+        "size_bytes": 1247,
+        "lines_of_code": 57
+      },
+      {
+        "path": "src/amde/discovery/archive.py",
+        "size_bytes": 11888,
+        "lines_of_code": 239
+      },
+      {
+        "path": "src/amde/discovery/config.py",
+        "size_bytes": 4725,
+        "lines_of_code": 117
+      },
+      {
+        "path": "src/amde/discovery/controller.py",
+        "size_bytes": 4700,
+        "lines_of_code": 122
+      },
+      {
+        "path": "src/amde/discovery/dsl.py",
+        "size_bytes": 18862,
+        "lines_of_code": 471
+      },
+      {
+        "path": "src/amde/discovery/engine.py",
+        "size_bytes": 12651,
+        "lines_of_code": 296
+      },
+      {
+        "path": "src/amde/discovery/evaluator.py",
+        "size_bytes": 8450,
+        "lines_of_code": 217
+      },
+      {
+        "path": "src/amde/discovery/factory.py",
+        "size_bytes": 7540,
+        "lines_of_code": 189
+      },
+      {
+        "path": "src/amde/discovery/genome.py",
+        "size_bytes": 14370,
+        "lines_of_code": 365
+      },
+      {
+        "path": "src/amde/discovery/memory.py",
+        "size_bytes": 6129,
+        "lines_of_code": 161
+      },
+      {
+        "path": "src/amde/discovery/operators.py",
+        "size_bytes": 10578,
+        "lines_of_code": 235
+      },
+      {
+        "path": "src/amde/discovery/search_space.py",
+        "size_bytes": 10195,
+        "lines_of_code": 227
+      },
+      {
+        "path": "src/amde/discovery/strategies.py",
+        "size_bytes": 8192,
+        "lines_of_code": 230
+      },
+      {
+        "path": "src/amde/discovery/surrogate.py",
+        "size_bytes": 4166,
+        "lines_of_code": 100
+      },
+      {
+        "path": "src/amde/discovery/__init__.py",
+        "size_bytes": 813,
+        "lines_of_code": 24
+      },
+      {
+        "path": "src/amde/evaluation/evaluator.py",
+        "size_bytes": 13218,
+        "lines_of_code": 336
+      },
+      {
+        "path": "src/amde/evaluation/generalization.py",
+        "size_bytes": 10897,
+        "lines_of_code": 260
+      },
+      {
+        "path": "src/amde/evaluation/isolation.py",
+        "size_bytes": 13137,
+        "lines_of_code": 356
+      },
+      {
+        "path": "src/amde/evaluation/metrics.py",
+        "size_bytes": 12390,
+        "lines_of_code": 314
+      },
+      {
+        "path": "src/amde/evaluation/pipeline.py",
+        "size_bytes": 24087,
+        "lines_of_code": 595
+      },
+      {
+        "path": "src/amde/evaluation/sealed.py",
+        "size_bytes": 13712,
+        "lines_of_code": 353
+      },
+      {
+        "path": "src/amde/evaluation/worker.py",
+        "size_bytes": 10795,
+        "lines_of_code": 312
+      },
+      {
+        "path": "src/amde/evaluation/__init__.py",
+        "size_bytes": 313,
+        "lines_of_code": 10
+      },
+      {
+        "path": "src/amde/examples/real_world_demo.py",
+        "size_bytes": 52156,
+        "lines_of_code": 1204
+      },
+      {
+        "path": "src/amde/examples/__init__.py",
+        "size_bytes": 59,
+        "lines_of_code": 1
+      },
+      {
+        "path": "src/amde/fidelity/policy.py",
+        "size_bytes": 3873,
+        "lines_of_code": 100
+      },
+      {
+        "path": "src/amde/fidelity/__init__.py",
+        "size_bytes": 265,
+        "lines_of_code": 13
+      },
+      {
+        "path": "src/amde/hardware/profile.py",
+        "size_bytes": 3688,
+        "lines_of_code": 94
+      },
+      {
+        "path": "src/amde/hardware/__init__.py",
+        "size_bytes": 131,
+        "lines_of_code": 5
+      },
+      {
+        "path": "src/amde/ledger/event_ledger.py",
+        "size_bytes": 13300,
+        "lines_of_code": 345
+      },
+      {
+        "path": "src/amde/ledger/__init__.py",
+        "size_bytes": 131,
+        "lines_of_code": 5
+      },
+      {
+        "path": "src/amde/models/torch_trainer.py",
+        "size_bytes": 17412,
+        "lines_of_code": 387
+      },
+      {
+        "path": "src/amde/models/trainer.py",
+        "size_bytes": 25053,
+        "lines_of_code": 649
+      },
+      {
+        "path": "src/amde/models/__init__.py",
+        "size_bytes": 56,
+        "lines_of_code": 1
+      },
+      {
+        "path": "src/amde/preprocessing/tabular.py",
+        "size_bytes": 9125,
+        "lines_of_code": 212
+      },
+      {
+        "path": "src/amde/preprocessing/__init__.py",
+        "size_bytes": 212,
+        "lines_of_code": 8
+      },
+      {
+        "path": "src/amde/quantum/dynamic_circuits.py",
+        "size_bytes": 2803,
+        "lines_of_code": 67
+      },
+      {
+        "path": "src/amde/quantum/kernel.py",
+        "size_bytes": 7584,
+        "lines_of_code": 162
+      },
+      {
+        "path": "src/amde/quantum/maze.py",
+        "size_bytes": 6097,
+        "lines_of_code": 161
+      },
+      {
+        "path": "src/amde/quantum/profiles.py",
+        "size_bytes": 7375,
+        "lines_of_code": 211
+      },
+      {
+        "path": "src/amde/quantum/statevector.py",
+        "size_bytes": 9252,
+        "lines_of_code": 235
+      },
+      {
+        "path": "src/amde/quantum/vqc.py",
+        "size_bytes": 16432,
+        "lines_of_code": 373
+      },
+      {
+        "path": "src/amde/quantum/__init__.py",
+        "size_bytes": 821,
+        "lines_of_code": 32
+      },
+      {
+        "path": "src/amde/research/ablation.py",
+        "size_bytes": 7355,
+        "lines_of_code": 137
+      },
+      {
+        "path": "src/amde/research/hypotheses.py",
+        "size_bytes": 13834,
+        "lines_of_code": 267
+      },
+      {
+        "path": "src/amde/research/statistics.py",
+        "size_bytes": 7732,
+        "lines_of_code": 165
+      },
+      {
+        "path": "src/amde/research/__init__.py",
+        "size_bytes": 363,
+        "lines_of_code": 9
+      },
+      {
+        "path": "src/amde/runtime/amde2.py",
+        "size_bytes": 121331,
+        "lines_of_code": 2240
+      },
+      {
+        "path": "src/amde/runtime/heartbeat.py",
+        "size_bytes": 3551,
+        "lines_of_code": 103
+      },
+      {
+        "path": "src/amde/runtime/job.py",
+        "size_bytes": 14105,
+        "lines_of_code": 382
+      },
+      {
+        "path": "src/amde/runtime/lock.py",
+        "size_bytes": 8314,
+        "lines_of_code": 218
+      },
+      {
+        "path": "src/amde/runtime/resources.py",
+        "size_bytes": 18650,
+        "lines_of_code": 500
+      },
+      {
+        "path": "src/amde/runtime/__init__.py",
+        "size_bytes": 74,
+        "lines_of_code": 1
+      },
+      {
+        "path": "src/amde/search/meta_policy.py",
+        "size_bytes": 2984,
+        "lines_of_code": 71
+      },
+      {
+        "path": "src/amde/search/open_ended.py",
+        "size_bytes": 6381,
+        "lines_of_code": 174
+      },
+      {
+        "path": "src/amde/search/population.py",
+        "size_bytes": 17374,
+        "lines_of_code": 462
+      },
+      {
+        "path": "src/amde/search/portfolio.py",
+        "size_bytes": 2768,
+        "lines_of_code": 72
+      },
+      {
+        "path": "src/amde/search/selection.py",
+        "size_bytes": 3351,
+        "lines_of_code": 87
+      },
+      {
+        "path": "src/amde/search/stagnation.py",
+        "size_bytes": 3178,
+        "lines_of_code": 75
+      },
+      {
+        "path": "src/amde/search/strategies.py",
+        "size_bytes": 10696,
+        "lines_of_code": 259
+      },
+      {
+        "path": "src/amde/search/__init__.py",
+        "size_bytes": 419,
+        "lines_of_code": 17
+      },
+      {
+        "path": "src/amde/space/parameter.py",
+        "size_bytes": 5051,
+        "lines_of_code": 145
+      },
+      {
+        "path": "src/amde/space/search_space.py",
+        "size_bytes": 15203,
+        "lines_of_code": 302
+      },
+      {
+        "path": "src/amde/space/__init__.py",
+        "size_bytes": 416,
+        "lines_of_code": 19
+      },
+      {
+        "path": "src/amde/strategy/base.py",
+        "size_bytes": 1819,
+        "lines_of_code": 60
+      },
+      {
+        "path": "src/amde/strategy/evolutionary.py",
+        "size_bytes": 2663,
+        "lines_of_code": 70
+      },
+      {
+        "path": "src/amde/strategy/local_refinement.py",
+        "size_bytes": 2560,
+        "lines_of_code": 71
+      },
+      {
+        "path": "src/amde/strategy/portfolio.py",
+        "size_bytes": 1846,
+        "lines_of_code": 47
+      },
+      {
+        "path": "src/amde/strategy/random_search.py",
+        "size_bytes": 1419,
+        "lines_of_code": 47
+      },
+      {
+        "path": "src/amde/strategy/tpe.py",
+        "size_bytes": 15259,
+        "lines_of_code": 339
+      },
+      {
+        "path": "src/amde/strategy/__init__.py",
+        "size_bytes": 560,
+        "lines_of_code": 17
+      }
+    ],
+    "tests": [
+      {
+        "path": "tests/support.py",
+        "size_bytes": 5796,
+        "lines_of_code": 178
+      },
+      {
+        "path": "tests/__init__.py",
+        "size_bytes": 775,
+        "lines_of_code": 27
+      },
+      {
+        "path": "tests/integration/test_amde2_runtime.py",
+        "size_bytes": 19945,
+        "lines_of_code": 365
+      },
+      {
+        "path": "tests/integration/test_engine.py",
+        "size_bytes": 10726,
+        "lines_of_code": 246
+      },
+      {
+        "path": "tests/integration/test_external_benchmarks.py",
+        "size_bytes": 4566,
+        "lines_of_code": 91
+      },
+      {
+        "path": "tests/integration/test_final_acceptance_closure.py",
+        "size_bytes": 30752,
+        "lines_of_code": 593
+      },
+      {
+        "path": "tests/integration/test_hard_deadline_integration.py",
+        "size_bytes": 14921,
+        "lines_of_code": 311
+      },
+      {
+        "path": "tests/integration/test_quantum_research.py",
+        "size_bytes": 15664,
+        "lines_of_code": 266
+      },
+      {
+        "path": "tests/integration/test_research_lab.py",
+        "size_bytes": 5509,
+        "lines_of_code": 100
+      },
+      {
+        "path": "tests/integration/__init__.py",
+        "size_bytes": 0,
+        "lines_of_code": 0
+      },
+      {
+        "path": "tests/unit/test_amde2_forced_termination.py",
+        "size_bytes": 14848,
+        "lines_of_code": 348
+      },
+      {
+        "path": "tests/unit/test_amde2_job.py",
+        "size_bytes": 5235,
+        "lines_of_code": 146
+      },
+      {
+        "path": "tests/unit/test_amde2_runtime.py",
+        "size_bytes": 28150,
+        "lines_of_code": 568
+      },
+      {
+        "path": "tests/unit/test_amde3_discovery.py",
+        "size_bytes": 12094,
+        "lines_of_code": 247
+      },
+      {
+        "path": "tests/unit/test_amde4_architecture.py",
+        "size_bytes": 15521,
+        "lines_of_code": 337
+      },
+      {
+        "path": "tests/unit/test_amde4_benchmark_stats.py",
+        "size_bytes": 9375,
+        "lines_of_code": 180
+      },
+      {
+        "path": "tests/unit/test_amde4_hardening_regressions.py",
+        "size_bytes": 10090,
+        "lines_of_code": 212
+      },
+      {
+        "path": "tests/unit/test_amde4_p0_correctness.py",
+        "size_bytes": 14777,
+        "lines_of_code": 302
+      },
+      {
+        "path": "tests/unit/test_amde4_sota_upgrades.py",
+        "size_bytes": 8433,
+        "lines_of_code": 210
+      },
+      {
+        "path": "tests/unit/test_amde_classifier_wrapper.py",
+        "size_bytes": 6263,
+        "lines_of_code": 165
+      },
+      {
+        "path": "tests/unit/test_backward_compatibility.py",
+        "size_bytes": 3344,
+        "lines_of_code": 90
+      },
+      {
+        "path": "tests/unit/test_benchmarks.py",
+        "size_bytes": 9373,
+        "lines_of_code": 195
+      },
+      {
+        "path": "tests/unit/test_campaign.py",
+        "size_bytes": 8464,
+        "lines_of_code": 177
+      },
+      {
+        "path": "tests/unit/test_categorical_preprocessing.py",
+        "size_bytes": 10440,
+        "lines_of_code": 256
+      },
+      {
+        "path": "tests/unit/test_checkpoint_lock.py",
+        "size_bytes": 7377,
+        "lines_of_code": 176
+      },
+      {
+        "path": "tests/unit/test_config.py",
+        "size_bytes": 10130,
+        "lines_of_code": 215
+      },
+      {
+        "path": "tests/unit/test_discovery_archive.py",
+        "size_bytes": 4634,
+        "lines_of_code": 87
+      },
+      {
+        "path": "tests/unit/test_dsl.py",
+        "size_bytes": 3864,
+        "lines_of_code": 92
+      },
+      {
+        "path": "tests/unit/test_evaluator.py",
+        "size_bytes": 9494,
+        "lines_of_code": 225
+      },
+      {
+        "path": "tests/unit/test_external_benchmarks.py",
+        "size_bytes": 14244,
+        "lines_of_code": 278
+      },
+      {
+        "path": "tests/unit/test_generalization.py",
+        "size_bytes": 2596,
+        "lines_of_code": 72
+      },
+      {
+        "path": "tests/unit/test_genome.py",
+        "size_bytes": 5309,
+        "lines_of_code": 130
+      },
+      {
+        "path": "tests/unit/test_hybrid_control.py",
+        "size_bytes": 1174,
+        "lines_of_code": 38
+      },
+      {
+        "path": "tests/unit/test_isolation.py",
+        "size_bytes": 5701,
+        "lines_of_code": 145
+      },
+      {
+        "path": "tests/unit/test_ledger.py",
+        "size_bytes": 11444,
+        "lines_of_code": 286
+      },
+      {
+        "path": "tests/unit/test_manifest_completeness.py",
+        "size_bytes": 6493,
+        "lines_of_code": 155
+      },
+      {
+        "path": "tests/unit/test_metrics.py",
+        "size_bytes": 6964,
+        "lines_of_code": 154
+      },
+      {
+        "path": "tests/unit/test_model_space_kernel_svc.py",
+        "size_bytes": 4115,
+        "lines_of_code": 93
+      },
+      {
+        "path": "tests/unit/test_openml_cc18_suite.py",
+        "size_bytes": 5771,
+        "lines_of_code": 148
+      },
+      {
+        "path": "tests/unit/test_open_ended.py",
+        "size_bytes": 3893,
+        "lines_of_code": 87
+      },
+      {
+        "path": "tests/unit/test_orchestrator_cache.py",
+        "size_bytes": 6112,
+        "lines_of_code": 152
+      },
+      {
+        "path": "tests/unit/test_population.py",
+        "size_bytes": 5534,
+        "lines_of_code": 132
+      },
+      {
+        "path": "tests/unit/test_quantum.py",
+        "size_bytes": 6009,
+        "lines_of_code": 124
+      },
+      {
+        "path": "tests/unit/test_quantum_profiles.py",
+        "size_bytes": 4206,
+        "lines_of_code": 110
+      },
+      {
+        "path": "tests/unit/test_reliability_and_time_budget.py",
+        "size_bytes": 3188,
+        "lines_of_code": 88
+      },
+      {
+        "path": "tests/unit/test_remediation_p0_p1.py",
+        "size_bytes": 6149,
+        "lines_of_code": 142
+      },
+      {
+        "path": "tests/unit/test_research_toolkit.py",
+        "size_bytes": 8568,
+        "lines_of_code": 154
+      },
+      {
+        "path": "tests/unit/test_runtime_monitoring.py",
+        "size_bytes": 3239,
+        "lines_of_code": 76
+      },
+      {
+        "path": "tests/unit/test_sealed.py",
+        "size_bytes": 9334,
+        "lines_of_code": 231
+      },
+      {
+        "path": "tests/unit/test_search.py",
+        "size_bytes": 4449,
+        "lines_of_code": 116
+      },
+      {
+        "path": "tests/unit/test_smoke_config.py",
+        "size_bytes": 1412,
+        "lines_of_code": 37
+      },
+      {
+        "path": "tests/unit/test_stagnation.py",
+        "size_bytes": 1483,
+        "lines_of_code": 45
+      },
+      {
+        "path": "tests/unit/test_storage_budget.py",
+        "size_bytes": 1808,
+        "lines_of_code": 44
+      },
+      {
+        "path": "tests/unit/test_trainer.py",
+        "size_bytes": 12155,
+        "lines_of_code": 265
+      },
+      {
+        "path": "tests/unit/test_util.py",
+        "size_bytes": 4047,
+        "lines_of_code": 102
+      },
+      {
+        "path": "tests/unit/__init__.py",
+        "size_bytes": 0,
+        "lines_of_code": 0
+      }
+    ],
+    "scripts": [
+      {
+        "path": "scripts/amde2.bat",
+        "size_bytes": 199,
+        "lines_of_code": 10
+      },
+      {
+        "path": "scripts/amde2.py",
+        "size_bytes": 370,
+        "lines_of_code": 12
+      },
+      {
+        "path": "scripts/amde2_logrelay.py",
+        "size_bytes": 2049,
+        "lines_of_code": 56
+      },
+      {
+        "path": "scripts/audit_deep_diagnostics.py",
+        "size_bytes": 11383,
+        "lines_of_code": 297
+      },
+      {
+        "path": "scripts/benchmark_hardware_profiles.py",
+        "size_bytes": 10668,
+        "lines_of_code": 278
+      },
+      {
+        "path": "scripts/benchmark_openml.py",
+        "size_bytes": 15293,
+        "lines_of_code": 388
+      },
+      {
+        "path": "scripts/build_release.py",
+        "size_bytes": 5582,
+        "lines_of_code": 160
+      },
+      {
+        "path": "scripts/control_experiment.py",
+        "size_bytes": 8842,
+        "lines_of_code": 191
+      },
+      {
+        "path": "scripts/doctor.bat",
+        "size_bytes": 319,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/doctor.ps1",
+        "size_bytes": 510,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/evaluate_external_benchmarks.py",
+        "size_bytes": 17618,
+        "lines_of_code": 313
+      },
+      {
+        "path": "scripts/generalization_audit.py",
+        "size_bytes": 4661,
+        "lines_of_code": 93
+      },
+      {
+        "path": "scripts/generate_colab_notebook.py",
+        "size_bytes": 39877,
+        "lines_of_code": 807
+      },
+      {
+        "path": "scripts/generate_manifest.py",
+        "size_bytes": 3272,
+        "lines_of_code": 98
+      },
+      {
+        "path": "scripts/generate_paper_artifacts.py",
+        "size_bytes": 21207,
+        "lines_of_code": 474
+      },
+      {
+        "path": "scripts/generate_pareto_figure.py",
+        "size_bytes": 4908,
+        "lines_of_code": 120
+      },
+      {
+        "path": "scripts/hybrid_control.bat",
+        "size_bytes": 243,
+        "lines_of_code": 9
+      },
+      {
+        "path": "scripts/hybrid_control.py",
+        "size_bytes": 9344,
+        "lines_of_code": 227
+      },
+      {
+        "path": "scripts/hybrid_research_campaign.bat",
+        "size_bytes": 336,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/hybrid_research_campaign.ps1",
+        "size_bytes": 469,
+        "lines_of_code": 12
+      },
+      {
+        "path": "scripts/hybrid_research_campaign.py",
+        "size_bytes": 22107,
+        "lines_of_code": 467
+      },
+      {
+        "path": "scripts/inspect_active_ledger.py",
+        "size_bytes": 2989,
+        "lines_of_code": 67
+      },
+      {
+        "path": "scripts/install_amde2_autostart.ps1",
+        "size_bytes": 2426,
+        "lines_of_code": 50
+      },
+      {
+        "path": "scripts/measure_controlled_latency.py",
+        "size_bytes": 26197,
+        "lines_of_code": 610
+      },
+      {
+        "path": "scripts/plot_benchmark_results.py",
+        "size_bytes": 6595,
+        "lines_of_code": 194
+      },
+      {
+        "path": "scripts/profile_cuda_kernels_validity.py",
+        "size_bytes": 16102,
+        "lines_of_code": 382
+      },
+      {
+        "path": "scripts/profile_hardware_utilization.py",
+        "size_bytes": 16302,
+        "lines_of_code": 382
+      },
+      {
+        "path": "scripts/profile_live_campaign.py",
+        "size_bytes": 10891,
+        "lines_of_code": 252
+      },
+      {
+        "path": "scripts/qualify_asha_policies.py",
+        "size_bytes": 8952,
+        "lines_of_code": 229
+      },
+      {
+        "path": "scripts/quantum_doctor.bat",
+        "size_bytes": 298,
+        "lines_of_code": 9
+      },
+      {
+        "path": "scripts/quantum_doctor.py",
+        "size_bytes": 4666,
+        "lines_of_code": 118
+      },
+      {
+        "path": "scripts/quantum_maze_demo.bat",
+        "size_bytes": 301,
+        "lines_of_code": 9
+      },
+      {
+        "path": "scripts/quantum_maze_demo.py",
+        "size_bytes": 1489,
+        "lines_of_code": 40
+      },
+      {
+        "path": "scripts/quantum_research_campaign.bat",
+        "size_bytes": 325,
+        "lines_of_code": 9
+      },
+      {
+        "path": "scripts/quantum_research_campaign.py",
+        "size_bytes": 44740,
+        "lines_of_code": 859
+      },
+      {
+        "path": "scripts/register_source_path.py",
+        "size_bytes": 1109,
+        "lines_of_code": 33
+      },
+      {
+        "path": "scripts/report.bat",
+        "size_bytes": 319,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/research_campaign.bat",
+        "size_bytes": 329,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/research_campaign.ps1",
+        "size_bytes": 462,
+        "lines_of_code": 12
+      },
+      {
+        "path": "scripts/research_campaign.py",
+        "size_bytes": 26032,
+        "lines_of_code": 556
+      },
+      {
+        "path": "scripts/research_lab.py",
+        "size_bytes": 7115,
+        "lines_of_code": 135
+      },
+      {
+        "path": "scripts/run_amde3_ablation.py",
+        "size_bytes": 7986,
+        "lines_of_code": 182
+      },
+      {
+        "path": "scripts/run_amde3_benchmark.py",
+        "size_bytes": 14665,
+        "lines_of_code": 399
+      },
+      {
+        "path": "scripts/run_amde4_benchmark.py",
+        "size_bytes": 31259,
+        "lines_of_code": 772
+      },
+      {
+        "path": "scripts/run_continuous.bat",
+        "size_bytes": 402,
+        "lines_of_code": 14
+      },
+      {
+        "path": "scripts/run_continuous.ps1",
+        "size_bytes": 533,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/run_full_test_suite.py",
+        "size_bytes": 9898,
+        "lines_of_code": 204
+      },
+      {
+        "path": "scripts/run_heavy_convergence_benchmark.sh",
+        "size_bytes": 3121,
+        "lines_of_code": 72
+      },
+      {
+        "path": "scripts/run_integration_tests.py",
+        "size_bytes": 9556,
+        "lines_of_code": 207
+      },
+      {
+        "path": "scripts/run_once.bat",
+        "size_bytes": 380,
+        "lines_of_code": 14
+      },
+      {
+        "path": "scripts/run_once.ps1",
+        "size_bytes": 511,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/run_openml_cc18_suite.py",
+        "size_bytes": 42511,
+        "lines_of_code": 970
+      },
+      {
+        "path": "scripts/run_quantum_comparative_study.py",
+        "size_bytes": 4488,
+        "lines_of_code": 114
+      },
+      {
+        "path": "scripts/run_smoke.bat",
+        "size_bytes": 557,
+        "lines_of_code": 16
+      },
+      {
+        "path": "scripts/run_smoke.ps1",
+        "size_bytes": 617,
+        "lines_of_code": 14
+      },
+      {
+        "path": "scripts/run_unit_tests.py",
+        "size_bytes": 1390,
+        "lines_of_code": 45
+      },
+      {
+        "path": "scripts/setup_venv.bat",
+        "size_bytes": 1391,
+        "lines_of_code": 46
+      },
+      {
+        "path": "scripts/setup_venv.ps1",
+        "size_bytes": 1294,
+        "lines_of_code": 32
+      },
+      {
+        "path": "scripts/status.bat",
+        "size_bytes": 399,
+        "lines_of_code": 14
+      },
+      {
+        "path": "scripts/status.ps1",
+        "size_bytes": 536,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/stop.bat",
+        "size_bytes": 486,
+        "lines_of_code": 18
+      },
+      {
+        "path": "scripts/stop.ps1",
+        "size_bytes": 515,
+        "lines_of_code": 13
+      },
+      {
+        "path": "scripts/stop_hybrid.bat",
+        "size_bytes": 279,
+        "lines_of_code": 6
+      },
+      {
+        "path": "scripts/stop_hybrid.ps1",
+        "size_bytes": 391,
+        "lines_of_code": 6
+      },
+      {
+        "path": "scripts/test_execute_notebook.py",
+        "size_bytes": 1767,
+        "lines_of_code": 48
+      },
+      {
+        "path": "scripts/test_windows_native_qualification.py",
+        "size_bytes": 6845,
+        "lines_of_code": 185
+      },
+      {
+        "path": "scripts/uninstall_amde2_autostart.ps1",
+        "size_bytes": 533,
+        "lines_of_code": 16
+      },
+      {
+        "path": "scripts/validate_controller_properties.py",
+        "size_bytes": 7675,
+        "lines_of_code": 203
+      },
+      {
+        "path": "scripts/verify_data_preservation.py",
+        "size_bytes": 6029,
+        "lines_of_code": 151
+      },
+      {
+        "path": "scripts/verify_manifest.py",
+        "size_bytes": 4587,
+        "lines_of_code": 118
+      },
+      {
+        "path": "scripts/watchdog_24x7.bat",
+        "size_bytes": 226,
+        "lines_of_code": 8
+      },
+      {
+        "path": "scripts/watchdog_24x7.ps1",
+        "size_bytes": 6392,
+        "lines_of_code": 135
+      },
+      {
+        "path": "scripts/audit/benchmark_validation.py",
+        "size_bytes": 12643,
+        "lines_of_code": 333
+      },
+      {
+        "path": "scripts/audit/concurrency_audit.py",
+        "size_bytes": 4950,
+        "lines_of_code": 140
+      },
+      {
+        "path": "scripts/audit/custom_ast_security_scan.py",
+        "size_bytes": 8736,
+        "lines_of_code": 219
+      },
+      {
+        "path": "scripts/audit/dataframe_audit.py",
+        "size_bytes": 8335,
+        "lines_of_code": 193
+      },
+      {
+        "path": "scripts/audit/dependency_audit.py",
+        "size_bytes": 3552,
+        "lines_of_code": 102
+      },
+      {
+        "path": "scripts/audit/finding_deduplicator.py",
+        "size_bytes": 7244,
+        "lines_of_code": 143
+      },
+      {
+        "path": "scripts/audit/github_workflow_audit.py",
+        "size_bytes": 3579,
+        "lines_of_code": 97
+      },
+      {
+        "path": "scripts/audit/ml_leakage_audit.py",
+        "size_bytes": 5689,
+        "lines_of_code": 142
+      },
+      {
+        "path": "scripts/audit/package_audit.py",
+        "size_bytes": 4222,
+        "lines_of_code": 125
+      },
+      {
+        "path": "scripts/audit/repository_inventory.py",
+        "size_bytes": 5079,
+        "lines_of_code": 152
+      },
+      {
+        "path": "scripts/audit/run_full_audit.py",
+        "size_bytes": 3189,
+        "lines_of_code": 93
+      }
+    ],
+    "docs": [
+      {
+        "path": "docs/AMDE2_ARCHITECTURE.md",
+        "size_bytes": 4973,
+        "lines_of_code": 61
+      },
+      {
+        "path": "docs/AMDE_5_ARCHITECTURE.md",
+        "size_bytes": 3510,
+        "lines_of_code": 61
+      },
+      {
+        "path": "docs/AMDE_CI_FINAL_TEST_MANIFEST.json",
+        "size_bytes": 3453,
+        "lines_of_code": 134
+      },
+      {
+        "path": "docs/AMDE_CROSS_PLATFORM_COMPATIBILITY_REPORT.md",
+        "size_bytes": 8733,
+        "lines_of_code": 125
+      },
+      {
+        "path": "docs/AMDE_Final_Release_Closure.md",
+        "size_bytes": 7292,
+        "lines_of_code": 84
+      },
+      {
+        "path": "docs/AMDE_GITHUB_ACTIONS_CI_FAILURE_AUDIT.md",
+        "size_bytes": 9321,
+        "lines_of_code": 134
+      },
+      {
+        "path": "docs/AMDE_GITHUB_ACTIONS_CI_REPAIR_REPORT.md",
+        "size_bytes": 7671,
+        "lines_of_code": 192
+      },
+      {
+        "path": "docs/BENCHMARK_METHODOLOGY.md",
+        "size_bytes": 9667,
+        "lines_of_code": 100
+      },
+      {
+        "path": "docs/BENCHMARK_RESULTS.md",
+        "size_bytes": 2659,
+        "lines_of_code": 44
+      },
+      {
+        "path": "docs/CITATION.cff",
+        "size_bytes": 680,
+        "lines_of_code": 22
+      },
+      {
+        "path": "docs/CLAIMS_LEDGER.md",
+        "size_bytes": 9655,
+        "lines_of_code": 51
+      },
+      {
+        "path": "docs/CONFIGURATION.md",
+        "size_bytes": 1948,
+        "lines_of_code": 40
+      },
+      {
+        "path": "docs/EXTERNAL_BENCHMARKS.md",
+        "size_bytes": 8051,
+        "lines_of_code": 85
+      },
+      {
+        "path": "docs/FINAL_ARCHITECTURE.md",
+        "size_bytes": 5662,
+        "lines_of_code": 91
+      },
+      {
+        "path": "docs/FINAL_PROJECT_CLOSURE_REPORT.md",
+        "size_bytes": 12020,
+        "lines_of_code": 147
+      },
+      {
+        "path": "docs/GENERALIZATION_PROTOCOL.md",
+        "size_bytes": 5901,
+        "lines_of_code": 73
+      },
+      {
+        "path": "docs/INSTALLATION.md",
+        "size_bytes": 1417,
+        "lines_of_code": 64
+      },
+      {
+        "path": "docs/KNOWN_LIMITATIONS.md",
+        "size_bytes": 5894,
+        "lines_of_code": 59
+      },
+      {
+        "path": "docs/MIGRATION.md",
+        "size_bytes": 1650,
+        "lines_of_code": 44
+      },
+      {
+        "path": "docs/OPEN_ENDED_SEARCH.md",
+        "size_bytes": 5693,
+        "lines_of_code": 44
+      },
+      {
+        "path": "docs/PROJECT_CLOSURE.md",
+        "size_bytes": 6577,
+        "lines_of_code": 84
+      },
+      {
+        "path": "docs/REAL_WORLD_DEMO.md",
+        "size_bytes": 8789,
+        "lines_of_code": 137
+      },
+      {
+        "path": "docs/REPRODUCIBILITY.md",
+        "size_bytes": 3624,
+        "lines_of_code": 81
+      },
+      {
+        "path": "docs/RESEARCH_TOOLKIT.md",
+        "size_bytes": 7264,
+        "lines_of_code": 102
+      },
+      {
+        "path": "docs/RESULTS_AND_LIMITATIONS.md",
+        "size_bytes": 15429,
+        "lines_of_code": 156
+      },
+      {
+        "path": "docs/STATISTICAL_LIMITATIONS.md",
+        "size_bytes": 2619,
+        "lines_of_code": 37
+      },
+      {
+        "path": "docs/USAGE.md",
+        "size_bytes": 2805,
+        "lines_of_code": 87
+      },
+      {
+        "path": "docs/VIDEO_DEMONSTRATION_PLAN.md",
+        "size_bytes": 2736,
+        "lines_of_code": 42
+      },
+      {
+        "path": "docs/architecture/AMDE_5.0_Super_Learner_Architecture.md",
+        "size_bytes": 5681,
+        "lines_of_code": 88
+      },
+      {
+        "path": "docs/public/AMDE_OVERVIEW.md",
+        "size_bytes": 8882,
+        "lines_of_code": 134
+      },
+      {
+        "path": "docs/public/BENCHMARK_METHODS_AND_RESULTS.md",
+        "size_bytes": 7019,
+        "lines_of_code": 113
+      },
+      {
+        "path": "docs/public/COMMUNITY_OUTREACH_PLAN.md",
+        "size_bytes": 6529,
+        "lines_of_code": 78
+      },
+      {
+        "path": "docs/public/EXTERNAL_REVIEW_LOG.md",
+        "size_bytes": 2505,
+        "lines_of_code": 44
+      },
+      {
+        "path": "docs/public/FAQ.md",
+        "size_bytes": 4831,
+        "lines_of_code": 64
+      },
+      {
+        "path": "docs/public/HN_CREATOR_FACT_SHEET.md",
+        "size_bytes": 4855,
+        "lines_of_code": 71
+      },
+      {
+        "path": "docs/public/INDEPENDENT_REVIEW_GUIDE.md",
+        "size_bytes": 7580,
+        "lines_of_code": 109
+      },
+      {
+        "path": "docs/public/KNOWN_LIMITATIONS.md",
+        "size_bytes": 4450,
+        "lines_of_code": 64
+      },
+      {
+        "path": "docs/public/LAUNCH_COPY_EN.md",
+        "size_bytes": 8081,
+        "lines_of_code": 116
+      },
+      {
+        "path": "docs/public/LAUNCH_COPY_VI.md",
+        "size_bytes": 9141,
+        "lines_of_code": 111
+      },
+      {
+        "path": "docs/public/LAUNCH_READINESS_REPORT.md",
+        "size_bytes": 12768,
+        "lines_of_code": 164
+      },
+      {
+        "path": "docs/public/REPRODUCE_IN_5_MINUTES.md",
+        "size_bytes": 5616,
+        "lines_of_code": 167
+      },
+      {
+        "path": "docs/public/RESEARCH_EVIDENCE_GUIDE.md",
+        "size_bytes": 7192,
+        "lines_of_code": 89
+      },
+      {
+        "path": "docs/public/SCIENTIFIC_CLAIMS_LEDGER.csv",
+        "size_bytes": 4972,
+        "lines_of_code": 11
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_ASHA_Qualification.md",
+        "size_bytes": 8114,
+        "lines_of_code": 115
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_Controller_Validation.md",
+        "size_bytes": 7536,
+        "lines_of_code": 115
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_Final_Architecture_Report.md",
+        "size_bytes": 8909,
+        "lines_of_code": 125
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_Final_Decision.md",
+        "size_bytes": 7266,
+        "lines_of_code": 137
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_NegativeMemory_Assessment.md",
+        "size_bytes": 6084,
+        "lines_of_code": 90
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_Pareto_Analysis.md",
+        "size_bytes": 5305,
+        "lines_of_code": 87
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_Prospective_Confirmation_Protocol.md",
+        "size_bytes": 5413,
+        "lines_of_code": 94
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_Software_Qualification.md",
+        "size_bytes": 5283,
+        "lines_of_code": 75
+      },
+      {
+        "path": "docs/qualification/AMDE_3.0_Lite_Statistical_Reconciliation.md",
+        "size_bytes": 8034,
+        "lines_of_code": 117
+      },
+      {
+        "path": "docs/releases/AMDE_5.0.0_RELEASE_NOTES.md",
+        "size_bytes": 3376,
+        "lines_of_code": 63
+      },
+      {
+        "path": "docs/video_scripts/tiktok_60s_script.md",
+        "size_bytes": 2838,
+        "lines_of_code": 56
+      },
+      {
+        "path": "docs/video_scripts/youtube_technical_walkthrough.md",
+        "size_bytes": 7616,
+        "lines_of_code": 105
+      }
+    ],
+    "workflows": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "size_bytes": 2744,
+        "lines_of_code": 74
+      },
+      {
+        "path": ".github/workflows/publish-pypi.yml",
+        "size_bytes": 2062,
+        "lines_of_code": 84
+      }
+    ],
+    "config": [
+      {
+        "path": "LICENSE",
+        "size_bytes": 1069,
+        "lines_of_code": 21
+      },
+      {
+        "path": "pyproject.toml",
+        "size_bytes": 2507,
+        "lines_of_code": 78
+      },
+      {
+        "path": "README.md",
+        "size_bytes": 23558,
+        "lines_of_code": 327
+      },
+      {
+        "path": "setup.py",
+        "size_bytes": 570,
+        "lines_of_code": 20
+      },
+      {
+        "path": "SHA256SUMS.txt",
+        "size_bytes": 71056,
+        "lines_of_code": 659
+      },
+      {
+        "path": "reports/archive_0.2.x/README.md",
+        "size_bytes": 531,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/README.md",
+        "size_bytes": 350,
+        "lines_of_code": 5
+      }
+    ],
+    "other": [
+      {
+        "path": ".gitattributes",
+        "size_bytes": 246,
+        "lines_of_code": 11
+      },
+      {
+        "path": ".gitignore",
+        "size_bytes": 544,
+        "lines_of_code": 34
+      },
+      {
+        "path": "AMDE2_Attach_6Hour_Timer.ps1",
+        "size_bytes": 7601,
+        "lines_of_code": 151
+      },
+      {
+        "path": "AMDE2_Run_6Hour_Test.ps1",
+        "size_bytes": 9530,
+        "lines_of_code": 217
+      },
+      {
+        "path": "AMDE_3.0_Ablation_Results.json",
+        "size_bytes": 2269,
+        "lines_of_code": 106
+      },
+      {
+        "path": "AMDE_3.0_Ablation_Runs.csv",
+        "size_bytes": 3006,
+        "lines_of_code": 73
+      },
+      {
+        "path": "AMDE_3.0_Benchmark_Results.json",
+        "size_bytes": 47360,
+        "lines_of_code": 2130
+      },
+      {
+        "path": "AMDE_3.0_Benchmark_Runs.csv",
+        "size_bytes": 10080,
+        "lines_of_code": 201
+      },
+      {
+        "path": "AMDE_3.0_Deep_Diagnostics.json",
+        "size_bytes": 1928,
+        "lines_of_code": 81
+      },
+      {
+        "path": "AMDE_3.0_Detailed_Ablation_Audit.json",
+        "size_bytes": 4326,
+        "lines_of_code": 298
+      },
+      {
+        "path": "AMDE_3.0_Lite_ASHA_Requalification_Results.json",
+        "size_bytes": 7983,
+        "lines_of_code": 302
+      },
+      {
+        "path": "AMDE_3.0_Lite_Controller_Replay_Results.json",
+        "size_bytes": 1967,
+        "lines_of_code": 73
+      },
+      {
+        "path": "AMDE_3.0_Quantum_Track_Results.json",
+        "size_bytes": 839,
+        "lines_of_code": 44
+      },
+      {
+        "path": "amde_colab_demo_summary.csv",
+        "size_bytes": 484,
+        "lines_of_code": 5
+      },
+      {
+        "path": "amde_colab_evidence.json",
+        "size_bytes": 4741,
+        "lines_of_code": 194
+      },
+      {
+        "path": "amde_colab_evidence.sha256",
+        "size_bytes": 185,
+        "lines_of_code": 2
+      },
+      {
+        "path": "ARCHITECTURE.md",
+        "size_bytes": 9126,
+        "lines_of_code": 139
+      },
+      {
+        "path": "BENCHMARK_PROFILES_RECONCILIATION.json",
+        "size_bytes": 3472,
+        "lines_of_code": 137
+      },
+      {
+        "path": "BENCHMARK_PROTOCOL.md",
+        "size_bytes": 3374,
+        "lines_of_code": 62
+      },
+      {
+        "path": "CHANGELOG.md",
+        "size_bytes": 16737,
+        "lines_of_code": 162
+      },
+      {
+        "path": "CITATION.cff",
+        "size_bytes": 680,
+        "lines_of_code": 22
+      },
+      {
+        "path": "CPU_PROCESS_ACCOUNTING_FINAL.md",
+        "size_bytes": 6698,
+        "lines_of_code": 104
+      },
+      {
+        "path": "DATA_PRESERVATION_HASH_REPORT.md",
+        "size_bytes": 5123,
+        "lines_of_code": 73
+      },
+      {
+        "path": "FAILURE_RECOVERY_GUIDE.md",
+        "size_bytes": 6919,
+        "lines_of_code": 165
+      },
+      {
+        "path": "FINAL_AUDIT_REPORT.md",
+        "size_bytes": 10529,
+        "lines_of_code": 103
+      },
+      {
+        "path": "FINAL_BENCHMARK_VALIDITY_MATRIX.json",
+        "size_bytes": 14275,
+        "lines_of_code": 452
+      },
+      {
+        "path": "FINAL_CUDA_PROFILING_VALIDITY.md",
+        "size_bytes": 9827,
+        "lines_of_code": 141
+      },
+      {
+        "path": "FINAL_GAP_CLOSURE_REPORT.md",
+        "size_bytes": 17026,
+        "lines_of_code": 206
+      },
+      {
+        "path": "FINAL_PERFORMANCE_RECONCILIATION.md",
+        "size_bytes": 5717,
+        "lines_of_code": 71
+      },
+      {
+        "path": "FINAL_RELEASE_INTEGRITY_REPORT.md",
+        "size_bytes": 4701,
+        "lines_of_code": 66
+      },
+      {
+        "path": "FINAL_SHA256SUMS.txt",
+        "size_bytes": 15704,
+        "lines_of_code": 157
+      },
+      {
+        "path": "FULL_OPERATIONS_GUIDE.md",
+        "size_bytes": 6864,
+        "lines_of_code": 195
+      },
+      {
+        "path": "github-recovery-codes.txt",
+        "size_bytes": 206,
+        "lines_of_code": 16
+      },
+      {
+        "path": "MIGRATION_GUIDE.md",
+        "size_bytes": 3534,
+        "lines_of_code": 61
+      },
+      {
+        "path": "PERSISTENT_DEADLINE_TEST_RESULTS.json",
+        "size_bytes": 820,
+        "lines_of_code": 40
+      },
+      {
+        "path": "PROCESS_TREE_ACCOUNTING_AUDIT.md",
+        "size_bytes": 5713,
+        "lines_of_code": 91
+      },
+      {
+        "path": "PROFILE_COMPARISON_RESULTS.md",
+        "size_bytes": 4816,
+        "lines_of_code": 54
+      },
+      {
+        "path": "PROFILE_STATISTICAL_COMPARISON.md",
+        "size_bytes": 6722,
+        "lines_of_code": 102
+      },
+      {
+        "path": "RELEASE_NOTES.md",
+        "size_bytes": 6360,
+        "lines_of_code": 75
+      },
+      {
+        "path": "run_amde.py",
+        "size_bytes": 489,
+        "lines_of_code": 22
+      },
+      {
+        "path": "run_benchmark.bat",
+        "size_bytes": 2693,
+        "lines_of_code": 75
+      },
+      {
+        "path": "run_benchmark.ps1",
+        "size_bytes": 1997,
+        "lines_of_code": 41
+      },
+      {
+        "path": "run_domination_benchmark.bat",
+        "size_bytes": 188,
+        "lines_of_code": 6
+      },
+      {
+        "path": "run_domination_benchmark.ps1",
+        "size_bytes": 3625,
+        "lines_of_code": 67
+      },
+      {
+        "path": "run_heavy_convergence_benchmark.bat",
+        "size_bytes": 3364,
+        "lines_of_code": 89
+      },
+      {
+        "path": "run_heavy_convergence_benchmark.ps1",
+        "size_bytes": 4056,
+        "lines_of_code": 80
+      },
+      {
+        "path": "run_overnight_master.bat",
+        "size_bytes": 3203,
+        "lines_of_code": 83
+      },
+      {
+        "path": "run_overnight_master.ps1",
+        "size_bytes": 4054,
+        "lines_of_code": 78
+      },
+      {
+        "path": "SHA256SUMS_LITE.txt",
+        "size_bytes": 1351,
+        "lines_of_code": 11
+      },
+      {
+        "path": "SIX_HOUR_RELEASE_READINESS.md",
+        "size_bytes": 8770,
+        "lines_of_code": 149
+      },
+      {
+        "path": "TRAINING_STEP_RECONCILIATION.md",
+        "size_bytes": 7144,
+        "lines_of_code": 101
+      },
+      {
+        "path": "WINDOWS_2_0_1_VERIFICATION.md",
+        "size_bytes": 12926,
+        "lines_of_code": 175
+      },
+      {
+        "path": "WINDOWS_INSTALL_1.2.0.md",
+        "size_bytes": 4511,
+        "lines_of_code": 64
+      },
+      {
+        "path": "WINDOWS_INSTALL_1.2.1.md",
+        "size_bytes": 5053,
+        "lines_of_code": 68
+      },
+      {
+        "path": "WINDOWS_INSTALL_1.2.2.md",
+        "size_bytes": 1866,
+        "lines_of_code": 38
+      },
+      {
+        "path": "WINDOWS_INSTALL_1.3.0.md",
+        "size_bytes": 6116,
+        "lines_of_code": 115
+      },
+      {
+        "path": "WINDOWS_INSTALL_2.0.0.md",
+        "size_bytes": 12809,
+        "lines_of_code": 193
+      },
+      {
+        "path": "WINDOWS_INSTALL_2.0.1.md",
+        "size_bytes": 4497,
+        "lines_of_code": 131
+      },
+      {
+        "path": "WINDOWS_PATCH_INSTALL_1.1.1.md",
+        "size_bytes": 2044,
+        "lines_of_code": 35
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/algorithm_correctness_review.md",
+        "size_bytes": 1009,
+        "lines_of_code": 29
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+        "size_bytes": 758,
+        "lines_of_code": 28
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/config.yml",
+        "size_bytes": 243,
+        "lines_of_code": 5
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/documentation_issue.md",
+        "size_bytes": 427,
+        "lines_of_code": 15
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/reproduction_failure.md",
+        "size_bytes": 782,
+        "lines_of_code": 29
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/statistical_concern.md",
+        "size_bytes": 965,
+        "lines_of_code": 23
+      },
+      {
+        "path": "config/default.json",
+        "size_bytes": 7511,
+        "lines_of_code": 317
+      },
+      {
+        "path": "config/resource_policy.json",
+        "size_bytes": 664,
+        "lines_of_code": 33
+      },
+      {
+        "path": "examples/candidate_linear_adam.json",
+        "size_bytes": 680,
+        "lines_of_code": 37
+      },
+      {
+        "path": "examples/quickstart_cpu.py",
+        "size_bytes": 6352,
+        "lines_of_code": 149
+      },
+      {
+        "path": "examples/run_real_world_benchmark.py",
+        "size_bytes": 302,
+        "lines_of_code": 13
+      },
+      {
+        "path": "examples/external_benchmarks/manifest.example.json",
+        "size_bytes": 623,
+        "lines_of_code": 21
+      },
+      {
+        "path": "examples/external_benchmarks/synthetic_classification.csv",
+        "size_bytes": 698,
+        "lines_of_code": 61
+      },
+      {
+        "path": "manifests/RELEASE_2.0.0.json",
+        "size_bytes": 3654,
+        "lines_of_code": 46
+      },
+      {
+        "path": "manifests/RELEASE_2.0.1.json",
+        "size_bytes": 2535,
+        "lines_of_code": 35
+      },
+      {
+        "path": "manifests/SOURCE_MANIFEST.json",
+        "size_bytes": 6505,
+        "lines_of_code": 128
+      },
+      {
+        "path": "notebooks/AMDE_Real_World_Demo.ipynb",
+        "size_bytes": 331308,
+        "lines_of_code": 1449
+      },
+      {
+        "path": "reports/amde130_cpu_smoke_001_report.md",
+        "size_bytes": 2396,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/amde130_cuda_smoke_001_report.md",
+        "size_bytes": 2599,
+        "lines_of_code": 67
+      },
+      {
+        "path": "reports/domination_benchmark_summary.json",
+        "size_bytes": 1519,
+        "lines_of_code": 76
+      },
+      {
+        "path": "reports/domination_convergence_adult.pdf",
+        "size_bytes": 35812,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/domination_convergence_adult.png",
+        "size_bytes": 136878,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/domination_results_table.tex",
+        "size_bytes": 1028,
+        "lines_of_code": 18
+      },
+      {
+        "path": "reports/hard_deadline_10run_results.json",
+        "size_bytes": 6498,
+        "lines_of_code": 248
+      },
+      {
+        "path": "reports/INDEPENDENT_AUDIT_AND_RELEASE_QUALIFICATION.md",
+        "size_bytes": 5753,
+        "lines_of_code": 78
+      },
+      {
+        "path": "reports/PATCH_NOTES_1.1.1.md",
+        "size_bytes": 2190,
+        "lines_of_code": 26
+      },
+      {
+        "path": "reports/QUANTUM_RESEARCH_GUIDE.md",
+        "size_bytes": 7449,
+        "lines_of_code": 105
+      },
+      {
+        "path": "reports/RELEASE_NOTES.md",
+        "size_bytes": 4015,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/RELEASE_NOTES_1.2.0.md",
+        "size_bytes": 3638,
+        "lines_of_code": 33
+      },
+      {
+        "path": "reports/RELEASE_NOTES_1.2.1.md",
+        "size_bytes": 1392,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/RELEASE_NOTES_1.2.2.md",
+        "size_bytes": 1175,
+        "lines_of_code": 17
+      },
+      {
+        "path": "reports/RELEASE_NOTES_1.3.0.md",
+        "size_bytes": 2505,
+        "lines_of_code": 30
+      },
+      {
+        "path": "reports/RESOURCE_PROFILE.md",
+        "size_bytes": 1794,
+        "lines_of_code": 17
+      },
+      {
+        "path": "reports/RUN_24_7_GUIDE.md",
+        "size_bytes": 1638,
+        "lines_of_code": 30
+      },
+      {
+        "path": "reports/TEST_MATRIX.md",
+        "size_bytes": 2460,
+        "lines_of_code": 39
+      },
+      {
+        "path": "reports/VERIFICATION_RESULTS.md",
+        "size_bytes": 2541,
+        "lines_of_code": 57
+      },
+      {
+        "path": "reports/VERIFICATION_RESULTS_1.2.0.md",
+        "size_bytes": 3547,
+        "lines_of_code": 39
+      },
+      {
+        "path": "reports/VERIFICATION_RESULTS_1.2.1.md",
+        "size_bytes": 2165,
+        "lines_of_code": 32
+      },
+      {
+        "path": "reports/VERIFICATION_RESULTS_1.2.2.md",
+        "size_bytes": 1471,
+        "lines_of_code": 25
+      },
+      {
+        "path": "reports/VERIFICATION_RESULTS_1.3.0.md",
+        "size_bytes": 2679,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/amde2/amde2main001/health.json",
+        "size_bytes": 341,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/amde2/amde2main001/plan.json",
+        "size_bytes": 976,
+        "lines_of_code": 32
+      },
+      {
+        "path": "reports/amde2/amde2main001/state.json",
+        "size_bytes": 2566,
+        "lines_of_code": 70
+      },
+      {
+        "path": "reports/amde2/amde2main001/control/guardian.json",
+        "size_bytes": 381,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/amde2/amde2main001/control/quantum.STOP",
+        "size_bytes": 170,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/amde2/amde2main001/logs/classical.log",
+        "size_bytes": 553,
+        "lines_of_code": 9
+      },
+      {
+        "path": "reports/amde2/amde2main001/logs/events.jsonl",
+        "size_bytes": 2238,
+        "lines_of_code": 8
+      },
+      {
+        "path": "reports/amde2/amde2main001/logs/guardian.log",
+        "size_bytes": 651,
+        "lines_of_code": 8
+      },
+      {
+        "path": "reports/amde2/amde2main001/logs/manager.log",
+        "size_bytes": 799,
+        "lines_of_code": 9
+      },
+      {
+        "path": "reports/amde2/amde2main001/logs/quantum.log",
+        "size_bytes": 966,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/amde2/amde2six002/health.json",
+        "size_bytes": 341,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/amde2/amde2six002/plan.json",
+        "size_bytes": 1094,
+        "lines_of_code": 36
+      },
+      {
+        "path": "reports/amde2/amde2six002/six_hour_test_result.json",
+        "size_bytes": 354,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/amde2/amde2six002/six_hour_timer.json",
+        "size_bytes": 257,
+        "lines_of_code": 8
+      },
+      {
+        "path": "reports/amde2/amde2six002/state.json",
+        "size_bytes": 2559,
+        "lines_of_code": 75
+      },
+      {
+        "path": "reports/amde2/amde2six002/control/guardian.json",
+        "size_bytes": 351,
+        "lines_of_code": 12
+      },
+      {
+        "path": "reports/amde2/amde2six002/control/guardian.lock",
+        "size_bytes": 169,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/amde2/amde2six002/control/manager.lock",
+        "size_bytes": 168,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/amde2/amde2six002/control/STOP",
+        "size_bytes": 128,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/amde2/amde2six002/logs/classical.log",
+        "size_bytes": 1520,
+        "lines_of_code": 21
+      },
+      {
+        "path": "reports/amde2/amde2six002/logs/events.jsonl",
+        "size_bytes": 2051,
+        "lines_of_code": 6
+      },
+      {
+        "path": "reports/amde2/amde2six002/logs/guardian.log",
+        "size_bytes": 578,
+        "lines_of_code": 7
+      },
+      {
+        "path": "reports/amde2/amde2six002/logs/manager.log",
+        "size_bytes": 655,
+        "lines_of_code": 7
+      },
+      {
+        "path": "reports/amde2/amde2six002/logs/quantum.log",
+        "size_bytes": 1796,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/amde2/amde2six002/logs/six_hour_test_timer.log",
+        "size_bytes": 7390,
+        "lines_of_code": 113
+      },
+      {
+        "path": "reports/amde2/amde2six003/health.json",
+        "size_bytes": 341,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/amde2/amde2six003/plan.json",
+        "size_bytes": 1094,
+        "lines_of_code": 36
+      },
+      {
+        "path": "reports/amde2/amde2six003/six_hour_test_result.json",
+        "size_bytes": 354,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/amde2/amde2six003/six_hour_timer.json",
+        "size_bytes": 258,
+        "lines_of_code": 8
+      },
+      {
+        "path": "reports/amde2/amde2six003/state.json",
+        "size_bytes": 2559,
+        "lines_of_code": 74
+      },
+      {
+        "path": "reports/amde2/amde2six003/control/guardian.json",
+        "size_bytes": 428,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/amde2/amde2six003/control/STOP",
+        "size_bytes": 128,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/amde2/amde2six003/logs/classical.log",
+        "size_bytes": 90842,
+        "lines_of_code": 1186
+      },
+      {
+        "path": "reports/amde2/amde2six003/logs/events.jsonl",
+        "size_bytes": 2301,
+        "lines_of_code": 8
+      },
+      {
+        "path": "reports/amde2/amde2six003/logs/guardian.log",
+        "size_bytes": 686,
+        "lines_of_code": 7
+      },
+      {
+        "path": "reports/amde2/amde2six003/logs/manager.log",
+        "size_bytes": 798,
+        "lines_of_code": 9
+      },
+      {
+        "path": "reports/amde2/amde2six003/logs/quantum.log",
+        "size_bytes": 113555,
+        "lines_of_code": 2411
+      },
+      {
+        "path": "reports/amde2/amde2six003/logs/six_hour_test_timer.log",
+        "size_bytes": 19165,
+        "lines_of_code": 296
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/health.json",
+        "size_bytes": 339,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/plan.json",
+        "size_bytes": 1094,
+        "lines_of_code": 36
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/state.json",
+        "size_bytes": 2842,
+        "lines_of_code": 75
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/control/classical.STOP",
+        "size_bytes": 214,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/control/guardian.json",
+        "size_bytes": 467,
+        "lines_of_code": 14
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/logs/classical.log",
+        "size_bytes": 1633,
+        "lines_of_code": 26
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/logs/events.jsonl",
+        "size_bytes": 3821,
+        "lines_of_code": 17
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/logs/guardian.log",
+        "size_bytes": 1235,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/logs/manager.log",
+        "size_bytes": 1752,
+        "lines_of_code": 19
+      },
+      {
+        "path": "reports/amde2/amde2_calib_001/logs/quantum.log",
+        "size_bytes": 1338,
+        "lines_of_code": 25
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/health.json",
+        "size_bytes": 341,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/plan.json",
+        "size_bytes": 1094,
+        "lines_of_code": 36
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/state.json",
+        "size_bytes": 2636,
+        "lines_of_code": 75
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/control/guardian.json",
+        "size_bytes": 433,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/control/STOP",
+        "size_bytes": 132,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/logs/classical.log",
+        "size_bytes": 1252,
+        "lines_of_code": 19
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/logs/events.jsonl",
+        "size_bytes": 3534,
+        "lines_of_code": 16
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/logs/guardian.log",
+        "size_bytes": 1164,
+        "lines_of_code": 14
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/logs/manager.log",
+        "size_bytes": 1604,
+        "lines_of_code": 18
+      },
+      {
+        "path": "reports/amde2/amde2_calib_002/logs/quantum.log",
+        "size_bytes": 1613,
+        "lines_of_code": 31
+      },
+      {
+        "path": "reports/amde_v5_0_0_remediation/benchmark_results.csv",
+        "size_bytes": 1911,
+        "lines_of_code": 19
+      },
+      {
+        "path": "reports/amde_v5_0_0_remediation/dataset_metadata.csv",
+        "size_bytes": 342,
+        "lines_of_code": 7
+      },
+      {
+        "path": "reports/archive_0.2.x/AUDIT_BEFORE_AFTER.md",
+        "size_bytes": 12013,
+        "lines_of_code": 85
+      },
+      {
+        "path": "reports/archive_0.2.x/BENCHMARK_REPORT.md",
+        "size_bytes": 6171,
+        "lines_of_code": 65
+      },
+      {
+        "path": "reports/archive_0.2.x/control_experiment_3seeds_3gens.json",
+        "size_bytes": 6964,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/archive_0.2.x/control_experiment_release_smoke.json",
+        "size_bytes": 3408,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/archive_0.2.x/control_experiment_repeatability_final.json",
+        "size_bytes": 1587,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/archive_0.2.x/MERGE_AUDIT.md",
+        "size_bytes": 12608,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/archive_0.2.x/pre_seed_fix/control_experiment_portfolio_smoke_run_id_seed_bug.json",
+        "size_bytes": 1589,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/archive_0.2.x/pre_seed_fix/control_experiment_three_variant_run_id_seed_bug.json",
+        "size_bytes": 3444,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/archive_0.2.x/prompts/PROMPT_MERGE_REBUILD_AMDE_24_7.md",
+        "size_bytes": 17511,
+        "lines_of_code": 194
+      },
+      {
+        "path": "reports/archive_0.2.x/prompts/PROMPT_MERGE_REBUILD_AMDE_24_7.txt",
+        "size_bytes": 17511,
+        "lines_of_code": 194
+      },
+      {
+        "path": "reports/campaigns/amde130hp001_classical/leaderboard.csv",
+        "size_bytes": 3714,
+        "lines_of_code": 15
+      },
+      {
+        "path": "reports/campaigns/amde130hp001_classical/REPORT.md",
+        "size_bytes": 2409,
+        "lines_of_code": 48
+      },
+      {
+        "path": "reports/campaigns/amde130hp001_classical/state.json",
+        "size_bytes": 12947,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/campaigns/amde2main001_classical/leaderboard.csv",
+        "size_bytes": 339,
+        "lines_of_code": 2
+      },
+      {
+        "path": "reports/campaigns/amde2main001_classical/REPORT.md",
+        "size_bytes": 1171,
+        "lines_of_code": 29
+      },
+      {
+        "path": "reports/campaigns/amde2main001_classical/state.json",
+        "size_bytes": 1139,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/campaigns/amde2six002_classical/leaderboard.csv",
+        "size_bytes": 272,
+        "lines_of_code": 2
+      },
+      {
+        "path": "reports/campaigns/amde2six002_classical/REPORT.md",
+        "size_bytes": 1165,
+        "lines_of_code": 29
+      },
+      {
+        "path": "reports/campaigns/amde2six002_classical/state.json",
+        "size_bytes": 996,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/campaigns/amde2six003_classical/leaderboard.csv",
+        "size_bytes": 8968,
+        "lines_of_code": 35
+      },
+      {
+        "path": "reports/campaigns/amde2six003_classical/REPORT.md",
+        "size_bytes": 3972,
+        "lines_of_code": 68
+      },
+      {
+        "path": "reports/campaigns/amde2six003_classical/state.json",
+        "size_bytes": 30612,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/campaigns/amde2_calib_001_classical/leaderboard.csv",
+        "size_bytes": 342,
+        "lines_of_code": 2
+      },
+      {
+        "path": "reports/campaigns/amde2_calib_001_classical/REPORT.md",
+        "size_bytes": 1169,
+        "lines_of_code": 29
+      },
+      {
+        "path": "reports/campaigns/amde2_calib_001_classical/state.json",
+        "size_bytes": 1290,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/campaigns/amde2_calib_002_classical/leaderboard.csv",
+        "size_bytes": 342,
+        "lines_of_code": 2
+      },
+      {
+        "path": "reports/campaigns/amde2_calib_002_classical/REPORT.md",
+        "size_bytes": 1171,
+        "lines_of_code": 29
+      },
+      {
+        "path": "reports/campaigns/amde2_calib_002_classical/state.json",
+        "size_bytes": 1183,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/final_release/AMDE_5_DEFECT_REGISTER.json",
+        "size_bytes": 5318,
+        "lines_of_code": 89
+      },
+      {
+        "path": "reports/final_release/AMDE_5_FINAL_QUALIFICATION.md",
+        "size_bytes": 2361,
+        "lines_of_code": 42
+      },
+      {
+        "path": "reports/final_release/AMDE_5_REMEDIATION_AUDIT.md",
+        "size_bytes": 5960,
+        "lines_of_code": 85
+      },
+      {
+        "path": "reports/final_release/AMDE_PYPI_TRUSTED_PUBLISHING_AUDIT.md",
+        "size_bytes": 2765,
+        "lines_of_code": 63
+      },
+      {
+        "path": "reports/final_release/baseline_state.json",
+        "size_bytes": 1331,
+        "lines_of_code": 18
+      },
+      {
+        "path": "reports/final_release/defect_register.json",
+        "size_bytes": 3133,
+        "lines_of_code": 67
+      },
+      {
+        "path": "reports/final_release/DEFECT_REGISTER.md",
+        "size_bytes": 10668,
+        "lines_of_code": 152
+      },
+      {
+        "path": "reports/final_release/FINAL_BENCHMARK_RECONCILIATION.md",
+        "size_bytes": 6053,
+        "lines_of_code": 82
+      },
+      {
+        "path": "reports/final_release/FINAL_RELEASE_REPORT.md",
+        "size_bytes": 5721,
+        "lines_of_code": 82
+      },
+      {
+        "path": "reports/final_release/FINAL_TEST_REPORT.md",
+        "size_bytes": 4626,
+        "lines_of_code": 73
+      },
+      {
+        "path": "reports/full_audit/findings.json",
+        "size_bytes": 4886,
+        "lines_of_code": 92
+      },
+      {
+        "path": "reports/full_audit/FULL_DEFECT_REGISTER.md",
+        "size_bytes": 1910,
+        "lines_of_code": 12
+      },
+      {
+        "path": "reports/full_audit/repository_inventory.json",
+        "size_bytes": 83338,
+        "lines_of_code": 3157
+      },
+      {
+        "path": "reports/full_audit/repository_inventory.md",
+        "size_bytes": 556,
+        "lines_of_code": 25
+      },
+      {
+        "path": "reports/full_audit/benchmark/benchmark_report.md",
+        "size_bytes": 2585,
+        "lines_of_code": 39
+      },
+      {
+        "path": "reports/full_audit/benchmark/benchmark_results.csv",
+        "size_bytes": 1911,
+        "lines_of_code": 19
+      },
+      {
+        "path": "reports/full_audit/benchmark/dataset_metadata.csv",
+        "size_bytes": 342,
+        "lines_of_code": 7
+      },
+      {
+        "path": "reports/full_audit/concurrency/concurrency_audit_results.json",
+        "size_bytes": 386,
+        "lines_of_code": 14
+      },
+      {
+        "path": "reports/full_audit/concurrency/reliability_audit.md",
+        "size_bytes": 425,
+        "lines_of_code": 10
+      },
+      {
+        "path": "reports/full_audit/github_actions/github_actions_security.md",
+        "size_bytes": 967,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/full_audit/github_actions/workflow_audit_results.json",
+        "size_bytes": 1261,
+        "lines_of_code": 44
+      },
+      {
+        "path": "reports/full_audit/ml_correctness/leakage_audit_results.json",
+        "size_bytes": 566,
+        "lines_of_code": 20
+      },
+      {
+        "path": "reports/full_audit/ml_correctness/ml_correctness_audit.md",
+        "size_bytes": 541,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/full_audit/packaging/package_audit_results.json",
+        "size_bytes": 622,
+        "lines_of_code": 27
+      },
+      {
+        "path": "reports/full_audit/packaging/packaging_audit.md",
+        "size_bytes": 502,
+        "lines_of_code": 9
+      },
+      {
+        "path": "reports/full_audit/preprocessing/dataframe_audit_report.md",
+        "size_bytes": 1064,
+        "lines_of_code": 18
+      },
+      {
+        "path": "reports/full_audit/preprocessing/dataframe_audit_results.json",
+        "size_bytes": 1555,
+        "lines_of_code": 62
+      },
+      {
+        "path": "reports/full_audit/static_analysis/ast_scan_findings.json",
+        "size_bytes": 31747,
+        "lines_of_code": 992
+      },
+      {
+        "path": "reports/full_audit/static_analysis/ast_scan_report.md",
+        "size_bytes": 21598,
+        "lines_of_code": 116
+      },
+      {
+        "path": "reports/full_audit/supply_chain/dependency_inventory.json",
+        "size_bytes": 1605,
+        "lines_of_code": 82
+      },
+      {
+        "path": "reports/full_audit/supply_chain/dependency_report.md",
+        "size_bytes": 907,
+        "lines_of_code": 30
+      },
+      {
+        "path": "reports/hardware_calibration/hardware_profile_after_opt.json",
+        "size_bytes": 27445,
+        "lines_of_code": 1115
+      },
+      {
+        "path": "reports/hardware_calibration/hardware_profile_audit.json",
+        "size_bytes": 101716,
+        "lines_of_code": 4211
+      },
+      {
+        "path": "reports/hardware_calibration/live_diagnostic_amde2six003.json",
+        "size_bytes": 229918,
+        "lines_of_code": 9217
+      },
+      {
+        "path": "reports/hard_deadline_evidence/hard_deadline_10run_audit.json",
+        "size_bytes": 10063,
+        "lines_of_code": 322
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_1/events.jsonl",
+        "size_bytes": 1902,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_1/guardian.json",
+        "size_bytes": 456,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_1/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_1/state.json",
+        "size_bytes": 2008,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_10/events.jsonl",
+        "size_bytes": 1904,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_10/guardian.json",
+        "size_bytes": 458,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_10/plan.json",
+        "size_bytes": 1150,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_10/state.json",
+        "size_bytes": 2172,
+        "lines_of_code": 67
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_2/events.jsonl",
+        "size_bytes": 1903,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_2/guardian.json",
+        "size_bytes": 458,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_2/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_2/state.json",
+        "size_bytes": 2009,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_3/events.jsonl",
+        "size_bytes": 1903,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_3/guardian.json",
+        "size_bytes": 458,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_3/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_3/state.json",
+        "size_bytes": 2013,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_4/events.jsonl",
+        "size_bytes": 1903,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_4/guardian.json",
+        "size_bytes": 458,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_4/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_4/state.json",
+        "size_bytes": 2012,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_5/events.jsonl",
+        "size_bytes": 1921,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_5/guardian.json",
+        "size_bytes": 457,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_5/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_5/state.json",
+        "size_bytes": 2012,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_6/events.jsonl",
+        "size_bytes": 1921,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_6/guardian.json",
+        "size_bytes": 458,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_6/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_6/state.json",
+        "size_bytes": 2013,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_7/events.jsonl",
+        "size_bytes": 1907,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_7/guardian.json",
+        "size_bytes": 456,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_7/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_7/state.json",
+        "size_bytes": 2011,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_8/events.jsonl",
+        "size_bytes": 1903,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_8/guardian.json",
+        "size_bytes": 458,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_8/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_8/state.json",
+        "size_bytes": 2012,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_9/events.jsonl",
+        "size_bytes": 1907,
+        "lines_of_code": 11
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_9/guardian.json",
+        "size_bytes": 458,
+        "lines_of_code": 13
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_9/plan.json",
+        "size_bytes": 1149,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/hard_deadline_evidence/run_9/state.json",
+        "size_bytes": 2011,
+        "lines_of_code": 61
+      },
+      {
+        "path": "reports/hybrid_campaigns/amde130hp001/launch.json",
+        "size_bytes": 1040,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/hybrid_campaigns/amde130hp001/supervisor_state.json",
+        "size_bytes": 1658,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/hybrid_campaigns/amde130hp001/logs/classical_worker.log",
+        "size_bytes": 11269,
+        "lines_of_code": 151
+      },
+      {
+        "path": "reports/hybrid_campaigns/amde130hp001/logs/quantum_worker.log",
+        "size_bytes": 17573,
+        "lines_of_code": 362
+      },
+      {
+        "path": "reports/hybrid_campaigns/amde130hp001/logs/supervisor_console.log",
+        "size_bytes": 1148,
+        "lines_of_code": 6
+      },
+      {
+        "path": "reports/quantum_campaigns/amde130hp001_quantum/leaderboard.csv",
+        "size_bytes": 399173,
+        "lines_of_code": 2839
+      },
+      {
+        "path": "reports/quantum_campaigns/amde130hp001_quantum/quantum_ledger.sqlite3",
+        "size_bytes": 4435968,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde130hp001_quantum/quantum_ledger.sqlite3-shm",
+        "size_bytes": 32768,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde130hp001_quantum/quantum_ledger.sqlite3-wal",
+        "size_bytes": 0,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde130hp001_quantum/REPORT.md",
+        "size_bytes": 340521,
+        "lines_of_code": 2983
+      },
+      {
+        "path": "reports/quantum_campaigns/amde130hp001_quantum/state.json",
+        "size_bytes": 2764,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2main001_quantum/leaderboard.csv",
+        "size_bytes": 6827,
+        "lines_of_code": 49
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2main001_quantum/quantum_ledger.sqlite3",
+        "size_bytes": 110592,
+        "lines_of_code": 296
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2main001_quantum/quantum_ledger.sqlite3-shm",
+        "size_bytes": 32768,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2main001_quantum/quantum_ledger.sqlite3-wal",
+        "size_bytes": 0,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2main001_quantum/REPORT.md",
+        "size_bytes": 6736,
+        "lines_of_code": 76
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2main001_quantum/state.json",
+        "size_bytes": 2805,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six002_quantum/campaign.lock",
+        "size_bytes": 188,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six002_quantum/leaderboard.csv",
+        "size_bytes": 37107,
+        "lines_of_code": 265
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six002_quantum/quantum_ledger.sqlite3",
+        "size_bytes": 442368,
+        "lines_of_code": 971
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six002_quantum/quantum_ledger.sqlite3-shm",
+        "size_bytes": 32768,
+        "lines_of_code": 3
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six002_quantum/quantum_ledger.sqlite3-wal",
+        "size_bytes": 482072,
+        "lines_of_code": 2617
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six002_quantum/REPORT.md",
+        "size_bytes": 32469,
+        "lines_of_code": 301
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six002_quantum/state.json",
+        "size_bytes": 2810,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six003_quantum/leaderboard.csv",
+        "size_bytes": 2728555,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six003_quantum/quantum_ledger.sqlite3",
+        "size_bytes": 30048256,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six003_quantum/quantum_ledger.sqlite3-shm",
+        "size_bytes": 32768,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six003_quantum/quantum_ledger.sqlite3-wal",
+        "size_bytes": 0,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six003_quantum/REPORT.md",
+        "size_bytes": 2325674,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2six003_quantum/state.json",
+        "size_bytes": 2811,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_001_quantum/leaderboard.csv",
+        "size_bytes": 14431,
+        "lines_of_code": 102
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_001_quantum/quantum_ledger.sqlite3",
+        "size_bytes": 176128,
+        "lines_of_code": 426
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_001_quantum/REPORT.md",
+        "size_bytes": 13284,
+        "lines_of_code": 132
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_001_quantum/state.json",
+        "size_bytes": 2549,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_002_quantum/leaderboard.csv",
+        "size_bytes": 20754,
+        "lines_of_code": 150
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_002_quantum/quantum_ledger.sqlite3",
+        "size_bytes": 249856,
+        "lines_of_code": 562
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_002_quantum/quantum_ledger.sqlite3-shm",
+        "size_bytes": 32768,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_002_quantum/quantum_ledger.sqlite3-wal",
+        "size_bytes": 0,
+        "lines_of_code": 0
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_002_quantum/REPORT.md",
+        "size_bytes": 18596,
+        "lines_of_code": 182
+      },
+      {
+        "path": "reports/quantum_campaigns/amde2_calib_002_quantum/state.json",
+        "size_bytes": 2534,
+        "lines_of_code": 1
+      },
+      {
+        "path": "reports/real_world_demo/INITIAL_AUDIT.md",
+        "size_bytes": 12139,
+        "lines_of_code": 139
+      },
+      {
+        "path": "reports/real_world_demo/controlled_latency/latency_measurements.csv",
+        "size_bytes": 18649,
+        "lines_of_code": 139
+      },
+      {
+        "path": "reports/real_world_demo/controlled_latency/latency_summary.json",
+        "size_bytes": 6364,
+        "lines_of_code": 279
+      },
+      {
+        "path": "reports/real_world_demo/controlled_latency/pareto_recalculated.json",
+        "size_bytes": 51963,
+        "lines_of_code": 1656
+      },
+      {
+        "path": "reports/real_world_demo/controlled_latency/raw_timing_traces.json.gz",
+        "size_bytes": 35977,
+        "lines_of_code": 275
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708572/environment.json",
+        "size_bytes": 656,
+        "lines_of_code": 16
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708572/experiment_config.json",
+        "size_bytes": 275,
+        "lines_of_code": 19
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708572/raw_trials.csv",
+        "size_bytes": 3053,
+        "lines_of_code": 31
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/checksums.txt",
+        "size_bytes": 674,
+        "lines_of_code": 8
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/environment.json",
+        "size_bytes": 656,
+        "lines_of_code": 16
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/experiment_config.json",
+        "size_bytes": 275,
+        "lines_of_code": 19
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/metrics.json",
+        "size_bytes": 1987,
+        "lines_of_code": 114
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/raw_trials.csv",
+        "size_bytes": 4465,
+        "lines_of_code": 41
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/report.md",
+        "size_bytes": 2622,
+        "lines_of_code": 39
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/seed_summary.csv",
+        "size_bytes": 502,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708721/statistical_analysis.json",
+        "size_bytes": 3654,
+        "lines_of_code": 157
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/checksums.txt",
+        "size_bytes": 674,
+        "lines_of_code": 8
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/environment.json",
+        "size_bytes": 656,
+        "lines_of_code": 16
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/experiment_config.json",
+        "size_bytes": 275,
+        "lines_of_code": 19
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/metrics.json",
+        "size_bytes": 1987,
+        "lines_of_code": 114
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/raw_trials.csv",
+        "size_bytes": 4465,
+        "lines_of_code": 41
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/report.md",
+        "size_bytes": 2622,
+        "lines_of_code": 39
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/seed_summary.csv",
+        "size_bytes": 501,
+        "lines_of_code": 5
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708849/statistical_analysis.json",
+        "size_bytes": 3655,
+        "lines_of_code": 157
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/checksums.txt",
+        "size_bytes": 1042,
+        "lines_of_code": 12
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/environment.json",
+        "size_bytes": 656,
+        "lines_of_code": 16
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/experiment_config.json",
+        "size_bytes": 311,
+        "lines_of_code": 23
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/metrics.json",
+        "size_bytes": 2024,
+        "lines_of_code": 114
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/raw_trials.csv",
+        "size_bytes": 66768,
+        "lines_of_code": 601
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/report.md",
+        "size_bytes": 2635,
+        "lines_of_code": 39
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/seed_summary.csv",
+        "size_bytes": 1900,
+        "lines_of_code": 21
+      },
+      {
+        "path": "reports/real_world_demo/exp_digits_1793708901/statistical_analysis.json",
+        "size_bytes": 3704,
+        "lines_of_code": 157
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/checksums.txt",
+        "size_bytes": 583,
+        "lines_of_code": 7
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/environment.json",
+        "size_bytes": 656,
+        "lines_of_code": 16
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/experiment_config.json",
+        "size_bytes": 311,
+        "lines_of_code": 23
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/metrics.json",
+        "size_bytes": 2024,
+        "lines_of_code": 114
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/raw_trials.csv",
+        "size_bytes": 66768,
+        "lines_of_code": 601
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/report.md",
+        "size_bytes": 2635,
+        "lines_of_code": 39
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/seed_summary.csv",
+        "size_bytes": 1900,
+        "lines_of_code": 21
+      },
+      {
+        "path": "reports/real_world_demo/historical_v1_oneshot/statistical_analysis.json",
+        "size_bytes": 3704,
+        "lines_of_code": 157
+      },
+      {
+        "path": "reports/real_world_demo/latest/checksums.txt",
+        "size_bytes": 583,
+        "lines_of_code": 7
+      },
+      {
+        "path": "reports/real_world_demo/latest/environment.json",
+        "size_bytes": 656,
+        "lines_of_code": 16
+      },
+      {
+        "path": "reports/real_world_demo/latest/experiment_config.json",
+        "size_bytes": 311,
+        "lines_of_code": 23
+      },
+      {
+        "path": "reports/real_world_demo/latest/metrics.json",
+        "size_bytes": 2024,
+        "lines_of_code": 114
+      },
+      {
+        "path": "reports/real_world_demo/latest/raw_trials.csv",
+        "size_bytes": 66768,
+        "lines_of_code": 601
+      },
+      {
+        "path": "reports/real_world_demo/latest/report.md",
+        "size_bytes": 2953,
+        "lines_of_code": 40
+      },
+      {
+        "path": "reports/real_world_demo/latest/seed_summary.csv",
+        "size_bytes": 1900,
+        "lines_of_code": 21
+      },
+      {
+        "path": "reports/real_world_demo/latest/statistical_analysis.json",
+        "size_bytes": 4404,
+        "lines_of_code": 172
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261030T115908Z/integration.log",
+        "size_bytes": 8306,
+        "lines_of_code": 110
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261030T115908Z/report.json",
+        "size_bytes": 21683,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261030T115908Z/REPORT.md",
+        "size_bytes": 541,
+        "lines_of_code": 12
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261030T115908Z/unit.log",
+        "size_bytes": 31773,
+        "lines_of_code": 222
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261104T055937Z/integration.log",
+        "size_bytes": 10270,
+        "lines_of_code": 144
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261104T055937Z/report.json",
+        "size_bytes": 23631,
+        "lines_of_code": 38
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261104T055937Z/REPORT.md",
+        "size_bytes": 460,
+        "lines_of_code": 12
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261104T055937Z/unit.log",
+        "size_bytes": 36559,
+        "lines_of_code": 270
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261108T084617Z/integration.log",
+        "size_bytes": 1818,
+        "lines_of_code": 28
+      },
+      {
+        "path": "reports/test_runs/full_suite_20261108T084617Z/unit.log",
+        "size_bytes": 27395,
+        "lines_of_code": 227
+      }
+    ]
+  }
+}

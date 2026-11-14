@@ -116,7 +116,7 @@ class AMDE4Engine:
     ) -> dict[str, Any]:
         """Executes an evidence-guided discovery campaign up to evaluation budget."""
         start_time_iso = utc_now_iso()
-        start_t = time.perf_counter()
+        start_t = time.monotonic()
         split_hash = compute_data_split_hash(X_train, y_train, X_val, y_val)
 
         spec = ExperimentSpec(
@@ -139,7 +139,7 @@ class AMDE4Engine:
         trajectory = []
 
         while evaluations_completed < budget:
-            if time.perf_counter() - start_t > timeout_seconds:
+            if time.monotonic() - start_t >= timeout_seconds:
                 break
 
             generation += 1
@@ -162,6 +162,10 @@ class AMDE4Engine:
 
             for cand in proposals:
                 if evaluations_completed >= budget:
+                    break
+                # Remaining time check before starting candidate
+                remaining_s = timeout_seconds - (time.monotonic() - start_t)
+                if remaining_s <= 0.05:
                     break
 
                 # Novelty Enforcement: adaptively mutate or resample if already seen
@@ -291,7 +295,9 @@ class AMDE4Engine:
                         "trial_id": evaluations_completed,
                         "candidate": cand,
                         "candidate_hash": c_hash,
+                        "family": cand.genome.get("model", {}).get("family", "unknown"),
                         "status": res.status,
+                        "error_message": getattr(res, "error_message", None),
                         "error_trace": getattr(res, "error_trace", None),
                         "val_score": val_score,
                         "inf_latency": inf_latency,
@@ -373,3 +379,23 @@ class AMDE4Engine:
             token=token,
             seed=self.seed,
         )
+
+    def get_failure_summary(self) -> dict[str, Any]:
+        """Produces a structured diagnostic summary of candidate evaluation outcomes."""
+        total_evals = len(self.trial_history) + len(self.failure_history)
+        failed_evals = len(self.failure_history)
+        completed_evals = len(self.trial_history)
+        reasons: dict[str, int] = {}
+        by_family: dict[str, int] = {}
+        for f in self.failure_history:
+            msg = f.get("error_message") or f.get("status") or "unknown"
+            reasons[msg] = reasons.get(msg, 0) + 1
+            fam = f.get("family", "unknown")
+            by_family[fam] = by_family.get(fam, 0) + 1
+        return {
+            "total_candidates_generated": total_evals,
+            "candidates_completed": completed_evals,
+            "candidates_failed": failed_evals,
+            "failure_counts_by_family": by_family,
+            "failure_reasons": reasons,
+        }
