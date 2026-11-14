@@ -4,7 +4,7 @@ authors:
   - name: "LNTA"
   - name: "AMDE Contributors"
 title: "AMDE: Autonomous Machine Learning Discovery Engine (Version 5.0.1 Super Learner)"
-version: 5.0.1
+version: 5.1.0
 date-released: 2026-11-08
 url: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"
 repository-code: "https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine"

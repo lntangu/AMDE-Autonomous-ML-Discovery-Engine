@@ -12,7 +12,7 @@
   {
     "check": "Package Version",
     "status": "PASS",
-    "detail": "Declared version is '5.0.0'"
+    "detail": "Declared version is '5.0.1'"
   },
   {
     "check": "Package Build (python -m build)",

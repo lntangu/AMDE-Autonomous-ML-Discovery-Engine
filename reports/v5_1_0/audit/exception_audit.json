@@ -1,0 +1,383 @@
+{
+  "total_silent_exceptions": 42,
+  "occurrences": [
+    {
+      "file": "scripts/audit/custom_ast_security_scan.py",
+      "line": 175,
+      "exception_type": "SyntaxError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/audit/exception_suppression_auditor.py",
+      "line": 67,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/audit/high_cardinality_auditor.py",
+      "line": 72,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/audit/numerical_integrity_auditor.py",
+      "line": 101,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/audit/repository_inventory.py",
+      "line": 63,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/audit/time_budget_auditor.py",
+      "line": 55,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/benchmark_hardware_profiles.py",
+      "line": 47,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/hybrid_research_campaign.py",
+      "line": 121,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/hybrid_research_campaign.py",
+      "line": 231,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/hybrid_research_campaign.py",
+      "line": 421,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "scripts/measure_controlled_latency.py",
+      "line": 89,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/discovery/dsl.py",
+      "line": 183,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/discovery/factory.py",
+      "line": 124,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/discovery/operators.py",
+      "line": 125,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 50,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 56,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 60,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 80,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 84,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 89,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 131,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 139,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 157,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 265,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/evaluation/isolation.py",
+      "line": 339,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/hardware/profile.py",
+      "line": 56,
+      "exception_type": "(ImportError, AttributeError, Exception)",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/hardware/profile.py",
+      "line": 91,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/ledger/event_ledger.py",
+      "line": 58,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/ledger/event_ledger.py",
+      "line": 151,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/runtime/heartbeat.py",
+      "line": 79,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/runtime/heartbeat.py",
+      "line": 97,
+      "exception_type": "OSError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/runtime/heartbeat.py",
+      "line": 102,
+      "exception_type": "OSError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/runtime/lock.py",
+      "line": 33,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/runtime/lock.py",
+      "line": 36,
+      "exception_type": "ImportError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/runtime/lock.py",
+      "line": 183,
+      "exception_type": "FileNotFoundError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/runtime/lock.py",
+      "line": 208,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/storage/ledger.py",
+      "line": 257,
+      "exception_type": "OSError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/storage/ledger.py",
+      "line": 322,
+      "exception_type": "sqlite3.OperationalError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/util.py",
+      "line": 179,
+      "exception_type": "OSError",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/wrapper.py",
+      "line": 71,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/wrapper.py",
+      "line": 84,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    },
+    {
+      "file": "src/amde/wrapper.py",
+      "line": 145,
+      "exception_type": "Exception",
+      "body": [
+        "Pass"
+      ],
+      "classification": "silent_suppression"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "project_name": "amde-automl",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "requires_python": ">=3.10",
   "core_dependencies_count": 9,
   "core_dependencies": [

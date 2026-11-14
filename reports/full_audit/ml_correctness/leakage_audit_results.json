@@ -15,6 +15,6 @@
     "test_id": "D-LEAK-03",
     "description": "Preprocessor vocabulary isolation",
     "status": "PASS",
-    "detail": "Learned only train categories: {'A', 'B'}"
+    "detail": "Learned only train categories: {'B', 'A'}"
   }
 ]

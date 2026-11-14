@@ -242,6 +242,8 @@ def _confirmed_candidates(summary: dict[str, Any]) -> list[dict[str, Any]]:
     """
     candidates: dict[str, dict[str, Any]] = {}
     best = summary.get("best_confirmed")
+    if not (isinstance(best, dict) and isinstance(best.get("genome"), dict) and best.get("candidate_hash")):
+        best = summary.get("best_candidate")
     if isinstance(best, dict) and isinstance(best.get("genome"), dict) and best.get("candidate_hash"):
         candidates[str(best["candidate_hash"])] = best
     run_dir = summary.get("run_dir")

@@ -1,7 +1,7 @@
-# AMDE — Autonomous Machine Learning Discovery Engine (v5.0.1 Super Learner)
+# AMDE — Autonomous Machine Learning Discovery Engine (v5.1.0 Super Learner)
 
 [![CI Matrix](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml/badge.svg?branch=release-amde-final)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/badge/release-v5.0.1-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v5.0.1)
+[![Release](https://img.shields.io/badge/release-v5.1.0-brightgreen.svg)](https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine/releases/tag/v5.1.0)
 [![PyPI](https://img.shields.io/badge/pypi-amde--automl-blue.svg)](https://pypi.org/project/amde-automl/)
 [![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg)](pyproject.toml)
 [![Platforms](https://img.shields.io/badge/platforms-Ubuntu%20%7C%20Windows-lightgrey.svg)](.github/workflows/ci.yml)
@@ -306,7 +306,7 @@ If you use AMDE in your experimental research, please cite this work as follows:
 ```bibtex
 @software{amde2026_lnta,
   author = {LNTA and AMDE Contributors},
-  title = {AMDE: Autonomous Machine Learning Discovery Engine (Version 5.0.1 Super Learner)},
+  title = {AMDE: Autonomous Machine Learning Discovery Engine (Version 5.1.0 Super Learner)},
   year = {2026},
   publisher = {GitHub},
   howpublished = {\url{https://github.com/lntangu/AMDE-Autonomous-ML-Discovery-Engine}}
